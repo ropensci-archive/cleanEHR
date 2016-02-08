@@ -1,4 +1,5 @@
 #!/usr/bin/Rscript
+library(methods)
 args <- commandArgs(trailingOnly = TRUE)
 
 #create documents

@@ -1,11 +1,18 @@
-#'
+#'  \section{Slots}{
+#'    \describe{
+#'      \item{\code{a}:}{Object of class \code{"numeric"}.}
+#'      \item{\code{b}:}{Object of class \code{"character"}.}
+#'    }
+#'  }
+#' @export ccdata
 ccData <- setClass("ccdata",
                    slots=c(hospital.id="vector",
                            patient.id="vector",
                            var.names="vector",
                            var.id="vector",
                            patient.num="integer",
-                           data="list"),
+                           data.1d="list",
+                           data.2d="list"),
                    validity=function(object) {
                        if (length(object@var.id) != length(object@var.names))
                            return("The length of var.id should be equal to the lenght of var names.")
@@ -13,8 +20,10 @@ ccData <- setClass("ccdata",
                            return(TRUE)
                    })
 
-
-#'
+#' read csv or xml file and convert to ccdata 
+#' @param file input file location.
+#' @param file.type specify file type [optional]. 
+#' @return ccdata type
 get.ccdata <- function(file, file.type="", ...) {
     if (file.type == "") {
         if (grepl(".csv$", file)) file.type <- "csv"
@@ -31,7 +40,6 @@ get.ccdata <- function(file, file.type="", ...) {
 }
 
 
-#'
 csv2ccd <- function(file, ...) {
     cat("reading", file, "\n")
     csv.data <- read.csv(file, ...)
@@ -70,7 +78,6 @@ csv2ccd <- function(file, ...) {
     cat("\n")
 
     return(ccData(var.id=var.id, var.names=var.names, patient.id=patient.id,
-                  patient.num=patient.num, data=data.list))
+                  patient.num=patient.num, data.1d=data.list))
 }
-
-system.time(csvdata <- csv2ccd('../CriticalCare/N_ClinicalData.csv'))
+,b
