@@ -1,9 +1,13 @@
-#'  \section{Slots}{
-#'    \describe{
-#'      \item{\code{a}:}{Object of class \code{"numeric"}.}
-#'      \item{\code{b}:}{Object of class \code{"character"}.}
+#' @section Slots: 
+#'   \describe{
+#'      \item{\code{hospital.id}:}{vector}
+#'      \item{\code{patient.id}:}{vector}
+#'      \item{\code{var.names:}}{vector}
+#'      \item{\code{var.id:}}{vector}
+#'      \item{\code{patient.num:}}{integer}
+#'      \item{\code{data.1d:}}{vector}
+#'      \item{\code{data.2d:}}{vector, store timewise data}
 #'    }
-#'  }
 #' @export ccdata
 ccData <- setClass("ccdata",
                    slots=c(hospital.id="vector",
@@ -39,7 +43,9 @@ get.ccdata <- function(file, file.type="", ...) {
                    "filename:", file))
 }
 
-
+#' read csv file and convert to ccdata 
+#' @param file input file location.
+#' @return ccdata type
 csv2ccd <- function(file, ...) {
     cat("reading", file, "\n")
     csv.data <- read.csv(file, ...)
@@ -80,4 +86,3 @@ csv2ccd <- function(file, ...) {
     return(ccData(var.id=var.id, var.names=var.names, patient.id=patient.id,
                   patient.num=patient.num, data.1d=data.list))
 }
-,b
