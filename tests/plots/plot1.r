@@ -10,6 +10,26 @@ getItem <- function(pi, item){
                        sep="")]]
 }
 
+patientToTable <- function(patient){
+    p.table <- unlist(xmlToList(patient, addAttributes=FALSE))
+    id <- unlist(strsplit(
+                   as.vector(names(p.table)), 
+                   "NIHR_HIC_ICU_0"))[seq(2, length(p.table)*2, 2)]
+    return(data.frame(id, val=as.vector(p.table)))
+}
+
+
+xmlLoad <- function(file) {
+    file.parse <- xmlParse(file)
+    xml.root <- xmlRoot(file.parse)
+    return(xml.root)
+}
+
+getPatient <- function(xml.root, id) {
+    xml.root[[1]][[2]][[id]]
+}
+
+
 plot1 <- function(mean.heart.rate){
     df <- data.frame(x=seq(mean.heart.rate), y=mean.heart.rate)
     gg <- ggplot(df)+geom_histogram(binwidth=1)+aes(x=x)
@@ -24,13 +44,25 @@ plot1 <- function(mean.heart.rate){
 }
 
 
+plot2 <- function(){
+
+
+}
+
+
 load("csvdata.Rdata")
 checklist <- read.csv("data/data_item.csv")
 patient.id <- csvdata@patient.id
 patient.num <- csvdata@patient.num
+
+# mean heart 
 mean.heart.rate <- vector()
 for(i in seq(patient.num)){
     mean.heart.rate[i] <- 
         mean(as.numeric(as.character(getItem(i, "Heart rate"))), na.rm = TRUE)
 }
 plot1(mean.heart.rate)
+
+# motality APACHEII
+load("xmldata.Rdata")
+c("Dead or alive on discharge", "APACHE II Score")
