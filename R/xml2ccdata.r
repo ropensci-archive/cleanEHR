@@ -1,96 +1,86 @@
 library("XML")
 
+#' load xml clinical data
+#' @return the root of the xml data
 xmlLoad <- function(file) {
     file.parse <- xmlParse(file)
     xml.root <- xmlRoot(file.parse)
     return(xml.root)
 }
 
-getPatient <- function(xml.root, id) {
+#' get the patient data from xml 
+#' @param xml.root root of xml data returned by xmlLoad()
+#' @return patient xml data
+getXmlPatient <- function(xml.root, id) {
     xml.root[[1]][[2]][[id]]
 }
 
-xml2Ccdata <- function (xml, data.checklist){
+#' convert xml data for a given patient and convert them into a list
+#' @param patient individual xml patient data
+#' @param time.list
+#' @param meta.list
+#' @return list
+patientToDataArray <- function(patient, category.index.table) {
+    patient_unlist <- unlist(xmlToList(patient, addAttributes=FALSE))
+    id <- removeIdPrefix(names(patient_unlist))
+    ptable <- data.frame(id, val=as.vector(patient_unlist))
+    
+    valindex <- selectIndex(category.index.table, id, "timevars")
+    stampindex <- selectIndex(category.index.table, id, "timestamp")
 
+
+    if (length(valindex) != length(stampindex))# data missing values
+        return(list(data1d=NULL, data2d=NULL))
+    else
+        data2d <- data.frame(id=ptable$id[valindex],
+                         time=ptable$val[stampindex],
+                         val=ptable$val[valindex])
+    data1d <- data.frame(id=ptable$id[selectIndex(category.index.table, id,
+                                                  "simplevar")],
+                         val=ptable$val[selectIndex(category.index.table, id,
+                                                    "simplevar")])
+    return(list(data1d=data1d, data2d=data2d))
+}
+
+
+#' convert xml data to ccdata format
+#' @param xml xml root
+#' @return ccdata  
+xml2Ccdata <- function (xml, select.patient=NULL){
     patient.num <- xmlSize(xml[[1]][[2]])
     data2d <- list()
     data1d <- list()
-    pb <- txtProgressBar(min = 1, max = patient.num, style = 3)
-    
-    for(patient.id in seq(patient.num)){
-        patient <- getPatient(xml, patient.id)
-        data <- patientToDataArray(patient, info.list$time, info.list$meta)
-        data2d[[patient.id]] <- data$data2d
-        data1d[[patient.id]] <- data$data1d
+
+    if(is.null(select.patient))
+        select.patient <- seq(patient.num)
+
+    category.index.table <- extractIndexTable() 
+
+    pb <- txtProgressBar(min = min(select.patient)-1, 
+                         max = max(select.patient), style = 3)
+
+    for(patient.id in select.patient){
+        patient <- getXmlPatient(xml, patient.id)
+        pdata<- tryCatch(patientToDataArray(patient, category.index.table), 
+                 error=function(err) {
+                     cat(paste(err, "patient.id = ", patient.id, "\n"))
+                     stop()
+                 })
+        if (!is.null(pdata[["data2d"]])) {
+            data2d[[patient.id]] <- pdata[["data2d"]]
+            data1d[[patient.id]] <- pdata[["data1d"]]
+        }
         setTxtProgressBar(pb, patient.id)
     }
+    cat("\n")
+    return(list(data2d=data2d, data1d=data1d))
 }
 
 
-patientToTable <- function(patient){
-    p.table <- unlist(xmlToList(patient, addAttributes=FALSE))
-    id <- unlist(strsplit(
-                   as.vector(names(p.table)), 
-                   "NIHR_HIC_ICU_0"))[seq(2, length(p.table)*2, 2)]
-    return(data.frame(id, val=as.vector(p.table)))
-}
 
-# TODO: needs more explaination here, parce que c'est le bordel ici!
-# the algorithm may have a flaw too. Double check!!!
-patientToDataArray <- function(patient, time.list, meta.list){
-    pt <- patientToTable(patient)
-    # pick out time id from normal ids 
-    # timeid(id), itemid(idt)
-    this.time.list <- time.list[intersectIndexB(pt$id, time.list$idt), ]
-    time.index <- intersectIndexB(this.time.list$idt, pt$id)
-    item.index <- intersectIndexB(this.time.list$id, pt$id)
-    pt_ <- data.frame(time=pt$val[time.index], 
-                             item=pt$val[item.index],
-                             ids=pt$id[item.index])
-
-    # stupid algorithm
-    rowname <- sort(unique(pt_$time))
-    colname <- sort(unique(pt_$id))
-    data.array <- array("", c(length(rowname), length(colname)))
-    rownames(data.array) <- rowname
-    colnames(data.array) <- colname
-    for(i in seq(pt_$id)){
-        col.ind <- which(colname==pt_$id[i])
-        row.ind <- which(rowname==pt_$time[i])
-        data.array[row.ind, col.ind] <- as.character(pt_$item[i])
-    }
-
-    data1d <- as.character(pt$val[!(time.index | item.index)])
-    names(data1d) <- as.character(pt$id[!(time.index | item.index)])
-    
-    return(list(data2d=data.array, data1d=data1d))
-}
-
-#'provides the intersection index coresponding to b
-#'@param a vector
-#'@param b vector
-#'@return vector contains [TRUE, FALSE], as the same lenght as b 
-intersectIndexB <- function(a, b) {
-    inct <- intersect(a, b)
-    return(b %in% inct)
-}
+table2array <- function() {
 
 
-.extractInfo <- function(checklist) {
-    index.time <- grepl(checklist$NHICdtCode, pattern="0[0-9][0-9][0-9]")
-    index.meta <- grepl(checklist$NHICmetaCode, pattern="0[0-9][0-9][0-9]")
-    time.list <- data.frame(id=.removeIdPrefix(checklist$NHICcode[index.time]), 
-                        idt=.removeIdPrefix(checklist$NHICdtCode[index.time]))
-    meta.list <- data.frame(id=.removeIdPrefix(checklist$NHICcode[index.meta]), 
-                        idmeta=.removeIdPrefix(checklist$NHICmetaCode[index.meta]))
 
-    return(list(time=time.list, meta=meta.list))
-}
 
-.removeIdPrefix <- function(id) {
-    no.prefix <- unlist(strsplit(as.character(id), 
-                    "NIHR_HIC_ICU_0"))[seq(2, length(id) * 2, 2)]
-    if(any(is.na(as.numeric(no.prefix))))
-       stop("id should be like NIHR_HIC_ICU_0xxx\n")
-    return(no.prefix)
 }
