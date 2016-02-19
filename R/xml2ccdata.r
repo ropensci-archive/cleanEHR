@@ -35,6 +35,7 @@ patientToDataArray <- function(patient, category.index.table) {
         data2d <- data.frame(id=ptable$id[valindex],
                          time=ptable$val[stampindex],
                          val=ptable$val[valindex])
+    data2d <- table2array(data2d)
     data1d <- data.frame(id=ptable$id[selectIndex(category.index.table, id,
                                                   "simplevar")],
                          val=ptable$val[selectIndex(category.index.table, id,
@@ -78,9 +79,17 @@ xml2Ccdata <- function (xml, select.patient=NULL){
 
 
 
-table2array <- function() {
+table2array <- function(data2d) {
+    row.name <- sort(unique(data2d$time))
+    col.name <- sort(unique(data2d$id))
+    
+    data.array <- array("", c(length(row.name), length(col.name)))
 
+    rownames(data.array) <- row.name
+    colnames(data.array) <- col.name
 
-
-
+    for(i in seq(dim(data2d)[1]))
+        data.array[as.character(data2d$time[i]), 
+                   as.character(data2d$id[i])] <- data2d$val[i]
+    return(data.array)
 }
