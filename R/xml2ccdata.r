@@ -36,11 +36,11 @@ patientToDataArray <- function(patient, category.index.table) {
                          time=ptable$val[stampindex],
                          val=ptable$val[valindex])
     data2d <- table2array(data2d)
-    data1d <- data.frame(val=ptable$val[selectIndex(category.index.table, id,
-                                                    "simplevar")])
-    rownames(data1d) <- ptable$id[selectIndex(category.index.table, id,
-                                              "simplevar")],
-
+    # 1d vector with id names as row names. 
+    data1d <- ptable$val[selectIndex(category.index.table, id,
+                                     "simplevar")]
+    names(data1d) <- as.vector(ptable$id[selectIndex(category.index.table, id,
+                                                     "simplevar")])
     return(list(data1d=data1d, data2d=data2d))
 }
 
@@ -48,7 +48,7 @@ patientToDataArray <- function(patient, category.index.table) {
 #' convert xml data to ccdata format
 #' @param xml xml root
 #' @return ccdata  
-xml2data <- function (xml, select.patient=NULL){
+xml2Data <- function (xml, select.patient=NULL){
     patient.num <- xmlSize(xml[[1]][[2]])
     data2d <- list()
     data1d <- list()
