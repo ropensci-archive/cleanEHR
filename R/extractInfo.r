@@ -27,11 +27,13 @@ extractInfo <- function() {
                 MAX_NUM_NHIC=max(c(all.ids, time.list$idt))))
 }
 
-
-#' @param item item name
+#' retrieve information of the query code/item names from data.checklist
+#' @param item.code it can be either item name or NHIC_code, dt_code, or
+#'        meta_code
 #' @return a vector contains NHIC_code, dt_code, meta_code and row_in_checklist
 #' @examples 
-#' whichId("Time of death on your unit")
+#' getItemInfo("Time of death on your unit")
+#' getItemInfo("NIHR_HIC_ICU_0001")
 getItemInfo <- function(item.code) {
     if (!exists("data.checklist"))
         data("data.checklist")
@@ -54,8 +56,18 @@ getItemInfo <- function(item.code) {
                    as.character(data.checklist$NHICcode[row.in.list]),
                    as.character(data.checklist$NHICdtCode[row.in.list]),
                    as.character(data.checklist$NHICmetaCode[row.in.list]),
+                   as.character(data.checklist$Units[row.in.list]),
                    as.character(row.in.list))
 
-    names(item.info) <- c("item", "NHIC_code", "dt_code", "meta_code", "row_in_checklist")
+    names(item.info) <- c("item", "NHIC_code", "dt_code", 
+                          "unit", "meta_code", "row_in_checklist")
     return(item.info)
+}
+
+#' get information of a group of code of items and return an array.
+getItemsInfo <- function(items.code, var) {
+    info_ <- array(NA, length(items.code))
+    for (i in seq(items.code))
+        info_[i] <- getItemInfo(items.code[i])[var]
+    return(info_)
 }
