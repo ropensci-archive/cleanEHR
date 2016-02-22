@@ -32,47 +32,30 @@ extractInfo <- function() {
 #' @return a vector contains NHIC_code, dt_code, meta_code and row_in_checklist
 #' @examples 
 #' whichId("Time of death on your unit")
-whichId <- function(item) {
+getItemInfo <- function(item.code) {
     if (!exists("data.checklist"))
         data("data.checklist")
 
-    row.in.list <- which(data.checklist$dataItem==item)
-    if (length(row.in.list) != 1){
-        cat("item list\n============\n")
-        print(data.checklist$dataItem)
-        stop("item cannot be found in the list.\n")
+    if(grepl("NIHR_HIC_ICU_", item.code)){# input is code
+        item <- data.checklist$NHICcode == item.code
+        dt <- data.checklist$NHICdtCode == item.code
+        meta <- data.checklist$NHICmetaCode == item.code
+        row.in.list <- which(item | dt | meta)
+    }
+    else{ # input is item name
+        row.in.list <- which(data.checklist$dataItem==item.code)
     }
 
-    ids <- c(as.character(data.checklist$dataItem[row.in.list]),
-             as.character(data.checklist$NHICcode[row.in.list]),
-             as.character(data.checklist$NHICdtCode[row.in.list]),
-             as.character(data.checklist$NHICmetaCode[row.in.list]),
-             as.character(row.in.list))
+    if (length(row.in.list) != 1){
+        stop("item/NHIC code cannot be found in the list.\n")
+    }
 
-    names(ids) <- c("item", "NHIC_code", "dt_code", "meta_code", "row_in_checklist")
-    return(ids)
-}
+    item.info <- c(as.character(data.checklist$dataItem[row.in.list]),
+                   as.character(data.checklist$NHICcode[row.in.list]),
+                   as.character(data.checklist$NHICdtCode[row.in.list]),
+                   as.character(data.checklist$NHICmetaCode[row.in.list]),
+                   as.character(row.in.list))
 
-#' @param nhic.code it can be NHIC_code, dt_code or meta_code
-#' @return a vector corresponding to query code, which contains NHIC_code, 
-#'         dt_code, meta_code and row_in_checklist
-whichItem <- function(code) {
-    if (!exists("data.checklist"))
-        data("data.checklist")
-    item <- data.checklist$NHICcode == code
-    dt <- data.checklist$NHICdtCode == code
-    meta <- data.checklist$NHICmetaCode == code
-    
-    row.in.checklist <- which(item | dt | meta)
-
-    if (length(row.in.checklist) != 1)
-        stop("code cannot be found in the list.\n")
-
-    item <- c(as.character(data.checklist$dataItem[row.in.checklist]),
-              as.character(data.checklist$NHICcode[row.in.checklist]),
-              as.character(data.checklist$NHICdtCode[row.in.checklist]),
-              as.character(data.checklist$NHICmetaCode[row.in.checklist]),
-              as.character(row.in.checklist))
-    names(item) <- c("item", "NHIC_code", "dt_code", "meta_code", "row_in_checklist")
-    return(item)
+    names(item.info) <- c("item", "NHIC_code", "dt_code", "meta_code", "row_in_checklist")
+    return(item.info)
 }
