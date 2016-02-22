@@ -4,13 +4,10 @@ library(devtools)
 reload(".")
 
 
-#r <- xmlLoad("../CriticalCare/test.xml")
-#cc <-xml2Ccdata(r, seq(1,5))
-cc <-xml2Ccdata(r, seq(672,700))
+r <- xmlLoad("../CriticalCare/test.xml")
+#ccd <-xml2Data(r, seq(20))
                 #seq(,700))
+xt <- system.time(ccd <- xml2Data(r))
+print(xt)
 
-#pd1<-patientToDataArray(getXmlPatient(r,2), extractInfo()$time, extractInfo()$meta)
-
-
-
-#save(file="xmlData.Rdata", data)
+save(file="xmlData.Rdata", ccd)
