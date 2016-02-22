@@ -1,5 +1,3 @@
-
-
 #' read csv file and convert to ccdata 
 #' @param file input file location.
 #' @return ccdata type
