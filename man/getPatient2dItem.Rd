@@ -2,7 +2,7 @@
 % Please edit documentation in R/getPatientItems.r
 \name{getPatient2dItem}
 \alias{getPatient2dItem}
-\title{retrieve one column of 2d data from one or multiple patients}
+\title{retrieve one column of 2d data from one item of one patients}
 \usage{
 getPatient2dItem(data2d, item.code, patient.id)
 }
@@ -14,6 +14,6 @@ getPatient2dItem(data2d, item.code, patient.id)
 \item{item}{}
 }
 \description{
-retrieve one column of 2d data from one or multiple patients
+retrieve one column of 2d data from one item of one patients
 }
 
