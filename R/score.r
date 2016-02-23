@@ -26,3 +26,31 @@ computeItemScore <- function(data.set, patient.id,
     value <- fun(data$time, data$val)
     return(score.ref[findInterval(value, range, all.inside=TRUE)])
 }
+
+#' compute scores of a given score system to multiple/all patients of a data
+#' set.
+#' @param data.set a list which contains data2d and data1d
+#' @param items.code ... 
+computeScore <- function(data.set, items.code, ranges, 
+                         score.ref, fun.list, check.items.code, patient.id=NULL) {
+    if (is.null(patient.id))
+        patient.id <- seq(length(data.set$data2d))
+    score.list <- list()
+    for(id in patient.id) {
+        score.list[[id]] <- list()
+        score <- computePatientScore(data.set, id, 
+                                     items.code, ranges, 
+                                     score.ref, fun.list)
+        val1d <- as.character(getPatient1dItem(data.set$data1d, 
+                                               check.items.code,
+                                               patient.id=id))
+        if (length(val1d) != 0 & !is.null(score)) {
+            score.list[[id]][["score"]] <- score
+            score.list[[id]][["items"]] <- data.frame(item=check.items.code,
+                                                      val=val1d)
+        }
+    }
+    return(score.list)
+}
+
+
