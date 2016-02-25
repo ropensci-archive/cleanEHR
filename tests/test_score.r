@@ -16,11 +16,6 @@ fun <- function(time, val){
 computeItemScore(ccd, 1, getItemInfo("PaO2/FiO2 ratio")['NHIC_code'], range,
                  score.ref, fun)
 
-
-
-
-
-
 #------------------------------
 # compute sofa 
 #------------------------------
