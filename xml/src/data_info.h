@@ -1,55 +1,31 @@
 #ifndef CCXML_DATA_INFO_H
 #define CCXML_DATA_INFO_H
 
-#include "ccxml.h"
+#include "type.h"
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <map>
 
-namespace ccxml{
-  class DataInfo {
-    public:
-      std::string filename;
-      t_vstring id_2d_items;
-      t_vstring id_2d_time;
-      t_vstring id_1d_item;
+class DataInfo {
+  public:
+    std::string filename;
+    std::map<std::string, t_vstring> nhic_code_list;
+    //!  using NHIC code as keys and 
+    std::map<std::string, code_type> nhic_code_category;
+    t_vstring check_list = {"NHICcode", "NHICdtCode", "NHICmetaCode"};
 
-      DataInfo(std::string file_name): filename(file_name){};
-      t_vstring ReadOneLine(std::ifstream &file);
-      void readcsv(void);
+    void GetCodeList(std::map<std::string, t_vstring>& code_list);
+    void GetCategoryList(std::map<std::string, code_type>& category);
 
-    private:
-      enum{NHICcode, NHICdtCode, NHICmetaCode};
-  };
+    DataInfo(std::string file_name): filename(file_name){
+      GetCodeList(nhic_code_list);
+      GetCategoryList(nhic_code_category);
+    };
 
-
-
-  t_vstring DataInfo::ReadOneLine(std::ifstream &file) {
-    t_vstring csv_line;
-    std::string line_buffer, cell_buffer;
-    std::getline(file, line_buffer);
-
-    std::stringstream line_stream(line_buffer);
-
-    while (std::getline(line_stream, cell_buffer, ',')) {
-      csv_line.push_back(cell_buffer);
-    }
-    return csv_line;
-  };
-
-  //!
-  void DataInfo::readcsv(void) {
-    std::ifstream csv_file (filename);
-    if (csv_file.is_open()) {
-      //! read header
-      auto this_line = ReadOneLine(csv_file);
-
-        for(int i = 0; i < this_line.size(); ++i)
-          std::cout << this_line[i] << ",";
-        std::cout << "\n";
-
-      while (! csv_file.eof()) {
-        this_line = ReadOneLine(csv_file);
-      }
-    }
-    csv_file.close();
-  };
-}
+  private:
+    t_vstring ReadOneLine(std::ifstream &file);
+};
 #endif
