@@ -52,35 +52,18 @@ void DataInfo::GetCodeList(std::map<std::string, t_vstring>& code_list) {
 
 void DataInfo::GetCategoryList(std::map<std::string, code_type>& category_table) {
   GetCodeList(nhic_code_list);
-  for (auto id: nhic_code_list["NHICcode"])
-    if (id != "NULL") category_table[id] = ITEM_2D;
+  for (auto &id: nhic_code_list["NHICcode"]) {
+    if (id != "NULL") {
+      auto row_id = &id - &nhic_code_list["NHICcode"][0];
+      if (nhic_code_list["NHICdtCode"][row_id] == "NULL"){
+        category_table[id] = ITEM_1D;
+      }
+      else
+        category_table[id] = ITEM_2D;
+    }
+  }
   for (auto id: nhic_code_list["NHICdtCode"])
     if (id != "NULL") category_table[id] = TIME_CODE;
   for (auto id: nhic_code_list["NHICmetaCode"])
     if (id != "NULL") category_table[id] = META_CODE;
 }
-
-
-
-
-  /*  for (auto category: check_list) {
-      for (auto id: nhic_code_list[category]) {
-      if (id != "NULL") {
-      if (id == "NHICcode") { // differentiate 1d and 2d data.
-      int this_index = &id - &nhic_code_list[category][0]; 
-      if (nhic_code_list["NHICdtCode"][this_index] == "NULL")
-      category_table[id] = ITEM_1D; 
-      else 
-      category_table[id] = "1";
-      }
-      else if (id == "NHICdtCode")
-      category_table[id] = TIME_CODE; 
-      else if ("NHICmetaCode")
-      category_table[id] = META_CODE;
-      else
-      throw std::out_of_range("category label cannot be found.");
-      }
-      }
-      }
-      }*/
-
