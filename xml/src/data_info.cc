@@ -67,3 +67,12 @@ void DataInfo::GetCategoryList(std::map<std::string, code_type>& category_table)
   for (auto id: nhic_code_list["NHICmetaCode"])
     if (id != "NULL") category_table[id] = META_CODE;
 }
+
+
+void DataInfo::GetSearchTable() {
+  for (auto &i: nhic_code_list["NHICcode"]) {
+    auto pos = &i - &nhic_code_list["NHICcode"][0];
+    item2time[i] = nhic_code_list["NHICdtCode"][pos];
+    item2meta[i] = nhic_code_list["NHICmetaCode"][pos];
+  }
+}
