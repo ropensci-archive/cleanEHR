@@ -24,6 +24,8 @@ class PatientData : pugi::xml_node{
     pugi::xml_node node;
     DataInfo info;
 
+    int record_id;
+    bool bad_data = false;
     t_vstring values;
     t_vstring labels;
 
@@ -36,7 +38,7 @@ class PatientData : pugi::xml_node{
     t_simple_data simple_data;
     t_time_data time_data;
 
-    PatientData(xml_node n, DataInfo info_): node(n), info(info_){
+    PatientData(xml_node n, DataInfo info_, int id): node(n), info(info_), record_id(id){
       TreeWalker walker;
       node.traverse(walker);
 
@@ -94,7 +96,11 @@ class PatientData : pugi::xml_node{
             time_data[item]["time"].push_back(values[i]);
         }
         assert(time_data[item]["time"].size() != 0);
-        assert(time_data[item]["time"].size() == time_data[item]["val"].size());
+        if (time_data[item]["time"].size() != time_data[item]["val"].size()) {
+          std::cout << "[warning]: patient "<< record_id <<
+            " has missing values. This patient will be removed from the record.\n";
+          bad_data = true;
+        }
       }
     };
 

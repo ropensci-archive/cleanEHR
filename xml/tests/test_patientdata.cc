@@ -12,8 +12,8 @@ TEST_CASE() {
   auto context_node = root.first_child().first_child();
   xml_node patient1_node = context_node.next_sibling().first_child();
 
-  PatientData pd1 = PatientData(patient1_node, data_info);
-  PatientData pd2 = PatientData(patient1_node.next_sibling().next_sibling(), data_info);
+  PatientData pd1 = PatientData(patient1_node, data_info, 1);
+  PatientData pd2 = PatientData(patient1_node.next_sibling().next_sibling(), data_info, 1);
 
   CHECK(pd1.simple_data.find("NIHR_HIC_ICU_0073") != pd1.simple_data.end());
   CHECK(pd1.simple_data["NIHR_HIC_ICU_0073"] == "57fb752c860311e4ae76005056b34847");
@@ -24,7 +24,7 @@ TEST_CASE() {
   int count = 0;
   for (auto pd_node = patient1_node; pd_node; pd_node = pd_node.next_sibling()) {
     count++;
-    PatientData pd = PatientData(pd_node, data_info);
+    PatientData pd = PatientData(pd_node, data_info, count);
     auto heart_rate_value = pd.time_data["NIHR_HIC_ICU_0108"]["val"];
     for (int i = 0; i < heart_rate_value.size(); ++i) {
       CHECK(std::stoi(heart_rate_value[i]) >= 0);
@@ -33,5 +33,3 @@ TEST_CASE() {
     if(count == 10) break;
   }
 }
-
-
