@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <map>
 #include <assert.h>
-#include <regex>
 #include "pugixml.hpp"
 
 using namespace pugi;
@@ -123,7 +122,4 @@ class PatientData : pugi::xml_node{
       }
     };
 };
-
-
-
 #endif

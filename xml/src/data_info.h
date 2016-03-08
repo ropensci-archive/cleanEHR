@@ -22,7 +22,8 @@ class DataInfo {
     void GetCodeList(std::map<std::string, t_vstring>& code_list);
     void GetCategoryList(std::map<std::string, code_type>& category);
     void GetSearchTable();
-
+    
+    DataInfo(){};
     //! constructor update data information from a give csv file.
     DataInfo(std::string file_name): filename(file_name){
       GetCodeList(nhic_code_list);
