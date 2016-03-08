@@ -20,16 +20,18 @@ TEST_CASE() {
   CHECK(pd2.simple_data.find("NIHR_HIC_ICU_0073") != pd2.simple_data.end());
   CHECK(pd2.simple_data["NIHR_HIC_ICU_0073"] == "5824fa28860311e4ae76005056b34847");
 
-
-  // heart rate
-  auto heart_rate_time = pd1.time_data["NIHR_HIC_ICU_0279"]["time"];
-  auto heart_rate_value = pd1.time_data["NIHR_HIC_ICU_0279"]["val"];
-
-//  for (auto i : pd1.time_data["NIHR_HIC_ICU_0279"]["time"])
-    std::cout << pd1.time_data["NIHR_HIC_ICU_0279"]["time"].size();
-
-//  for (int i = 0 ; i < heart_rate_time.size(); ++i )
-//    std::cout << heart_rate_time[i] << " = " << heart_rate_value[i] <<"\n";
+  // check 10 patients' heart rate to see if they are sensible.
+  int count = 0;
+  for (auto pd_node = patient1_node; pd_node; pd_node = pd_node.next_sibling()) {
+    count++;
+    PatientData pd = PatientData(pd_node, data_info);
+    auto heart_rate_value = pd.time_data["NIHR_HIC_ICU_0108"]["val"];
+    for (int i = 0; i < heart_rate_value.size(); ++i) {
+      CHECK(std::stoi(heart_rate_value[i]) >= 0);
+      CHECK(std::stoi(heart_rate_value[i]) < 300);
+    }
+    if(count == 10) break;
+  }
 }
 
 

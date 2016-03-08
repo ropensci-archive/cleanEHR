@@ -1,11 +1,9 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-
 #include "ccxml.h"
-#include "data_info.h"
-#include "patient_data.h"
 
 TEST_CASE("Code list") {
+  // TODO automatically search path
   auto data_info = DataInfo("/Users/sinan/workspace/projects/UCLH/data-play/xml/data/data_item.csv");
   SECTION("check code list by giving some abitrary codes") {
     CHECK(data_info.nhic_code_list["NHICcode"][0] == "NIHR_HIC_ICU_0002");
@@ -16,7 +14,7 @@ TEST_CASE("Code list") {
 
 
 TEST_CASE("Category list") {
-
+  // TODO automatically search path
   auto data_info = DataInfo("/Users/sinan/workspace/projects/UCLH/data-play/xml/data/data_item.csv");
   SECTION("check category table by nhic code list data.") {
   for (auto i: data_info.nhic_code_list["NHICcode"])
