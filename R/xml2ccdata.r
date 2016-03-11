@@ -22,24 +22,24 @@ getXmlPatient <- function(xml.root, id) {
 #' @return list
 patientToDataArray <- function(patient, category.index.table) {
     patient_unlist <- unlist(xmlToList(patient, addAttributes=FALSE))
-    id <- removeIdPrefix(names(patient_unlist))
-    ptable <- data.frame(id, val=as.vector(patient_unlist))
-    
-    valindex <- selectIndex(category.index.table, id, "timevars")
-    stampindex <- selectIndex(category.index.table, id, "timestamp")
+    stdid <- StdId(names(patient_unlist))
+    ptable <- data.frame(id=stdid@ids, val=as.vector(patient_unlist))
+
+    valindex <- selectIndex(category.index.table, stdid, "timevars")
+    stampindex <- selectIndex(category.index.table, stdid, "timestamp")
 
 
     if (length(valindex) != length(stampindex))# data missing values
         return(list(data1d=NULL, data2d=NULL))
     else
         data2d <- data.frame(id=ptable$id[valindex],
-                         time=ptable$val[stampindex],
-                         val=ptable$val[valindex])
+                             time=ptable$val[stampindex],
+                             val=ptable$val[valindex])
     data2d <- table2array(data2d)
     # 1d vector with id names as row names. 
-    data1d <- ptable$val[selectIndex(category.index.table, id,
+    data1d <- ptable$val[selectIndex(category.index.table, stdid,
                                      "simplevar")]
-    names(data1d) <- as.vector(ptable$id[selectIndex(category.index.table, id,
+    names(data1d) <- as.vector(ptable$id[selectIndex(category.index.table, stdid,
                                                      "simplevar")])
     return(list(data1d=data1d, data2d=data2d))
 }
@@ -48,7 +48,7 @@ patientToDataArray <- function(patient, category.index.table) {
 #' convert xml data to ccdata format
 #' @param xml xml root
 #' @return ccdata  
-xml2Data <- function (xml, select.patient=NULL){
+xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     patient.num <- xmlSize(xml[[1]][[2]])
     data2d <- list()
     data1d <- list()
@@ -58,23 +58,26 @@ xml2Data <- function (xml, select.patient=NULL){
 
     category.index.table <- extractIndexTable() 
 
-    pb <- txtProgressBar(min = min(select.patient)-1, 
-                         max = max(select.patient), style = 3)
+    if (!quiet)
+        pb <- txtProgressBar(min = min(select.patient)-1, 
+                             max = max(select.patient), style = 3)
 
     for(patient.id in select.patient){
         patient <- getXmlPatient(xml, patient.id)
         pdata<- tryCatch(patientToDataArray(patient, category.index.table), 
-                 error=function(err) {
-                     cat(paste(err, "patient.id = ", patient.id, "\n"))
-                     stop()
-                 })
+                         error=function(err) {
+                             cat(paste(err, "patient.id = ", patient.id, "\n"))
+                             stop()
+                         })
         if (!is.null(pdata[["data2d"]])) {
             data2d[[patient.id]] <- pdata[["data2d"]]
             data1d[[patient.id]] <- pdata[["data1d"]]
         }
-        setTxtProgressBar(pb, patient.id)
+        if (!quiet)
+            setTxtProgressBar(pb, patient.id)
     }
-    cat("\n")
+    if (!quiet)
+        cat("\n")
     return(list(data2d=data2d, data1d=data1d))
 }
 
@@ -83,7 +86,7 @@ xml2Data <- function (xml, select.patient=NULL){
 table2array <- function(data2d) {
     row.name <- sort(unique(data2d$time))
     col.name <- sort(unique(data2d$id))
-    
+
     data.array <- array("", c(length(row.name), length(col.name)))
 
     rownames(data.array) <- row.name

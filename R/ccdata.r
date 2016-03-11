@@ -23,4 +23,3 @@ ccData <- setClass("ccdata",
                        else
                            return(TRUE)
                    })
-

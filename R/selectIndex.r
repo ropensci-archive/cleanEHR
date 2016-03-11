@@ -27,8 +27,6 @@ extractIndexTable <- function() {
 #' here maybe some checking is necessary.
 #' @return an selected index
 selectIndex<- function(info.index, ids, type){
-    #id.num <- as.numeric(removeIdPrefix(ids))
-    #stopifnot(max(id.num) < MAX_NUM_NHIC)# maximum of 4 digits number
-    id.num <- as.numeric(ids)
+    id.num <- as.numeric(as.number(ids))
     return(which(info.index[[type]][id.num] == 1))
 }
