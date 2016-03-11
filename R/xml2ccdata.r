@@ -28,7 +28,6 @@ patientToDataArray <- function(patient, category.index.table) {
     valindex <- selectIndex(category.index.table, stdid, "timevars")
     stampindex <- selectIndex(category.index.table, stdid, "timestamp")
 
-
     if (length(valindex) != length(stampindex))# data missing values
         return(list(data1d=NULL, data2d=NULL))
     else

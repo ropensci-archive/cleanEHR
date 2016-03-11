@@ -12,11 +12,17 @@ extractIndexTable <- function() {
     metaval <- array(0, MAX_NUM_NHIC) # of meta data value
     simplevar <- array(0, MAX_NUM_NHIC) # 
 
-    timestamp[as.numeric(info$time$idt)] <- 1
-    timevars[as.numeric(info$time$id)] <- 1
-    metalabel[as.numeric(info$meta$id)] <- 1
-    metaval[as.numeric(info$meta$idmeta)] <- 1
-    simplevar[as.numeric(info$nontime)] <- 1
+    ind_dt <- StdId(info$time$idt)
+    ind_tvar <- StdId(info$time$id)
+    ind_meta <- StdId(info$meta$id)
+    ind_mvar <- StdId(info$meta$meta)
+    ind_svar <- StdId(info$nontime)
+
+    timestamp[as.numeric(as.number(ind_dt))] <- 1
+    timevars[as.numeric(as.number(ind_tvar))] <- 1
+    metalabel[as.numeric(as.number(ind_meta))] <- 1
+    metaval[as.numeric(as.number(ind_mvar))] <- 1
+    simplevar[as.numeric(as.number(ind_svar))] <- 1
 
     return(data.frame(timestamp, timevars,                  
                       metalabel, metaval, 

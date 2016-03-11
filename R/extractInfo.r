@@ -11,20 +11,30 @@ extractInfo <- function() {
     data("data.checklist")
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
-    time.list <- data.frame(id=removeIdPrefix(data.checklist$NHICcode[index.time]), 
-                            idt=removeIdPrefix(data.checklist$NHICdtCode[index.time]),
+
+    item.labels <- StdId(data.checklist$NHICcode[index.time])
+    time.labels <- StdId(data.checklist$NHICdtCode[index.time])
+
+    metaitem.labels <- StdId(data.checklist$NHICcode[index.meta])
+    meta.labels <- StdId(data.checklist$NHICmetaCode[index.meta])
+    
+    time.list <-
+        data.frame(id=item.labels@ids, idt=time.labels@ids,
+                   stringsAsFactors=FALSE)
+    meta.list <- data.frame(id=metaitem.labels@ids, meta=meta.labels@ids,
                             stringsAsFactors=FALSE)
-    meta.list <- data.frame(id=removeIdPrefix(data.checklist$NHICcode[index.meta]), 
-                            idmeta=removeIdPrefix(data.checklist$NHICmetaCode[index.meta]), 
-                            stringsAsFactors=FALSE)
-    nontime<- removeIdPrefix(data.checklist$NHICcode[!index.time])
+    
+    
+    nontime<- StdId(data.checklist$NHICcode[!index.time])
     # get all ids which should be the assemble of NHICcode and NHICmetaCode
+    all.nhic.code <- StdId(data.checklist$NHICcode)
     all.ids <- c(meta.list$idmeta,
-                 removeIdPrefix(data.checklist$NHICcode))
+                 all.nhic.code@ids)
     if (any(duplicated(all.ids)))
         stop("data.checklist.RData error! meta data code and NHICcode are overlaped")
-    return(list(time=time.list, meta=meta.list, nontime=nontime,
-                MAX_NUM_NHIC=max(c(all.ids, time.list$idt))))
+    return(list(time=time.list, meta=meta.list, nontime=nontime@ids,
+                MAX_NUM_NHIC=max(as.numeric(as.number(all.nhic.code)), 
+                                 as.numeric(as.number(StdId(time.list$idt))))))
 }
 
 #' retrieve information of the query code/item names from data.checklist

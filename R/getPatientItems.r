@@ -3,7 +3,6 @@
 #' @param item
 #' @param patient.id 
 getPatient1dItem <- function (data1d, item.code, patient.id) {
-    item.code <- removeIdPrefix(item.code)
     return(data1d[[patient.id]][item.code])
 }
 

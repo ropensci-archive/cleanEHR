@@ -44,7 +44,6 @@ setMethod(f="as.number",
               if(!all(grepl("NIHR_HIC_ICU_", obj@ids)))# input is code alredy
                   return(obj@ids)
               no.prefix <- 
-                  unlist(strsplit(as.character(obj@ids), 
-                                  "NIHR_HIC_ICU_"))[seq(2, length(obj@ids) * 2, 2)]
+                  unlist(strsplit(obj@ids, "NIHR_HIC_ICU_"))[seq(2, length(obj@ids) * 2, 2)]
               return(as.character(no.prefix))
           })
