@@ -21,7 +21,7 @@ StdId <- setClass ("StdId",
 StdId <- function(text) {
     reg <- regexpr("NIHR_HIC_ICU_[0-9]+", text)
     ids <- regmatches(text, reg)
-    if (length(text) != length(ids)) 
+    if (length(text) != length(ids) | length(text) == 0) 
         stop("StdId: initialisation failure, as the standard ID pattern cannot be found.")
     else
         return(new("StdId", ids=ids))

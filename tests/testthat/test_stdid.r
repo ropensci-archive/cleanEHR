@@ -9,10 +9,11 @@ test_that("single id initialisation",{
     expect_match(selected_tags@ids, "NIHR_HIC_ICU_0001")
     
     selected_tags <- StdId(c("x.NIHR_HIC_ICU_0001aac"))
-    expect_match(selected_tags@ids, "NIHR_HIC_ICU_0001") 
+    expect_match(selected_tags@ids, "NIHR_HIC_ICU_0001")
 
     expect_error(StdId(c("NIHR_HICx_ICU_0001")))
     expect_error(StdId())
+    expect_error(StdId(character()))
 })
 
 
