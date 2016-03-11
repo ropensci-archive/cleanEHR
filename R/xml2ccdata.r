@@ -29,16 +29,18 @@ patientToDataArray <- function(patient, category.index.table) {
     stampindex <- selectIndex(category.index.table, stdid, "timestamp")
 
     if (length(valindex) != length(stampindex))# data missing values
-        return(list(data1d=NULL, data2d=NULL))
+        return(NULL)
     else
         data2d <- data.frame(id=ptable$id[valindex],
                              time=ptable$val[stampindex],
-                             val=ptable$val[valindex])
-    # 1d vector with id names as row names. 
-    data1d <- ptable$val[selectIndex(category.index.table, stdid,
-                                     "simplevar")]
-    names(data1d) <- as.vector(ptable$id[selectIndex(category.index.table, stdid,
-                                                     "simplevar")])
+                             val=ptable$val[valindex],
+                             stringsAsFactors=FALSE)
+    data1d <- 
+        data.frame(id=ptable$id[selectIndex(category.index.table, 
+                                            stdid,"simplevar")],
+                   val=ptable$val[selectIndex(category.index.table, 
+                                              stdid, "simplevar")],
+                   stringsAsFactors=FALSE)
     return(list(data1d=data1d, data2d=data2d))
 }
 
@@ -48,9 +50,7 @@ patientToDataArray <- function(patient, category.index.table) {
 #' @return ccdata  
 xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     patient.num <- xmlSize(xml[[1]][[2]])
-    data2d <- list()
-    data1d <- list()
-
+    collection <- list()
     if(is.null(select.patient))
         select.patient <- seq(patient.num)
 
@@ -61,22 +61,23 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
                              max = max(select.patient), style = 3)
 
     for(patient.id in select.patient){
+        episode_i <- cEpisode()
         patient <- getXmlPatient(xml, patient.id)
         pdata<- tryCatch(patientToDataArray(patient, category.index.table), 
                          error=function(err) {
                              cat(paste(err, "patient.id = ", patient.id, "\n"))
                              stop()
                          })
-        if (!is.null(pdata[["data2d"]])) {
-            data2d[[patient.id]] <- pdata[["data2d"]]
-            data1d[[patient.id]] <- pdata[["data1d"]]
+
+        if (!is.null(pdata)) {
+            episode_i <- addItemData(episode_i, pdata[["data1d"]])
+            episode_i <- addItemData(episode_i, pdata[["data2d"]])
         }
+        collection[[patient.id]] <- episode_i
         if (!quiet)
             setTxtProgressBar(pb, patient.id)
     }
     if (!quiet)
         cat("\n")
-    return(list(data2d=data2d, data1d=data1d))
+    return(collection)
 }
-
-
