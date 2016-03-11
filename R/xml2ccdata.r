@@ -70,8 +70,8 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
                          })
 
         if (!is.null(pdata)) {
-            episode_i <- addItemData(episode_i, pdata[["data1d"]])
-            episode_i <- addItemData(episode_i, pdata[["data2d"]])
+            episode_i <- episode_i + pdata[["data1d"]]
+            episode_i <- episode_i + pdata[["data2d"]]
         }
         collection[[patient.id]] <- episode_i
         if (!quiet)
