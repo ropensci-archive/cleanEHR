@@ -9,56 +9,96 @@
 #'      \item{\code{data.2d:}}{vector, store timewise data}
 #'    }
 #' @export ccdata
-ccData <- setClass("ccdata",
-                   slots=c(episode.num="integer",
-                           episodes="list"),
-                   validity=function(object) {
-                       if (length(object@var.id) != length(object@var.names))
-                           return("The length of var.id should be equal to the lenght of var names.")
-                       else
-                           return(TRUE)
-                   })
-
-cEpisode <- setClass("cEpisode",
-                     slot=c(
-                            data="list"
-                            ),
-                     prototype=list(
-                                    data=list()
-                                    )
+ccRecord <- setClass("ccRecord",
+                     slots=c(hospital="character",
+                             npatient="integer",
+                             patient_id="character",
+                             patients="list"),
                      )
 
-#' add single or multiple record to episode.
-addItemData <- function(obj, data) {
-    if (ncol(data) == 2) { # 1d data
-        if (any(names(data) != c("id", "val"))) stop("1d data must have columns: id, val.")
-        # assign row by row to episode data 
-        for (i in seq(nrow(data))) {
-            id <- as.character(data[i, "id"])
-            if (is.null(obj@data[[id]]))
-                obj@data[[id]] <- as.character(data[i,"val"])
-            else
-                stop("data already exist.")
-        }
-    }
-    else if (ncol(data) == 3){# time-wise data
-        if (any(names(data) != c("id", "time", "val")))
-            stop("2d data must have columns: id, time, val.")
-        # assign row by row to episode data
-        for (i in seq(nrow(data))) {
-            id <- as.character(data[i, "id"])
-            if (is.null(obj@data[[id]]))
-                obj@data[[id]] <- data[i, c("time", "val")]
-            else
-                obj@data[[id]] <- 
-                    rbind(obj@data[[id]], data[i, c("time","val")])
-        }
-    }
-    else stop("data must have either 2 or 3 columns.")
-    return(obj)
-}
+ccPatient <- setClass("ccPatient",
+                      slot=c(patient_id="character",
+                             episode_ids="character",
+                             nepisode="integer",
+                             episodes="list"),
+                      prototype=c(patient_id="NA",
+                                  episode_ids=character(0),
+                                  nepisode=as.integer(0),
+                                  episodes=list())
+                      )
 
-#' add single or multiple record to episode.
-setMethod('+', c("cEpisode", "data.frame"), 
-          function(e1, e2) {addItemData(e1,e2)}
-          ) 
+#' addEpisode
+setGeneric("addEpisode", 
+           function(obj, episode) {
+               standardGeneric("addEpisode")
+           })
+
+#' addEpisode
+setMethod("addEpisode", 
+          c("ccPatient", "cEpisode"),
+          function(obj, episode) {
+              code_nhs_number <- 
+                  dataplay::getItemInfo("NHS number")["NHIC_code"]
+
+              code_episode_id <- 
+                  dataplay::getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"]
+
+              if (is.null(episode@data[[code_nhs_number]]))
+                  stop("no NHS number is found in the episode.")
+              else
+                  nhs_number <- episode@data[[code_nhs_number]]
+
+              if (is.null(episode@data[[code_episode_id]]))
+                  stop("no episode id is found in the episode.")
+              else
+                  episode_id <- episode@data[[code_episode_id]]
+              if (obj@patient_id != nhs_number & obj@patient_id != "NA")
+                  stop("NHS number is not identical, you can only add the same patient here.")
+
+              if (obj@patient_id == "NA")
+                  obj@patient_id <- episode@data[[code_nhs_number]]
+              obj@episode_ids <- c(obj@episode_ids, episode_id)
+              obj@nepisode <- as.integer(obj@nepisode + 1)
+              obj@episodes[[episode_id]] <- episode
+              return(obj)
+          })
+
+#' overload the addEpisode to patient. 
+setMethod('+', c("ccPatient", "cEpisode"), 
+          function(e1, e2) {addEpisode(e1, e2)}
+          )
+
+setMethod("addEpisode", 
+          c("ccRecord", "cEpisode"),
+          function(obj, episode) {
+              code_nhs_number <- 
+                  dataplay::getItemInfo("NHS number")["NHIC_code"]
+
+              code_episode_id <- 
+                  dataplay::getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"]
+
+              if (is.null(episode@data[[code_nhs_number]]))
+                  stop("no NHS number is found in the episode.")
+              else
+                  nhs_number <- episode@data[[code_nhs_number]]
+
+              if (is.null(record@patients[[nhs_number]])) {
+                  new.patient <- ccPatient()
+                  new.patient <- new.patient + episode
+                  obj@patients[[nhs_number]] <- new.patient
+              }
+              else {
+                  if (any(record@patients[[nhs_number]]@episode_ids ==
+                          episode@data[[code_episode_id]]))
+                      stop("found duplicated episode ids in a unique patient.")
+                  obj@patients[[nhs_number]] <-
+                      obj@patients[[nhs_number]] + episode
+              }
+              return(obj)
+          })
+
+#' overload the addEpisode to patient. 
+setMethod('+', c("ccRecord", "cEpisode"), 
+          function(e1, e2) {addEpisode(e1, e2)}
+          )
+
