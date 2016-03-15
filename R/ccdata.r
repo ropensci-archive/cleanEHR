@@ -1,12 +1,14 @@
-.onLoad <- function(libname=find.package("dataplay"), pkgname="dataplay") {
-    ccdata.env <- new.env()
-    assign('code_pas_number',
-           getItemInfo("PAS number")["NHIC_code"],
-           envir=ccdata.env)
-    assign('code_episode_id',
-           getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"],
-           envir=ccdata.env)
-}
+
+ccdata.env <- new.env()
+assign('code_pas_number',
+       "NIHR_HIC_ICU_0001",
+       #           getItemInfo("PAS number")["NHIC_code"],
+       envir=ccdata.env)
+assign('code_episode_id',
+       "NIHR_HIC_ICU_0005",
+       #       getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"],
+       envir=ccdata.env)
+#}
 
 
 #' @section Slots: 
@@ -25,6 +27,10 @@ ccRecord <- setClass("ccRecord",
                              npatient="integer",
                              patient_id="character",
                              patients="list"),
+                     prototype=c(hospital=character(0),
+                                 npatient=as.integer(0),
+                                 patient_id=integer(0),
+                                 patients=list())
                      )
 
 ccPatient <- setClass("ccPatient",
@@ -82,13 +88,17 @@ setMethod("addEpisode",
               code_pas_number <- ccdata.env$code_pas_number
               code_episode_id <- ccdata.env$code_episode_id
 
-              if (is.null(episode@data[[code_pas_number]]))
-                  stop("no PAS number is found in the episode.")
+              if (is.null(episode@data[[code_pas_number]])) {
+                  warning("no PAS number is found in the episode.")
+                  return(obj)
+              }
               else
                   pas_number <- episode@data[[code_pas_number]]
 
-              if (is.null(episode@data[[code_episode_id]]))
-                  stop("no episode id is found in the episode.")
+              if (is.null(episode@data[[code_episode_id]])) {
+                  warning("no episode id is found in the episode.")
+                  return(obj)
+              }
               else
                   episode_id <- episode@data[[code_episode_id]]
 
@@ -96,6 +106,8 @@ setMethod("addEpisode",
                   new.patient <- ccPatient()
                   new.patient <- new.patient + episode
                   obj@patients[[pas_number]] <- new.patient
+                  obj@npatient <- obj@npatient + as.integer(1)
+                  obj@patient_id <- c(obj@patient_id, pas_number)
               }
               else {
                   if (any(obj@patients[[pas_number]]@episode_ids ==
@@ -103,6 +115,8 @@ setMethod("addEpisode",
                       stop("found duplicated episode ids of an unique patient.")
                   obj@patients[[pas_number]] <-
                       obj@patients[[pas_number]] + episode
+                  obj@npatient <- obj@npatient + as.integer(1)
+                  obj@patient_id <- c(obj@patient_id, pas_number)
               }
               return(obj)
           })
