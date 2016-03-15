@@ -28,19 +28,16 @@ episode2dataframe <- function(ep, items=NULL) {
 
     labels <- sort(unique(df_physiology$label))
     time <- sort(unique(df_physiology$time))
-    index_label <- data.table(data.frame(labels, index=seq(labels)))
-    index_time <- data.table(data.frame(time, index=seq(time)))
-    setkey(index_label, labels)
-    setkey(index_time, time)
-
+    index_label <- seq(labels)
+    index_time <- seq(time)
+    names(index_label) <- labels
+    names(index_time) <- time
     
     time_table <- data.frame(array("", c(length(time), length(labels))),
                              stringsAsFactors=FALSE)
     for (r in seq(nrow(df_physiology))) {
-        i <- index_time[as.character(df_physiology$time[r]), index]
-        print(df_physiology$time[r])
-        print(index_time[i])
-        j <- index_label[as.character(df_physiology$label[r]), index]
+        i <- index_time[as.character(df_physiology$time[r])]
+        j <- index_label[as.character(df_physiology$label[r])]
         time_table[i, j] <- as.character(df_physiology$val[r])
     }
 
