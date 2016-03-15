@@ -8,7 +8,8 @@ whichIsCode <- function(nhic) {
 #' @return list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)], 
 #'         nontime [numeric], MAX_NUM_NHIC
 extractInfo <- function() {
-    data("data.checklist")
+    if(!exists("data.checklist"))
+        data("data.checklist")
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
 
@@ -44,6 +45,7 @@ extractInfo <- function() {
 #' @examples 
 #' getItemInfo("Time of death on your unit")
 #' getItemInfo("NIHR_HIC_ICU_0001")
+#' @export getItemInfo
 getItemInfo <- function(item.code) {
     if (!exists("data.checklist"))
         data("data.checklist")

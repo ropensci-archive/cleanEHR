@@ -1,3 +1,14 @@
+.onLoad <- function(libname=find.package("dataplay"), pkgname="dataplay") {
+    ccdata.env <- new.env()
+    assign('code_pas_number',
+           getItemInfo("PAS number")["NHIC_code"],
+           envir=ccdata.env)
+    assign('code_episode_id',
+           getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"],
+           envir=ccdata.env)
+}
+
+
 #' @section Slots: 
 #'   \describe{
 #'      \item{\code{hospital.id}:}{vector}
@@ -37,26 +48,23 @@ setGeneric("addEpisode",
 setMethod("addEpisode", 
           c("ccPatient", "cEpisode"),
           function(obj, episode) {
-              code_nhs_number <- 
-                  dataplay::getItemInfo("NHS number")["NHIC_code"]
+              code_pas_number <- ccdata.env$code_pas_number
+              code_episode_id <- ccdata.env$code_episode_id
 
-              code_episode_id <- 
-                  dataplay::getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"]
-
-              if (is.null(episode@data[[code_nhs_number]]))
-                  stop("no NHS number is found in the episode.")
+              if (is.null(episode@data[[code_pas_number]]))
+                  stop("no PAS number is found in the episode.")
               else
-                  nhs_number <- episode@data[[code_nhs_number]]
+                  pas_number <- episode@data[[code_pas_number]]
 
               if (is.null(episode@data[[code_episode_id]]))
                   stop("no episode id is found in the episode.")
               else
                   episode_id <- episode@data[[code_episode_id]]
-              if (obj@patient_id != nhs_number & obj@patient_id != "NA")
-                  stop("NHS number is not identical, you can only add the same patient here.")
+              if (obj@patient_id != pas_number & obj@patient_id != "NA")
+                  stop("PAS number is not identical, you can only add the same patient here.")
 
               if (obj@patient_id == "NA")
-                  obj@patient_id <- episode@data[[code_nhs_number]]
+                  obj@patient_id <- episode@data[[code_pas_number]]
               obj@episode_ids <- c(obj@episode_ids, episode_id)
               obj@nepisode <- as.integer(obj@nepisode + 1)
               obj@episodes[[episode_id]] <- episode
@@ -71,28 +79,30 @@ setMethod('+', c("ccPatient", "cEpisode"),
 setMethod("addEpisode", 
           c("ccRecord", "cEpisode"),
           function(obj, episode) {
-              code_nhs_number <- 
-                  dataplay::getItemInfo("NHS number")["NHIC_code"]
+              code_pas_number <- ccdata.env$code_pas_number
+              code_episode_id <- ccdata.env$code_episode_id
 
-              code_episode_id <- 
-                  dataplay::getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"]
-
-              if (is.null(episode@data[[code_nhs_number]]))
-                  stop("no NHS number is found in the episode.")
+              if (is.null(episode@data[[code_pas_number]]))
+                  stop("no PAS number is found in the episode.")
               else
-                  nhs_number <- episode@data[[code_nhs_number]]
+                  pas_number <- episode@data[[code_pas_number]]
 
-              if (is.null(record@patients[[nhs_number]])) {
+              if (is.null(episode@data[[code_episode_id]]))
+                  stop("no episode id is found in the episode.")
+              else
+                  episode_id <- episode@data[[code_episode_id]]
+
+              if (is.null(obj@patients[[pas_number]])) {
                   new.patient <- ccPatient()
                   new.patient <- new.patient + episode
-                  obj@patients[[nhs_number]] <- new.patient
+                  obj@patients[[pas_number]] <- new.patient
               }
               else {
-                  if (any(record@patients[[nhs_number]]@episode_ids ==
+                  if (any(obj@patients[[pas_number]]@episode_ids ==
                           episode@data[[code_episode_id]]))
-                      stop("found duplicated episode ids in a unique patient.")
-                  obj@patients[[nhs_number]] <-
-                      obj@patients[[nhs_number]] + episode
+                      stop("found duplicated episode ids of an unique patient.")
+                  obj@patients[[pas_number]] <-
+                      obj@patients[[pas_number]] + episode
               }
               return(obj)
           })

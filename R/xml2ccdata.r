@@ -50,7 +50,6 @@ patientToDataArray <- function(patient, category.index.table) {
 #' @return ccdata  
 xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     patient.num <- xmlSize(xml[[1]][[2]])
-    collection <- list()
     if(is.null(select.patient))
         select.patient <- seq(patient.num)
 
@@ -59,6 +58,7 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     if (!quiet)
         pb <- txtProgressBar(min = min(select.patient)-1, 
                              max = max(select.patient), style = 3)
+    record <- ccRecord()
 
     for(patient.id in select.patient){
         episode_i <- cEpisode()
@@ -73,11 +73,12 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
             episode_i <- episode_i + pdata[["data1d"]]
             episode_i <- episode_i + pdata[["data2d"]]
         }
-        collection[[patient.id]] <- episode_i
+
+        record <- record + episode_i
         if (!quiet)
             setTxtProgressBar(pb, patient.id)
     }
     if (!quiet)
         cat("\n")
-    return(collection)
+    return(record)
 }

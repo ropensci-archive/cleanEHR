@@ -52,5 +52,3 @@ computeScore <- function(data.set, items.code, ranges,
     }
     return(score.list)
 }
-
-
