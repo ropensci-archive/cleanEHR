@@ -24,6 +24,8 @@
 
 # getEpisodeData
 getEpisodeData <- function(ep, items=NULL) {
+    if (is.null(items))
+        items <- extractInfo()$time$id
     data <- .getEpisodeData(ep, items)
     return(rbind(data$data1d, data$data2d))
 }
@@ -31,11 +33,18 @@ getEpisodeData <- function(ep, items=NULL) {
 
 #' get episode time table
 getEpisodeTimeTable <- function(ep, items=NULL) {
+    # the final output should have df_items either the selected items or all
+    # possible items, to ensure the time_table for every episodes have a
+    # unique number of columns. 
+    # Leave the entire column empty when the item is not found.
+    if (is.null(items))  df_items <- extractInfo()$time$id
+    else  df_items <- items
+
     data <- .getEpisodeData(ep, items)
     df_1d <- data$data1d
     df_2d <- data$data2d
 
-    labels <- sort(unique(df_2d$label))
+    labels <- sort(unique(df_items))
     time <- sort(unique(df_2d$time))
     index_label <- seq(labels)
     index_time <- seq(time)
