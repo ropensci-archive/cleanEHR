@@ -115,8 +115,6 @@ setMethod("addEpisode",
                       stop("found duplicated episode ids of an unique patient.")
                   obj@patients[[pas_number]] <-
                       obj@patients[[pas_number]] + episode
-                  obj@npatient <- obj@npatient + as.integer(1)
-                  obj@patient_id <- c(obj@patient_id, pas_number)
               }
               return(obj)
           })
