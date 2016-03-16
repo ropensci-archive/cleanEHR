@@ -124,3 +124,7 @@ setMethod('+', c("ccRecord", "cEpisode"),
           function(e1, e2) {addEpisode(e1, e2)}
           )
 
+setMethod('print', c('ccRecord'),
+          function(x) {
+              cat("Critial Care Record [ccRecord]:", x@npatient, "patients.\n")
+          })

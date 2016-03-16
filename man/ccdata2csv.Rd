@@ -4,7 +4,7 @@
 \alias{ccdata2csv}
 \title{ccdata2csv}
 \usage{
-ccdata2csv(ccdata, items = NULL)
+ccdata2csv(ccdata, items = NULL, pseudo = FALSE)
 }
 \description{
 ccdata2csv

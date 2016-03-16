@@ -14,10 +14,8 @@
         else if (class(data) == "data.frame") { # 2d data
             df_2d <-
                 rbind(df_2d, data.frame(label=i, data,
-                                                   stringsAsFactors=FALSE))
+                                        stringsAsFactors=FALSE))
         }
-        else
-            stop("unrecognised data type from episode.")
     }
     return(list(data1d=df_1d, data2d=df_2d))
 }
@@ -25,7 +23,7 @@
 # getEpisodeData
 getEpisodeData <- function(ep, items=NULL) {
     if (is.null(items))
-        items <- extractInfo()$time$id
+        items <- names(ep@data)
     data <- .getEpisodeData(ep, items)
     return(rbind(data$data1d, data$data2d))
 }
@@ -33,34 +31,35 @@ getEpisodeData <- function(ep, items=NULL) {
 
 #' get episode time table
 getEpisodeTimeTable <- function(ep, items=NULL) {
-    # the final output should have df_items either the selected items or all
-    # possible items, to ensure the time_table for every episodes have a
-    # unique number of columns. 
-    # Leave the entire column empty when the item is not found.
-    if (is.null(items))  df_items <- extractInfo()$time$id
-    else  df_items <- items
+    if (is.null(items))
+        items <- names(ep@data)
 
     data <- .getEpisodeData(ep, items)
     df_1d <- data$data1d
     df_2d <- data$data2d
 
-    labels <- sort(unique(df_items))
-    time <- sort(unique(df_2d$time))
-    index_label <- seq(labels)
-    index_time <- seq(time)
-    names(index_label) <- labels
-    names(index_time) <- time
-    
-    time_table <- data.frame(array("", c(length(time), length(labels))),
-                             stringsAsFactors=FALSE)
-    for (r in seq(nrow(df_2d))) {
-        i <- index_time[as.character(df_2d$time[r])]
-        j <- index_label[as.character(df_2d$label[r])]
-        time_table[i, j] <- as.character(df_2d$val[r])
-    }
+    if (nrow(df_2d) != 0) {
+        labels <- sort(unique(items))
+        time <- sort(unique(df_2d$time))
+        index_label <- seq(labels)
+        index_time <- seq(time)
+        names(index_label) <- labels
+        names(index_time) <- time
 
-    time_table <- cbind(time, time_table)
-    colnames(time_table) <- c("time", labels)
-    
-    return(time_table)
+        time_table <- data.frame(array("", c(length(time), length(labels))),
+                                 stringsAsFactors=FALSE)
+
+        for (r in seq(nrow(df_2d))) {
+            i <- index_time[as.character(df_2d$time[r])]
+            j <- index_label[as.character(df_2d$label[r])]
+            time_table[i, j] <- as.character(df_2d$val[r])
+        }
+
+        time_table <- cbind(time, time_table)
+        colnames(time_table) <- c("time", labels)
+    }
+    else 
+        time_table <- data.frame()
+
+    return(list(data1d=df_1d, data2d=time_table))
 }
