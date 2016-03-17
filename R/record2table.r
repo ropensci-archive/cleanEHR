@@ -1,5 +1,5 @@
 #' ccdata2csv
-ccdata2csv <- function(ccdata, items=NULL, pseudo=FALSE) {
+ccRecord2Table <- function(ccdata, items=NULL, pseudo=FALSE, file=NULL) {
     # the final output should have df_items either the selected items or all
     # possible items, to ensure the time_table for every episodes have a
     # unique number of columns. 
@@ -46,9 +46,19 @@ ccdata2csv <- function(ccdata, items=NULL, pseudo=FALSE) {
                             episode_id=df_1d$episode_id,
                             label=labels,
                             val=df_1d$val)
-    }
-    df_1d <- dcast(df_1d, patient_id + episode_id ~ label)
+        df_1d <- dcast(df_1d, patient_id + episode_id ~ label) # reshape the matrix
+        if (nrow(df_2d) != 0) { # remove the 1d data columns of 2d data
+            df_2d <- df_2d[, !names(df_2d) %in% names(df_1d[3:ncol(df_1d)])]
+        }
 
-    return(list(data1d=df_1d, data2d=df_2d))
+    }
+
+    if (!is.null(file)) {
+        write.csv(file=paste(file, "_1d.csv", sep=""), df_1d)
+        write.csv(file=paste(file, "_2d.csv", sep=""), df_2d)
+    
+    }
+    
+    invisible(list(data1d=df_1d, data2d=df_2d))
 }
 
