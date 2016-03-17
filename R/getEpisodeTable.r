@@ -30,7 +30,7 @@ getEpisodeData <- function(ep, items=NULL) {
 
 
 #' get episode time table
-getEpisodeTimeTable <- function(ep, items=NULL) {
+getEpisodeItemTable <- function(ep, items=NULL) {
     if (is.null(items))
         items <- names(ep@data)
 
