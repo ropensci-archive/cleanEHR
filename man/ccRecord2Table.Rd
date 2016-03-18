@@ -2,11 +2,24 @@
 % Please edit documentation in R/record2table.r
 \name{ccRecord2Table}
 \alias{ccRecord2Table}
-\title{ccdata2csv}
+\title{Convert ccRecord data to item tables}
 \usage{
-ccRecord2Table(ccdata, items = NULL, pseudo = FALSE, file = NULL)
+ccRecord2Table(record, items = NULL, pseudo = FALSE, file = NULL)
+}
+\arguments{
+\item{record}{ccRecord}
+
+\item{items}{if specified, items should be the NHIC code of the selected
+items, if not the output will contain be all the possible items, even
+those not appearing in the ccRecord}
+
+\item{pseudo}{(optional) logical value, FALSE gives identifier the PAS number, TRUE gives
+the patient count in the record.}
+
+\item{file}{the name of csv files. If speicified 1d/2d tables will be
+written into two sperate csv files.}
 }
 \description{
-ccdata2csv
+Convert ccRecord data to item tables
 }
 

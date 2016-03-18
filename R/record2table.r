@@ -1,5 +1,13 @@
-#' ccdata2csv
-ccRecord2Table <- function(ccdata, items=NULL, pseudo=FALSE, file=NULL) {
+#' Convert ccRecord data to item tables
+#' @param record ccRecord
+#' @param items if specified, items should be the NHIC code of the selected
+#'              items, if not the output will contain be all the possible items, even
+#'              those not appearing in the ccRecord
+#' @param pseudo (optional) logical value, FALSE gives identifier the PAS number, TRUE gives
+#'               the patient count in the record.
+#' @param file  the name of csv files. If speicified 1d/2d tables will be
+#'              written into two sperate csv files.
+ccRecord2Table <- function(record, items=NULL, pseudo=FALSE, file=NULL) {
     # the final output should have df_items either the selected items or all
     # possible items, to ensure the time_table for every episodes have a
     # unique number of columns. 
@@ -11,7 +19,7 @@ ccRecord2Table <- function(ccdata, items=NULL, pseudo=FALSE, file=NULL) {
     df_1d <- data.frame()
     df_2d <- data.frame()
     patient_count <- 0
-    for (pt in ccdata@patients) {
+    for (pt in record@patients) {
         patient_count <- patient_count + 1
         episode_count <- 0
 
@@ -26,10 +34,9 @@ ccRecord2Table <- function(ccdata, items=NULL, pseudo=FALSE, file=NULL) {
                 patient_id <- pt@patient_id
                 episode_id <- epid
             }
-            if (nrow(time_table$data2d) != 0) {
+            if (nrow(time_table$data2d) != 0)
                 df_2d <- rbind(df_2d, data.frame(patient_id, episode_id,
                                                  time_table$data2d))
-            }
             if (nrow(time_table$data1d) != 0)
                 df_1d <- rbind(df_1d, data.frame(patient_id, episode_id, 
                                                  time_table$data1d))
@@ -59,4 +66,3 @@ ccRecord2Table <- function(ccdata, items=NULL, pseudo=FALSE, file=NULL) {
     }
     invisible(list(data1d=df_1d, data2d=df_2d))
 }
-
