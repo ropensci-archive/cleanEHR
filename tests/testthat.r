@@ -1,5 +1,5 @@
 library(testthat)
-library(dataplay)
+library(ccdata)
 
 if (!exists(test_xml))
     test_xml <- xmlLoad("../CriticalCare/anon_CC.xml")

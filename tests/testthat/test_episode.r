@@ -1,4 +1,3 @@
-library(dataplay)
 context("Testing episodes")
 
 test_that("add 1D item.", {

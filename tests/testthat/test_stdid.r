@@ -1,4 +1,3 @@
-library(dataplay)
 context("Testing standard IDs")
 
 test_that("single id initialisation",{
