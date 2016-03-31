@@ -72,7 +72,7 @@ getItemInfo <- function(item.code) {
                    as.character(row.in.list))
 
     names(item.info) <- c("item", "NHIC_code", "dt_code", 
-                          "unit", "meta_code", "row_in_checklist")
+                          "meta_code", "unit", "row_in_checklist")
     return(item.info)
 }
 
