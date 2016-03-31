@@ -5,5 +5,4 @@ before_deploy:
   #  - R -e "install.packages('roxygen2', 'devtools', 'XML', 'ggplot2')"
 
 script:
-  echo "simple tests"
   R -e "library(devtools); test()"

@@ -6,6 +6,6 @@ Date: 2016-01-23
 Author: Sinan Shi
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
 Description: 
-Depends: R (>= 2.1.0), ggplot2, XML, reshape2
+Depends: R (>= 2.1.0), ggplot2, XML, reshape2, devtools
 License: GPL-2.0
 Suggests: testthat
