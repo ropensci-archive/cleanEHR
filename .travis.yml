@@ -1,4 +1,4 @@
-laguage: R
+laguage: r
 cache: packages
 
 before_deploy:
@@ -6,4 +6,4 @@ before_deploy:
 
 script:
   echo "simple tests"
-  #- R -e "library(devtools); test()"
+  - R -e "library(devtools); test()"
