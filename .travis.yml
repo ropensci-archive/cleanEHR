@@ -2,7 +2,7 @@ laguage: R
 cache: packages
 
 before_deploy:
-  - R -e "install.packages('roxygen2', 'devtools', 'XML', 'ggplot2')"
+  #  - R -e "install.packages('roxygen2', 'devtools', 'XML', 'ggplot2')"
 
 script:
-  - R -e "test()"
+  - R -e "library(devtools); test()"
