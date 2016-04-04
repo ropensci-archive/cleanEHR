@@ -1,8 +1,9 @@
 #' S4 class to hold standard IDs such as "NIHR_HIC_ICU_0001"
 #' @slot ids single or multiple characters
 #' @examples
-#' Please use the overloaded constructor to initialise StdId class.
+#' \donttest{
 #' selected_tags <- StdId(c("NIHR_HIC_ICU_0001", "NIHR_HIC_ICU_0002")
+#' }
 StdId <- setClass ("StdId",
                    slots = c(ids="vector"), 
                    validity=function(object)

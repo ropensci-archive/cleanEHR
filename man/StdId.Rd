@@ -19,7 +19,8 @@ constructor of StdId class
 \item{\code{ids}}{single or multiple characters}
 }}
 \examples{
-Please use the overloaded constructor to initialise StdId class.
+\donttest{
 selected_tags <- StdId(c("NIHR_HIC_ICU_0001", "NIHR_HIC_ICU_0002")
+}
 }
 
