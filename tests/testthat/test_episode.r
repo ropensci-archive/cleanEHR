@@ -1,7 +1,7 @@
 context("Testing episodes")
 
 test_that("add 1D item.", {
-    ep <- cEpisode()
+    ep <- ccEpisode()
     expect_true(is.list(ep@data))
     expect_equal(length(ep@data), 0)
     ep2 <- ep + data.frame(id="xx", val="1")
@@ -16,4 +16,3 @@ test_that("add 1D item.", {
     expect_error(ep + data.frame(id=c("xx", "xx"),
                                  val=c(1,2))) # duplication of 1d data
 })
-
