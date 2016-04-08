@@ -61,7 +61,7 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     record <- ccRecord()
 
     for(patient.id in select.patient){
-        episode_i <- cEpisode()
+        episode_i <- ccEpisode()
         patient <- getXmlPatient(xml, patient.id)
         pdata<- tryCatch(patientToDataArray(patient, category.index.table), 
                          error=function(err) {

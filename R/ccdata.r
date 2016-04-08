@@ -1,15 +1,4 @@
-
-ccdata.env <- new.env()
-assign('code_pas_number',
-       "NIHR_HIC_ICU_0001",
-       #           getItemInfo("PAS number")["NHIC_code"],
-       envir=ccdata.env)
-assign('code_episode_id',
-       "NIHR_HIC_ICU_0005",
-       #       getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"],
-       envir=ccdata.env)
-#}
-
+library(data.table)
 
 #' @section Slots: 
 #'   \describe{
@@ -23,23 +12,25 @@ assign('code_episode_id',
 #'    }
 #' @export ccdata
 ccRecord <- setClass("ccRecord",
-                     slots=c(hospital="character",
-                             npatient="integer",
-                             patient_id="character",
+                     slots=c(npatient="integer",
+                             index_ids="data.table",
+                             CLEANED_TAG="logical",
                              patients="list"),
-                     prototype=c(hospital=character(0),
-                                 npatient=as.integer(0),
-                                 patient_id=integer(0),
-                                 patients=list())
-                     )
+                     prototype=c(npatient=as.integer(0),
+                                 patients=list(),
+                                 CLEANED_TAG=FALSE))
 
 ccPatient <- setClass("ccPatient",
-                      slot=c(patient_id="character",
+                      slot=c(pas_number="character",
+                             nhs_number="character",
                              episode_ids="character",
+                             site_ids="character",
                              nepisode="integer",
                              episodes="list"),
-                      prototype=c(patient_id="NA",
+                      prototype=c(pas_number=character(0),
+                                  nhs_number=character(0),
                                   episode_ids=character(0),
+                                  site_ids=character(0),
                                   nepisode=as.integer(0),
                                   episodes=list())
                       )
@@ -52,79 +43,58 @@ setGeneric("addEpisode",
 
 #' addEpisode
 setMethod("addEpisode", 
-          c("ccPatient", "cEpisode"),
+          c("ccPatient", "ccEpisode"),
           function(obj, episode) {
-              code_pas_number <- ccdata.env$code_pas_number
-              code_episode_id <- ccdata.env$code_episode_id
+              if (length(obj@pas_number) == 0) {
+                  obj@pas_number <- episode@pas_number
+              } else {
+                  if (obj@pas_number != episode@pas_number) {
+                      cat(obj@pas_number, "!=", episode@pas_number, "\n")
+                      stop('ccPatient - Mismatching PAS number')
+                  }
+              }
 
-              if (is.null(episode@data[[code_pas_number]]))
-                  stop("no PAS number is found in the episode.")
-              else
-                  pas_number <- episode@data[[code_pas_number]]
+              if (length(obj@nhs_number) == 0) {
+                  obj@nhs_number <- episode@nhs_number
+              } else {
+                  if (obj@nhs_number != episode@nhs_number) {
+                      cat(obj@nhs_number, "!=", episode@nhs_number, "\n")
+                      stop('ccPatient - Mismatching NHS number')
+                  }
+              }
 
-              if (is.null(episode@data[[code_episode_id]]))
-                  stop("no episode id is found in the episode.")
-              else
-                  episode_id <- episode@data[[code_episode_id]]
-              if (obj@patient_id != pas_number & obj@patient_id != "NA")
-                  stop("PAS number is not identical, you can only add the same patient here.")
+              obj@episode_ids <- c(obj@episode_ids, episode@episode_id)
+              obj@site_ids <- c(obj@site_ids, episode@site_id)
 
-              if (obj@patient_id == "NA")
-                  obj@patient_id <- episode@data[[code_pas_number]]
-              obj@episode_ids <- c(obj@episode_ids, episode_id)
               obj@nepisode <- as.integer(obj@nepisode + 1)
-              obj@episodes[[episode_id]] <- episode
+              obj@episodes[[length(obj@episodes) + 1]] <- episode
               return(obj)
           })
 
+
 #' overload the addEpisode to patient. 
-setMethod('+', c("ccPatient", "cEpisode"), 
+setMethod('+', c("ccPatient", "ccEpisode"), 
           function(e1, e2) {addEpisode(e1, e2)}
           )
+
 
 setMethod("addEpisode", 
-          c("ccRecord", "cEpisode"),
+          c("ccRecord", "ccEpisode"),
           function(obj, episode) {
-              code_pas_number <- ccdata.env$code_pas_number
-              code_episode_id <- ccdata.env$code_episode_id
-
-              if (is.null(episode@data[[code_pas_number]])) {
-                  warning("no PAS number is found in the episode.")
-                  return(obj)
-              }
-              else
-                  pas_number <- episode@data[[code_pas_number]]
-
-              if (is.null(episode@data[[code_episode_id]])) {
-                  warning("no episode id is found in the episode.")
-                  return(obj)
-              }
-              else
-                  episode_id <- episode@data[[code_episode_id]]
-
-              if (is.null(obj@patients[[pas_number]])) {
-                  new.patient <- ccPatient()
-                  new.patient <- new.patient + episode
-                  obj@patients[[pas_number]] <- new.patient
-                  obj@npatient <- obj@npatient + as.integer(1)
-                  obj@patient_id <- c(obj@patient_id, pas_number)
-              }
-              else {
-                  if (any(obj@patients[[pas_number]]@episode_ids ==
-                          episode@data[[code_episode_id]]))
-                      stop("found duplicated episode ids of an unique patient.")
-                  obj@patients[[pas_number]] <-
-                      obj@patients[[pas_number]] + episode
-              }
+              new.patient <- ccPatient()
+              new.patient <- new.patient + episode
+              index <- length(obj@patients) + 1
+              obj@patients[[index]] <- new.patient
+              
+              obj@index_ids <- data.table(rbind(obj@index_ids,
+                        list("index"=index, "nhs_number"=episode@nhs_number,
+                             "pas_number"=episode@pas_number)))
+              obj@npatient <- as.integer(obj@npatient + 1)
               return(obj)
           })
 
+
 #' overload the addEpisode to patient. 
-setMethod('+', c("ccRecord", "cEpisode"), 
+setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {addEpisode(e1, e2)}
           )
-
-setMethod('print', c('ccRecord'),
-          function(x) {
-              cat("Critial Care Record [ccRecord]:", x@npatient, "patients.\n")
-          })
