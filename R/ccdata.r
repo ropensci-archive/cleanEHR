@@ -13,12 +13,14 @@ library(data.table)
 #' @export ccdata
 ccRecord <- setClass("ccRecord",
                      slots=c(npatient="integer",
-                             index_ids="data.table",
+                             nhs_numbers="data.table",
+                             pas_numbers="data.table",
                              CLEANED_TAG="logical",
                              patients="list"),
                      prototype=c(npatient=as.integer(0),
                                  patients=list(),
-                                 CLEANED_TAG=FALSE))
+                                 CLEANED_TAG=FALSE,
+                                 AGGREGATED_PATIENT_TAG=FALSE))
 
 ccPatient <- setClass("ccPatient",
                       slot=c(pas_number="character",
@@ -85,10 +87,13 @@ setMethod("addEpisode",
               new.patient <- new.patient + episode
               index <- length(obj@patients) + 1
               obj@patients[[index]] <- new.patient
-              
-              obj@index_ids <- data.table(rbind(obj@index_ids,
-                        list("index"=index, "nhs_number"=episode@nhs_number,
-                             "pas_number"=episode@pas_number)))
+
+              obj@nhs_numbers <- data.table(rbind(obj@nhs_numbers,
+                                                  data.frame("index"=index, 
+                                                       "nhs_number"=episode@nhs_number)))
+              obj@pas_numbers <- data.table(rbind(obj@pas_numbers,
+                                                  data.frame("index"=index,
+                                                       "pas_number"=episode@pas_number)))
               obj@npatient <- as.integer(obj@npatient + 1)
               return(obj)
           })

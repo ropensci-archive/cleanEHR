@@ -80,5 +80,9 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     }
     if (!quiet)
         cat("\n")
+
+    setkey(record@nhs_numbers, nhs_number)
+    setkey(record@pas_numbers, pas_number)
+
     return(record)
 }
