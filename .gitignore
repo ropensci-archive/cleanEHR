@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+# Check files
+..Rcheck
+
 # Session Data files
 .RData
 
