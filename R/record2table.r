@@ -19,10 +19,10 @@ ccRecord2Table <- function(record, items=NULL, file=NULL) {
     patient_count <- 0
     for (pt in record@patients) {
         patient_count <- patient_count + 1
-        for (epid in pt@episode_ids) {
-            time_table <- getEpisodeItemTable(pt@episodes[[epid]], df_items)
+        for (ep in pt@episodes) {
+            time_table <- getEpisodeItemTable(ep, df_items)
             patient_id <- patient_count
-            episode_id <- epid
+            episode_id <- ep@episode_id
 
             if (nrow(time_table$data2d) != 0)
                 df_2d <- rbind(df_2d, data.frame(patient_id, episode_id,

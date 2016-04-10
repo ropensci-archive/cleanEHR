@@ -68,7 +68,7 @@ setMethod("addEpisode",
               obj@site_ids <- c(obj@site_ids, episode@site_id)
 
               obj@nepisode <- as.integer(obj@nepisode + 1)
-              obj@episodes[[episode@episode_id]] <- episode
+              obj@episodes[[length(obj@episodes) + 1]] <- episode
               return(obj)
           })
 
@@ -102,9 +102,3 @@ setMethod("addEpisode",
 setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {addEpisode(e1, e2)}
           )
-
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! <- starting point
-setGeneric("aggPatient",
-           function(record) {
-               standardGeneric("aggPatient")
-           })
