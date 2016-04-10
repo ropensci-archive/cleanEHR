@@ -44,6 +44,7 @@ test_that("check patients nhs number and pas number (1d)",
     expect_match(nhs_number_2, "NULL") 
 })
 
+
 test_that("test searching",
 {
 
