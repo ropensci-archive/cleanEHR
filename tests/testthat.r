@@ -1,6 +1,8 @@
 library(testthat)
 library(ccdata)
 
-#if (!exists(test_xml))
-#    test_xml <- xmlLoad("../CriticalCare/anon_CC.xml")
+# load test data
+r <- xmlLoad("../data/test_data_10_patients.xml")
+ccd <<- xml2Data(r, seq(2), quiet=TRUE)
+
 test_check("ccdata")
