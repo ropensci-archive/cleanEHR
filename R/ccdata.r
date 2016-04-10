@@ -46,24 +46,29 @@ setGeneric("addEpisode",
 setMethod("addEpisode", 
           c("ccPatient", "ccEpisode"),
           function(obj, episode) {
-              if (length(obj@pas_number) == 0) {
+              # check and assign PAS number to patient.
+              if (length(obj@pas_number) == 0)# empty patient 
                   obj@pas_number <- episode@pas_number
-              } else {
-                  if (obj@pas_number != episode@pas_number) {
-                      cat(obj@pas_number, "!=", episode@pas_number, "\n")
-                      stop('ccPatient - Mismatching PAS number')
-                  }
+              else { # patient has a non-empty pas_number
+                  if (obj@pas_number == 'NULL')                   
+                      obj@pas_number <- episode@pas_number
+                  else if (obj@pas_number != episode@pas_number & episode@pas_number != 'NULL')
+                      stop('ccPatient - Mismatching PAS number', 
+                           obj@pas_number, "!=", episode@pas_number)
               }
 
-              if (length(obj@nhs_number) == 0) {
+              # check and assign NHS number to patient. 
+              if (length(obj@nhs_number) == 0) # empty patient
                   obj@nhs_number <- episode@nhs_number
-              } else {
-                  if (obj@nhs_number != episode@nhs_number) {
-                      cat(obj@nhs_number, "!=", episode@nhs_number, "\n")
-                      stop('ccPatient - Mismatching NHS number')
-                  }
+              else { # patient has a non-empty nhs_number
+                  if (obj@nhs_number == 'NULL')
+                      obj@nhs_number <- episode@nhs_number
+                  else if (obj@nhs_number != episode@nhs_number & episode@nhs_number != 'NULL')
+                      stop('ccPatient - Mismatching NHS number', 
+                           obj@nhs_number, "!=", episode@nhs_number)
               }
 
+              # assigning data
               obj@episode_ids <- c(obj@episode_ids, episode@episode_id)
               obj@site_ids <- c(obj@site_ids, episode@site_id)
 
@@ -89,10 +94,10 @@ setMethod("addEpisode",
 
               obj@nhs_numbers <- data.table(rbind(obj@nhs_numbers,
                                                   data.frame("index"=index, 
-                                                       "nhs_number"=episode@nhs_number)))
+                                                             "nhs_number"=episode@nhs_number)))
               obj@pas_numbers <- data.table(rbind(obj@pas_numbers,
                                                   data.frame("index"=index,
-                                                       "pas_number"=episode@pas_number)))
+                                                             "pas_number"=episode@pas_number)))
               obj@npatient <- as.integer(obj@npatient + 1)
               return(obj)
           })
