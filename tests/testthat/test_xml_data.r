@@ -2,11 +2,9 @@ context("Tests of the xml parser")
 
 test_that("load xml file", 
 {
-    r <- xmlLoad("../data/test_data_10_patients.xml")
-    ccd <<- xml2Data(r, seq(2), quiet=TRUE)
+# ccdata ccd is loaded as a global variable.
     expect_equal(ccd@npatient, 2)
     
-
     for (i in seq(2)) {
         for (item in names(ccd@patients[[i]]@episodes[[1]]@data)) {
             if (getItemInfo(item)['dt_code'] == "NULL")
@@ -44,4 +42,9 @@ test_that("check patients nhs number and pas number (1d)",
     expect_match(pas_number_2, "5813e3a0860311e4ae76005056b34847")
     expect_match(nhs_number_1, "57fb752c860311e4ae76005056b34847")
     expect_match(nhs_number_2, "NULL") 
+})
+
+test_that("test searching",
+{
+
 })
