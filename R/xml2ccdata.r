@@ -70,8 +70,10 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
                          })
 
         if (!is.null(pdata)) {
-            episode_i <- episode_i + pdata[["data1d"]]
-            episode_i <- episode_i + pdata[["data2d"]]
+            if (nrow(pdata[["data1d"]]) != 0)
+                episode_i <- episode_i + pdata[["data1d"]]
+            if (nrow(pdata[["data2d"]]) != 0)
+                episode_i <- episode_i + pdata[["data2d"]]
         }
 
         record <- record + episode_i
