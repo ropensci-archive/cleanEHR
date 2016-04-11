@@ -10,14 +10,15 @@ library(data.table)
 #'      \item{\code{data.1d:}}{vector}
 #'      \item{\code{data.2d:}}{vector, store timewise data}
 #'    }
-#' @export ccdata
+#' @export ccRecord
 ccRecord <- setClass("ccRecord",
                      slots=c(npatient="integer",
                              nhs_numbers="data.table",
                              pas_numbers="data.table",
+                             patients="list",
                              CLEANED_TAG="logical",
-                             patients="list"),
-                     prototype=c(npatient=as.integer(0),
+                             AGGREGATED_PATIENT_TAG="logical"),
+                     prototype=prototype(npatient=as.integer(0),
                                  patients=list(),
                                  CLEANED_TAG=FALSE,
                                  AGGREGATED_PATIENT_TAG=FALSE))
@@ -107,3 +108,34 @@ setMethod("addEpisode",
 setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {addEpisode(e1, e2)}
           )
+
+
+setGeneric("aggPatients",
+           function(record) {
+               standardGeneric("aggPatients")
+           })
+
+
+#' Aggregate episodes with the same patient ids (e.g. nhs_number or pas_number)
+#' @param record ccRecord
+setMethod("aggPatients", 
+          c("ccRecord"),
+          function(record) {
+              nhs.duplicated.index<-
+                  record@nhs_number[duplicated(ccd@nhs_number[!'NULL'])]$index
+              pas.duplicated.index <-
+                  record@pas_number[duplicated(ccd@pas_number[!'NULL'])]$index
+
+              duplicated.index <- sort(unique(as.integer(c(nhs.duplicated.index,
+                                                    pas.duplicated.index))))
+              
+              for(id in duplicated.index) {
+                  for (ep in record@patients[[id]]@episodes) {
+                      patient_index <- patientIndex(record,
+                                                    record@patient[[id]])
+
+                      record@patients[[id]]
+                  }
+                  a<-record@patients[[id]]@episodes[[1]]
+              }
+          })
