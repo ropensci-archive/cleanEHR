@@ -43,6 +43,7 @@ setGeneric("addEpisode",
                standardGeneric("addEpisode")
            })
 
+
 #' addEpisode
 setMethod("addEpisode", 
           c("ccPatient", "ccEpisode"),
@@ -114,6 +115,22 @@ setGeneric("aggPatients",
            function(record) {
                standardGeneric("aggPatients")
            })
+
+addRecord <- function(rec1, rec2) {
+    rec1@npatient <- rec1@npatient + rec2@npatient
+    rec1@patients <- append(rec1@patients, rec2@patients)
+
+    nhs_number <-sapply(rec1@patients, function(x) x@nhs_number)
+    pas_number <-sapply(rec1@patients, function(x) x@pas_number)
+    
+    rec1@nhs_numbers <- data.table(index=seq(nhs_number), nhs_number=nhs_number)
+    rec1@pas_numbers <- data.table(index=seq(pas_number), pas_number=pas_number)
+    return(rec1)
+}
+
+setMethod('+', c("ccRecord", "ccRecord"), 
+          function(e1, e2) {addRecord(e1, e2)}
+          )
 
 
 #' Aggregate episodes with the same patient ids (e.g. nhs_number or pas_number)
