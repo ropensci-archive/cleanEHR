@@ -20,13 +20,13 @@ getXmlPatient <- function(xml.root, id) {
 #' @param time.list
 #' @param meta.list
 #' @return list
-patientToDataArray <- function(patient, category.index.table) {
+patientToDataArray <- function(patient) {
     patient_unlist <- unlist(xmlToList(patient, addAttributes=FALSE))
     stdid <- StdId(names(patient_unlist))
     ptable <- data.frame(id=stdid@ids, val=as.vector(patient_unlist))
 
-    valindex <- selectIndex(category.index.table, stdid, "timevars")
-    stampindex <- selectIndex(category.index.table, stdid, "timestamp")
+    valindex <- selectIndex(stdid, "timevars")
+    stampindex <- selectIndex(stdid, "timestamp")
 
     if (length(valindex) != length(stampindex))# data missing values
         return(NULL)
@@ -36,9 +36,9 @@ patientToDataArray <- function(patient, category.index.table) {
                              val=ptable$val[valindex],
                              stringsAsFactors=FALSE)
     data1d <- 
-        data.frame(id=ptable$id[selectIndex(category.index.table, 
+        data.frame(id=ptable$id[selectIndex(
                                             stdid,"simplevar")],
-                   val=ptable$val[selectIndex(category.index.table, 
+                   val=ptable$val[selectIndex(
                                               stdid, "simplevar")],
                    stringsAsFactors=FALSE)
     return(list(data1d=data1d, data2d=data2d))
@@ -53,7 +53,6 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     if(is.null(select.patient))
         select.patient <- seq(patient.num)
 
-    category.index.table <- extractIndexTable() 
 
     if (!quiet)
         pb <- txtProgressBar(min = min(select.patient)-1, 
@@ -63,7 +62,7 @@ xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
     for(patient.id in select.patient){
         episode_i <- ccEpisode()
         patient <- getXmlPatient(xml, patient.id)
-        pdata<- tryCatch(patientToDataArray(patient, category.index.table), 
+        pdata<- tryCatch(patientToDataArray(patient), 
                          error=function(err) {
                              cat(paste(err, "patient.id = ", patient.id, "\n"))
                              stop()

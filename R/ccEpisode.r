@@ -1,12 +1,3 @@
-ccdata.env <- new.env()
-# getItemInfo("PAS number")["NHIC_code"],
-assign('code_pas_number', "NIHR_HIC_ICU_0001", envir=ccdata.env)
-# getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"],
-assign('code_episode_id', "NIHR_HIC_ICU_0005", envir=ccdata.env)
-assign('code_nhs_number', 'NIHR_HIC_ICU_0073', envir=ccdata.env)
-assign('code_site_id', 'NIHR_HIC_ICU_0002', envir=ccdata.env)
-
-
 #' @section Slots: 
 #'   \describe{
 #'      \item{\code{episode_id}: {character}}
