@@ -4,7 +4,7 @@
 \alias{patientToDataArray}
 \title{convert xml data for a given patient and convert them into a list}
 \usage{
-patientToDataArray(patient, category.index.table)
+patientToDataArray(patient)
 }
 \arguments{
 \item{patient}{individual xml patient data}

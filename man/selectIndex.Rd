@@ -4,7 +4,7 @@
 \alias{selectIndex}
 \title{here maybe some checking is necessary.}
 \usage{
-selectIndex(info.index, ids, type)
+selectIndex(ids, type)
 }
 \value{
 an selected index

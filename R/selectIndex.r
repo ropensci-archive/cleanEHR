@@ -32,7 +32,7 @@ extractIndexTable <- function() {
 
 #' here maybe some checking is necessary.
 #' @return an selected index
-selectIndex<- function(info.index, ids, type){
+selectIndex<- function(ids, type){
     id.num <- as.numeric(as.number(ids))
-    return(which(info.index[[type]][id.num] == 1))
+    return(ccdata.env$info.index[[type]][id.num] == 1)
 }
