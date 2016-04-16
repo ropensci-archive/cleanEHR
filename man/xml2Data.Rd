@@ -4,7 +4,7 @@
 \alias{xml2Data}
 \title{convert xml data to ccdata format}
 \usage{
-xml2Data(xml, select.patient = NULL, quiet = TRUE)
+xml2Data(xml, select.episode = NULL, quiet = TRUE)
 }
 \arguments{
 \item{xml}{xml root}

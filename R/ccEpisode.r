@@ -76,11 +76,14 @@ ccEpisode <- function(data=NULL, ...) {
         return(new("ccEpisode", ...))
 
     new.ep<- new("ccEpisode", data=data)
-    
-    new.ep@nhs_number <- data[[ccdata.env$code_nhs_number]]
-    new.ep@pas_number <- data[[ccdata.env$code_pas_number]]
-    new.ep@episode_id <- data[[ccdata.env$code_episode_id]]
-    new.ep@site_id <- data[[ccdata.env$code_site_id]]
+    if (!is.null(data[[ccdata.env$code_nhs_number]]))
+        new.ep@nhs_number <- data[[ccdata.env$code_nhs_number]]
+    if (!is.null(data[[ccdata.env$code_pas_number]]))
+        new.ep@pas_number <- data[[ccdata.env$code_pas_number]]
+    if (!is.null(data[[ccdata.env$code_episode_id]]))
+        new.ep@episode_id <- data[[ccdata.env$code_episode_id]]
+    if (!is.null(data[[ccdata.env$code_site_id]]))
+        new.ep@site_id <- data[[ccdata.env$code_site_id]]
     return(new.ep)
 }
 
