@@ -7,6 +7,7 @@ whichIsCode <- function(nhic) {
 #' extract information from data.checklist
 #' @return list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)], 
 #'         nontime [numeric], MAX_NUM_NHIC
+#' @export extractInfo
 extractInfo <- function() {
     if(!exists("data.checklist"))
         data("data.checklist")
