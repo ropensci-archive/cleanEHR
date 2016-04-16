@@ -6,6 +6,7 @@
 #'      \item{\code{site_id}: {character}}
 #'      \item{\code{data}:}{list}
 #'    }
+#' @exportClass ccEpisode
 #' @export ccEpisode
 ccEpisode <- setClass("ccEpisode",
                       slot=c(episode_id="character",
@@ -68,7 +69,23 @@ addItemData <- function(obj, data) {
 }
 
 
+#' ccEpisode
+#' @export ccEpisode
+ccEpisode <- function(data=NULL, ...) {
+    if (is.null(data))
+        return(new("ccEpisode", ...))
+
+    new.ep<- new("ccEpisode", data=data)
+    
+    new.ep@nhs_number <- data[[ccdata.env$code_nhs_number]]
+    new.ep@pas_number <- data[[ccdata.env$code_pas_number]]
+    new.ep@episode_id <- data[[ccdata.env$code_episode_id]]
+    new.ep@site_id <- data[[ccdata.env$code_site_id]]
+    return(new.ep)
+}
+
 #' add single or multiple record to episode.
+#' @exportMethod +
 setMethod('+', c("ccEpisode", "data.frame"), 
           function(e1, e2) {addItemData(e1,e2)}
           ) 

@@ -22,7 +22,10 @@ ccRecord <- setClass("ccRecord",
                                  patients=list(),
                                  CLEANED_TAG=FALSE,
                                  AGGREGATED_PATIENT_TAG=FALSE))
-
+#' Patient class data
+#' @examples 
+#' p <- ccPatient() #initialise an empty patient.
+#' @export ccPatient
 ccPatient <- setClass("ccPatient",
                       slot=c(pas_number="character",
                              nhs_number="character",
@@ -80,7 +83,8 @@ setMethod("addEpisode",
           })
 
 
-#' overload the addEpisode to patient. 
+#' overload the addEpisode to patient.
+#' @exportMethod +
 setMethod('+', c("ccPatient", "ccEpisode"), 
           function(e1, e2) {addEpisode(e1, e2)}
           )
@@ -115,6 +119,7 @@ setGeneric("aggPatients",
            function(record) {
                standardGeneric("aggPatients")
            })
+
 
 addRecord <- function(rec1, rec2) {
     rec1@npatient <- rec1@npatient + rec2@npatient
