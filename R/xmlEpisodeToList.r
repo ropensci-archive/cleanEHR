@@ -100,8 +100,10 @@ xmlEpisodeToList <- function(episode_node) {
                else if (len == 2) { # 2d item (items in time)
                    nm <- c(.which.type(names(x)[1]), .which.type(names(x)[2]))
                    label <- names(x)[nm == "item2d"]
-                   node_env$ccdata[[label]] <- data.frame(x[[1]], x[[2]])
-                   names(node_env$ccdata[[label]]) <- nm
+                   if (length(label) == 1) {
+                       node_env$ccdata[[label]] <- data.frame(x[[1]], x[[2]])
+                       names(node_env$ccdata[[label]]) <- nm
+                   }
                }
                else if (len == 3) { # time data with meta data, i.e. 3 columns
                    nm <- c(.which.type(names(x)[1]), .which.type(names(x)[2]),
