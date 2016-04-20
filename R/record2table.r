@@ -5,7 +5,8 @@
 #'              those not appearing in the ccRecord
 #' @param file  the name of csv files. If speicified 1d/2d tables will be
 #'              written into two sperate csv files.
-ccRecord2Table <- function(record, items=NULL, file=NULL) {
+#' @export record2Table
+record2Table <- function(record, items=NULL, file=NULL) {
     # the final output should have df_items either the selected items or all
     # possible items, to ensure the time_table for every episodes have a
     # unique number of columns. 
