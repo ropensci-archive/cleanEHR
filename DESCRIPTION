@@ -9,3 +9,4 @@ Description: data manipulation tools for critical care data.
 Depends: R (>= 2.1.0), ggplot2, XML, reshape2, devtools, data.table
 License: GPL-2.0
 Suggests: testthat
+LinkingTo: Rcpp
