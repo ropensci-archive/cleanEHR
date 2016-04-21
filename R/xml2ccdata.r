@@ -19,10 +19,12 @@ getXmlepisode <- function(xml.root, id) {
 
 
 #' convert xml data to ccdata format
-#' @param xml xml root
+#' @param xml can be either xml root or xml file name
 #' @return ccdata 
 #' @export xml2Data
 xml2Data <- function (xml, select.episode=NULL, quiet=TRUE){
+    if (typeof(xml) != "externalptr")
+        xml <- xmlLoad(xml)
     episode.num <- xmlSize(xml[[1]][[2]])
     if(is.null(select.episode))
         select.episode <- seq(episode.num)
