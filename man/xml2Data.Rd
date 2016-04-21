@@ -7,7 +7,7 @@
 xml2Data(xml, select.episode = NULL, quiet = TRUE)
 }
 \arguments{
-\item{xml}{xml root}
+\item{xml}{can be either xml root or xml file name}
 }
 \value{
 ccdata
