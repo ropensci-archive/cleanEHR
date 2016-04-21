@@ -3,14 +3,22 @@
 \docType{methods}
 \name{aggPatients,ccRecord-method}
 \alias{aggPatients,ccRecord-method}
-\title{Aggregate episodes with the same patient ids (e.g. nhs_number or pas_number)}
+\title{return selected index from nhs_number or pas_number}
 \usage{
 \S4method{aggPatients}{ccRecord}(record)
 }
 \arguments{
 \item{record}{ccRecord}
+
+\item{id}{character, either the nhs_number or pas_number}
+
+\item{record}{ccRecord}
+}
+\value{
+index vector
+Aggregate episodes with the same patient ids (e.g. nhs_number or pas_number)
 }
 \description{
-Aggregate episodes with the same patient ids (e.g. nhs_number or pas_number)
+return selected index from nhs_number or pas_number
 }
 
