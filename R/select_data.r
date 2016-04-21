@@ -5,6 +5,9 @@
 readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
                         unlist=TRUE) {
     StdId(item_id)
+    short_name <- ccdata.env$ITEM_REF[['item_id']]$shortName
+    if (is.null(short_name))
+        short_name <- "NULL"
     env <- new.env()
     env$tb <- list()
     lapply(record@patients, 
@@ -33,6 +36,7 @@ readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
                                                           episode_id=x@episode_id, 
                                                           site_id=x@site_id,
                                                           item=item_id,
+                                                          short_name=short_name,
                                                           time=NA,
                                                           val=x@data[[item_id]])
                           }
@@ -44,6 +48,7 @@ readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
                                              episode_id = rep(x@episode_id, nr),
                                              site_id    = rep(x@site_id, nr),
                                              item       = rep(item_id, nr),
+                                             short_name = rep(short_name, nr),
                                              time       = x@data[[item_id]]$time,
                                              val        = x@data[[item_id]]$item2d)
                           }
