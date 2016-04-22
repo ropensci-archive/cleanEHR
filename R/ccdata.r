@@ -18,10 +18,12 @@ ccRecord <- setClass("ccRecord",
                              pas_numbers="data.table",
                              patients="list",
                              CLEANED_TAG="logical",
+                             GOOD_INDEX="logical",
                              AGGREGATED_PATIENT_TAG="logical"),
                      prototype=prototype(npatient=as.integer(0),
                                          patients=list(),
                                          CLEANED_TAG=FALSE,
+                                         GOOD_INDEX=FALSE,
                                          AGGREGATED_PATIENT_TAG=FALSE))
 
 #' add ccEpisode object to ccRecord object
@@ -47,24 +49,41 @@ addEpisodeToRecord <- function(recd, episode) {
     return(recd)
 }
 
-#' @export addDataListToRecord
-addDataListToRecord <- function(rec, data) {
-    rec@CLEANED_TAG <- FALSE
-    rec@patients <- 
-        append(rec@patients, 
-               lapply(data, function(x) ccPatient() + ccEpisode(x)))
-
-    return(rec)
-}
-
-
-
 #' @exportMethod +
 setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {addEpisodeToRecord(e1, e2)}
           )
 
 
+#' @export addDataListToRecord
+addDataListToRecord <- function(rec, data) {
+    rec@CLEANED_TAG <- FALSE
+    rec@patients <- 
+        append(rec@patients, 
+               lapply(data, function(x) ccPatient() + ccEpisode(x)))
+    return(rec)
+}
+
+#' @exportMethod +
+setMethod('+', c("ccRecord", "list"), 
+          function(e1, e2) {addDataListToRecord(e1, e2)}
+          )
+
+
+
+#' Correct the index and meta data information for ccRecord.
+#' It takes only the patient level indexing information. 
+#' @export reindexRecord
+reindexRecord <- function(record) {
+    nhs_numbers <- allPatientsInfo(record, "nhs_number")
+    pas_numbers <- allPatientsInfo(record, "pas_number")
+    record@npatient <- length(record@patients)
+
+    record@nhs_numbers <- data.table(index=seq(record@npatient), nhs_numbers)
+    record@pas_numbers <- data.table(index=seq(record@npatient), pas_numbers)
+
+    return(record)
+}
 
 #' append two ccRecord objects 
 #' @param rec1 ccRecord
