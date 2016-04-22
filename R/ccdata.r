@@ -61,6 +61,7 @@ addDataListToRecord <- function(rec, data) {
     rec@patients <- 
         append(rec@patients, 
                lapply(data, function(x) ccPatient() + ccEpisode(x)))
+    rec <- reindexRecord(rec)
     return(rec)
 }
 
@@ -81,7 +82,7 @@ reindexRecord <- function(record) {
 
     record@nhs_numbers <- data.table(index=seq(record@npatient), nhs_numbers)
     record@pas_numbers <- data.table(index=seq(record@npatient), pas_numbers)
-
+    record@GOOD_INDEX <- TRUE
     return(record)
 }
 

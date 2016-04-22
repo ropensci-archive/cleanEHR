@@ -32,9 +32,12 @@ addEpisodeToPatient <- function(patient, episode) {
     else { # patient has a non-empty pas_number
         if (patient@pas_number == 'NULL')                   
             patient@pas_number <- episode@pas_number
-        else if (patient@pas_number != episode@pas_number & episode@pas_number != 'NULL')
-            stop('ccPatient - Mismatching PAS number', 
-                 patient@pas_number, "!=", episode@pas_number)
+    # NOTE: pas_number is the pas number of the first episode!!! without this
+    # line. 
+#        else if (patient@pas_number != episode@pas_number & episode@pas_number != 'NULL') 
+#        {
+#            stop('ccPatient - Mismatching PAS number ', 
+#                 patient@pas_number, "!=", episode@pas_number)
     }
 
     # check and assign NHS number to patient. 
@@ -44,7 +47,7 @@ addEpisodeToPatient <- function(patient, episode) {
         if (patient@nhs_number == 'NULL')
             patient@nhs_number <- episode@nhs_number
         else if (patient@nhs_number != episode@nhs_number & episode@nhs_number != 'NULL')
-            stop('ccPatient - Mismatching NHS number', 
+            stop('ccPatient - Mismatching NHS number ', 
                  patient@nhs_number, "!=", episode@nhs_number)
     }
 
