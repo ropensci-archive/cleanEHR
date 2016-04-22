@@ -13,12 +13,18 @@ ccEpisode <- setClass("ccEpisode",
                              pas_number="character",
                              nhs_number="character",
                              site_id="character",
+                             admin_icu_time="character",
+                             discharge_icu_time="character",
+                             live_dead="character",
                              data="list"),
                       prototype=list(data=list(),
                                      episode_id="NULL",
                                      pas_number="NULL",
                                      nhs_number="NULL",
-                                     site_id="NULL"))
+                                     site_id="NULL",
+                                     admin_icu_time="NULL",
+                                     discharge_icu_time="NULL",
+                                     live_dead="NULL"))
 
 #' add data in a data frame to an episode.
 #' @param obj episode
@@ -75,15 +81,28 @@ ccEpisode <- function(data=NULL, ...) {
     if (is.null(data))
         return(new("ccEpisode", ...))
 
-    new.ep<- new("ccEpisode", data=data)
+    new.ep <- new("ccEpisode", data=data)
     if (!is.null(data[[ccdata.env$code_nhs_number]]))
         new.ep@nhs_number <- data[[ccdata.env$code_nhs_number]]
+
     if (!is.null(data[[ccdata.env$code_pas_number]]))
         new.ep@pas_number <- data[[ccdata.env$code_pas_number]]
+
     if (!is.null(data[[ccdata.env$code_episode_id]]))
         new.ep@episode_id <- data[[ccdata.env$code_episode_id]]
+
     if (!is.null(data[[ccdata.env$code_site_id]]))
         new.ep@site_id <- data[[ccdata.env$code_site_id]]
+
+    if (!is.null(data[[ccdata.env$code_discharge_icu_t]]))
+        new.ep@discharge_icu_time <- data[[ccdata.env$code_discharge_icu_t]]
+
+    if (!is.null(data[[ccdata.env$code_admin_icu_t]]))
+        new.ep@admin_icu_time <- data[[ccdata.env$code_admin_icu_t]]
+
+    if (!is.null(data[[ccdata.env$code_deadicu_id]]))
+        new.ep@live_dead <- data[[ccdata.env$code_deadicu_id]]
+    
     return(new.ep)
 }
 

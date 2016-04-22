@@ -47,6 +47,18 @@ addEpisodeToRecord <- function(recd, episode) {
     return(recd)
 }
 
+#' @export addDataListToRecord
+addDataListToRecord <- function(rec, data) {
+    rec@CLEANED_TAG <- FALSE
+    rec@patients <- 
+        append(rec@patients, 
+               lapply(data, function(x) ccPatient() + ccEpisode(x)))
+
+    return(rec)
+}
+
+
+
 #' @exportMethod +
 setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {addEpisodeToRecord(e1, e2)}

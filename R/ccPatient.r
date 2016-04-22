@@ -58,22 +58,8 @@ addEpisodeToPatient <- function(patient, episode) {
 }
 
 
-#' add a list of episode to a ccPatient object
-#' @param patient ccPatient
-#' @param eplist list contains ccPatient objects
-#' @export addEpisodeListToPatient
-addEpisodeListToPatient <- function(patient, eplist) {
-    for (i in eplist)
-        patient <- patient + i
-    return(patient)
-}
-
 #' overload the addEpisode to patient.
 #' @exportMethod +
 setMethod('+', c("ccPatient", "ccEpisode"), 
           function(e1, e2) {addEpisodeToPatient(e1, e2)}
           )
-
-#' @exportMethod +
-setMethod('+', c("ccPatient", "list"), 
-          function(e1, e2) {addEpisodeListToPatient(e1, e2)})
