@@ -4,6 +4,8 @@ uniquePatients <- function(record) {
 
     nhs <- record@nhs_numbers
     pas <- record@pas_numbers
+    setkey(nhs, nhs_numbers)
+    setkey(pas, pas_numbers)
 
     # primarily using NHS number; using PAS number while NHS number is not
     # presented.  
