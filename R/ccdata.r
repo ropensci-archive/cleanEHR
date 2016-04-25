@@ -1,16 +1,16 @@
 library(data.table)
 
-#' @section Slots: 
-#'   \describe{
-#'      \item{\code{hospital.id}:}{vector}
-#'      \item{\code{patient.id}:}{vector}
-#'      \item{\code{var.names:}}{vector}
-#'      \item{\code{var.id:}}{vector}
-#'      \item{\code{patient.num:}}{integer}
-#'      \item{\code{data.1d:}}{vector}
-#'      \item{\code{data.2d:}}{vector, store timewise data}
-#'    }
-#' @exportClass ccRecord 
+###' @section Slots: 
+##'   \describe{
+##'      \item{\code{hospital.id}:}{vector}
+##'      \item{\code{patient.id}:}{vector}
+##'      \item{\code{var.names:}}{vector}
+##'      \item{\code{var.id:}}{vector}
+##'      \item{\code{patient.num:}}{integer}
+##'      \item{\code{data.1d:}}{vector}
+##'      \item{\code{data.2d:}}{vector, store timewise data}
+##'    }
+##' @exportClass ccRecord 
 #' @export ccRecord
 ccRecord <- setClass("ccRecord",
                      slots=c(npatient="integer",
@@ -19,12 +19,15 @@ ccRecord <- setClass("ccRecord",
                              patients="list",
                              CLEANED_TAG="logical",
                              GOOD_INDEX="logical",
-                             AGGREGATED_PATIENT_TAG="logical"),
+                             AGGREGATED_PATIENT_TAG="logical",
+                             data_quality="list"),
                      prototype=prototype(npatient=as.integer(0),
                                          patients=list(),
                                          CLEANED_TAG=FALSE,
                                          GOOD_INDEX=FALSE,
-                                         AGGREGATED_PATIENT_TAG=FALSE))
+                                         AGGREGATED_PATIENT_TAG=FALSE,
+                                         data_quality=list()))
+
 
 #' add ccEpisode object to ccRecord object
 #' @param recd ccRecord
