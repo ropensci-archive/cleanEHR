@@ -7,15 +7,16 @@ then
     exit 1
 fi
 
+echo $1 $2
 
 # change the end subject for something different - <tataa>
-sed -e 's|</d:subject>|<tataaa>|' $1 > $1.tmp
+sed -e 's|</subject>|<tataaa>|' $1 > $1.tmp
 
 # Break the file into chuncks where <d:subject> occurs.
-awk '/\<d:subject\>/ { delim++ } {file = sprintf("chunks_%s.txt", int(delim/'$2')); print >> file; }' $1.tmp
+awk '/\<subject\>/ { delim++ } {file = sprintf("chunks_%s.txt", int(delim/'$2')); print >> file; }' $1.tmp
 
 firstline=$(head -n1 chunks_0.txt)
-lastline="</d:data></d:context></d:document>"
+lastline="</data></context></document>"
 nfiles=$(expr `ls chunks_* | wc -l` - 1)
 
 # loop over all the files to add header and footer for each file that needs it
@@ -23,7 +24,7 @@ for i in $(seq 0 ${nfiles})
 do
     echo chunks_${i}
 
-    sed -i 's|<tataaa>|</d:subject>|' chunks_${i}.txt
+    sed -i 's|<tataaa>|</subject>|' chunks_${i}.txt
 
     if [ $i -lt ${nfiles} ]
     then
@@ -38,5 +39,5 @@ do
 
 done
 
-rm $1.tmp
+#rm $1.tmp
 
