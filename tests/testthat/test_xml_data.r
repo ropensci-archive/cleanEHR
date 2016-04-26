@@ -7,9 +7,14 @@ test_that("load xml file",
     
     for (i in seq(2)) {
         for (item in names(ccd@patients[[i]]@episodes[[1]]@data)) {
+            print(item)
             if (getItemInfo(item)['dt_code'] == "NULL")
+              if (ccdata.env$ITEM_REF[[item]]$Datatype != 'numeric')
                 expect_true(
-                    is.character(ccd@patients[[i]]@episodes[[1]]@data[item][[item]]))
+                  is.character(ccd@patients[[i]]@episodes[[1]]@data[item][[item]]))
+              else
+                expect_true(
+                  is.numeric(ccd@patients[[i]]@episodes[[1]]@data[item][[item]]))
             else
                 expect_true(
                     is.data.frame(ccd@patients[[i]]@episodes[[1]]@data[item][[item]]))

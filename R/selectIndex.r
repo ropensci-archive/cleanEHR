@@ -31,3 +31,27 @@ selectIndex<- function(ids, type){
 .which.type <- function(id) {
     return(ccdata.env$checklist[[id]])
 }
+
+#'
+#' @export .which.datatype
+.which.datatype <- function(id) {
+  # List with the convertion operations to do for each datatype
+  operations <- list('numeric' = as.numeric,
+                     'text' = as.character,
+                     'date' = as.character, # They are hashed for now
+                     'time' = as.character, # They are hashed for now
+                     'logical' = as.logical,
+                     'list' = as.character,
+                     'date/time' = as.character, # They are hashed for now
+                     'list / logical' = as.character) # what are they?
+
+  datatype = ccdata.env$ITEM_REF[[id]]$Datatype
+  if (!is.null(datatype)){
+    if (exists(datatype, operations)){
+      return(operations[[datatype]])
+    }
+  }
+  # accounts for not listed or null (eg. when working with dt labels)
+  return(as.character)
+
+}
