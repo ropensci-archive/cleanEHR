@@ -26,11 +26,6 @@ init.data.quality <- function(record) {
 }
 
 
-install_github(
-                    "UCL-HIC/ccdata",
-                    ref="sofa", # specify branch or tag
-                    auth_token="b0d9ea882d45faed268bbec4df3f5c150d082949") #
-
 
 sanity.range <- function(rec, item.ref) {
     e <- new.env()
