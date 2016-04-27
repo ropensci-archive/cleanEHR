@@ -29,8 +29,6 @@ test_that("check cases of duplicated ids", {
     # newly added episode pas_number is 'NULL', and the pas_number should
     # maintain the original value.
     expect_match('pas_num_1', (p + ccEpisode())@pas_number)
-    # pas_number should always be the same for one single patient.
-    expect_error(p + ccEpisode(pas_number='pas_number_2'))
 
     # test NHS number
     p2 <- ccPatient()
