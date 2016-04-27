@@ -2,7 +2,9 @@
 % Please edit documentation in R/select_data.r
 \name{readOneItem}
 \alias{readOneItem}
-\title{Retrieve one item at a time from the ccRecord}
+\title{Retrieve one item at a time from the ccRecord, NOTE: items with meta data,
+i.e. three columns case is not valide for this function, should be improved
+in the future.}
 \usage{
 readOneItem(record, item_id, convert_type = NULL, as.POSIX = FALSE,
   unlist = TRUE)
@@ -13,6 +15,8 @@ readOneItem(record, item_id, convert_type = NULL, as.POSIX = FALSE,
 \item{item_id}{NHIC code}
 }
 \description{
-Retrieve one item at a time from the ccRecord
+Retrieve one item at a time from the ccRecord, NOTE: items with meta data,
+i.e. three columns case is not valide for this function, should be improved
+in the future.
 }
 
