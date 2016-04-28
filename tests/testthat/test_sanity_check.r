@@ -26,13 +26,13 @@ test_that("test sanity check on 1d data",
 
 
     conf$t1$range$accept <- "1 - 5"
-    conf$t1$range$indeterminable <- "0 - 10"
+    conf$t1$range$unusual <- "0 - 10" # unusual
     rc <- check.sanity(rt, conf)
     expect_equal(rc@data_quality[[1]][[1]][["NIHR_HIC_ICU_0001"]], 1)
 
-    conf$t1$range$indeterminable <- "1 - 20"
+    conf$t1$range$unusual <- "1 - 20"
     conf$t1$range$accept <- "1 - 15"
-    conf$t1$range$normal <- "9 - 10"
+    conf$t1$range$normal <- "9 - 10" # normal
     rc <- check.sanity(rt, conf)
     expect_equal(rc@data_quality[[1]][[1]][["NIHR_HIC_ICU_0001"]], 3)
 
@@ -73,7 +73,6 @@ test_that("range not specified",
     expect_true(is.null(rc@data_quality[[1]][[1]][["NIHR_HIC_ICU_0180"]]))
 })
 
-
 test_that("NHIC code Error", 
 {
     rt <- ccRecord() + 
@@ -88,7 +87,6 @@ test_that("NHIC code Error",
 
 test_that("check item doesn't exist in the data", 
 {
-
 
 })
 
