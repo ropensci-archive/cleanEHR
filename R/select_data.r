@@ -37,13 +37,13 @@ readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
                           if (length(x@data[[item_id]]) == 1) {
                               pos <- length(env$tb_1) + 1
                               env$tb_1[[pos]] <- data.table(nhs_number=x@nhs_number, 
-                                                          pas_number=x@pas_number,
-                                                          episode_id=x@episode_id, 
-                                                          site_id=x@site_id,
-                                                          item=item_id,
-                                                          short_name=short_name,
-                                                          time=NA,
-                                                          val=x@data[[item_id]])
+                                                            pas_number=x@pas_number,
+                                                            episode_id=x@episode_id, 
+                                                            site_id=x@site_id,
+                                                            item=item_id,
+                                                            short_name=short_name,
+                                                            time=NA,
+                                                            val=x@data[[item_id]])
                           }
                           else if (length(x@data[[item_id]]) == 2) {
                               pos <- length(env$tb_2) + 1
@@ -60,7 +60,7 @@ readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
                           }
                       })
            })
-    
+
     if (unlist == TRUE) 
         return(list(data1d=rbindlist(env$tb_1), data2d=rbindlist(env$tb_2)))
     else
@@ -81,4 +81,24 @@ readItems <- function(record, item_ids, split=TRUE, ...) {
             tt2d[[id]] <- tt$data2d
     }
     return(list(data1d=rbindlist(tt1d), data2d=rbindlist(tt2d)))
+}
+
+#' @export read.one.item.simple
+read.one.item.simple <- function(record, id, report=FALSE) {
+    nhic <- paste("NIHR_HIC_ICU_", id, sep="")
+    l <- lapply(record@patients, 
+                function(x) 
+                    lapply(x@episodes, 
+                           function(e) e@data[[nhic]]))
+    if (report == TRUE) {
+        check <- lapply(l, 
+                        function(x)
+                            lapply(x, function(y) is.null(y))
+                        )
+        nodata <- length(which(unlist(check)))
+        nep <- length(unlist(check))
+        cat(nodata, "episodes (", round(100 * nodata/nep, digits=2), 
+            "% ) do not have this item. \n")
+    }
+    return(l)
 }
