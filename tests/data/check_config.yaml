@@ -8,7 +8,7 @@ Heart_rate:
     range:
         normal: 40 - 120
         accept: 0 - 200
-        indeterminable: 0 - 250
+        unusual: 0 - 250
 
 Creatinine:
     NHIC: NIHR_HIC_ICU_0166

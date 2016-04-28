@@ -1,5 +1,9 @@
+#' 0 - unaccepted
+#' 1 - unusual
+#' 2 - accepted
+#' 3 - normal
 #' @export check.sanity
-check.sanity <- function(record, ref, verbose=TRUE) {
+check.sanity <- function(record, ref, verbose=FALSE) {
     if (class(ref) == "list")
         ref.yaml <- ref
     else
@@ -37,8 +41,10 @@ init.data.quality <- function(record) {
 sanity.range <- function(rec, item.ref) {
     e <- new.env()
     nhic_code <- item.ref$NHIC
-    if (is.null(nhic_code)) stop("NHIC code must be specified in the
-                                 configuration.")
+    if (is.null(nhic_code)) 
+        stop("NHIC code must be specified in the configuration.")
+    StdId(nhic_code)
+
     e$ptid <- 1
     e$data_quality <- rec@data_quality
 
@@ -84,7 +90,7 @@ yaml_range <- function(ry) {
 #' @export parse_range
 parse_range <- function(range.ref) {
     plist <- list()
-    for (state in c("indeterminable", "accept", "normal")) {
+    for (state in c("unusual", "accept", "normal")) {
         plist[[state]] <- yaml_range(range.ref[state])
     }
     return(plist)
