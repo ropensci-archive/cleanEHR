@@ -43,11 +43,11 @@ addEpisodeToRecord <- function(recd, episode) {
     recd@patients[[index]] <- new.patient
 
     recd@nhs_numbers <- data.table(rbind(recd@nhs_numbers,
-                                        data.frame("index"=index, 
-                                                   "nhs_number"=episode@nhs_number)))
+                                         data.frame("index"=index, 
+                                                    "nhs_number"=episode@nhs_number)))
     recd@pas_numbers <- data.table(rbind(recd@pas_numbers,
-                                        data.frame("index"=index,
-                                                   "pas_number"=episode@pas_number)))
+                                         data.frame("index"=index,
+                                                    "pas_number"=episode@pas_number)))
     recd@npatient <- as.integer(recd@npatient + 1)
     return(recd)
 }
@@ -111,3 +111,26 @@ addRecord <- function(rec1, rec2) {
 setMethod('+', c("ccRecord", "ccRecord"), 
           function(e1, e2) {addRecord(e1, e2)}
           )
+
+
+#' @exportMethod [
+setMethod("[", c("ccRecord", "ANY", "ANY"), 
+          function(x, i, j, k=NULL) {
+              if (is.null(k))
+                  return(x@patients[[i]]@episodes[[j]])
+              else
+                  return(x@patients[[i]]@episodes[[j]]@data[[k]])
+          })
+
+setMethod("[", c("ccRecord", "ANY", "missing"), 
+          function(x, i, j) {
+              return(x@patients[[i]])
+          })
+
+
+
+#' @export setValue
+setValue <- function(record, p, e, d, val){
+    eval.parent(substitute(
+            record@patients[[p]]@episodes[[e]]@data[[d]] <- val))
+}
