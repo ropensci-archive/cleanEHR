@@ -1,6 +1,10 @@
 #' @export check.sanity
 check.sanity <- function(record, ref) {
-    ref.yaml <- yaml.load_file(ref)
+    if (class(ref) == "list")
+        ref.yaml <- ref
+    else
+        ref.yaml <- yaml.load_file(ref)
+
     record <- init.data.quality(record)
     for (item_name in names(ref.yaml)) {
         cat('checking item', item_name, "...\n")
