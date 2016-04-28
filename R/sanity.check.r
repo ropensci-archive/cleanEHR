@@ -1,5 +1,5 @@
 #' @export check.sanity
-check.sanity <- function(record, ref) {
+check.sanity <- function(record, ref, verbose=TRUE) {
     if (class(ref) == "list")
         ref.yaml <- ref
     else
@@ -7,7 +7,9 @@ check.sanity <- function(record, ref) {
 
     record <- init.data.quality(record)
     for (item_name in names(ref.yaml)) {
-        cat('checking item', item_name, "...\n")
+        if (verbose)
+            cat('checking item', item_name, "...\n")
+
         item <- ref.yaml[[item_name]]
 
         if (!is.null(item[["range"]])) {
@@ -35,6 +37,8 @@ init.data.quality <- function(record) {
 sanity.range <- function(rec, item.ref) {
     e <- new.env()
     nhic_code <- item.ref$NHIC
+    if (is.null(nhic_code)) stop("NHIC code must be specified in the
+                                 configuration.")
     e$ptid <- 1
     e$data_quality <- rec@data_quality
 
