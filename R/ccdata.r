@@ -61,9 +61,25 @@ setMethod('+', c("ccRecord", "ccEpisode"),
 #' @export addDataListToRecord
 addDataListToRecord <- function(rec, data) {
     rec@CLEANED_TAG <- FALSE
-    rec@patients <- 
-        append(rec@patients, 
-               lapply(data, function(x) ccPatient() + ccEpisode(x)))
+    if (is.list(data[[1]][[1]][[1]])) {
+        rec@patients <- 
+            append(rec@patients, 
+                   lapply(data, 
+                          function(p) {
+                              env <- environment()
+                              patient <- ccPatient()
+                              lapply(p, 
+                                     function(e)
+                                         env$patient <- env$patient + ccEpisode(e)
+                                     )
+                              return(patient)
+                          }))
+    }
+    else if (is.list(data[[1]][[1]])) {
+        rec@patients <- 
+            append(rec@patients, 
+                   lapply(data, function(x) ccPatient() + ccEpisode(x)))
+    }
     rec <- reindexRecord(rec)
     return(rec)
 }
@@ -132,5 +148,5 @@ setMethod("[", c("ccRecord", "ANY", "missing"),
 #' @export setValue
 setValue <- function(record, p, e, d, val){
     eval.parent(substitute(
-            record@patients[[p]]@episodes[[e]]@data[[d]] <- val))
+                           record@patients[[p]]@episodes[[e]]@data[[d]] <- val))
 }
