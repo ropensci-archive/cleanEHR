@@ -44,7 +44,6 @@ deltaTime <- function(record, anonymised=FALSE) {
     update_time <- function(ep) {
         env <- environment()
         admin_icu_time <- ep@admin_icu_time
-        cat("-")
         lapply(ep@data,
                function(data) {
                    if (length(data) > 1) {
