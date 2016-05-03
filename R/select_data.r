@@ -36,31 +36,30 @@ readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
 
                           if (length(x@data[[item_id]]) == 1) {
                               pos <- length(env$tb_1) + 1
-                              env$tb_1[[pos]] <- data.table(nhs_number=x@nhs_number, 
+                              env$tb_1[[pos]] <- .simple.data.frame(list(nhs_number=x@nhs_number, 
                                                             pas_number=x@pas_number,
                                                             episode_id=x@episode_id, 
                                                             site_id=x@site_id,
                                                             item=item_id,
                                                             short_name=short_name,
                                                             time=NA,
-                                                            val=x@data[[item_id]])
+                                                            val=x@data[[item_id]]))
                           }
                           else if (length(x@data[[item_id]]) == 2) {
                               pos <- length(env$tb_2) + 1
                               nr <- nrow(x@data[[item_id]])
                               env$tb_2[[pos]] <-
-                                  data.table(nhs_number = rep(x@nhs_number, nr), 
+                                  .simple.data.frame(list(nhs_number = rep(x@nhs_number, nr), 
                                              pas_number = rep(x@pas_number, nr),  
                                              episode_id = rep(x@episode_id, nr),
                                              site_id    = rep(x@site_id, nr),
                                              item       = rep(item_id, nr),
                                              short_name = rep(short_name, nr),
                                              time       = x@data[[item_id]]$time,
-                                             val        = x@data[[item_id]]$item2d)
+                                             val        = x@data[[item_id]]$item2d))
                           }
                       })
            })
-
     if (unlist == TRUE) 
         return(list(data1d=rbindlist(env$tb_1), data2d=rbindlist(env$tb_2)))
     else
@@ -101,4 +100,15 @@ read.one.item.simple <- function(record, id, report=FALSE) {
             "% ) do not have this item. \n")
     }
     return(l)
+}
+
+#' This is a simplified version of as.data.frame, which overcomes the
+#' performance problem we encountered in readItems()
+#' @export .simple.data.frame
+.simple.data.frame <- function(x) {
+    nm <- names(x)
+    attr(x, "row.names") <- .set_row_names(length(x[[1]]))
+    attr(x, "col.names") <- nm
+    class(x) <- "data.frame"
+    x
 }
