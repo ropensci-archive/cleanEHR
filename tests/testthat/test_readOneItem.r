@@ -1,6 +1,6 @@
 context("Testing readOneItem")
 
-test_that("readOneItem", 
+test_that("read time series data (data2d)", 
 {
     table <- readOneItem(ccd, "NIHR_HIC_ICU_0108")
 
