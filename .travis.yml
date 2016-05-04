@@ -1,8 +1,12 @@
-laguage: r
+language: r
 cache: packages
+sudo: false
 
-before_deploy:
-  #  - R -e "install.packages('roxygen2', 'devtools', 'XML', 'ggplot2')"
+r_packages:
+  - roxygen2
+  - devtools
+  - XML
+  - yaml
 
 script:
-  R -e "library(devtools); test()"
+  - Rscript -e "library(devtools); test()"
