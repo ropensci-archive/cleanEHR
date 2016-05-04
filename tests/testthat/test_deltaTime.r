@@ -25,5 +25,4 @@ test_that("convert to delta time and convert it back",
                      })
 
     expect_equal(time_origin, time_restore)
-
 })
