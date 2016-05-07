@@ -1,7 +1,9 @@
 #!/usr/bin/Rscript
 library(methods)
-args <- commandArgs(trailingOnly = TRUE)
+library(Rcpp)
 
+args <- commandArgs(trailingOnly = TRUE)
+compileAttributes()
 #create documents
 if(length(args)>0){
     if(args[1] == "man"){

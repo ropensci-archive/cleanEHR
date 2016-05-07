@@ -5,7 +5,7 @@
 \title{convert calendar time data in a record to delta time comparing to the ICU
 admission time.}
 \usage{
-deltaTime(record, anonymised = FALSE)
+deltaTime(record, anonymised = FALSE, units = "hours", tdiff = FALSE)
 }
 \description{
 convert calendar time data in a record to delta time comparing to the ICU
