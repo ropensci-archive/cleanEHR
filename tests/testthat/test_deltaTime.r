@@ -2,7 +2,7 @@ context("Testing deltaTime")
 
 test_that("convert to delta time and convert it back",
 {
-    dt <- deltaTime(ccd, anonymised=TRUE)
+    dt <- deltaTime(ccd, anonymised=TRUE, tdiff=TRUE)
     time_restore <- for_each_episode(dt, 
                      function(episode) {
                          env <- environment() 
@@ -23,6 +23,5 @@ test_that("convert to delta time and convert it back",
                                     }
                                 })
                      })
-
-    expect_equal(time_origin, time_restore)
+    expect_equivalent(time_origin, time_restore)
 })
