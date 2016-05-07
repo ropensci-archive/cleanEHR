@@ -13,7 +13,6 @@ test_that("convert to delta time and convert it back",
                                     }
                                 })
                      })
-
     time_origin <- for_each_episode(ccd, 
                      function(episode) {
                          lapply(episode@data,
@@ -23,5 +22,6 @@ test_that("convert to delta time and convert it back",
                                     }
                                 })
                      })
+
     expect_equivalent(time_origin, time_restore)
 })
