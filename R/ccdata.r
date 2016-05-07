@@ -11,6 +11,9 @@ library(data.table)
 ##'      \item{\code{data.2d:}}{vector, store timewise data}
 ##'    }
 ##' @exportClass ccRecord 
+#' @importFrom Rcpp evalCpp
+#' @useDynLib ccdata 
+#' @export reallocateTime
 #' @export ccRecord
 ccRecord <- setClass("ccRecord",
                      slots=c(npatient="integer",

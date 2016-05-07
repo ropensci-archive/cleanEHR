@@ -3,4 +3,7 @@ all:
 check:
 	R CMD check '.'
 test:
-	@R -e 'library(devtools); test()'
+	@Rscript -e 'library(devtools); test()'
+
+clean:
+	rm -rf src/*.o src/*.so

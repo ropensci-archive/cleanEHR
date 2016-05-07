@@ -26,7 +26,7 @@ find.episode.time <- function(episode) {
 #' convert calendar time data in a record to delta time comparing to the ICU
 #' admission time. 
 #' @export deltaTime
-deltaTime <- function(record, anonymised=FALSE) {
+deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
 
     # for anonymised data only: 
     # convert hash admin time to the earliest time of the record
@@ -47,8 +47,12 @@ deltaTime <- function(record, anonymised=FALSE) {
         lapply(ep@data,
                function(data) {
                    if (length(data) > 1) {
-                       data$time <- xmlTime2POSIX(data$time) - 
-                           xmlTime2POSIX(env$admin_icu_time)
+                       data$time <- difftime(xmlTime2POSIX(data$time), 
+                                             xmlTime2POSIX(env$admin_icu_time),
+                                             units=units)
+                       if (!tdiff)
+                           data$time <- as.numeric(data$time)
+
                    }
                    return(data)
                })
@@ -66,6 +70,6 @@ deltaTime <- function(record, anonymised=FALSE) {
             }
         }
     }
-    
+
     return(record)
 }
