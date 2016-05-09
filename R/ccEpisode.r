@@ -77,7 +77,7 @@ addItemData <- function(obj, data) {
 
 #' ccEpisode
 #' @export ccEpisode
-ccEpisode <- function(data=NULL, ...) {
+ccEpisode <- function(data=NULL, anon=FALSE, ...) {
     if (is.null(data))
         return(new("ccEpisode", ...))
 
@@ -95,14 +95,16 @@ ccEpisode <- function(data=NULL, ...) {
         new.ep@site_id <- data[[ccdata.env$code_site_id]]
 
     if (!is.null(data[[ccdata.env$code_discharge_icu_t]]))
-        new.ep@discharge_icu_time <- data[[ccdata.env$code_discharge_icu_t]]
+        new.ep@discharge_icu_time <-
+            xmlTime2POSIX(data[[ccdata.env$code_discharge_icu_t]])
 
     if (!is.null(data[[ccdata.env$code_admin_icu_t]]))
-        new.ep@admin_icu_time <- data[[ccdata.env$code_admin_icu_t]]
+        new.ep@admin_icu_time <-
+            xmlTime2POSIX(data[[ccdata.env$code_admin_icu_t]])
 
     if (!is.null(data[[ccdata.env$code_deadicu_id]]))
         new.ep@live_dead <- data[[ccdata.env$code_deadicu_id]]
-    
+
     return(new.ep)
 }
 
