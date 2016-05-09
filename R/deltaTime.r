@@ -70,6 +70,7 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
             }
         }
     }
+    
 
     return(record)
 }

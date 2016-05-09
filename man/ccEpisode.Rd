@@ -4,7 +4,7 @@
 \alias{ccEpisode}
 \title{ccEpisode}
 \usage{
-ccEpisode(data = NULL, ...)
+ccEpisode(data = NULL, anon = FALSE, ...)
 }
 \description{
 ccEpisode
