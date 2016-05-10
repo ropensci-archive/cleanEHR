@@ -9,7 +9,7 @@ reallocateTime <- function(d, t_discharge, frequency) {
     return(reallocateTime_(d_, t_discharge, frequency))
 }
 
-
+#' @export findMaxTime
 findMaxTime <- function(episode) {
     maxlist <- lapply(episode@data, 
                       function(item){
@@ -19,6 +19,7 @@ findMaxTime <- function(episode) {
     return(max(unlist(maxlist)))
 }
 
+#' @export findMinTime
 findMinTime <- function(episode) {
     maxlist <- lapply(episode@data, 
                       function(item){
@@ -36,21 +37,24 @@ findMinTime <- function(episode) {
 #' @export getEpisodePeriod
 getEpisodePeriod <- function (e, unit="hours") {
     if (class(e@admin_icu_time)[1] != "POSIXct")
-        tadmin <- xmlTime2POSIX(e@admin_icu_time)
+        tadm <- xmlTime2POSIX(e@admin_icu_time, allow=T)
     else 
-        tadmin <- e@admin_icu_time
+        tadm <- e@admin_icu_time
 
     if (class(e@discharge_icu_time)[1] != "POSIXct")
-        tdisc <- xmlTime2POSIX(e@discharge_icu_time)
+        tdisc <- xmlTime2POSIX(e@discharge_icu_time, allow=T)
     else 
         tdisc <- e@discharge_icu_time
 
-    if (is.na(tadmin) || is.na(tdisc))
+    if (is.na(tadm) || is.na(tdisc))
         period_length <- findMaxTime(e)
     else
-        period_length <- as.numeric(tdisc - tadmin,
+        period_length <- as.numeric(tdisc - tadm,
                                     units=unit)
-    if (is.na(period_length))
+    # in cases that tdisc == tadm
+    if (period_length == 0)
+        period_length <- period_length + 1
+    if (is.na(period_length) || abs(period_length) == Inf)
         stop("wrong period_length at episode: ", 
              "\nepisode_id =", e@episode_id, 
              "\nnhs_number =", e@nhs_number, 

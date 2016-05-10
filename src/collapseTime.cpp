@@ -22,7 +22,7 @@ DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float freq
   std::vector<float> tnew;
   std::vector<std::string> vnew;
   float tt = 0;
-  while(tt < t_discharge) {
+  while(tt <= t_discharge) {
     vnew.push_back("NA");
     tnew.push_back(tt);
     tt += frequency;
