@@ -1,10 +1,10 @@
 #' select one data item from ccRecord by unit by time
 #' @export select_data
-select_data <- function(record, item, sites=NULL, years=NULL, propagate=FALSE,
-                        frequency=NULL) 
+select_data <- function(record, item, sites=NULL, years=NULL, propgt=FALSE,
+                        freq=NULL) 
 {
-    if(is.null(frequency) & !propagate)
-        stop("specify frequency if you want to propagate the variable")
+    if (is.null(freq) & propgt) 
+        stop("specify frequency if you want to propgt the variable")
 
     env <- environment()
     result <- list()
@@ -30,13 +30,13 @@ select_data <- function(record, item, sites=NULL, years=NULL, propagate=FALSE,
 
                          # copy data out
                          if (in_site & in_year) {
-                             if (propagate == TRUE) {
+                             if (propgt == TRUE) {
                                  if (length(ep@data[[item]]) > 1) {
                                      period_length <- getEpisodePeriod(ep)
                                      tryCatch(env$result[[length(env$result) + 1]] <- 
                                          reallocateTime(ep@data[[item]],
                                                         period_length,
-                                                        frequency),
+                                                        freq),
                                               error=function(e) {
                                                   print(ep@data[[item]]); stop()
                                               })
