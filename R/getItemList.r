@@ -1,7 +1,9 @@
 #' getItemList
-#' @export getItemList
-getItemList <- function(record, items, freq, item.name=NULL) {
-    lt <- for_each_episode(record,
+#' @export selectTable
+selectTable <- function(record, items, freq, item.name=NULL) {
+    env <- environment()
+    lt <- list()
+    for_each_episode(record,
                      function(ep) {
                          if (all(items %in% names(ep@data))) {
                              result <- list()
@@ -13,7 +15,7 @@ getItemList <- function(record, items, freq, item.name=NULL) {
                              nlength <- length(result[["time"]])
                              result[["site"]] <- rep(ep@site_id, nlength)
                              result[["episode_id"]] <- rep(ep@episode_id, nlength)
-                             return(.simple.data.frame(result))
+                             env$lt[[length(lt) + 1]]<- .simple.data.frame(result)
                          }
                      })
     return(rbindlist(lt))

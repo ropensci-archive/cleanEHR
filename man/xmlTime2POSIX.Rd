@@ -2,13 +2,17 @@
 % Please edit documentation in R/xmlTime2POSIX.r
 \name{xmlTime2POSIX}
 \alias{xmlTime2POSIX}
-\title{convert time from xml table to POSIX format.
-e.g. 2014-02-01T03:00:00 -> 2014-02-01 03:00:00}
+\title{convert time from xml table to POSIX format.}
 \usage{
-xmlTime2POSIX(xml.time)
+xmlTime2POSIX(xml.time, allow = FALSE)
+}
+\arguments{
+\item{allow}{If allow is FASLE, it returns error when time format is wrong,
+however it allows exceptions when "allow" is set to be true, where it
+returns NA. It is useful when dealing with anonymised data.
+e.g. 2014-02-01T03:00:00 -> 2014-02-01 03:00:00}
 }
 \description{
 convert time from xml table to POSIX format.
-e.g. 2014-02-01T03:00:00 -> 2014-02-01 03:00:00
 }
 
