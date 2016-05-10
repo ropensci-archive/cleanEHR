@@ -50,6 +50,14 @@ getEpisodePeriod <- function (e, unit="hours") {
     else
         period_length <- as.numeric(tdisc - tadmin,
                                     units=unit)
+    if (is.na(period_length))
+        stop("wrong period_length at episode: ", 
+             "\nepisode_id =", e@episode_id, 
+             "\nnhs_number =", e@nhs_number, 
+             "\npas_number =", e@pas_number,
+             "\nperiod_length =", period_length, "\n")
+
+
     return(period_length)
 }
 
@@ -68,7 +76,7 @@ reallocateTimeRecord <- function(record, delta=0.5) {
                                     env <- environment()
                                     # make sure admin and disc time is correct
                                     period_length <- getEpisodePeriod(e)
-                                    
+
                                     # calling reallocateTime for each data item
                                     lapply(e@data, 
                                            function(d) {
