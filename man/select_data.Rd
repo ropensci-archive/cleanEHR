@@ -4,8 +4,8 @@
 \alias{select_data}
 \title{select one data item from ccRecord by unit by time}
 \usage{
-select_data(record, item, sites = NULL, years = NULL, propagate = FALSE,
-  frequency = NULL)
+select_data(record, item, sites = NULL, years = NULL, propgt = FALSE,
+  freq = NULL)
 }
 \description{
 select one data item from ccRecord by unit by time
