@@ -28,6 +28,34 @@ findMinTime <- function(episode) {
     return(max(unlist(maxlist)))
 }
 
+
+
+#' getEpisodePeriod
+#' @param e episode
+#' @return period_length
+#' @export getEpisodePeriod
+getEpisodePeriod <- function (e, unit="hours") {
+    if (class(e@admin_icu_time)[1] != "POSIXct")
+        tadmin <- xmlTime2POSIX(e@admin_icu_time)
+    else 
+        tadmin <- e@admin_icu_time
+
+    if (class(e@discharge_icu_time)[1] != "POSIXct")
+        tdisc <- xmlTime2POSIX(e@discharge_icu_time)
+    else 
+        tdisc <- e@discharge_icu_time
+
+    if (is.na(tadmin) || is.na(tdisc))
+        period_length <- findMaxTime(e)
+    else
+        period_length <- as.numeric(tdisc - tadmin,
+                                    units=unit)
+    return(period_length)
+}
+
+
+
+
 #' Propagate a numerical delta time interval record.
 #' @param record ccRecord
 #' @param delta time frequency in hours
@@ -39,21 +67,8 @@ reallocateTimeRecord <- function(record, delta=0.5) {
                                 function(e) {
                                     env <- environment()
                                     # make sure admin and disc time is correct
-                                    if (class(e@admin_icu_time)[1] != "POSIXct")
-                                        tadmin <- xmlTime2POSIX(e@admin_icu_time)
-                                    else 
-                                        tadmin <- e@admin_icu_time
-
-                                    if (class(e@discharge_icu_time)[1] != "POSIXct")
-                                        tdisc <- xmlTime2POSIX(e@discharge_icu_time)
-                                    else 
-                                        tdisc <- e@discharge_icu_time
-
-                                    if (is.na(tadmin) || is.na(tdisc))
-                                        period_length <- findMaxTime(e)
-                                    else
-                                        period_length <- as.numeric(tdisc - tadmin,
-                                                                units="hours")
+                                    period_length <- getEpisodePeriod(e)
+                                    
                                     # calling reallocateTime for each data item
                                     lapply(e@data, 
                                            function(d) {
@@ -65,6 +80,3 @@ reallocateTimeRecord <- function(record, delta=0.5) {
                                 })
     return(ccRecord() + newdata)
 }
-
-
-
