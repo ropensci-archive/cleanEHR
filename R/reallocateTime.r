@@ -16,19 +16,13 @@ findMaxTime <- function(episode) {
                           if(length(item) > 1)
                               return(max(item$time))
                       })
-    return(max(unlist(maxlist)))
-}
+    maximum <- unlist(maxlist)
 
-#' @export findMinTime
-findMinTime <- function(episode) {
-    maxlist <- lapply(episode@data, 
-                      function(item){
-                          if(length(item) > 1)
-                              return(max(item$time))
-                      })
-    return(max(unlist(maxlist)))
+    if (is.null(maximum))
+        return(maximum)
+    else
+        return(max((maxlist)))
 }
-
 
 
 #' getEpisodePeriod
@@ -52,14 +46,17 @@ getEpisodePeriod <- function (e, unit="hours") {
         period_length <- as.numeric(tdisc - tadm,
                                     units=unit)
     # in cases that tdisc == tadm
-    if (period_length == 0)
-        period_length <- period_length + 1
-    if (is.na(period_length) || abs(period_length) == Inf)
-        stop("wrong period_length at episode: ", 
-             "\nepisode_id =", e@episode_id, 
-             "\nnhs_number =", e@nhs_number, 
-             "\npas_number =", e@pas_number,
-             "\nperiod_length =", period_length, "\n")
+    if (!is.null(period_length)) {
+        if (period_length == 0)
+            period_length <- period_length + 1
+    }
+
+    if (is.null(period_length))
+        warning("This episode does not have any time series data: ", 
+             " episode_id = ", e@episode_id, 
+             " nhs_number = ", e@nhs_number, 
+             " pas_number = ", e@pas_number,
+             " period_length = ", period_length, "\n")
 
 
     return(period_length)

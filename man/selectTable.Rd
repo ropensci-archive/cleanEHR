@@ -4,7 +4,19 @@
 \alias{selectTable}
 \title{getItemList}
 \usage{
-selectTable(record, items, freq, item.name = NULL)
+selectTable(record, items_opt = NULL, items_obg = NULL, freq,
+  item.name = NULL)
+}
+\arguments{
+\item{record}{ccRecord}
+
+\item{items_opt}{optional items}
+
+\item{items_obg}{obligatory items that is obligatory; Any episode that doesn't contain
+item in this vector will be removed.}
+}
+\value{
+data.table
 }
 \description{
 getItemList
