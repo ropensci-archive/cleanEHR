@@ -2,6 +2,7 @@ library(ccdata)
 if (!exists("ccd_delta_num"))
     load("../data/delta_num.Rdata")
 
+# find out 2D data labels
 is.2d <- function(codes) {
     c2d <- vector()
     for (i in codes) {
@@ -11,7 +12,7 @@ is.2d <- function(codes) {
     c2d
 }
 
-
+# get long names of items
 longname <- function(x) {
     ln <- vector()
     for(i in x)
