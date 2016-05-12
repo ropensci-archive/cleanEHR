@@ -31,10 +31,11 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq, item.name=
                              }
                          }
                      })
+    dt <- rbindlist(lt)
+    
     if (!is.null(item.name))
-        names(lt) <- c("time", item.name, "site", "episode_id")
-
-    return(rbindlist(lt))
+        setnames(dt, c("time", item.name, "site", "episode_id"))
+    return(dt)
 }
 
 #' @export itemsToDataFrame
