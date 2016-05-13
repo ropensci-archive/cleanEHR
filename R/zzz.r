@@ -20,3 +20,9 @@
     assign('checklist', extractIndexTable(), envir=ccdata.env)
 
 }
+
+#' This is a patch for reloading environment variables after doing clean all.
+#' @export recreate.env
+recreate.env <- function() {
+    .onLoad()
+}

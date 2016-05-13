@@ -3,8 +3,8 @@
 .Rapp.history
 
 # Cpp object and share library
-.o
-.so
+*.o
+*.so
 
 # Check files
 ..Rcheck
