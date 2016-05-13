@@ -4,7 +4,7 @@ test_that("unit test with data from 1-10",
 {
    data <- data.frame(item2d=as.character(seq(10)), 
                       time=as.numeric(seq(10)))
-   data_new <- reallocateTime(data, 11, 1)
+   data_new <- reallocateTime(data, 10, 1)
 
    expect_equivalent(c(0:10), as.numeric(data_new$time))
    expect_equivalent(as.character(c("NA", seq(10))), as.character(data_new$val))
