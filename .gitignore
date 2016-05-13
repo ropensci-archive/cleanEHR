@@ -2,6 +2,10 @@
 .Rhistory
 .Rapp.history
 
+# Cpp object and share library
+.o
+.so
+
 # Check files
 ..Rcheck
 
