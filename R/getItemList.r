@@ -5,7 +5,8 @@
 #' @param items_opt optional items
 #' @return data.table
 #' @export selectTable
-selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq, item.name=NULL) {
+selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
+                        item.name=NULL, return_list=FALSE) {
     all_items <- c(items_opt, items_obg)
     if (is.null(all_items))
         stop('both items_opt and items_obg are NULL')
@@ -31,6 +32,9 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq, item.name=
                              }
                          }
                      })
+    if (return_list)
+        return(lt)
+
     dt <- rbindlist(lt)
     
     if (!is.null(item.name))

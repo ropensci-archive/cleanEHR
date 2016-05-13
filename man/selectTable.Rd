@@ -5,7 +5,7 @@
 \title{getItemList}
 \usage{
 selectTable(record, items_opt = NULL, items_obg = NULL, freq,
-  item.name = NULL)
+  item.name = NULL, return_list = FALSE)
 }
 \arguments{
 \item{record}{ccRecord}
