@@ -27,4 +27,6 @@ var2d <- is.2d(names(yml))
 labels <- longname(var2d)
 
 
-tb <- selectTable(ccd_delta_num, items_opt=var2d, freq=1, item.name=labels)
+tb <- selectTable(ccd_delta_num, items_opt=var2d, freq=1, item.name=labels,
+                  return_list=TRUE)
+lt <- list_interpolation(tb, "NHIR_HIC_ICU_0108", lead=5, lag=5)
