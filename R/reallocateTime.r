@@ -13,15 +13,18 @@ reallocateTime <- function(d, t_discharge, frequency) {
 findMaxTime <- function(episode) {
     maxlist <- lapply(episode@data, 
                       function(item){
-                          if(length(item) > 1)
+                          if(length(item) > 1) {
+                              if (!is.numeric(item$time))
+                                  item$time <-
+                                      as.numeric(as.character(item$time))
                               return(max(item$time))
+                          }
                       })
     maximum <- unlist(maxlist)
-
     if (is.null(maximum))
         return(maximum)
     else
-        return(max((maxlist)))
+        return(max((maximum)))
 }
 
 
