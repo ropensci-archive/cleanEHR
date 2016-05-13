@@ -10,7 +10,7 @@ interpolateVec <- function(v, lead, lag, FUN=mean, ...) {
 
     n_x <- sapply(na.ind, 
                   function(i) {
-                      FUN(v2[i + lead + seq(-lead, lag)], na.rm=T, ...)
+                      FUN(v2[i + lead + seq(-lead, lag)], ...)
                   })
     v[na.ind] <- n_x
     v
