@@ -1,27 +1,47 @@
 #' perform window period approximation on a given numeric vector. Window is
-#' specified by leap and lag.
+#' specified by lead and lag.
 #' @param v vector
-#' @param leap number of forward element from the centre of the window.
+#' @param lead number of forward element from the centre of the window.
 #' @export interpolateVec
-interpolateVec <- function(v, leap, lag, FUN=mean) {
+interpolateVec <- function(v, lead, lag, FUN=mean, ...) {
     v <- suppressWarnings(as.numeric(as.character(v)))
     na.ind <- which(is.na(v))
-    v2 <- c(rep(NA, leap), v, rep(NA, lag))
+    v2 <- c(rep(NA, lead), v, rep(NA, lag))
 
     n_x <- sapply(na.ind, 
                   function(i) {
-                      FUN(v2[i + leap + seq(-leap, lag)], na.rm=T)
+                      FUN(v2[i + lead + seq(-lead, lag)], na.rm=T, ...)
                   })
     v[na.ind] <- n_x
     v
 }
 
 #' @export list_interpolation 
-list_interpolation <- function(l, item_id, leap=1, lag=1) {
+list_interpolation <- function(l, item_id, lead=1, lag=1, FUN=mean, ...) {
+    if (!all(item_id %in% names(l[[1]])))
+        stop('item_id cannot be found in the list.')
+
+    check_ <- function(var, name) {
+        if(length(item_id) != length(var)) {
+            if (length(var) == 1) 
+                var <- rep(var, length(item_id))
+            else  stop(paste('length of', name, 'is not correct.', name, '=',
+                             length(var), 'item_id = ', length(item_id)))
+        }
+        var
+    }
+
+    lean <- check_(lead, "lead")
+    lag <- check_(lag, "lag")
+    FUN <- check_(FUN, "FUN")
+
     lapply(l, 
            function(episode) {
-               #print(episode[item_id])
-               episode[[item_id]] <- interpolateVec(episode[[item_id]], leap, lag)
+               for (i in seq(item_id)) {
+                   episode[[item_id[i]]] <-
+                       interpolateVec(episode[[item_id[i]]], lead[[i]],
+                                                    lag[[i]], FUN[[i]], ...)
+               }
                episode
            })
 }
