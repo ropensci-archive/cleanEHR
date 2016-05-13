@@ -3,17 +3,17 @@
 \name{interpolateVec}
 \alias{interpolateVec}
 \title{perform window period approximation on a given numeric vector. Window is
-specified by leap and lag.}
+specified by lead and lag.}
 \usage{
-interpolateVec(v, leap, lag, FUN = mean)
+interpolateVec(v, lead, lag, FUN = mean, ...)
 }
 \arguments{
 \item{v}{vector}
 
-\item{leap}{number of forward element from the centre of the window.}
+\item{lead}{number of forward element from the centre of the window.}
 }
 \description{
 perform window period approximation on a given numeric vector. Window is
-specified by leap and lag.
+specified by lead and lag.
 }
 
