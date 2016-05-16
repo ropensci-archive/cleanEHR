@@ -16,10 +16,10 @@ interpolateVec <- function(v, lead, lag, FUN=mean, ...) {
     v
 }
 
-#' 
+#' interpolate list format 
 #' @param lead 
 #' @param lag 
-#' @param 
+#' @param FUN function 
 #' @export list_interpolation 
 list_interpolation <- function(l, item_id, lead=1, lag=1, FUN=mean, ...) {
     if (!all(item_id %in% names(l[[1]])))

@@ -9,9 +9,6 @@ getXmlepisode(xml.root, id)
 \arguments{
 \item{xml.root}{root of xml data returned by xmlLoad()}
 }
-\value{
-episode xml data
-}
 \description{
 get the episode data from xml
 }
