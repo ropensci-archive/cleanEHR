@@ -1,4 +1,5 @@
 library(ccdata)
+library(pander)
 if(!exists("ccd"))
 load("../data/ccRecord.Rdata")
 #    stop("we need ccd record - propagated numeric time record")
@@ -89,7 +90,7 @@ nhic_1d <-
     as.character(data.checklist$NHICcode[
                  data.checklist$Classification1!="Demographic"])
 
-
+txt <- ""
 for (i in nhic_1d) {
     have_data <- unlist(for_each_episode(ccd, function(ep) 
                                   have_data=any(names(ep@data) == i)))
@@ -97,9 +98,9 @@ for (i in nhic_1d) {
     stopifnot(nrow(have_data) == nepisode)
     result <- for_each_unit_year(have_data)
 
-    cat("\n*", ccdata.env$ITEM_REF[[i]]$dataItem, ": ")
-    cat(missmesg("", nrow(have_data[val!=TRUE]), nrow(have_data)))
-    cat("\n")
-#    cat(write.md(result))
+    cp <- paste(ccdata.env$ITEM_REF[[i]]$dataItem, ": ")
+    cp <- paste(cp, (missmesg("", nrow(have_data[val!=TRUE]), nrow(have_data))))
+    txt <- paste(txt, pandoc.table(result, style='rmarkdown', split.table=1000,
+                                   caption=cp))
 }
 
