@@ -16,6 +16,8 @@ ccEpisode <- setClass("ccEpisode",
                              admin_icu_time="ANY",
                              discharge_icu_time="ANY",
                              live_dead="character",
+                             file_origin="character",
+                             parse_time="POSIXct",
                              data="list"),
                       prototype=list(data=list(),
                                      episode_id="NULL",
@@ -24,7 +26,9 @@ ccEpisode <- setClass("ccEpisode",
                                      site_id="NULL",
                                      admin_icu_time="NULL",
                                      discharge_icu_time="NULL",
-                                     live_dead="NULL"))
+                                     live_dead="NULL",
+                                     file_origin="NULL",
+                                     parse_time=as.POSIXct(NA)))
 
 #' add data in a data frame to an episode.
 #' @param obj episode

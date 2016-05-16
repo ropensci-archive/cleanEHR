@@ -2,7 +2,6 @@ library("XML")
 
 #' load xml clinical data
 #' @return the root of the xml data
-#' @export xmlLoad
 xmlLoad <- function(file) {
     file.parse <- xmlParse(file)
     xml.root <- xmlRoot(file.parse)
@@ -11,20 +10,22 @@ xmlLoad <- function(file) {
 
 #' get the episode data from xml 
 #' @param xml.root root of xml data returned by xmlLoad()
-#' @return episode xml data
 getXmlepisode <- function(xml.root, id) {
     xml.root[[1]][[2]][[id]]
 }
 
-
-
 #' convert xml data to ccdata format
-#' @param xml can be either xml root or xml file name
+#' @param file xml file name
 #' @return ccdata 
 #' @export xml2Data
-xml2Data <- function (xml, select.episode=NULL, quiet=TRUE){
-    if (typeof(xml) != "externalptr")
-        xml <- xmlLoad(xml)
+xml2Data <- function (file, select.episode=NULL, quiet=TRUE){
+    
+    parse_time <- Sys.time()
+    split_file_name <- unlist(strsplit(file, "/"))
+    file_origin <- split_file_name[length(split_file_name)]
+
+    xml <- xmlLoad(file)
+    
     episode.num <- xmlSize(xml[[1]][[2]])
     if(is.null(select.episode))
         select.episode <- seq(episode.num)
@@ -43,6 +44,8 @@ xml2Data <- function (xml, select.episode=NULL, quiet=TRUE){
                              stop()
                          })
         episode_i <- ccEpisode(episode_list)
+        episode_i@file_origin <- file_origin
+        episode_i@parse_time <- parse_time
         record <- record + episode_i
         
         if (!quiet)
