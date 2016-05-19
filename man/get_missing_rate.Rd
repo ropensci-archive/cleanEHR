@@ -4,7 +4,7 @@
 \alias{get_missing_rate}
 \title{getMissingRate}
 \usage{
-get_missing_rate(record, item, frequency, sites = NULL, years = NULL)
+get_missing_rate(record, item, freq, sites = NULL, years = NULL)
 }
 \description{
 getMissingRate
