@@ -19,9 +19,9 @@ getEpisodePeriod <- function (e, unit="hours") {
     # pseudo delta period, see addPseudoTime()
     if (class(e@discharge_icu_time)[1] == "numeric")
         return(e@discharge_icu_time)
-    
+
     if (class(e@admin_icu_time)[1] != "POSIXct")
-       tadm <- xmlTime2POSIX(as.character(e@admin_icu_time), allow=T)
+        tadm <- xmlTime2POSIX(as.character(e@admin_icu_time), allow=T)
     else 
         tadm <- e@admin_icu_time
     if (class(e@discharge_icu_time)[1] != "POSIXct")
@@ -36,11 +36,11 @@ getEpisodePeriod <- function (e, unit="hours") {
         period_length <- findMaxTime(e)
     else {
         if (any(is.null(tdisc), is.null(tadm)))
-            return(NA)
+            period_length <- NULL
+        else
+            period_length <- as.numeric(tdisc - tadm,
+                                        units=unit)
     }
-    return(1)
-        period_length <- as.numeric(tdisc - tadm,
-                                    units=unit)
     # in cases that tdisc == tadm
     if (!is.null(period_length)) {
         if (period_length == 0)
@@ -49,10 +49,10 @@ getEpisodePeriod <- function (e, unit="hours") {
 
     if (is.null(period_length))
         warning("This episode does not have any time series data: ", 
-             " episode_id = ", e@episode_id, 
-             " nhs_number = ", e@nhs_number, 
-             " pas_number = ", e@pas_number,
-             " period_length = ", period_length, "\n")
+                " episode_id = ", e@episode_id, 
+                " nhs_number = ", e@nhs_number, 
+                " pas_number = ", e@pas_number,
+                " period_length = ", period_length, "\n")
 
 
     return(period_length)
