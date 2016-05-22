@@ -9,23 +9,6 @@ reallocateTime <- function(d, t_discharge, frequency) {
     return(reallocateTime_(d_, t_discharge, frequency))
 }
 
-#' @export findMaxTime
-findMaxTime <- function(episode) {
-    maxlist <- lapply(episode@data, 
-                      function(item){
-                          if(length(item) > 1) {
-                              if (!is.numeric(item$time))
-                                  item$time <-
-                                      as.numeric(as.character(item$time))
-                              return(max(item$time))
-                          }
-                      })
-    maximum <- unlist(maxlist)
-    if (is.null(maximum))
-        return(maximum)
-    else
-        return(max((maximum)))
-}
 
 
 #' getEpisodePeriod
@@ -43,6 +26,9 @@ getEpisodePeriod <- function (e, unit="hours") {
     else 
         tdisc <- e@discharge_icu_time
 
+    # The failure of POSIX conversion indicates that this episode is either 
+    # anonymised or has a missing or incorrect value of discharge or admission
+    # time. 
     if (is.na(tadm) || is.na(tdisc))
         period_length <- findMaxTime(e)
     else
@@ -64,7 +50,6 @@ getEpisodePeriod <- function (e, unit="hours") {
 
     return(period_length)
 }
-
 
 
 
