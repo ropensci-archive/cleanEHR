@@ -17,16 +17,16 @@ NIHR_HIC_ICU_0108:
   miss_acceptance:
     yellow: 50
 
-NIHR_HIC_ICU_0123:
-  shortName: lac_bg
-  dataItem: Lactate - ABG
-  distribution: skewed
-  decimal_places: 1
-  missingness_2d:
-    red: 72
-    yellow: 48
-  miss_acceptance:
-    red: 20
+#NIHR_HIC_ICU_0123:
+#  shortName: lac_bg
+#  dataItem: Lactate - ABG
+#  distribution: skewed
+#  decimal_places: 1
+#  missingness_2d:
+#    red: 72
+#    yellow: 48
+#  miss_acceptance:
+#    red: 20
 
 NIHR_HIC_ICU_0112:
   shortName: bp_sys_a
