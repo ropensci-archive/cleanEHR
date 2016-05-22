@@ -15,31 +15,31 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     lt <- list()
     for_each_episode(record,
                      function(ep) {
-#                         if (all(items_obg %in% names(ep@data))) {
+                         if (all(items_obg %in% names(ep@data))) {
                              result <- list()
                              period_length <- getEpisodePeriod(ep)
                              # getEpisodePeriod will return NULL when no 2D
                              # data been found. 
                              if (!is.null(period_length)) { 
-#                                 result <- append(result,
-#                                                  itemsToDataFrame(ep, all_items,
-#                                                                   period_length,
-#                                                                   freq))
-#                                 nlength <- length(result[["time"]])
-#                                 result[["site"]] <- rep(ep@site_id, nlength)
-#                                 result[["episode_id"]] <- rep(ep@episode_id, nlength)
-#                                 env$lt[[length(lt) + 1]]<- .simple.data.frame(result)
-#                             }
+                                 result <- append(result,
+                                                  itemsToDataFrame(ep, all_items,
+                                                                   period_length,
+                                                                   freq))
+                                 nlength <- length(result[["time"]])
+                                 result[["site"]] <- rep(ep@site_id, nlength)
+                                 result[["episode_id"]] <- rep(ep@episode_id, nlength)
+                                 env$lt[[length(lt) + 1]]<- .simple.data.frame(result)
+                             }
                          }
                      })
     if (return_list)
         return(lt)
 
-#    dt <- rbindlist(lt)
-#    
-#    if (!is.null(item.name))
-#        setnames(dt, c("time", item.name, "site", "episode_id"))
-#    return(dt)
+    dt <- rbindlist(lt)
+    
+    if (!is.null(item.name))
+        setnames(dt, c("time", item.name, "site", "episode_id"))
+    return(dt)
 }
 
 #' @export itemsToDataFrame

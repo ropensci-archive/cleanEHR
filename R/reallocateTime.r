@@ -16,13 +16,16 @@ reallocateTime <- function(d, t_discharge, frequency) {
 #' @return period_length
 #' @export getEpisodePeriod
 getEpisodePeriod <- function (e, unit="hours") {
+    # pseudo delta period, see addPseudoTime()
+    if (class(e@discharge_icu_time)[1] == "numeric")
+        return(e@discharge_icu_time)
+    
     if (class(e@admin_icu_time)[1] != "POSIXct")
-        tadm <- xmlTime2POSIX(e@admin_icu_time, allow=T)
+       tadm <- xmlTime2POSIX(as.character(e@admin_icu_time), allow=T)
     else 
         tadm <- e@admin_icu_time
-
     if (class(e@discharge_icu_time)[1] != "POSIXct")
-        tdisc <- xmlTime2POSIX(e@discharge_icu_time, allow=T)
+        tdisc <- xmlTime2POSIX(as.character(e@discharge_icu_time), allow=T)
     else 
         tdisc <- e@discharge_icu_time
 
@@ -31,7 +34,11 @@ getEpisodePeriod <- function (e, unit="hours") {
     # time. 
     if (is.na(tadm) || is.na(tdisc))
         period_length <- findMaxTime(e)
-    else
+    else {
+        if (any(is.null(tdisc), is.null(tadm)))
+            return(NA)
+    }
+    return(1)
         period_length <- as.numeric(tdisc - tadm,
                                     units=unit)
     # in cases that tdisc == tadm
