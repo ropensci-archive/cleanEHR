@@ -1,3 +1,31 @@
+#' @export selectTable2
+selectTable2 <- function(record, items, freq=1, item.name=NULL,
+                         return_list=FALSE) {
+    lt <- list()
+    for(i in items) {
+        tb <- readOneItem(record, i)$data2d
+        tb <- tb[, c("episode_id", "site_id", "time", "val"), with=FALSE]
+        setnames(tb, c(names(tb)[-4], "item2d"))
+        
+        admt <- for_each_episode(record, 
+                                           function(x){
+                                               c(admt=getEpisodePeriod(x),
+                                                 site_id=x@site_id,
+                                                 episode_id=x@episode_id)})
+        
+        admt <- rapply(admt, function(x) return(x))
+        admt <- data.table(t(array(admt, c(3, length(admt)/3))))
+        setnames(admt, c("period", "site_id", "episode_id"))
+        setkey(admt, episode_id, site_id)
+        setkey(tb, episode_id, site_id)
+        tb <- merge(tb, admt)
+  #      lt[[i]] <- tb[, reallocateTime(.SD[, c("time", "item2d"), with=F],
+  #                                     .SD[1]$period, freq), by=c("episode_id", "site_id")]
+    }
+    return(tb)
+}
+
+
 #' getItemList
 #' @param record ccRecord
 #' @param items_obg obligatory items that is obligatory; Any episode that doesn't contain
