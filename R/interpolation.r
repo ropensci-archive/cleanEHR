@@ -6,13 +6,15 @@
 interpolateVec <- function(v, lead, lag, FUN=mean, ...) {
     v <- suppressWarnings(as.numeric(as.character(v)))
     na.ind <- which(is.na(v))
-    v2 <- c(rep(NA, lead), v, rep(NA, lag))
+    if (length(na.ind) > 0) { # do interpolation if NA is found. 
+        v2 <- c(rep(NA, lead), v, rep(NA, lag))
 
-    n_x <- sapply(na.ind, 
-                  function(i) {
-                      FUN(v2[i + lead + seq(-lead, lag)], ...)
-                  })
-    v[na.ind] <- n_x
+        n_x <- sapply(na.ind, 
+                      function(i) {
+                          FUN(v2[i + lead + seq(-lead, lag)], ...)
+                      })
+        v[na.ind] <- n_x
+    }
     v
 }
 
@@ -44,7 +46,7 @@ list_interpolation <- function(l, item_id, lead=1, lag=1, FUN=mean, ...) {
                for (i in seq(item_id)) {
                    episode[[item_id[i]]] <-
                        interpolateVec(episode[[item_id[i]]], lead[[i]],
-                                                    lag[[i]], FUN[[i]], ...)
+                                      lag[[i]], FUN[[i]], ...)
                }
                episode
            })

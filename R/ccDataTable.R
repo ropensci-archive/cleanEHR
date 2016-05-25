@@ -64,3 +64,46 @@ missingness_count <- function(tb) {
 
     flags
 }
+
+#' @export remove_null
+remove_null <- function(cdt) {
+    cdt@table <- cdt@table[episode_id != "NULL" & site != "NULL"]
+    cdt@quality@miss_2d <- cdt@quality@miss_2d[episode_id != "NULL" & site != "NULL"]
+    cdt
+}
+
+#' @export filter_threshold_percentage
+filter_threshold_percentage <- function(cdt, conf=NULL) {
+    if (!is.null(conf)) 
+        cdt@conf_yaml <- yaml.load_file(conf)
+
+    thresholds <- 
+        unlist(lapply(cdt@conf_yaml, 
+                      function(x) x[["missingness_2d"]][["miss_acceptance"]]))
+    
+    # how to make functions data.table awared? so that we can avoid these ugly
+    # indexing.
+    select_index <- rep(TRUE, nrow(cdt@quality@miss_2d))
+    for (nt in names(thresholds))
+        select_index <- select_index & as.vector(cdt@quality@miss_2d[, nt, with=FALSE] >
+                                        thresholds[nt])
+    select_table <- cdt@quality@miss_2d[select_index]
+    merge(select_table, cdt@table, by=c("episode_id", "site"))
+}
+
+#' @export imputation_all
+imputation_all <- function(cdt, conf=NULL) {
+    if (!is.null(conf)) 
+        cdt@conf_yaml <- yaml.load_file(conf)
+
+    imputation_columns <- function(sd) {
+        sd[['NIHR_HIC_ICU_0108']] <- interpolateVec(sd[['NIHR_HIC_ICU_0108']],
+                                                    100,100, mean, na.rm=T)
+        sd
+    }
+     b[, imputation_columns(.SD), by=c("episode_id", "site")]
+    
+
+
+}
+
