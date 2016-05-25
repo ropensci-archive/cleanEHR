@@ -58,9 +58,9 @@ xmlEpisodeToList <- function(episode_node) {
 
                                 node_env$data[[label]][[label]] <- xmlValue(node)
                                 node_env$data[[label]][[sibling1_name]] <-
-                                    xmlValue(sib)
+                                    c(old_sibling1, xmlValue(sib))
                                 node_env$data[[label]][[sibling2_name]] <-
-                                    xmlValue(sibsib)
+                                    c(old_sibling2, xmlValue(sibsib))
 
                             }
                         }
@@ -109,7 +109,6 @@ xmlEpisodeToList <- function(episode_node) {
                    nm <- c(.which.type(names(x)[1]), .which.type(names(x)[2]),
                            .which.type(names(x)[3]))
                    label <- names(x)[nm == "item2d"]
-
                    # usually label, i.e. item2d should be unique, however just
                    # in case of incomplete 4-column data in which more than 1
                    # item2d will be found.

@@ -96,10 +96,18 @@ imputation_all <- function(cdt, conf=NULL) {
     if (!is.null(conf)) 
         cdt@conf_yaml <- yaml.load_file(conf)
 
+
     imputation_columns <- function(sd) {
-        sd[['NIHR_HIC_ICU_0108']] <- interpolateVec(sd[['NIHR_HIC_ICU_0108']],
-                                                    100,100, mean, na.rm=T)
-        sd
+        for (i in names(cdt@conf_yaml)) {
+            imwin <- cdt@conf_yaml[[i]][['missingness_2d']][['imputation_window']]
+            lead <- imwin[['lead']]
+            lag <- imwin[['lag']]
+    
+#        sd[[i]] <- interpolateVec(sd[[i]],
+#                                  ,100, mean, na.rm=T)
+#        sd
+        }
+
     }
      b[, imputation_columns(.SD), by=c("episode_id", "site")]
     
