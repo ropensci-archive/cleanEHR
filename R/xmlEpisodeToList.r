@@ -1,3 +1,18 @@
+make_equal_length <- function(lt) {
+    len <- unlist(sapply(lt, length))
+    if (is.null(len))
+        return(lt)
+
+    if (length(unique(len)) == 1) {
+        return(lt)
+    }
+    else{
+        maxlen <- max(len)
+        return(lapply(lt, function(x) c(x, rep("NA", maxlen-length(x)))))
+    }
+}
+
+
 #' Note: it rules out any time data with missing values.
 #' @export xmlEpisodeToList
 xmlEpisodeToList <- function(episode_node) {
@@ -19,7 +34,6 @@ xmlEpisodeToList <- function(episode_node) {
                 }
 
                 else {
-
                     parent_size <- xmlSize(xmlParent(xmlParent(node)))
                     sib <- getSibling(xmlParent(node))
 
@@ -29,13 +43,15 @@ xmlEpisodeToList <- function(episode_node) {
 
                             if(is.null(old_data))
                                 node_env$data[[label]][[label]] <- vector()
+                            
                             node_env$data[[label]][[label]] <- c(old_data, xmlValue(node))
 
                             old_sibling <- node_env$data[[label]][[xmlName(sib)]]
+
                             if (is.null(old_sibling))
                                 node_env$data[[label]][[xmlName(sib)]] <- vector()
-                            node_env$data[[label]][[xmlName(sib)]] <-
-                                c(old_sibling, xmlValue(sib))
+                                
+                            node_env$data[[label]][[xmlName(sib)]] <- c(old_sibling, xmlValue(sib))
                         }
                     }
                     else if (parent_size == 3) {
@@ -45,22 +61,23 @@ xmlEpisodeToList <- function(episode_node) {
                                 sibling1_name <- xmlName(sib)
                                 sibling2_name <- xmlName(sibsib)
 
+                                node_env$data[[label]] <- make_equal_length(node_env$data[[label]])
+
                                 old_data <- node_env$data[[label]][[label]]
                                 old_sibling1 <- node_env$data[[label]][[sibling1_name]]
                                 old_sibling2 <- node_env$data[[label]][[sibling2_name]]
 
-                                if (is.null(old_data))
-                                    node_env$data[[label]][[label]] <- vector()
                                 if (is.null(old_sibling1))
                                     node_env$data[[label]][[sibling1_name]] <- vector()
                                 if (is.null(old_sibling2))
                                     node_env$data[[label]][[sibling2_name]] <- vector()
 
-                                node_env$data[[label]][[label]] <- xmlValue(node)
-                                node_env$data[[label]][[sibling1_name]] <-
-                                    xmlValue(sib)
-                                node_env$data[[label]][[sibling2_name]] <-
-                                    xmlValue(sibsib)
+
+                                node_env$data[[label]][[label]] <- c(old_data, xmlValue(node))
+                                node_env$data[[label]][[sibling1_name]] <- c(old_sibling1, xmlValue(sib))
+                                node_env$data[[label]][[sibling2_name]] <- c(old_sibling2, xmlValue(sibsib))
+
+
 
                             }
                         }
@@ -73,7 +90,7 @@ xmlEpisodeToList <- function(episode_node) {
         #Go one level denode_env$dataer
         for (i in 1 : num.children) {
             if (xmlValue(node) == "") {
-                warning("XML structure is wrong ", xmlName(node))
+                warning("XML structure is wrong in ", xmlName(node))
                 next
             }
             traverseNode(node[[i]]) #the i-th child of node
@@ -101,7 +118,7 @@ xmlEpisodeToList <- function(episode_node) {
                    nm <- c(.which.type(names(x)[1]), .which.type(names(x)[2]))
                    label <- names(x)[nm == "item2d"]
                    if (length(label) == 1) {
-                       node_env$ccdata[[label]] <- data.frame(x[[1]], x[[2]])
+                       node_env$ccdata[[label]] <- .simple.data.frame(x)
                        names(node_env$ccdata[[label]]) <- nm
                    }
                }
@@ -109,15 +126,15 @@ xmlEpisodeToList <- function(episode_node) {
                    nm <- c(.which.type(names(x)[1]), .which.type(names(x)[2]),
                            .which.type(names(x)[3]))
                    label <- names(x)[nm == "item2d"]
-
                    # usually label, i.e. item2d should be unique, however just
                    # in case of incomplete 4-column data in which more than 1
                    # item2d will be found.
                    for (i in label) {
-                       node_env$ccdata[[i]] <- data.frame(x[[1]], x[[2]], x[[3]])
+                       node_env$ccdata[[i]] <- .simple.data.frame(x)
                        names(node_env$ccdata[[i]]) <- nm
                    }
                }
+               # still wrong and keep it as it is for now.
                # 4 columns case only happens in laboratory microbiology
                # culture, where item labels 0186 (Site), 0187 (Oranism) 
                # and 0189 (Sensitivity) share the same time label and being

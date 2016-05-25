@@ -16,7 +16,7 @@ NIHR_HIC_ICU_0108:
         # accepting yellow lower than 1 hour missing rate lower than 70%
     miss_acceptance:
         yellow: 70 # do not put more than one threshold
-    window:
+    imputation_window:
         lead: 3
         lag: 3
 
@@ -41,6 +41,7 @@ NIHR_HIC_ICU_0112:
     yellow: 1
     miss_acceptance:
         yellow: 50
-    window:
-        lead: 12
-        lag: 12
+    imputation:
+        window_lead: 12
+        window_lag: 12
+
