@@ -4,7 +4,8 @@
 \alias{xml2Data}
 \title{convert xml data to ccdata format}
 \usage{
-xml2Data(file, select.episode = NULL, quiet = TRUE)
+xml2Data(file, select.episode = NULL, quiet = TRUE, xml = NULL,
+  file_origin = "NA", parse_time = Sys.time())
 }
 \arguments{
 \item{file}{xml file name}
