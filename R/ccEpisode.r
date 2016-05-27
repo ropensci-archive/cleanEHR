@@ -9,13 +9,13 @@
 #' @exportClass ccEpisode
 #' @export ccEpisode
 ccEpisode <- setClass("ccEpisode",
-                      slot=c(episode_id="character",
+                      slot=c(episode_id="ANY",
                              pas_number="character",
                              nhs_number="character",
                              site_id="character",
                              admin_icu_time="ANY",
                              discharge_icu_time="ANY",
-                             live_dead="character",
+                             live_dead="ANY",
                              data="list"),
                       prototype=list(data=list(),
                                      episode_id="NULL",
@@ -78,31 +78,18 @@ addItemData <- function(obj, data) {
 #' ccEpisode
 #' @export ccEpisode
 ccEpisode <- function(data=NULL, ...) {
+
     if (is.null(data))
         return(new("ccEpisode", ...))
-
     new.ep <- new("ccEpisode", data=data)
-    if (!is.null(data[[ccdata.env$code_nhs_number]]))
-        new.ep@nhs_number <- data[[ccdata.env$code_nhs_number]]
-
-    if (!is.null(data[[ccdata.env$code_pas_number]]))
-        new.ep@pas_number <- data[[ccdata.env$code_pas_number]]
-
-    if (!is.null(data[[ccdata.env$code_episode_id]]))
-        new.ep@episode_id <- data[[ccdata.env$code_episode_id]]
-
-    if (!is.null(data[[ccdata.env$code_site_id]]))
-        new.ep@site_id <- data[[ccdata.env$code_site_id]]
-
-    if (!is.null(data[[ccdata.env$code_discharge_icu_t]]))
-        new.ep@discharge_icu_time <- data[[ccdata.env$code_discharge_icu_t]]
-
-    if (!is.null(data[[ccdata.env$code_admin_icu_t]]))
-        new.ep@admin_icu_time <- data[[ccdata.env$code_admin_icu_t]]
-
-    if (!is.null(data[[ccdata.env$code_deadicu_id]]))
-        new.ep@live_dead <- data[[ccdata.env$code_deadicu_id]]
-    
+    fields = c('nhs_number'='code_nhs_number', 'pas_number'='code_pas_number',
+               'episode_id'='code_episode_id', 'site_id'='code_site_id',
+               'site_id'='code_site_id', 'discharge_icu_time'='code_discharge_icu_t',
+               'admin_icu_time'='code_admin_icu_t', 'live_dead'='code_deadicu_id')
+  for (field in names(fields)){
+    if (!is.null(data[[ccdata.env[[fields[[field]] ]] ]]) )
+      slot(new.ep, field) <- data[[ ccdata.env[[ fields[[field]] ]] ]]
+    }
     return(new.ep)
 }
 
