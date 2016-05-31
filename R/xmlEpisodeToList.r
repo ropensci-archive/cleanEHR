@@ -76,9 +76,6 @@ xmlEpisodeToList <- function(episode_node) {
                                 node_env$data[[label]][[label]] <- c(old_data, xmlValue(node))
                                 node_env$data[[label]][[sibling1_name]] <- c(old_sibling1, xmlValue(sib))
                                 node_env$data[[label]][[sibling2_name]] <- c(old_sibling2, xmlValue(sibsib))
-
-
-
                             }
                         }
                     }
@@ -123,6 +120,10 @@ xmlEpisodeToList <- function(episode_node) {
                    }
                }
                else if (len == 3) { # time data with meta data, i.e. 3 columns
+                   # list has the same length. In the case that 3 columns
+                   # have missing column in the end, so putting NAs in the end.
+                   x <- make_equal_length(x)                    
+                   
                    nm <- c(.which.type(names(x)[1]), .which.type(names(x)[2]),
                            .which.type(names(x)[3]))
                    label <- names(x)[nm == "item2d"]

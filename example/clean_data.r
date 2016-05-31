@@ -9,5 +9,3 @@ if (!exists("cdt"))
     cdt <- (new.ccDataTable(ccd_delta_num, "tests/data/test_yml.yml"))
 
 cdt_no_null <- remove_null(cdt)
-
-
