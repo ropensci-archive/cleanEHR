@@ -7,6 +7,17 @@ admission time.}
 \usage{
 deltaTime(record, anonymised = FALSE, units = "hours", tdiff = FALSE)
 }
+\arguments{
+\item{record}{ccRecord}
+
+\item{anonymised}{logical If anonymised is set to be TRUE, then the
+admission and discharge time will be set as the earliest and latest data stamp
+in the record.}
+
+\item{units}{units of delta time, which can be "hours", "mins", "days".}
+
+\item{tdiff}{if false the delta time will be written in numeric format.}
+}
 \description{
 convert calendar time data in a record to delta time comparing to the ICU
 admission time.
