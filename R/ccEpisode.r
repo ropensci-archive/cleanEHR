@@ -16,6 +16,8 @@ ccEpisode <- setClass("ccEpisode",
                              admin_icu_time="ANY",
                              discharge_icu_time="ANY",
                              live_dead="character",
+                             file_origin="character",
+                             parse_time="POSIXct",
                              data="list"),
                       prototype=list(data=list(),
                                      episode_id="NULL",
@@ -24,7 +26,9 @@ ccEpisode <- setClass("ccEpisode",
                                      site_id="NULL",
                                      admin_icu_time="NULL",
                                      discharge_icu_time="NULL",
-                                     live_dead="NULL"))
+                                     live_dead="NULL",
+                                     file_origin="NULL",
+                                     parse_time=as.POSIXct(NA)))
 
 #' add data in a data frame to an episode.
 #' @param obj episode
@@ -77,7 +81,7 @@ addItemData <- function(obj, data) {
 
 #' ccEpisode
 #' @export ccEpisode
-ccEpisode <- function(data=NULL, ...) {
+ccEpisode <- function(data=NULL, anon=FALSE, ...) {
     if (is.null(data))
         return(new("ccEpisode", ...))
 
@@ -95,14 +99,16 @@ ccEpisode <- function(data=NULL, ...) {
         new.ep@site_id <- data[[ccdata.env$code_site_id]]
 
     if (!is.null(data[[ccdata.env$code_discharge_icu_t]]))
-        new.ep@discharge_icu_time <- data[[ccdata.env$code_discharge_icu_t]]
+        new.ep@discharge_icu_time <-
+            xmlTime2POSIX(data[[ccdata.env$code_discharge_icu_t]], allow=T)
 
     if (!is.null(data[[ccdata.env$code_admin_icu_t]]))
-        new.ep@admin_icu_time <- data[[ccdata.env$code_admin_icu_t]]
+        new.ep@admin_icu_time <-
+            xmlTime2POSIX(data[[ccdata.env$code_admin_icu_t]], allow=T)
 
     if (!is.null(data[[ccdata.env$code_deadicu_id]]))
         new.ep@live_dead <- data[[ccdata.env$code_deadicu_id]]
-    
+
     return(new.ep)
 }
 

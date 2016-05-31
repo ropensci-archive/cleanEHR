@@ -61,25 +61,18 @@ setMethod('+', c("ccRecord", "ccEpisode"),
 #' @export addDataListToRecord
 addDataListToRecord <- function(rec, data) {
     rec@CLEANED_TAG <- FALSE
-    if (is.list(data[[1]][[1]][[1]])) {
-        rec@patients <- 
-            append(rec@patients, 
-                   lapply(data, 
-                          function(p) {
-                              env <- environment()
-                              patient <- ccPatient()
-                              lapply(p, 
-                                     function(e)
-                                         env$patient <- env$patient + ccEpisode(e)
-                                     )
-                              return(patient)
-                          }))
-    }
-    else if (is.list(data[[1]][[1]])) {
-        rec@patients <- 
-            append(rec@patients, 
-                   lapply(data, function(x) ccPatient() + ccEpisode(x)))
-    }
+    rec@patients <- 
+        append(rec@patients, 
+               lapply(data, 
+                      function(p) {
+                          env <- environment()
+                          patient <- ccPatient()
+                          lapply(p, 
+                                 function(e)
+                                     env$patient <- env$patient + ccEpisode(e)
+                                 )
+                          return(patient)
+                      }))
     rec <- reindexRecord(rec)
     return(rec)
 }

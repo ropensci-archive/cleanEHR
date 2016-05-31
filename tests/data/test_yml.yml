@@ -1,0 +1,47 @@
+NIHR_HIC_ICU_0108:
+  shortName: hrate
+  dataItem: Heart rate
+  distribution: normal
+  decimal_places: 0
+  # Note the rest are impossible
+  range:
+    unusual: 0 - 40, 200 - 250
+    accept: 0 - 250
+    normal: 80 - 150
+ 
+  # report missingness in hours
+  missingness_2d:
+    red: 24
+    yellow: 1
+        # accepting yellow lower than 1 hour missing rate lower than 70%
+    miss_acceptance:
+        yellow: 70 # do not put more than one threshold
+    imputation_window:
+        lead: 3
+        lag: 3
+
+#NIHR_HIC_ICU_0123:
+#  shortName: lac_bg
+#  dataItem: Lactate - ABG
+#  distribution: skewed
+#  decimal_places: 1
+#  missingness_2d:
+#    red: 72
+#    yellow: 48
+#  miss_acceptance:
+#    red: 20
+
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+  distribution: normal
+  decimal_places: 0
+  missingness_2d:
+    red: 24
+    yellow: 1
+    miss_acceptance:
+        yellow: 50
+    imputation:
+        window_lead: 12
+        window_lag: 12
+
