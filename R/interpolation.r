@@ -51,11 +51,3 @@ list_interpolation <- function(l, item_id, lead=1, lag=1, FUN=mean, ...) {
                episode
            })
 }
-
-getmesomevector<-function(x) {
-    v=seq(x)
-    v[round(runif(x/4)*x)]=NA
-    v
-}
-
-
