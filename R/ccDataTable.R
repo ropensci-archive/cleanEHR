@@ -31,8 +31,8 @@ new.ccDataTable <- function(record, yaml, base_frequency=1, check_miss2d=TRUE) {
 
     if (check_miss2d) {
         for (i in items) {
-            missconf <- conf[[i]][["missingness_2d"]]
-            if(!is.null(conf[[i]][["missingness_2d"]])) {
+            missconf <- conf[[i]][["missingness_2d"]][["labels"]]
+            if(!is.null(missconf)) {
                 for (c in seq(missconf)) {
                     col_name <- names(missconf[c])
                     colr <- missconf[[c]]
@@ -45,7 +45,7 @@ new.ccDataTable <- function(record, yaml, base_frequency=1, check_miss2d=TRUE) {
             }
         }    
     }
-    
+
     ccDataTable(table=tb, 
                 quality=ccQuality(miss_2d=qlty), 
                 conf_yaml=conf, 

@@ -2,7 +2,7 @@
 library(ccdata)
 
 if (!exists("ccd"))
-    load('../data/all_patients_pseudo.Rdata')
+    load('../data/delta_num.Rdata')
 
 # 
 if (!exists("cdt"))
