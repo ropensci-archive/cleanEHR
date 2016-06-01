@@ -7,7 +7,7 @@ r <- xmlLoad(args[1])
 npatient <- length(names(r[[1]][[2]]))
 
 step_iterator <- seq(1, npatient, by=100)
-steps <- c(step_iterator, npatient)
+steps <- c(step_iterator, npatient+1)
 
 
 for (i in seq(step_iterator)) {
