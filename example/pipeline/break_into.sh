@@ -7,36 +7,68 @@ then
     exit 1
 fi
 
+default_ext='partxml'
 
-# change the end subject for something different - <tataa>
-sed -e 's|</d:subject>|<tataaa>|' $1 > $1.tmp
+# <d:xx> or <xx> file?
+dchar="d:"
+dchar_exist=$(head -2 $1 | grep -c "<${dchar}")
+if [ ${dchar_exist} -eq 0 ]
+then
+    dchar=""
+fi
 
-# Break the file into chuncks where <d:subject> occurs.
-awk '/\<d:subject\>/ { delim++ } {file = sprintf("chunks_%s.txt", int(delim/'$2')); print >> file; }' $1.tmp
+subject="${dchar}subject"
 
-firstline=$(head -n1 chunks_0.txt)
-lastline="</d:data></d:context></d:document>"
-nfiles=$(expr `ls chunks_* | wc -l` - 1)
+# change the end subject for something different - <cut_here>
+# so it is not counted in the awk below.
+sed -e 's|</'"${subject}"'>|<cut_here>\n|' ${1} > ${1}.tmp
+
+# Break the file into chunks where <${subject}> occurs.
+# Each time <subject> is found, delim will increase
+#   if delim/maxpatients (2nd argument) == 1 then
+#   create a new file.
+# initialising delim as -1 so the first file includes the
+# number of subjects asked.
+awk 'BEGIN {delim=-1} \
+         /\<'"${subject}"'\>/ { delim++ } \
+                  {file = sprintf("'${1}'_%s.'${default_ext}'", int(delim/'${2}'));\
+                   print >> file; } \
+     END { print "'${1}' has ", delim+1, "subjects"}' ${1}.tmp
+
+
+# extract the header of the file with its meta.
+# - extract everything till the first <subject> (what's used to separate the file)
+# - remove the instance for <subject> so it's not repeated when inserted.
+# - remove all no printing characters - it seems there's one making the insertion to
+#   fail afterwards.
+# head won't work because some files run over multiple lines
+firstlines=$(sed -n '1,/<'"${subject}"'>/p' ${1}_0.${default_ext} | \
+                    sed 's/<'"${subject}"'>//' | tr -dc '[:print:]')
+
+lastline="</${dchar}data></${dchar}context></${dchar}document>"
+nfiles=$(ls "${1}"_* | wc -l)
 
 # loop over all the files to add header and footer for each file that needs it
-for i in $(seq 0 ${nfiles})
+for ((i=0; i<${nfiles}; i++))
 do
-    echo chunks_${i}
+    output=${1}_${i}.${default_ext}
+    # replace the label changed before
+    sed -i 's|<cut_here>|</'"${subject}"'>|' ${output}
 
-    sed -i 's|<tataaa>|</d:subject>|' chunks_${i}.txt
-
-    if [ $i -lt ${nfiles} ]
+    # add footer to the files
+    if [ $i -lt $((${nfiles} - 1)) ]
     then
-        echo "$lastline" >> chunks_${i}.txt
+        echo "$lastline" >> ${output}
     fi
 
-
+    # add header to the files
     if [ $i -gt 0 ]
     then
-        sed -i '1s|^|'"$firstline"'|' chunks_${i}.txt
+        sed -i '1s|^|'"${firstlines}"'|' ${output}
     fi
 
 done
 
-rm $1.tmp
+# Remove the temporary file used
+rm ${1}.tmp
 
