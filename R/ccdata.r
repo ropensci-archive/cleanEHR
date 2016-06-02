@@ -10,7 +10,7 @@ library(data.table)
 ##'      \item{\code{data.1d:}}{vector}
 ##'      \item{\code{data.2d:}}{vector, store timewise data}
 ##'    }
-##' @exportClass ccRecord 
+#' @exportClass ccRecord 
 #' @export ccRecord
 ccRecord <- setClass("ccRecord",
                      slots=c(npatient="integer",
