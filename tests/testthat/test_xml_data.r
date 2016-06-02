@@ -18,7 +18,7 @@ test_that("check original filename",
   file_input <- "/this/is/a/path/and_its_file.xml.txt.part"
   expect_equal(extract_file_origin(file_input, removestr='.txt'),
                paste(file_input_orig, ".txt", sep=""))
-}
+})
 
 
 test_that("load xml file", 
