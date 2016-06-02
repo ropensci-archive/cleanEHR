@@ -3,8 +3,9 @@ context("Tests of the xml parser")
 test_that("check original filename",
 {
   # with no changes
-  file_input_orig <- "/this/is/a/path/and_its_file.xml"
-  expect_equal(extract_file_origin(file_input_orig),file_input_orig)
+  file_input_orig <- "and_its_file.xml"
+  file_input <- paste("/this/is/a/path/", file_input_orig, sep="")
+  expect_equal(extract_file_origin(file_input),file_input_orig)
 
   # with a suffix
   file_input <- "/this/is/a/path/and_its_file.xml_00.part"
