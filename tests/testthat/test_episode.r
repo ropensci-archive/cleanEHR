@@ -1,7 +1,7 @@
 context("Testing episodes")
 
 test_that("add 1D item.", {
-    ep <- cEpisode()
+    ep <- ccEpisode()
     expect_true(is.list(ep@data))
     expect_equal(length(ep@data), 0)
     ep2 <- ep + data.frame(id="xx", val="1")
@@ -17,3 +17,22 @@ test_that("add 1D item.", {
                                  val=c(1,2))) # duplication of 1d data
 })
 
+test_that("add an empty episode.", {
+    new <- ccd + ccEpisode()
+    expect_equal(new@npatient, ccd@npatient + 1)
+})
+
+test_that("check cases of duplicated ids", {
+    # test PAS number
+    p <- ccPatient()
+    p <- p + ccEpisode(pas_number="pas_num_1")
+    # newly added episode pas_number is 'NULL', and the pas_number should
+    # maintain the original value.
+    expect_match('pas_num_1', (p + ccEpisode())@pas_number)
+
+    # test NHS number
+    p2 <- ccPatient()
+    p2 <- p2 + ccEpisode(nhs_number="nhs_num_1")
+    expect_match('nhs_num_1', (p2 + ccEpisode())@nhs_number)
+    expect_error(p2 + ccEpisode(nhs_number='nhs_number_2'))
+})

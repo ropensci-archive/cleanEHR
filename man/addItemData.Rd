@@ -2,11 +2,16 @@
 % Please edit documentation in R/ccEpisode.r
 \name{addItemData}
 \alias{addItemData}
-\title{add single or multiple record to episode.}
+\title{add data in a data frame to an episode.}
 \usage{
 addItemData(obj, data)
 }
+\arguments{
+\item{obj}{episode}
+
+\item{data}{data frame with either 2 columns (id, val) or 3 columns}
+}
 \description{
-add single or multiple record to episode.
+add data in a data frame to an episode.
 }
 

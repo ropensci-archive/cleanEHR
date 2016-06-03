@@ -1,130 +1,145 @@
+library(data.table)
 
-ccdata.env <- new.env()
-assign('code_pas_number',
-       "NIHR_HIC_ICU_0001",
-       #           getItemInfo("PAS number")["NHIC_code"],
-       envir=ccdata.env)
-assign('code_episode_id',
-       "NIHR_HIC_ICU_0005",
-       #       getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"],
-       envir=ccdata.env)
-#}
-
-
-#' @section Slots: 
-#'   \describe{
-#'      \item{\code{hospital.id}:}{vector}
-#'      \item{\code{patient.id}:}{vector}
-#'      \item{\code{var.names:}}{vector}
-#'      \item{\code{var.id:}}{vector}
-#'      \item{\code{patient.num:}}{integer}
-#'      \item{\code{data.1d:}}{vector}
-#'      \item{\code{data.2d:}}{vector, store timewise data}
-#'    }
-#' @export ccdata
+###' @section Slots: 
+##'   \describe{
+##'      \item{\code{hospital.id}:}{vector}
+##'      \item{\code{patient.id}:}{vector}
+##'      \item{\code{var.names:}}{vector}
+##'      \item{\code{var.id:}}{vector}
+##'      \item{\code{patient.num:}}{integer}
+##'      \item{\code{data.1d:}}{vector}
+##'      \item{\code{data.2d:}}{vector, store timewise data}
+##'    }
+##' @exportClass ccRecord 
+#' @export ccRecord
 ccRecord <- setClass("ccRecord",
-                     slots=c(hospital="character",
-                             npatient="integer",
-                             patient_id="character",
-                             patients="list"),
-                     prototype=c(hospital=character(0),
-                                 npatient=as.integer(0),
-                                 patient_id=integer(0),
-                                 patients=list())
-                     )
+                     slots=c(npatient="integer",
+                             nhs_numbers="data.table",
+                             pas_numbers="data.table",
+                             patients="list",
+                             CLEANED_TAG="logical",
+                             GOOD_INDEX="logical",
+                             AGGREGATED_PATIENT_TAG="logical",
+                             data_quality="list"),
+                     prototype=prototype(npatient=as.integer(0),
+                                         patients=list(),
+                                         CLEANED_TAG=FALSE,
+                                         GOOD_INDEX=FALSE,
+                                         AGGREGATED_PATIENT_TAG=FALSE,
+                                         data_quality=list()))
 
-ccPatient <- setClass("ccPatient",
-                      slot=c(patient_id="character",
-                             episode_ids="character",
-                             nepisode="integer",
-                             episodes="list"),
-                      prototype=c(patient_id="NA",
-                                  episode_ids=character(0),
-                                  nepisode=as.integer(0),
-                                  episodes=list())
-                      )
 
-#' addEpisode
-setGeneric("addEpisode", 
-           function(obj, episode) {
-               standardGeneric("addEpisode")
-           })
+#' add ccEpisode object to ccRecord object
+#' @param recd ccRecord
+#' @param episode ccEpisode
+#' @return ccRecord
+#' @export addEpisodeToRecord
+#' @usage
+#' r_new <- r + e
+addEpisodeToRecord <- function(recd, episode) {
+    new.patient <- ccPatient()
+    new.patient <- new.patient + episode
+    index <- length(recd@patients) + 1
+    recd@patients[[index]] <- new.patient
 
-#' addEpisode
-setMethod("addEpisode", 
-          c("ccPatient", "cEpisode"),
-          function(obj, episode) {
-              code_pas_number <- ccdata.env$code_pas_number
-              code_episode_id <- ccdata.env$code_episode_id
+    recd@nhs_numbers <- data.table(rbind(recd@nhs_numbers,
+                                         data.frame("index"=index, 
+                                                    "nhs_number"=episode@nhs_number)))
+    recd@pas_numbers <- data.table(rbind(recd@pas_numbers,
+                                         data.frame("index"=index,
+                                                    "pas_number"=episode@pas_number)))
+    recd@npatient <- as.integer(recd@npatient + 1)
+    return(recd)
+}
 
-              if (is.null(episode@data[[code_pas_number]]))
-                  stop("no PAS number is found in the episode.")
-              else
-                  pas_number <- episode@data[[code_pas_number]]
-
-              if (is.null(episode@data[[code_episode_id]]))
-                  stop("no episode id is found in the episode.")
-              else
-                  episode_id <- episode@data[[code_episode_id]]
-              if (obj@patient_id != pas_number & obj@patient_id != "NA")
-                  stop("PAS number is not identical, you can only add the same patient here.")
-
-              if (obj@patient_id == "NA")
-                  obj@patient_id <- episode@data[[code_pas_number]]
-              obj@episode_ids <- c(obj@episode_ids, episode_id)
-              obj@nepisode <- as.integer(obj@nepisode + 1)
-              obj@episodes[[episode_id]] <- episode
-              return(obj)
-          })
-
-#' overload the addEpisode to patient. 
-setMethod('+', c("ccPatient", "cEpisode"), 
-          function(e1, e2) {addEpisode(e1, e2)}
+#' @exportMethod +
+setMethod('+', c("ccRecord", "ccEpisode"), 
+          function(e1, e2) {addEpisodeToRecord(e1, e2)}
           )
 
-setMethod("addEpisode", 
-          c("ccRecord", "cEpisode"),
-          function(obj, episode) {
-              code_pas_number <- ccdata.env$code_pas_number
-              code_episode_id <- ccdata.env$code_episode_id
 
-              if (is.null(episode@data[[code_pas_number]])) {
-                  warning("no PAS number is found in the episode.")
-                  return(obj)
-              }
-              else
-                  pas_number <- episode@data[[code_pas_number]]
+#' @export addDataListToRecord
+addDataListToRecord <- function(rec, data) {
+    rec@CLEANED_TAG <- FALSE
+    rec@patients <- 
+        append(rec@patients, 
+               lapply(data, 
+                      function(p) {
+                          env <- environment()
+                          patient <- ccPatient()
+                          lapply(p, 
+                                 function(e)
+                                     env$patient <- env$patient + ccEpisode(e)
+                                 )
+                          return(patient)
+                      }))
+    rec <- reindexRecord(rec)
+    return(rec)
+}
 
-              if (is.null(episode@data[[code_episode_id]])) {
-                  warning("no episode id is found in the episode.")
-                  return(obj)
-              }
-              else
-                  episode_id <- episode@data[[code_episode_id]]
-
-              if (is.null(obj@patients[[pas_number]])) {
-                  new.patient <- ccPatient()
-                  new.patient <- new.patient + episode
-                  obj@patients[[pas_number]] <- new.patient
-                  obj@npatient <- obj@npatient + as.integer(1)
-                  obj@patient_id <- c(obj@patient_id, pas_number)
-              }
-              else {
-                  if (any(obj@patients[[pas_number]]@episode_ids ==
-                          episode@data[[code_episode_id]]))
-                      stop("found duplicated episode ids of an unique patient.")
-                  obj@patients[[pas_number]] <-
-                      obj@patients[[pas_number]] + episode
-              }
-              return(obj)
-          })
-
-#' overload the addEpisode to patient. 
-setMethod('+', c("ccRecord", "cEpisode"), 
-          function(e1, e2) {addEpisode(e1, e2)}
+#' @exportMethod +
+setMethod('+', c("ccRecord", "list"), 
+          function(e1, e2) {addDataListToRecord(e1, e2)}
           )
 
-setMethod('print', c('ccRecord'),
-          function(x) {
-              cat("Critial Care Record [ccRecord]:", x@npatient, "patients.\n")
+
+
+#' Correct the index and meta data information for ccRecord.
+#' It takes only the patient level indexing information. 
+#' @export reindexRecord
+reindexRecord <- function(record) {
+    nhs_numbers <- allPatientsInfo(record, "nhs_number")
+    pas_numbers <- allPatientsInfo(record, "pas_number")
+    record@npatient <- length(record@patients)
+
+    record@nhs_numbers <- data.table(index=seq(record@npatient), nhs_numbers)
+    record@pas_numbers <- data.table(index=seq(record@npatient), pas_numbers)
+    record@GOOD_INDEX <- TRUE
+    return(record)
+}
+
+#' append two ccRecord objects 
+#' @param rec1 ccRecord
+#' @param rec2 ccRecord
+#' @return ccRecord
+#' @usage 
+#' r_new <- r1 + r2
+addRecord <- function(rec1, rec2) {
+    rec1@npatient <- rec1@npatient + rec2@npatient
+    rec1@patients <- append(rec1@patients, rec2@patients)
+
+    nhs_number <-sapply(rec1@patients, function(x) x@nhs_number)
+    pas_number <-sapply(rec1@patients, function(x) x@pas_number)
+
+    rec1@nhs_numbers <- data.table(index=seq(nhs_number), nhs_number=nhs_number)
+    rec1@pas_numbers <- data.table(index=seq(pas_number), pas_number=pas_number)
+    return(rec1)
+}
+
+#' @exportMethod +
+setMethod('+', c("ccRecord", "ccRecord"), 
+          function(e1, e2) {addRecord(e1, e2)}
+          )
+
+
+#' @exportMethod [
+setMethod("[", c("ccRecord", "ANY", "ANY"), 
+          function(x, i, j, k=NULL) {
+              if (is.null(k))
+                  return(x@patients[[i]]@episodes[[j]])
+              else
+                  return(x@patients[[i]]@episodes[[j]]@data[[k]])
           })
+
+setMethod("[", c("ccRecord", "ANY", "missing"), 
+          function(x, i, j) {
+              return(x@patients[[i]])
+          })
+
+
+
+#' @export setValue
+setValue <- function(record, p, e, d, val){
+    eval.parent(substitute(
+                           record@patients[[p]]@episodes[[e]]@data[[d]] <- val))
+}

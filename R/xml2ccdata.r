@@ -2,83 +2,76 @@ library("XML")
 
 #' load xml clinical data
 #' @return the root of the xml data
+#' @export xmlLoad
 xmlLoad <- function(file) {
     file.parse <- xmlParse(file)
     xml.root <- xmlRoot(file.parse)
     return(xml.root)
 }
 
-#' get the patient data from xml 
+#' get the episode data from xml 
 #' @param xml.root root of xml data returned by xmlLoad()
-#' @return patient xml data
-getXmlPatient <- function(xml.root, id) {
+getXmlepisode <- function(xml.root, id) {
     xml.root[[1]][[2]][[id]]
 }
 
-#' convert xml data for a given patient and convert them into a list
-#' @param patient individual xml patient data
-#' @param time.list
-#' @param meta.list
-#' @return list
-patientToDataArray <- function(patient, category.index.table) {
-    patient_unlist <- unlist(xmlToList(patient, addAttributes=FALSE))
-    stdid <- StdId(names(patient_unlist))
-    ptable <- data.frame(id=stdid@ids, val=as.vector(patient_unlist))
-
-    valindex <- selectIndex(category.index.table, stdid, "timevars")
-    stampindex <- selectIndex(category.index.table, stdid, "timestamp")
-
-    if (length(valindex) != length(stampindex))# data missing values
-        return(NULL)
-    else
-        data2d <- data.frame(id=ptable$id[valindex],
-                             time=ptable$val[stampindex],
-                             val=ptable$val[valindex],
-                             stringsAsFactors=FALSE)
-    data1d <- 
-        data.frame(id=ptable$id[selectIndex(category.index.table, 
-                                            stdid,"simplevar")],
-                   val=ptable$val[selectIndex(category.index.table, 
-                                              stdid, "simplevar")],
-                   stringsAsFactors=FALSE)
-    return(list(data1d=data1d, data2d=data2d))
-}
+#' Extract the original file name from a path and file removing
+#' all the suffixes.
+#' @param pathfile a particular file name which may have a suffix
+#' @param removestr last bit from the original filename
+#' @return string
+#' @export extract_file_origin
+extract_file_origin <- function(pathfile, removestr='.xml'){
+  split_path <- unlist(strsplit(pathfile, "/"))
+  filename <- split_path[length(split_path)]
+  original <- unlist(strsplit(filename, removestr))
+  return(paste(original[1], removestr, sep=""))
+  }
 
 
 #' convert xml data to ccdata format
-#' @param xml xml root
-#' @return ccdata  
-xml2Data <- function (xml, select.patient=NULL, quiet=TRUE){
-    patient.num <- xmlSize(xml[[1]][[2]])
-    if(is.null(select.patient))
-        select.patient <- seq(patient.num)
+#' @param file xml file name
+#' @return ccdata 
+#' @export xml2Data
+xml2Data <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
+                      file_origin="NA", parse_time=Sys.time()){
+  if (is.null(xml)) {
+    if (file_origin == "NA") {
+      file_origin <- extract_file_origin(file)
+    }
+    xml <- xmlLoad(file)
+  }
 
-    category.index.table <- extractIndexTable() 
+    episode.num <- xmlSize(xml[[1]][[2]])
+    if(is.null(select.episode))
+        select.episode <- seq(episode.num)
+
 
     if (!quiet)
-        pb <- txtProgressBar(min = min(select.patient)-1, 
-                             max = max(select.patient), style = 3)
+        pb <- txtProgressBar(min = min(select.episode)-1, 
+                             max = max(select.episode), style = 3)
     record <- ccRecord()
 
-    for(patient.id in select.patient){
-        episode_i <- cEpisode()
-        patient <- getXmlPatient(xml, patient.id)
-        pdata<- tryCatch(patientToDataArray(patient, category.index.table), 
-                         error=function(err) {
-                             cat(paste(err, "patient.id = ", patient.id, "\n"))
-                             stop()
-                         })
-
-        if (!is.null(pdata)) {
-            episode_i <- episode_i + pdata[["data1d"]]
-            episode_i <- episode_i + pdata[["data2d"]]
-        }
-
+    for(episode.id in select.episode){
+        episode <- getXmlepisode(xml, episode.id)
+        episode_list <- tryCatch(xmlEpisodeToList(episode), 
+                                 error=function(err) {
+                                     cat(paste(err, "episode.id = ", episode.id, "\n"))
+                                     stop()
+                                 })
+        episode_i <- ccEpisode(episode_list)
+        episode_i@file_origin <- file_origin
+        episode_i@parse_time <- parse_time
         record <- record + episode_i
+
         if (!quiet)
-            setTxtProgressBar(pb, patient.id)
+            setTxtProgressBar(pb, episode.id)
     }
     if (!quiet)
         cat("\n")
+
+    setkey(record@nhs_numbers, nhs_number)
+    setkey(record@pas_numbers, pas_number)
+
     return(record)
 }

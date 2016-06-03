@@ -31,3 +31,7 @@ test_that("test as.number", {
     selected_tags <- StdId("NIHR_HIC_ICU_9999")
     expect_match("9999", as.number(selected_tags))
 })
+
+test_that("test .as.number", {
+    expect_equal(.as.number("NIHR_HIC_ICU_0001"), 1)
+})

@@ -2,14 +2,16 @@
 % Please edit documentation in R/selectIndex.r
 \name{selectIndex}
 \alias{selectIndex}
-\title{here maybe some checking is necessary.}
+\title{this one should no longer be useful.
+here maybe some checking is necessary.}
 \usage{
-selectIndex(info.index, ids, type)
+selectIndex(ids, type)
 }
 \value{
 an selected index
 }
 \description{
+this one should no longer be useful.
 here maybe some checking is necessary.
 }
 
