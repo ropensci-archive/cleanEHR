@@ -30,8 +30,12 @@ create.table = function(freq){
 ccDataTable2$methods(
 filter.missingness = function(recount=FALSE){
     "filter out the where missingness is too low."
-    if (recount || is.null(.self$missingness_table))
+    if (recount || is.null(.self$missingness_table) ||
+       nrow(.self$missingness_table) == 0)
         .self$count.missingness()
+
+    if (is.null(.self$clean_table) || nrow(.self$clean_table) == 0)
+        .self$clean_table <- .self$origin_table
 
     thresholds <- 
         unlist(lapply(.self$conf, 
@@ -43,7 +47,11 @@ filter.missingness = function(recount=FALSE){
     for (nt in names(thresholds))
         select_index <- 
             select_index & as.vector(.self$missingness_table[, nt, with=FALSE] > thresholds[nt])
+
     select_table <- .self$missingness_table[select_index]
+    select_table <- data.table(episode_id=select_table$episode_id,
+                               site=select_table$site)
+    
     .self$clean_table <- 
         merge(select_table, .self$clean_table, by=c("episode_id", "site"))
 })
