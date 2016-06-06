@@ -1,4 +1,5 @@
 #' this is ref example
+#' @import data.table
 #' @include ccdata.r
 #' @export ccDataTable2
 ccDataTable2 <- setRefClass("ccDataTable2", 
@@ -7,8 +8,18 @@ ccDataTable2 <- setRefClass("ccDataTable2",
                                      clean_table="data.table",
                                      record="ccRecord", 
                                      missingness_table="data.table",
-                                     range_table="data.table"))
+                                     range_table="data.table"), 
+                            methods=list(fun1 = function(){
+                                             .self$origin_table[, 1,
+                                                                by=episode_id]
+                                     }))
 
+ccDataTable2$methods(
+fun2 = function(){
+    .self$origin_table[,1, by=episode_id]
+}
+                    
+                    )
 ccDataTable2$methods(
 show = function() {
     cat("origin_table:\n------\n")
@@ -29,7 +40,14 @@ create.table = function(freq){
 
 ccDataTable2$methods(
 filter.missingness = function(apply=TRUE){
-    "filter out the "
+    "filter out the where missingness is too low."
+#    a <- copy(.self$origin_table)
+#   print(.self$origin_table)
+
+    return(.self$origin_table[, .N, by=b])
+#   return(.self$origin_table)
+    #mstb[, V1:=NULL]
+
 })
 
 
@@ -46,4 +64,18 @@ reload.conf = function(file) {
     "reload yaml configuration."
     .self$conf=yaml.load_file(file)
 })
+
+
+
+
+
+#' some description
+#' @exportClass cls
+#' @export cls
+cls <- setRefClass("cls", 
+               fields=c(table="data.table"),
+               methods=list(
+                            fun1=function(){
+                                .self$table[, 1, by=b]
+                            }))
 
