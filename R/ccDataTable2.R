@@ -44,7 +44,7 @@ filter.missingness = function(apply=TRUE){
 #    a <- copy(.self$origin_table)
 #   print(.self$origin_table)
 
-    return(.self$origin_table[, .N, by=b])
+    return(.self$origin_table[, 1, by=episode_id])
 #   return(.self$origin_table)
     #mstb[, V1:=NULL]
 

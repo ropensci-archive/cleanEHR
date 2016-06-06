@@ -16,14 +16,16 @@ License: GPL-2.0
 Suggests:
     testthat
 LinkingTo: Rcpp
+Imports:
+    data.table
 Collate:
     'ITEM_REF.r'
     'RcppExports.R'
     'allPatientsInfo.r'
     'ccDataTable.R'
+    'ccEpisode.r'
     'ccdata.r'
     'ccDataTable2.R'
-    'ccEpisode.r'
     'ccPatient.r'
     'csv2ccdata.r'
     'deltaTime.r'
