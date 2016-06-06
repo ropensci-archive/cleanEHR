@@ -1,5 +1,4 @@
-library(data.table)
-
+#' @include ccEpisode.r
 ###' @section Slots: 
 ##'   \describe{
 ##'      \item{\code{hospital.id}:}{vector}
