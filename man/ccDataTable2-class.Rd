@@ -14,6 +14,8 @@ this is ref example
 \item{\code{create.table(freq)}}{Create a table contains the selected items in the conf with a given
 frequency (in hour)}
 
+\item{\code{filter.missingness(apply = TRUE)}}{filter out the where missingness is too low.}
+
 \item{\code{filter.null(items = c("episode_id", "site"))}}{remove the entire episode when the episode_id or site is NULL}
 
 \item{\code{reload.conf(file)}}{reload yaml configuration.}
