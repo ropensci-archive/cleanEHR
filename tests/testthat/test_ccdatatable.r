@@ -8,8 +8,8 @@ test_that("test create table",{
     tb <- env$tb
     tb$create.table(freq=1)
     # assign table to both origin and clean table
-    expect_true(!is.null(tb$origin_table))
-    expect_equivalent(tb$origin_table, tb$clean_table)
+    expect_true(!is.null(tb$torigin))
+    expect_equivalent(tb$torigin, tb$tclean)
 })
 
 test_that("test count missingness", {
@@ -20,13 +20,14 @@ test_that("test count missingness", {
 test_that("test filter missingness", {
     tb <- env$tb
     tb$filter.missingness()
-    expect_true(any(class(tb$clean_table)=="data.table"))
-    timestamps <- tb$clean_table[, .N , by=c("site", "episode_id")]
-    print(timestamps)
+    expect_true(any(class(tb$tclean)=="data.table"))
+    timestamps <- tb$tclean[, .N , by=c("site", "episode_id")]
     for(i in names(tb$conf)) {
-        nastamps <- tb$clean_table[, length(which(as.character(.SD[[i]]) == "NA")),
+        nastamps <- tb$tclean[, length(which(as.character(.SD[[i]]) == "NA")),
                                by=c("site", "episode_id")]
-        print(nastamps)
+        print(as.numeric(as.character(nastamps$V1)) /
+              as.numeric(as.character(timestamps$N)))
+        print(as.numeric(tb$conf[[i]][["missingness_2d"]][["miss_acceptance"]]))
     }
 
     
@@ -37,17 +38,18 @@ test_that("test filter missingness", {
 
 })
 
-test_that("test the case where no clean_table or missingness_table been
+test_that("test the case where no tclean or missingness been
           initialised.", 
 {
     tb <- env$tb
-    clean_table <- tb$clean_table
+    tclean <- tb$tclean
     # check the case when there is no missingness table
-    tb$missingness_table <- data.table(NULL)
-    tb$clean_table <- data.table(NULL)
+    tb$missingness <- data.table(NULL)
+    tb$tclean <- data.table(NULL)
     tb$filter.missingness()
-    expect_true(any(class(tb$clean_table)=="data.table"))
-    expect_equivalent(clean_table, tb$clean_table)
+    expect_true(any(class(tb$tclean)=="data.table"))
+    expect_equivalent(tclean, tb$tclean)
+    tt<<-tb
 })
 
 test_that("check the recount argument", {})

@@ -4,17 +4,17 @@
 #' @export ccDataTable2
 ccDataTable2 <- setRefClass("ccDataTable2", 
                             fields=c(conf="list",
-                                     origin_table="data.table", 
-                                     clean_table="data.table",
+                                     torigin="data.table", 
+                                     tclean="data.table",
                                      record="ccRecord", 
-                                     missingness_table="data.table",
-                                     range_table="data.table"))
+                                     missingness="data.table",
+                                     range="data.table"))
 ccDataTable2$methods(
 show = function() {
-    cat("origin_table:\n------\n")
-    print(.self$origin_table)
-    cat("clean_table:\n------\n")
-    print(.self$clean_table)
+    cat("torigin:\n------\n")
+    print(.self$torigin)
+    cat("tclean:\n------\n")
+    print(.self$tclean)
 })
 
 ccDataTable2$methods(
@@ -22,20 +22,20 @@ create.table = function(freq){
     "Create a table contains the selected items in the conf with a given
     frequency (in hour)"
     items <- names(.self$conf)
-    .self$origin_table <- selectTable(record=record, items_opt=items, 
+    .self$torigin <- selectTable(record=record, items_opt=items, 
                                freq=freq)
-    .self$clean_table <- .self$origin_table
+    .self$tclean <- .self$torigin
 })
 
 ccDataTable2$methods(
 filter.missingness = function(recount=FALSE){
     "filter out the where missingness is too low."
-    if (recount || is.null(.self$missingness_table) ||
-       nrow(.self$missingness_table) == 0)
+    if (recount || is.null(.self$missingness) ||
+       nrow(.self$missingness) == 0)
         .self$count.missingness()
 
-    if (is.null(.self$clean_table) || nrow(.self$clean_table) == 0)
-        .self$clean_table <- .self$origin_table
+    if (is.null(.self$tclean) || nrow(.self$tclean) == 0)
+        .self$tclean <- .self$torigin
 
     thresholds <- 
         unlist(lapply(.self$conf, 
@@ -43,17 +43,17 @@ filter.missingness = function(recount=FALSE){
     
     # how to make functions data.table awared? so that we can avoid these ugly
     # indexing.
-    select_index <- rep(TRUE, nrow(.self$missingness_table))
+    select_index <- rep(TRUE, nrow(.self$missingness))
     for (nt in names(thresholds))
         select_index <- 
-            select_index & as.vector(.self$missingness_table[, nt, with=FALSE] > thresholds[nt])
+            select_index & as.vector(.self$missingness[, nt, with=FALSE] > thresholds[nt])
 
-    select_table <- .self$missingness_table[select_index]
+    select_table <- .self$missingness[select_index]
     select_table <- data.table(episode_id=select_table$episode_id,
                                site=select_table$site)
     
-    .self$clean_table <- 
-        merge(select_table, .self$clean_table, by=c("episode_id", "site"))
+    .self$tclean <- 
+        merge(select_table, .self$tclean, by=c("episode_id", "site"))
 })
 
 
@@ -70,9 +70,9 @@ count.missingness = function() {
         flags
     }
     
-    .self$missingness_table <- .self$origin_table[, 1, by=c("episode_id", "site")]
-    .self$missingness_table[, V1:=NULL]
-    setkey(.self$missingness_table, episode_id, site)
+    .self$missingness <- .self$torigin[, 1, by=c("episode_id", "site")]
+    .self$missingness[, V1:=NULL]
+    setkey(.self$missingness, episode_id, site)
     
     for (i in names(.self$conf)) {
         missconf <- .self$conf[[i]][["missingness_2d"]][["labels"]]
@@ -82,10 +82,10 @@ count.missingness = function() {
                 colr <- missconf[[c]]
                 tbq <- selectTable(.self$record, items_opt=i, freq=colr)
                 setkey(tbq, episode_id, site)
-                oldnm <- names(.self$missingness_table)
-                .self$missingness_table <- 
-                    merge(.self$missingness_table, missingness_count(tbq))
-                setnames(.self$missingness_table, c(oldnm, paste(i, col_name, sep=".")))
+                oldnm <- names(.self$missingness)
+                .self$missingness <- 
+                    merge(.self$missingness, missingness_count(tbq))
+                setnames(.self$missingness, c(oldnm, paste(i, col_name, sep=".")))
             }
         }
     }    
@@ -98,7 +98,7 @@ ccDataTable2$methods(
 filter.null = function(items=c("episode_id", "site")) {
     "remove the entire episode when the episode_id or site is NULL"
     for (i in items)
-        .self$clean_table <- .self.clean_table[i != "NULL"]
+        .self$tclean <- .self.tclean[i != "NULL"]
 })
 
 
