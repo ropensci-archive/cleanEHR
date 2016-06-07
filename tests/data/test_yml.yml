@@ -27,8 +27,8 @@ NIHR_HIC_ICU_0112:
         labels:
             red: 24
             yellow: 1
-    miss_acceptance:
-        yellow: 50
+        miss_acceptance:
+            red: 49
     imputation:
         lead: 12
         lag: 12
