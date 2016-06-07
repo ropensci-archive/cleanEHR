@@ -14,9 +14,10 @@ NIHR_HIC_ICU_0108:
             yellow: 1
         miss_acceptance:
             yellow: 70 # accepting yellow lower than 1 hour missing rate lower than 70%; do not put more than one threshold
-        imputation_window:
+        imputation:
             lead: 3
             lag: 3
+            fun: mean
 
 NIHR_HIC_ICU_0112: 
     shortName: bp_sys_a
@@ -28,10 +29,11 @@ NIHR_HIC_ICU_0112:
             red: 24
             yellow: 1
         miss_acceptance:
-            red: 49
-    imputation:
-        lead: 12
-        lag: 12
+            yellow: 10
+        imputation:
+            lead: 12
+            lag: 12
+            fun: mean
 #NIHR_HIC_ICU_0123:
     #  shortName: lac_bg
     #  dataItem: Lactate - ABG

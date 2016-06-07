@@ -3,15 +3,16 @@
 #' @param v vector
 #' @param lead number of forward element from the centre of the window.
 #' @export interpolateVec
-interpolateVec <- function(v, lead, lag, FUN=mean, ...) {
+interpolateVec <- function(v, lead, lag, FUN="mean", ...) {
     v <- suppressWarnings(as.numeric(as.character(v)))
     na.ind <- which(is.na(v))
     if (length(na.ind) > 0) { # do interpolation if NA is found. 
         v2 <- c(rep(NA, lead), v, rep(NA, lag))
-
         n_x <- sapply(na.ind, 
                       function(i) {
-                          FUN(v2[i + lead + seq(-lead, lag)], ...)
+                          do.call(FUN,
+                                  c(list(x=v2[i + lead + seq(-lead, lag)]),
+                                    as.list(substitute(list(...)))[-1L]))
                       })
         v[na.ind] <- n_x
     }
