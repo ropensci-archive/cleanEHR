@@ -23,19 +23,15 @@ test_that("test filter missingness", {
     expect_true(any(class(tb$tclean)=="data.table"))
     timestamps <- tb$tclean[, .N , by=c("site", "episode_id")]
     for(i in names(tb$conf)) {
-        nastamps <- tb$tclean[, length(which(as.character(.SD[[i]]) == "NA")),
+        nastamps <- tb$tclean[, length(which(as.character(.SD[[i]]) != "NA")),
                                by=c("site", "episode_id")]
-        print(as.numeric(as.character(nastamps$V1)) /
-              as.numeric(as.character(timestamps$N)))
-        print(as.numeric(tb$conf[[i]][["missingness_2d"]][["miss_acceptance"]]))
+        nonmiss <- as.numeric(as.character(nastamps$V1)) /
+            as.numeric(as.character(timestamps$N))*100
+        accept <-
+            as.numeric(tb$conf[[i]][["missingness_2d"]][["miss_acceptance"]])
+
+        expect_true(nonmiss > accept)
     }
-
-    
-
-
-
-
-
 })
 
 test_that("test the case where no tclean or missingness been
@@ -49,7 +45,14 @@ test_that("test the case where no tclean or missingness been
     tb$filter.missingness()
     expect_true(any(class(tb$tclean)=="data.table"))
     expect_equivalent(tclean, tb$tclean)
-    tt<<-tb
 })
 
 test_that("check the recount argument", {})
+
+
+test_that("test imputation", 
+{
+    tb <- env$tb
+    tb$imputation()
+
+})
