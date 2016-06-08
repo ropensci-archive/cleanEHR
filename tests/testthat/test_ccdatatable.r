@@ -12,9 +12,9 @@ test_that("test create table",{
     expect_equivalent(tb$torigin, tb$tclean)
 })
 
-test_that("test count missingness", {
+test_that("test get.missingness", {
     tb <- env$tb
-    tb$count.missingness()
+    tb$get.missingness()
 })
 
 test_that("test filter missingness", {
@@ -54,5 +54,6 @@ test_that("test imputation",
 {
     tb <- env$tb
     tb$imputation()
+    tt <<- tb
 
 })

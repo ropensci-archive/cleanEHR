@@ -11,11 +11,58 @@ ccDataTable2 <- setRefClass("ccDataTable2",
                                      range="data.table"))
 ccDataTable2$methods(
 show = function() {
-    cat("torigin:\n------\n")
-    print(.self$torigin)
-    cat("tclean:\n------\n")
-    print(.self$tclean)
+    panderOptions("table.split.table", 150)
+    if (!is.null(.self$tclean)) {
+        cat("$tclean", "\n")
+        print(.self$tclean)
+        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
+        cat("Data entry = ", nrow(.self$tclean), "\n")
+        cat("Episode number = ", nrow(uniepisode), "\n")
+    }
+    else 
+        cat("no cleaning data can be found.\n")
+
+    .self$missingness.show()
 })
+
+#' @export count.present
+count.present <- function(table, item) {
+    return(table[,
+          100 - (length(which(is.na(.SD[[item]]))) + 
+              length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
+          by=c("site", "episode_id")])
+}
+
+ccDataTable2$methods(
+missingness.show = function()
+    if(is.null(.self$missingness)) {
+        cat("no missingness check available.\n")
+    }
+    else {
+        txt <- vector()
+        for(i in names(.self$conf)){
+            itm <- .self$conf[[i]]
+            acc <- itm[["missingness_2d"]][["miss_acceptance"]]
+            threshold <- itm[["missingness_2d"]][['labels']][[names(acc)]]
+            check_name <- paste(i, names(acc), sep='.')
+            txt <- rbind(txt, 
+                         c(NHIC=i, 
+                           shortname=itm[["shortName"]],
+                           "origin_data %"=
+                               round(mean(.self$missingness[[check_name]]), digits=2),
+                           "clean_data  %"=
+                               round(mean(count.present(.self$tclean, i)$V1), digits=2),
+                           "threshold %"=
+                               paste(acc[[1]], ' (', threshold, 'h - ', names(acc),  ')', sep="") 
+                           )
+                         ) 
+                                        
+        }
+        pandoc.table(txt, style='simple', round=2)
+
+    }
+
+)
 
 ccDataTable2$methods(
 create.table = function(freq){
@@ -32,7 +79,7 @@ filter.missingness = function(recount=FALSE){
     "filter out the where missingness is too low."
     if (recount || is.null(.self$missingness) ||
        nrow(.self$missingness) == 0)
-        .self$count.missingness()
+        .self$get.missingness()
 
     if (is.null(.self$tclean) || nrow(.self$tclean) == 0)
         .self$tclean <- .self$torigin
@@ -58,7 +105,7 @@ filter.missingness = function(recount=FALSE){
 
 
 ccDataTable2$methods(
-count.missingness = function() {
+get.missingness = function() {
     miss_count <- function(tb) { 
         cmplt <- function(vec) {
             length(which(vec!="NA"))/length(vec) * 100 
