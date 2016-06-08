@@ -11,7 +11,8 @@ Depends:
     XML,
     reshape2,
     data.table,
-    yaml
+    yaml,
+    pander
 License: GPL-2.0
 Suggests:
     testthat
