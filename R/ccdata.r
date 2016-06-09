@@ -76,11 +76,12 @@ addDataListToRecord <- function(rec, data) {
     return(rec)
 }
 
-#' @exportMethod +
 setMethod('+', c("ccRecord", "list"), 
           function(e1, e2) {addDataListToRecord(e1, e2)}
           )
 
+setMethod('+', c("ccRecord", "NULL"), 
+          function(e1, e2) return(e1))
 
 
 #' Correct the index and meta data information for ccRecord.

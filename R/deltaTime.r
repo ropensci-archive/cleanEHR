@@ -49,21 +49,26 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
 
     update_time <- function(ep) {
         env <- environment()
-        admin_icu_time <- ep@admin_icu_time
-        lapply(ep@data,
-               function(data) {
-                   if (length(data) > 1) {
-                       data$time <- difftime(xmlTime2POSIX(data$time), 
-                                             xmlTime2POSIX(env$admin_icu_time),
-                                             units=units)
-                       if (!tdiff)
-                           data$time <- as.numeric(data$time)
+        admin_icu_time <- xmlTime2POSIX(ep@admin_icu_time, allow=TRUE)
+        if (is.na(admin_icu_time)) {
+            return(NULL)
+        }
+        else {
+            lapply(ep@data,
+                   function(data) {
+                       if (length(data) > 1) {
+                           data$time <- difftime(xmlTime2POSIX(data$time), 
+                                                 env$admin_icu_time,
+                                                 units=units)
+                           if (!tdiff)
+                               data$time <- as.numeric(data$time)
 
-                   }
-                   return(data)
-               })
+                       }
+                       return(data)
+                   })
+        }
     }
-
+    
     record <- ccRecord() + for_each_episode(record, update_time)
 
     if (anonymised == TRUE) {
