@@ -4,9 +4,8 @@ NIHR_HIC_ICU_0108:
     distribution: normal
     decimal_places: 0
     range:
-        unusual: 0 - 40, 200 - 250
-        accept: 0 - 250
-        normal: 80 - 150
+        accept: (0, 5); (30, 250)
+        normal: (0, 170) 
     # report missingness in hours
     missingness_2d:
         labels:
@@ -24,6 +23,9 @@ NIHR_HIC_ICU_0112:
     dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
     distribution: normal
     decimal_places: 0
+    range:
+        accept: (0, 550)
+        normal: (0, 120)
     missingness_2d:
         labels:
             red: 24
