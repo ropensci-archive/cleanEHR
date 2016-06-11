@@ -54,6 +54,16 @@ test_that("test imputation",
 {
     tb <- env$tb
     tb$imputation()
-    tt <<- tb
+})
 
+
+test_that("test range check", 
+{
+    tb <- env$tb
+    tb$tclean <- data.table()
+    tb$filter.ranges()
+    tt <<- tb
+# case1 : no range specified in yml
+# case2 : missing range speicification 
+# case3 : overlapping, i.e. accept and impossible should not overlap.
 })
