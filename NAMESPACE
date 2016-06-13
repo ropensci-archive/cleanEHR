@@ -2,6 +2,7 @@
 
 export(.as.number)
 export(.simple.data.frame)
+export(.which.datatype)
 export(.which.type)
 export(StdId)
 export(addDataListToRecord)
