@@ -199,13 +199,11 @@ ccDataTable2$methods(
             if (!is.null(item[['range']])){
                 rgclass <- rep(NA, nrow(.self$torigin))
                 rgclass[.self$torigin[[item_name]] != "NA"] <- 0
-                vals <-
-                    suppressWarnings(as.numeric(
-                        as.character(.self$torigin[[item_name]])))
-                
+                                
                 for(rg_label in names(item[['range']])) {
                     irg <- item[['range']][[rg_label]]
-                    rgclass[which(inrange(vals, irg))] <- rgnum[[rg_label]]
+                    rgclass[which(inrange(.self$torigin[[item_name]], irg))] <- 
+                        rgnum[[rg_label]]
                 }
                 .self$range <- cbind(.self$range, rgclass)
             }
