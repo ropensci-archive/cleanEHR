@@ -41,7 +41,6 @@ Collate:
     'readItems.r'
     'reallocateTime.r'
     'record2table.r'
-    'sanity.check.r'
     'selectIndex.r'
     'select_data.r'
     'stdid.r'
