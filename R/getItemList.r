@@ -36,11 +36,16 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
                      })
     if (return_list)
         return(lt)
-
+    
     dt <- rbindlist(lt)
+
+    # convert data type 
+    for (i in all_items)
+        dt[[i]] <- suppressWarnings(.which.datatype(i)(as.character(dt[[i]])))
 
     if (!is.null(item.name))
         setnames(dt, c("time", item.name, "site", "episode_id"))
+
     return(dt)
 }
 
