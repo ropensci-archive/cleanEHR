@@ -1,7 +1,7 @@
 # 
 library(ccdata)
 reload()
-if (!exists("ccd"))
+if (!exists("ccd_delta_num"))
     load('../data/delta_num.Rdata')
 ccd <- ccd_delta_num
 
