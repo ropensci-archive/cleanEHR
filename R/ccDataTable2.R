@@ -201,7 +201,7 @@ ccDataTable2$methods(
                 rgclass[.self$torigin[[item_name]] != "NA"] <- 0
                 vals <-
                     suppressWarnings(as.numeric(
-                        as.character(tt$torigin[[item_name]])))
+                        as.character(.self$torigin[[item_name]])))
                 
                 for(rg_label in names(item[['range']])) {
                     irg <- item[['range']][[rg_label]]
