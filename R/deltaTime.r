@@ -37,7 +37,7 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
     # for anonymised data only: 
     # convert hash admin time to the earliest time of the record
     if (anonymised == TRUE) {
-        admin_disc_time <<- for_each_episode(record, find.episode.time)
+        admin_disc_time <- for_each_episode(record, find.episode.time)
         # NOTE: please try Map here which may look neater. 
         for (p in seq(record@patients)) {
             for(e in seq(record@patients[[p]]@episodes)) {
@@ -70,10 +70,11 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
     }
 
     record <- ccRecord() + for_each_episode(record, update_time)
-    # remove the "NULL" from admin_disc_time, since the NULL episodes are
-    # removed in `+` above. 
-    admin_disc_time <- admin_disc_time[sapply(admin_disc_time, function(x) x!="NULL")]
     if (anonymised == TRUE) {
+        # remove the "NULL" from admin_disc_time, since the NULL episodes are
+        # removed in `+` above. 
+        admin_disc_time <- admin_disc_time[sapply(admin_disc_time, function(x) x!="NULL")]
+
         for (p in seq(record@patients)) {
             for(e in seq(record@patients[[p]]@episodes)) {
                 record@patients[[p]]@episodes[[e]]@admin_icu_time <- admin_disc_time[[p]][[e]][1]
@@ -81,7 +82,5 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
             }
         }
     }
-    
-
     return(record)
 }
