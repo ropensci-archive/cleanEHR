@@ -8,21 +8,30 @@ ccDataTable2 <- setRefClass("ccDataTable2",
                                      tclean="data.table",
                                      record="ccRecord", 
                                      missingness="data.table",
-                                     range="data.table"))
+                                     range="data.table", 
+                                     summary="list"))
 ccDataTable2$methods(
 show = function() {
     panderOptions("table.split.table", 150)
+    
+    cat("$tclean", "\n")
+    print(.self$tclean)
+    cat("Data entry (origin) = ", nrow(.self$torigin), "\n")
+    uniepisode <- .self$torigin[,1,by=c("episode_id", "site")]
+    cat("Episode number (origin) = ", nrow(uniepisode), "\n")
+
+
     if (!is.null(.self$tclean) & nrow(.self$tclean) != 0) {
-        cat("$tclean", "\n")
-        print(.self$tclean)
         uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
-        cat("Data entry = ", nrow(.self$tclean), "\n")
-        cat("Episode number = ", nrow(uniepisode), "\n")
+        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
+        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
+        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
+        .self$missingness.show()
     }
     else 
         cat("no cleaning data can be found.\n")
 
-    .self$missingness.show()
+
 })
 
 #' @export count.present
