@@ -23,7 +23,6 @@ Collate:
     'ITEM_REF.r'
     'RcppExports.R'
     'allPatientsInfo.r'
-    'ccDataTable.R'
     'ccEpisode.r'
     'ccdata.r'
     'ccDataTable2.R'

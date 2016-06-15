@@ -1,8 +1,8 @@
 #' this is ref example
 #' @import data.table
 #' @include ccdata.r
-#' @export ccDataTable2
-ccDataTable2 <- setRefClass("ccDataTable2", 
+#' @export ccDataTable
+ccDataTable <- setRefClass("ccDataTable", 
                             fields=c(conf="list",
                                      torigin="data.table", 
                                      tclean="data.table",
@@ -10,7 +10,7 @@ ccDataTable2 <- setRefClass("ccDataTable2",
                                      missingness="data.table",
                                      range="data.table", 
                                      summary="list"))
-ccDataTable2$methods(
+ccDataTable$methods(
 show = function() {
     panderOptions("table.split.table", 150)
     
@@ -42,7 +42,7 @@ count.present <- function(table, item) {
           by=c("site", "episode_id")])
 }
 
-ccDataTable2$methods(
+ccDataTable$methods(
     missingness.show = function()
         if(is.null(.self$missingness)) {
             cat("no missingness check available.\n")
@@ -71,7 +71,7 @@ ccDataTable2$methods(
         }
 )
 
-ccDataTable2$methods(
+ccDataTable$methods(
     create.table = function(freq){
         "Create a table contains the selected items in the conf with a given
         frequency (in hour)"
@@ -81,7 +81,7 @@ ccDataTable2$methods(
         .self$tclean <- .self$torigin
 })
 
-ccDataTable2$methods(
+ccDataTable$methods(
     filter.missingness = function(recount=FALSE){
         "filter out the where missingness is too low."
         if (recount || is.null(.self$missingness) ||
@@ -111,7 +111,7 @@ ccDataTable2$methods(
 })
 
 
-ccDataTable2$methods(
+ccDataTable$methods(
     get.missingness = function() {
         miss_count <- function(tb) { 
             cmplt <- function(vec) {
@@ -147,8 +147,19 @@ ccDataTable2$methods(
 
 
 
+missingness_count <- function(tb) {
+    cmplt <- function(vec) {
+        length(which(vec!="NA"))/length(vec) * 100
+    }
+    items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
+    stopifnot(length(items)==1)
+    flags <- tb[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
+    setnames(flags, c('episode_id', 'site', items))
 
-ccDataTable2$methods(
+    flags
+}
+
+ccDataTable$methods(
     filter.null = function(items=c("episode_id", "site")) {
         "remove the entire episode when the episode_id or site is NULL"
         for (i in items)
@@ -157,14 +168,14 @@ ccDataTable2$methods(
 
 
 
-ccDataTable2$methods(
+ccDataTable$methods(
     reload.conf = function(file) {
         "reload yaml configuration."
         .self$conf=yaml.load_file(file)
 })
 
 
-ccDataTable2$methods(
+ccDataTable$methods(
     imputation = function() {
         imputation_columns <- function(sd) {
             for (i in names(.self$conf)) {
@@ -197,7 +208,7 @@ inrange <- function(v, range) {
 }
 
 
-ccDataTable2$methods(
+ccDataTable$methods(
     get.ranges = function(){
         if (is.null(.self$range))
             .self$range <- data.table(seq(nrow(.self$torigin)))#.self$torigin[,c('site', 'episode_id'), with=F]
@@ -222,7 +233,7 @@ ccDataTable2$methods(
     }
 )
 
-ccDataTable2$methods(
+ccDataTable$methods(
     filter.ranges = function(select="accept") {
         rgnum <- list('impossible'=0, 'accept'=1, 'normal'=2)
         if(is.null(.self$range))
