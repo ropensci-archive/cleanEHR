@@ -43,9 +43,6 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     for (i in all_items)
         dt[[i]] <- suppressWarnings(.which.datatype(i)(as.character(dt[[i]])))
 
-    if (!is.null(item.name))
-        setnames(dt, c("time", item.name, "site", "episode_id"))
-
     return(dt)
 }
 
@@ -57,8 +54,12 @@ itemsToDataFrame <- function(ep, items, period_length, freq) {
     listmatrix[["time"]] <- time
 
     for (i in items) {
-        if ("time" %in% names(ep@data[[i]]))
-            listmatrix[[i]] <- reallocateTime(ep@data[[i]], period_length, freq)$val
+        if ("time" %in% names(ep@data[[i]])) {
+            new <- reallocateTime(ep@data[[i]], period_length, freq)
+            listmatrix[[i]] <- new$val
+            if ("meta" %in% names(ep@data[[i]]))
+                listmatrix[[paste(i, "meta", sep=".")]] <- new$meta
+        }
         else
             listmatrix[[i]] <- rep("NA", length(time))
     }
