@@ -4,9 +4,8 @@ NIHR_HIC_ICU_0108:
     distribution: normal
     decimal_places: 0
     range:
-        unusual: 0 - 40, 200 - 250
-        accept: 0 - 250
-        normal: 80 - 150
+        accept: (0, 5); (30, 250)
+        normal: (0, 170) 
     # report missingness in hours
     missingness_2d:
         labels:
@@ -14,24 +13,29 @@ NIHR_HIC_ICU_0108:
             yellow: 1
         miss_acceptance:
             yellow: 70 # accepting yellow lower than 1 hour missing rate lower than 70%; do not put more than one threshold
-        imputation_window:
+        imputation:
             lead: 3
             lag: 3
+            fun: mean
 
 NIHR_HIC_ICU_0112: 
     shortName: bp_sys_a
     dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
     distribution: normal
     decimal_places: 0
+    range:
+        accept: (0, 550)
+        normal: (0, 120)
     missingness_2d:
         labels:
             red: 24
             yellow: 1
-    miss_acceptance:
-        yellow: 50
-    imputation:
-        lead: 12
-        lag: 12
+        miss_acceptance:
+            yellow: 10
+        imputation:
+            lead: 12
+            lag: 12
+            fun: mean
 #NIHR_HIC_ICU_0123:
     #  shortName: lac_bg
     #  dataItem: Lactate - ABG

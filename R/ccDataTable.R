@@ -52,7 +52,6 @@ new.ccDataTable <- function(record, yaml, base_frequency=1, check_miss2d=TRUE) {
                 base_frequency=paste(base_frequency, "hour"))
 }
 
-#' @export missingness_count
 missingness_count <- function(tb) {
     cmplt <- function(vec) {
         length(which(vec!="NA"))/length(vec) * 100

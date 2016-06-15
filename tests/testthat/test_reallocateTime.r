@@ -36,8 +36,8 @@ test_that("input and output data types",
 test_that("check when item admin_icu_time or discharge_icu_time is missing", 
 {
     # anonymised delta time used the same mechenism that searching first and
-    # last data time stamp. 
-    dt <- deltaTime(ccd, anonymised=TRUE)
+    # last data time stamp.
+    dt <- deltaTime(ccd_, anonymised=TRUE)
     ta <- dt[1, 1]@admin_icu_time
     td <- dt[1, 1]@discharge_icu_time
    

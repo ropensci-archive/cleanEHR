@@ -5,7 +5,7 @@
 \title{perform window period approximation on a given numeric vector. Window is
 specified by lead and lag.}
 \usage{
-interpolateVec(v, lead, lag, FUN = mean, ...)
+interpolateVec(v, lead, lag, FUN = "mean", ...)
 }
 \arguments{
 \item{v}{vector}

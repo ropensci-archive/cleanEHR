@@ -20,25 +20,32 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
                              period_length <- getEpisodePeriod(ep)
                              # getEpisodePeriod will return NULL when no 2D
                              # data been found. 
-                             if (!is.null(period_length)) { 
-                                 result <- append(result,
-                                                  itemsToDataFrame(ep, all_items,
-                                                                   period_length,
-                                                                   freq))
-                                 nlength <- length(result[["time"]])
-                                 result[["site"]] <- rep(ep@site_id, nlength)
-                                 result[["episode_id"]] <- rep(ep@episode_id, nlength)
-                                 env$lt[[length(lt) + 1]]<- .simple.data.frame(result)
+                             if (!is.null(period_length)) {
+                                 if (period_length > 0 ) {
+                                     result <- append(result,
+                                                      itemsToDataFrame(ep, all_items,
+                                                                       period_length,
+                                                                       freq))
+                                     nlength <- length(result[["time"]])
+                                     result[["site"]] <- rep(ep@site_id, nlength)
+                                     result[["episode_id"]] <- rep(ep@episode_id, nlength)
+                                     env$lt[[length(lt) + 1]]<- .simple.data.frame(result)
+                                 }
                              }
                          }
                      })
     if (return_list)
         return(lt)
-
-    dt <- rbindlist(lt)
     
+    dt <- rbindlist(lt)
+
+    # convert data type 
+    for (i in all_items)
+        dt[[i]] <- suppressWarnings(.which.datatype(i)(as.character(dt[[i]])))
+
     if (!is.null(item.name))
         setnames(dt, c("time", item.name, "site", "episode_id"))
+
     return(dt)
 }
 

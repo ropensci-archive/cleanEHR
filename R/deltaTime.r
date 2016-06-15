@@ -49,34 +49,38 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
 
     update_time <- function(ep) {
         env <- environment()
-        admin_icu_time <- ep@admin_icu_time
-        lapply(ep@data,
-               function(data) {
-                   if (length(data) > 1) {
-                       data$time <- difftime(xmlTime2POSIX(data$time), 
-                                             xmlTime2POSIX(env$admin_icu_time),
-                                             units=units)
-                       if (!tdiff)
-                           data$time <- as.numeric(data$time)
+        admin_icu_time <- xmlTime2POSIX(ep@admin_icu_time, allow=TRUE)
+        if (is.na(admin_icu_time)) {
+            return(NULL)
+        }
+        else {
+            lapply(ep@data,
+                   function(data) {
+                       if (length(data) > 1) {
+                           data$time <- difftime(xmlTime2POSIX(data$time), 
+                                                 env$admin_icu_time,
+                                                 units=units)
+                           if (!tdiff)
+                               data$time <- as.numeric(data$time)
 
-                   }
-                   return(data)
-               })
+                       }
+                       return(data)
+                   })
+        }
     }
 
     record <- ccRecord() + for_each_episode(record, update_time)
-
     if (anonymised == TRUE) {
+        # remove the "NULL" from admin_disc_time, since the NULL episodes are
+        # removed in `+` above. 
+        admin_disc_time <- admin_disc_time[sapply(admin_disc_time, function(x) x!="NULL")]
+
         for (p in seq(record@patients)) {
             for(e in seq(record@patients[[p]]@episodes)) {
-                record@patients[[p]]@episodes[[e]]@admin_icu_time <- 
-                    admin_disc_time[[p]][[e]][1]
-                record@patients[[p]]@episodes[[e]]@discharge_icu_time <- 
-                    admin_disc_time[[p]][[e]][2]
+                record@patients[[p]]@episodes[[e]]@admin_icu_time <- admin_disc_time[[p]][[e]][1]
+                record@patients[[p]]@episodes[[e]]@discharge_icu_time <- admin_disc_time[[p]][[e]][2]
             }
         }
     }
-    
-
     return(record)
 }

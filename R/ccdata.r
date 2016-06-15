@@ -1,5 +1,4 @@
-library(data.table)
-
+#' @include ccEpisode.r
 ###' @section Slots: 
 ##'   \describe{
 ##'      \item{\code{hospital.id}:}{vector}
@@ -10,7 +9,7 @@ library(data.table)
 ##'      \item{\code{data.1d:}}{vector}
 ##'      \item{\code{data.2d:}}{vector, store timewise data}
 ##'    }
-##' @exportClass ccRecord 
+#' @exportClass ccRecord 
 #' @export ccRecord
 ccRecord <- setClass("ccRecord",
                      slots=c(npatient="integer",
@@ -60,6 +59,9 @@ setMethod('+', c("ccRecord", "ccEpisode"),
 
 #' @export addDataListToRecord
 addDataListToRecord <- function(rec, data) {
+    if (length(data) == 0) #empty list
+        return(rec)
+
     rec@CLEANED_TAG <- FALSE
     rec@patients <- 
         append(rec@patients, 
@@ -68,26 +70,34 @@ addDataListToRecord <- function(rec, data) {
                           env <- environment()
                           patient <- ccPatient()
                           lapply(p, 
-                                 function(e)
-                                     env$patient <- env$patient + ccEpisode(e)
-                                 )
-                          return(patient)
+                                 function(e) {
+                                     if(!is.null(e))
+                                         env$patient <- env$patient + ccEpisode(e)
+                                 })
+                          if (patient@nepisode > 0)
+                              return(patient)
+                          else 
+                              return(NULL)
                       }))
     rec <- reindexRecord(rec)
     return(rec)
 }
 
-#' @exportMethod +
 setMethod('+', c("ccRecord", "list"), 
           function(e1, e2) {addDataListToRecord(e1, e2)}
           )
 
+setMethod('+', c("ccRecord", "NULL"), 
+          function(e1, e2) return(e1))
 
 
 #' Correct the index and meta data information for ccRecord.
 #' It takes only the patient level indexing information. 
 #' @export reindexRecord
 reindexRecord <- function(record) {
+    # remove NULL patients.
+    record@patients <- record@patients[!sapply(record@patients, is.null)]
+
     nhs_numbers <- allPatientsInfo(record, "nhs_number")
     pas_numbers <- allPatientsInfo(record, "pas_number")
     record@npatient <- length(record@patients)
