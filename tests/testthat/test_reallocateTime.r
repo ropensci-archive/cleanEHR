@@ -57,3 +57,20 @@ test_that("check when item admin_icu_time or discharge_icu_time is missing",
     expect_equal(max(time_with_null), max(time))
 
 })
+
+test_that("check data with meta data column (C++ function)", {
+    input <- data.frame(time=seq(1, 100, 10), 
+               item2d=rep("v", 10), 
+               meta=rep("m", 10))
+    output <- reallocateTime(input, 100, 1)
+    # index increase by 1 
+    expect_equal(nrow(output), 101)
+    expect_equivalent(as.character(output[seq(2, 100, 10), 2]), rep("v", 10))
+    expect_equivalent(as.character(output[seq(2, 100, 10), 3]), rep("m", 10))
+
+    output <- reallocateTime(input, 100, 10)
+    expect_equal(nrow(output), 11)
+
+    output <- reallocateTime(input, 100, 0.1)
+    expect_equal(nrow(output), 1001)
+})
