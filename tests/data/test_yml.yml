@@ -1,22 +1,22 @@
-NIHR_HIC_ICU_0108:
-    shortName: hrate
-    dataItem: Heart rate
-    distribution: normal
-    decimal_places: 0
-    range:
-        accept: (0, 5); (30, 250)
-        normal: (0, 170) 
-    # report missingness in hours
-    missingness_2d:
-        labels:
-            red: 24
-            yellow: 1
-        miss_acceptance:
-            yellow: 70 # accepting yellow lower than 1 hour missing rate lower than 70%; do not put more than one threshold
-        imputation:
-            lead: 3
-            lag: 3
-            fun: mean
+#NIHR_HIC_ICU_0108:
+#    shortName: hrate
+#    dataItem: Heart rate
+#    distribution: normal
+#    decimal_places: 0
+#    range:
+#        red: (0, 5); (30, 250)
+#        amber: (0, 170) 
+#    # report missingness in hours
+#    missingness_2d:
+#        labels:
+#            red: 24
+#            yellow: 1
+#        miss_acceptance:
+#            yellow: 70 # accepting yellow lower than 1 hour missing rate lower than 70%; do not put more than one threshold
+#        imputation:
+#            lead: 3
+#            lag: 3
+#            fun: mean
 
 NIHR_HIC_ICU_0112: 
     shortName: bp_sys_a
@@ -24,11 +24,11 @@ NIHR_HIC_ICU_0112:
     distribution: normal
     decimal_places: 0
     range:
-        accept: (0, 550)
-        normal: (0, 120)
+        red: (0, 550)
+        green: (0, 120)
     missingness_2d:
         labels:
-            red: 24
+#           red: 24
             yellow: 1
         miss_acceptance:
             yellow: 10
