@@ -36,8 +36,9 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
                      })
     if (return_list)
         return(lt)
-    
-    dt <- rbindlist(lt)
+
+    # fill is true because meta data column can be missing. 
+    dt <- rbindlist(lt, fill=TRUE) 
 
     # convert data type 
     for (i in all_items)

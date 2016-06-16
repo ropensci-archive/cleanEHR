@@ -5,7 +5,7 @@ if (!exists("ccd_delta_num"))
     load('../data/delta_num.Rdata')
 ccd <- ccd_delta_num
 
-dt.sofa <- ccDataTable2(conf=yaml.load_file('tests/data/test_yml.yml'), record=ccd)
+dt.sofa <- ccDataTable(conf=yaml.load_file('tests/data/test_yml.yml'), record=ccd)
 # create table with all selected items in yaml conf with cadance of 1 hour.
 dt.sofa$create.table(freq=1)
 

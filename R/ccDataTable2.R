@@ -9,7 +9,8 @@ ccDataTable <- setRefClass("ccDataTable",
                                      record="ccRecord", 
                                      missingness="data.table",
                                      range="data.table", 
-                                     summary="list"))
+                                     summary="list",
+                                     base_cadence="numeric"))
 ccDataTable$methods(
 show = function() {
     panderOptions("table.split.table", 150)
@@ -79,6 +80,7 @@ ccDataTable$methods(
         .self$torigin <- selectTable(record=record, items_opt=items, 
                                      freq=freq)
         .self$tclean <- .self$torigin
+        .self$base_cadence <- freq
 })
 
 ccDataTable$methods(
@@ -118,9 +120,8 @@ ccDataTable$methods(
                 length(which(vec!="NA"))/length(vec) * 100 
             }
             items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
-            stopifnot(length(items)==1) 
             flags <- tb[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
-            setnames(flags, c('episode_id', 'site', items))
+            setnames(flags, c('episode_id', 'site', items[1]))
             flags
         }
 
@@ -152,9 +153,8 @@ missingness_count <- function(tb) {
         length(which(vec!="NA"))/length(vec) * 100
     }
     items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
-    stopifnot(length(items)==1)
     flags <- tb[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
-    setnames(flags, c('episode_id', 'site', items))
+    setnames(flags, c('episode_id', 'site', items[1]))
 
     flags
 }
@@ -212,7 +212,7 @@ ccDataTable$methods(
     get.ranges = function(){
         if (is.null(.self$range))
             .self$range <- data.table(seq(nrow(.self$torigin)))#.self$torigin[,c('site', 'episode_id'), with=F]
-        rgnum <- list('accept'=1, 'normal'=2)
+        rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         for(item_name in names(.self$conf)) {
             item <- .self$conf[[item_name]]
 
@@ -234,8 +234,8 @@ ccDataTable$methods(
 )
 
 ccDataTable$methods(
-    filter.ranges = function(select="accept") {
-        rgnum <- list('impossible'=0, 'accept'=1, 'normal'=2)
+    filter.ranges = function(select='red') {
+        rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         if(is.null(.self$range))
             .self$get.ranges()
         if (!is.null(.self$tclean) & nrow(.self$tclean) != 0) stop('need an empty tclean')
