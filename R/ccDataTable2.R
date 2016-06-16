@@ -52,7 +52,7 @@ ccDataTable$methods(
             txt <- vector()
             for(i in names(.self$conf)){
                 itm <- .self$conf[[i]]
-                acc <- itm[["missingness_2d"]][["miss_acceptance"]]
+                acc <- itm[["missingness_2d"]][["accept_2d"]]
                 threshold <- itm[["missingness_2d"]][['labels']][[names(acc)]]
                 check_name <- paste(i, names(acc), sep='.')
                 txt <- rbind(txt, 
@@ -95,7 +95,7 @@ ccDataTable$methods(
 
         thresholds <- 
             unlist(lapply(.self$conf, 
-                          function(x) x[["missingness_2d"]][["miss_acceptance"]]))
+                          function(x) x[["missingness_2d"]][["accept_2d"]]))
 
         # how to make functions data.table awared? so that we can avoid these ugly
         # indexing.
@@ -179,7 +179,7 @@ ccDataTable$methods(
     imputation = function() {
         imputation_columns <- function(sd) {
             for (i in names(.self$conf)) {
-                imwin <- .self$conf[[i]][['missingness_2d']][['imputation']]
+                imwin <- .self$conf[[i]][['missingness_2d']][['impute_2d']]
                 fun <- imwin[['fun']]
                 lead <- imwin[['lead']]
                 lag <- imwin[['lag']]
@@ -238,8 +238,8 @@ ccDataTable$methods(
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         if(is.null(.self$range))
             .self$get.ranges()
-        if (!is.null(.self$tclean) & nrow(.self$tclean) != 0) stop('need an empty tclean')
-        .self$tclean <- .self$torigin
+        if (nrow(.self$tclean) != nrow(.self$torigin)) 
+            stop('range check should be carried out before modification of the clean table')
 
         for(item in names(.self$range)) {
             .self$tclean[[item]][.self$range[[item]] < rgnum[[select]]] <- NA 

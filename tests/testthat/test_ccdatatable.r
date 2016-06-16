@@ -28,9 +28,8 @@ test_that("test filter missingness", {
         nonmiss <- as.numeric(as.character(nastamps$V1)) /
             as.numeric(as.character(timestamps$N))*100
         accept <-
-            as.numeric(tb$conf[[i]][["missingness_2d"]][["miss_acceptance"]])
-
-        expect_true(nonmiss > accept)
+            as.numeric(tb$conf[[i]][["missingness_2d"]][["accept_2d"]])
+        expect_true(nonmiss[1] > accept)
     }
 })
 
@@ -60,7 +59,7 @@ test_that("test imputation",
 test_that("test range check", 
 {
     tb <- env$tb
-    tb$tclean <- data.table()
+    tb$tclean <- tb$torigin
     tb$filter.ranges()
     tt <<- tb
 # case1 : no range specified in yml
