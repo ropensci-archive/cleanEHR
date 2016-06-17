@@ -1,0 +1,41 @@
+NIHR_HIC_ICU_0108:
+  shortName: hrate
+  dataItem: Heart rate
+  distribution: normal
+  decimal_places: 0
+  range:
+      red: (0, 300)
+      amber: (0, 170) 
+      green: (50, 100)
+  # report missingness in hours
+  missingness_2d:
+      labels:
+          yellow: 24
+      # accept time series data where the missingness is less than 70%
+      # do not put more than one threshold
+      accept_2d:
+        yellow: 50 
+      impute_2d:
+          lead: 3
+          lag: 3
+          fun: median
+NIHR_HIC_ICU_0113:
+  shortName: bp_sys_ni
+  dataItem: Systolic Arterial blood pressure - NBPSystolic Arterial blood pressure
+  distribution: normal
+  decimal_places: 0
+  range:
+      red: (0, 300)
+      amber: (30, 250) 
+  # report missingness in hours
+  missingness_2d:
+      labels:
+          yellow: 24
+      # accept time series data where the missingness is less than 70%
+      # do not put more than one threshold
+      accept_2d:
+          yellow: 50 
+      impute_2d:
+          lead: 3
+          lag: 3
+          fun: median

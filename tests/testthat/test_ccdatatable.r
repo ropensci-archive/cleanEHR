@@ -1,7 +1,7 @@
 context("Testing ccDataTable")
 env <- environment()
 ccd_delta <- suppressWarnings(deltaTime(ccd_, anonymised=T))
-conf <- yaml.load_file('../data/test_yml.yml')
+conf <- yaml.load_file('../data/test_spec.yml')
 tb <- ccDataTable(record=ccd_delta, conf=conf)
 
 test_that("test create table",{
