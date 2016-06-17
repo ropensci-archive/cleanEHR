@@ -24,9 +24,21 @@ NIHR_HIC_ICU_0122:
   dataItem: Lactate - ABG
   distribution: skewed
   decimal_places: 1
-  missingness_2d:
-    range_red: 24
-    range_yellow: 6
+  range:
+      red: (0, 50)
+      amber: (0.5, 30) 
+  # report missingness in hours
+#  missingness_2d:
+#      labels:
+#          yellow: 24
+#      # accept time series data where the missingness is less than 70%
+#      # do not put more than one threshold
+#      accept_2d:
+#          yellow: 70 
+#      impute_2d:
+#          lead: 3
+#          lag: 3
+#          fun: median
 NIHR_HIC_ICU_0123:
   shortName: lac_lab
   dataItem: Lactate - Lab
@@ -36,17 +48,17 @@ NIHR_HIC_ICU_0123:
       red: (0, 50)
       amber: (0.5, 30) 
   # report missingness in hours
-  missingness_2d:
-      labels:
-          yellow: 24
-      # accept time series data where the missingness is less than 70%
-      # do not put more than one threshold
-      accept_2d:
-          yellow: 70 
-      impute_2d:
-          lead: 3
-          lag: 3
-          fun: median
+#  missingness_2d:
+#      labels:
+#          yellow: 24
+#      # accept time series data where the missingness is less than 70%
+#      # do not put more than one threshold
+#      accept_2d:
+#          yellow: 70 
+#      impute_2d:
+#          lead: 3
+#          lag: 3
+#          fun: median
 NIHR_HIC_ICU_0112:
   shortName: bp_sys_a
   dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
@@ -68,45 +80,44 @@ NIHR_HIC_ICU_0112:
           lag: 3
           fun: median
 NIHR_HIC_ICU_0113:
-#  shortName: bp_sys_ni
-#  dataItem: Systolic Arterial blood pressure - NBPSystolic Arterial blood pressure
-#  distribution: normal
-#  decimal_places: 0
-#  range:
-#      red: (0, 300)
-#      amber: (30, 250) 
-#  # report missingness in hours
-#  missingness_2d:
-#      labels:
-#          yellow: 24
-#      # accept time series data where the missingness is less than 70%
-#      # do not put more than one threshold
-#      accept_2d:
-#          yellow: 70 
-#      impute_2d:
-#          lead: 3
-#          lag: 3
-#          fun: median
-#NIHR_HIC_ICU_0114:
-#  shortName: bp_dia_a
-#  dataItem: Diastolic arterial blood pressure - Art BPDiastolic arterial blood pressure
-#  distribution: normal
-#  decimal_places: 0
-#  range:
-#      red: (0, 200)
-#      amber: (10, 150) 
-#  # report missingness in hours
-#  missingness_2d:
-#      labels:
-#          yellow: 24
-#      # accept time series data where the missingness is less than 70%
-#      # do not put more than one threshold
-#      accept_2d:
-#          yellow: 70 
-#      impute_2d:
-#          lead: 3
-#          lag: 3
-#          fun: median
+  shortName: bp_sys_ni
+  dataItem: Systolic Arterial blood pressure - NBPSystolic Arterial blood pressure
+  distribution: normal
+  decimal_places: 0
+  range:
+      red: (0, 300)
+      amber: (30, 250) 
+  # report missingness in hours
+  missingness_2d:
+      labels:
+          yellow: 24
+      # accept time series data where the missingness is less than 70%
+      # do not put more than one threshold
+      accept_2d:
+          yellow: 70 
+      impute_2d:
+          lead: 3
+          lag: 3
+          fun: median
+NIHR_HIC_ICU_0114:
+  shortName: bp_dia_a
+  dataItem: Diastolic arterial blood pressure - Art BPDiastolic arterial blood pressure
+  distribution: normal
+  decimal_places: 0
+  range:
+      red: (0, 200)
+      amber: (10, 150) 
+  # report missingness in hours
+  missingness_2d:
+      labels:
+          yellow: 24
+      # accept time series data where the missingness is less than 70%
+      # do not put more than one threshold
+      accept_2d:
+          yellow: 70 
+      impute_2d:
+          lead: 3
+          lag: 3
 #NIHR_HIC_ICU_0115:
 #  shortName: bp_dia_ni
 #  dataItem: Diastolic arterial blood pressure - NBPDiastolic arterial blood pressure
