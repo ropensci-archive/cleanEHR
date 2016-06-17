@@ -13,8 +13,20 @@ test_that("test create table",{
 })
 
 test_that("test get.missingness", {
-    tb <- env$tb
+    cr <-
+        ccRecord()+ccEpisode(list(NIHR_HIC_ICU_0108=data.frame(time=as.numeric(seq(100)),
+                                                       item2d=as.character(rep(10,100)))))
+    tb <- ccDataTable(record=cr, conf=yaml.load_file('../data/test_2yml.yml'))
+    tb$create.table(freq=1)
+    tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 1
     tb$get.missingness()
+    expect_equal(tb$missingness$NIHR_HIC_ICU_0108.yellow, 100/101*100)
+
+    tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 0.1
+    tb$get.missingness()
+    expect_equal(tb$missingness$NIHR_HIC_ICU_0108.yellow, 100/1001*100)
+
+
 })
 
 test_that("test filter missingness", {
@@ -61,7 +73,6 @@ test_that("test range check",
     tb <- env$tb
     tb$tclean <- tb$torigin
     tb$filter.ranges()
-    tt <<- tb
 # case1 : no range specified in yml
 # case2 : missing range speicification 
 # case3 : overlapping, i.e. accept and impossible should not overlap.

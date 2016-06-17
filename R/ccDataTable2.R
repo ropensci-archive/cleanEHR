@@ -115,12 +115,12 @@ ccDataTable$methods(
 
 ccDataTable$methods(
     get.missingness = function() {
-        miss_count <- function(tb) { 
+        miss_count <- function(tb_) { 
             cmplt <- function(vec) {
                 length(which(vec!="NA"))/length(vec) * 100 
             }
-            items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
-            flags <- tb[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
+            items <- names(tb_)[!names(tb_) %in% c("site", "time", "episode_id")]
+            flags <- tb_[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
             setnames(flags, c('episode_id', 'site', items[1]))
             flags
         }
@@ -225,24 +225,18 @@ ccDataTable$methods(
                     rgclass[which(inrange(.self$torigin[[item_name]], irg))] <- 
                         rgnum[[rg_label]]
                 }
-                .self$range <- cbind(.self$range, rgclass)
+                .self$range[[item_name]] <- rgclass
             }
         }
-        setnames(.self$range, c('index', names(.self$conf)))
-        .self$range[, 'index':=NULL]
     }
 )
 
 ccDataTable$methods(
     filter.ranges = function(select='red') {
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
-        if(is.null(.self$range))
+        if(is.null(.self$range) || nrow(.self$range) != nrow(.self$tclean))
             .self$get.ranges()
-        if (nrow(.self$tclean) != nrow(.self$torigin)) 
-            stop('range check should be carried out before modification of the clean table')
-
-        for(item in names(.self$range)) {
+        for(item in names(.self$range)) 
             .self$tclean[[item]][.self$range[[item]] < rgnum[[select]]] <- NA 
-        }
     }
 )
