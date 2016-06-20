@@ -39,3 +39,6 @@ NIHR_HIC_ICU_0113:
           lead: 3
           lag: 3
           fun: median
+NIHR_HIC_ICU_0093:
+    shortName: nhs_number
+    dataItem: NHS number
