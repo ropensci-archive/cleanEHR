@@ -29,6 +29,7 @@ Collate:
     'ccPatient.r'
     'csv2ccdata.r'
     'deltaTime.r'
+    'duplicated.episode.R'
     'extractInfo.r'
     'fill.na.r'
     'findMaxMinTime.R'
