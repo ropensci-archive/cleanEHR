@@ -41,7 +41,8 @@ test_that("test filter missingness", {
             as.numeric(as.character(timestamps$N))*100
         accept <-
             as.numeric(tb$conf[[i]][["missingness_2d"]][["accept_2d"]])
-        expect_true(nonmiss[1] > accept)
+        if (length(accept) != 0)
+            expect_true(nonmiss[1] >= accept)
     }
 })
 
@@ -73,6 +74,7 @@ test_that("test range check",
     tb <- env$tb
     tb$tclean <- tb$torigin
     tb$filter.ranges()
+    tt <<- tb
 # case1 : no range specified in yml
 # case2 : missing range speicification 
 # case3 : overlapping, i.e. accept and impossible should not overlap.

@@ -55,14 +55,19 @@ itemsToDataFrame <- function(ep, items, period_length, freq) {
     listmatrix[["time"]] <- time
 
     for (i in items) {
-        if ("time" %in% names(ep@data[[i]])) {
-            new <- reallocateTime(ep@data[[i]], period_length, freq)
-            listmatrix[[i]] <- new$val
-            if ("meta" %in% names(ep@data[[i]]))
-                listmatrix[[paste(i, "meta", sep=".")]] <- new$meta
+        if (length(ep@data[[i]]) == 1) {
+            listmatrix[[i]] <- rep(ep@data[[i]], length(time))
         }
-        else
-            listmatrix[[i]] <- rep("NA", length(time))
+        else {
+            if ("time" %in% names(ep@data[[i]])) {
+                new <- reallocateTime(ep@data[[i]], period_length, freq)
+                listmatrix[[i]] <- new$val
+                if ("meta" %in% names(ep@data[[i]]))
+                    listmatrix[[paste(i, "meta", sep=".")]] <- new$meta
+            }
+            else
+                listmatrix[[i]] <- rep("NA", length(time))
+        }
     }
     return(listmatrix)
 }

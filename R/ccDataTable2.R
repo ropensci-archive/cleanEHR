@@ -3,12 +3,13 @@
 #' @include ccdata.r
 #' @export ccDataTable
 ccDataTable <- setRefClass("ccDataTable", 
-                            fields=c(conf="list",
+                            fields=c(
+                                     record="ccRecord", 
+                                     conf="list",
                                      torigin="data.table", 
                                      tclean="data.table",
-                                     record="ccRecord", 
                                      missingness="data.table",
-                                     range="data.table", 
+                                     range="data.table",
                                      summary="list",
                                      base_cadence="numeric"))
 ccDataTable$methods(
@@ -22,15 +23,15 @@ show = function() {
     cat("Episode number (origin) = ", nrow(uniepisode), "\n")
 
 
-    if (!is.null(.self$tclean) & nrow(.self$tclean) != 0) {
-        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
-        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
-        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
-        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
-        .self$missingness.show()
-    }
-    else 
-        cat("no cleaning data can be found.\n")
+#    if (!is.null(.self$tclean) & nrow(.self$tclean) != 0) {
+#        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
+#        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
+#        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
+#        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
+#        .self$missingness.show()
+#    }
+#    else 
+#        cat("no cleaning data can be found.\n")
 
 
 })

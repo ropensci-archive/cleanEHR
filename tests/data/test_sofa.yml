@@ -1,3 +1,9 @@
+NIHR_HIC_ICU_0033:
+  shortName: dbirth
+  dataItem: Date of birth
+NIHR_HIC_ICU_0093:
+  shortName: sex
+  dateItem: Sex
 NIHR_HIC_ICU_0108:
   shortName: hrate
   dataItem: Heart rate
