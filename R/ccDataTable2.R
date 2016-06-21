@@ -8,10 +8,10 @@ ccDataTable <- setRefClass("ccDataTable",
                                      conf="list",
                                      torigin="data.table", 
                                      tclean="data.table",
-                                     missingness="data.table",
-                                     range="data.table",
+                                     data_quality="list", 
                                      summary="list",
-                                     base_cadence="numeric"))
+                                     base_cadence="numeric",
+                                     .select_index="logical"))
 ccDataTable$methods(
 show = function() {
     panderOptions("table.split.table", 150)
@@ -28,13 +28,16 @@ show = function() {
 #        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
 #        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
 #        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
-#        .self$missingness.show()
+#        .self$data_quality[['missingness']].show()
 #    }
 #    else 
 #        cat("no cleaning data can be found.\n")
 
 
 })
+
+
+
 
 #' @export count.present
 count.present <- function(table, item) {
@@ -44,9 +47,10 @@ count.present <- function(table, item) {
           by=c("site", "episode_id")])
 }
 
+
 ccDataTable$methods(
     missingness.show = function()
-        if(is.null(.self$missingness)) {
+        if(is.null(.self$data_quality[['missingness']])) {
             cat("no missingness check available.\n")
         }
         else {
@@ -60,7 +64,7 @@ ccDataTable$methods(
                              c(NHIC=i, 
                                shortname=itm[["shortName"]],
                                "origin_data %"=
-                                   round(mean(.self$missingness[[check_name]]), digits=2),
+                                   round(mean(.self$data_quality[['missingness']][[check_name]]), digits=2),
                                "clean_data  %"=
                                    round(mean(count.present(.self$tclean, i)$V1), digits=2),
                                "threshold %"=
@@ -87,8 +91,8 @@ ccDataTable$methods(
 ccDataTable$methods(
     filter.missingness = function(recount=FALSE){
         "filter out the where missingness is too low."
-        if (recount || is.null(.self$missingness) ||
-            nrow(.self$missingness) == 0)
+        if (recount || is.null(.self$data_quality[['missingness']]) ||
+            nrow(.self$data_quality[['missingness']]) == 0)
             .self$get.missingness()
 
         if (is.null(.self$tclean) || nrow(.self$tclean) == 0)
@@ -100,18 +104,43 @@ ccDataTable$methods(
 
         # how to make functions data.table awared? so that we can avoid these ugly
         # indexing.
-        select_index <- rep(TRUE, nrow(.self$missingness))
+        select_index <- rep(TRUE, nrow(.self$data_quality[['missingness']]))
         for (nt in names(thresholds))
             select_index <- 
-                select_index & as.vector(.self$missingness[, nt, with=FALSE] > thresholds[nt])
+                select_index & as.vector(.self$data_quality[['missingness']][, nt, with=FALSE] > thresholds[nt])
 
-        select_table <- .self$missingness[select_index]
+        select_table <- .self$data_quality[['missingness']][select_index]
         select_table <- data.table(episode_id=select_table$episode_id,
                                    site=select_table$site)
 
         .self$tclean <- 
             merge(select_table, .self$tclean, by=c("episode_id", "site"))
 })
+
+
+ccDataTable$methods(
+    check.categorical = function() {
+        "check individual entries if they are the in the categories specified
+        in conf."
+        episode_table <- .self$torigin[, .SD[1], by=c("site", "episode_id")]
+        select_episode <- episode_table[, c("site", "episode_id"), with=FALSE]
+        for(inm in names(.self$conf)) {
+            ctg <- .self$conf[[inm]][["categories"]]
+            if (!is.null(ctg)) {
+                select_episode <- cbind(select_episode, episode_table[[inm]]
+                                        %in% c(names(ctg), "NA", NA))
+            }
+        }
+        .self$data_quality[['categories']] <- select_episode
+    })
+
+ccDataTable$methods(
+    filter.categorical = function() {
+
+
+    
+    })
+
 
 
 ccDataTable$methods(
@@ -126,9 +155,9 @@ ccDataTable$methods(
             flags
         }
 
-        .self$missingness <- .self$torigin[, 1, by=c("episode_id", "site")]
-        .self$missingness[, V1:=NULL]
-        setkey(.self$missingness, episode_id, site)
+        .self$data_quality[['missingness']] <- .self$torigin[, 1, by=c("episode_id", "site")]
+        .self$data_quality[['missingness']][, V1:=NULL]
+        setkey(.self$data_quality[['missingness']], episode_id, site)
 
         for (i in names(.self$conf)) {
             missconf <- .self$conf[[i]][["missingness_2d"]][["labels"]]
@@ -138,10 +167,10 @@ ccDataTable$methods(
                     colr <- missconf[[c]]
                     tbq <- selectTable(.self$record, items_opt=i, freq=colr)
                     setkey(tbq, episode_id, site)
-                    oldnm <- names(.self$missingness)
-                    .self$missingness <- 
-                        merge(.self$missingness, missingness_count(tbq))
-                    setnames(.self$missingness, c(oldnm, paste(i, col_name, sep=".")))
+                    oldnm <- names(.self$data_quality[['missingness']])
+                    .self$data_quality[['missingness']] <- 
+                        merge(.self$data_quality[['missingness']], missingness_count(tbq))
+                    setnames(.self$data_quality[['missingness']], c(oldnm, paste(i, col_name, sep=".")))
                 }
             }
         }    
@@ -212,8 +241,8 @@ inrange <- function(v, range) {
 
 ccDataTable$methods(
     get.ranges = function(){
-        if (is.null(.self$range))
-            .self$range <- data.table(seq(nrow(.self$torigin)))#.self$torigin[,c('site', 'episode_id'), with=F]
+        if (is.null(.self$data_quality$range))
+            .self$data_quality$range <- data.table(seq(nrow(.self$torigin)))#.self$torigin[,c('site', 'episode_id'), with=F]
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         for(item_name in names(.self$conf)) {
             item <- .self$conf[[item_name]]
@@ -227,7 +256,7 @@ ccDataTable$methods(
                     rgclass[which(inrange(.self$torigin[[item_name]], irg))] <- 
                         rgnum[[rg_label]]
                 }
-                .self$range[[item_name]] <- rgclass
+                .self$data_quality$range[[item_name]] <- rgclass
             }
         }
     }
@@ -236,9 +265,9 @@ ccDataTable$methods(
 ccDataTable$methods(
     filter.ranges = function(select='red') {
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
-        if(is.null(.self$range) || nrow(.self$range) != nrow(.self$tclean))
+        if(is.null(.self$data_quality$range) || nrow(.self$data_quality$range) != nrow(.self$tclean))
             .self$get.ranges()
-        for(item in names(.self$range)) 
-            .self$tclean[[item]][.self$range[[item]] < rgnum[[select]]] <- NA 
+        for(item in names(.self$data_quality$range)) 
+            .self$tclean[[item]][.self$data_quality$range[[item]] < rgnum[[select]]] <- NA 
     }
 )

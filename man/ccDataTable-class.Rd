@@ -11,6 +11,9 @@ this is ref example
 \section{Methods}{
 
 \describe{
+\item{\code{check.category()}}{check individual entries if they are the in the categories specified
+in conf.}
+
 \item{\code{create.table(freq)}}{Create a table contains the selected items in the conf with a given
 frequency (in hour)}
 
