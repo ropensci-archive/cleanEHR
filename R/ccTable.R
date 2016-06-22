@@ -45,17 +45,15 @@ show = function() {
 
 
 
-#' @export count.present
-count.present <- function(table, item) {
-    return(table[,
-          100 - (length(which(is.na(.SD[[item]]))) + 
-              length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
-          by=c("site", "episode_id")])
-}
-
 
 ccTable$methods(
-    missingness.show = function()
+    missingness.show = function() {
+        count.present <- function(table, item) {
+            return(table[,
+                   100 - (length(which(is.na(.SD[[item]]))) + 
+                          length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
+                   by=c("site", "episode_id")])
+        }
         if(is.null(.self$data_quality[['missingness']])) {
             cat("no missingness check available.\n")
         }
@@ -81,7 +79,7 @@ ccTable$methods(
             }
             pandoc.table(txt, style='simple')
         }
-)
+    })
 
 ccTable$methods(
     create.table = function(freq){
@@ -137,6 +135,3 @@ ccTable$methods(
         "reload yaml configuration."
         .self$conf=yaml.load_file(file)
 })
-
-
-
