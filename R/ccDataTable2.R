@@ -1,4 +1,8 @@
-#' this is ref example
+#' Rearrange 1d and 2d items into a wide table to enable data cleaning and
+#' reporting process.
+#' @field record ccRecord
+#' @field data_quality list contains three data quality tables 1) range, 2)
+#' missingness, 3) categorical
 #' @import data.table
 #' @include ccdata.r
 #' @export ccDataTable
@@ -11,7 +15,9 @@ ccDataTable <- setRefClass("ccDataTable",
                                      data_quality="list", 
                                      summary="list",
                                      base_cadence="numeric",
-                                     .select_index="logical"))
+                                     .rindex="data.table", 
+                                     .epindex="data.table",
+                                     items="character"))
 ccDataTable$methods(
 show = function() {
     panderOptions("table.split.table", 150)
@@ -81,113 +87,43 @@ ccDataTable$methods(
     create.table = function(freq){
         "Create a table contains the selected items in the conf with a given
         frequency (in hour)"
-        items <- names(.self$conf)
-        .self$torigin <- selectTable(record=record, items_opt=items, 
-                                     freq=freq)
+        .self$items <- names(.self$conf)
+        .self$torigin <- selectTable(record=record, items_opt=items, freq=freq)
+        setkey(.self$torigin, "site", "episode_id")
         .self$tclean <- .self$torigin
+        setkey(.self$torigin, "site", "episode_id")
         .self$base_cadence <- freq
+
+        .self$.rindex <- .self$torigin
+        for(i in .self$items) .self$.rindex[[i]] <- TRUE
+
+        .self$.epindex <- .self$torigin[, TRUE, by=c("site", "episode_id")]
+        setnames(.self$.epindex, c("site", "episode_id", "index"))
 })
 
 ccDataTable$methods(
-    filter.missingness = function(recount=FALSE){
-        "filter out the where missingness is too low."
-        if (recount || is.null(.self$data_quality[['missingness']]) ||
-            nrow(.self$data_quality[['missingness']]) == 0)
-            .self$get.missingness()
-
-        if (is.null(.self$tclean) || nrow(.self$tclean) == 0)
-            .self$tclean <- .self$torigin
-
-        thresholds <- 
-            unlist(lapply(.self$conf, 
-                          function(x) x[["missingness_2d"]][["accept_2d"]]))
-
-        # how to make functions data.table awared? so that we can avoid these ugly
-        # indexing.
-        select_index <- rep(TRUE, nrow(.self$data_quality[['missingness']]))
-        for (nt in names(thresholds))
-            select_index <- 
-                select_index & as.vector(.self$data_quality[['missingness']][, nt, with=FALSE] > thresholds[nt])
-
-        select_table <- .self$data_quality[['missingness']][select_index]
-        select_table <- data.table(episode_id=select_table$episode_id,
-                                   site=select_table$site)
-
-        .self$tclean <- 
-            merge(select_table, .self$tclean, by=c("episode_id", "site"))
-})
-
-
-ccDataTable$methods(
-    check.categorical = function() {
-        "check individual entries if they are the in the categories specified
-        in conf."
-        episode_table <- .self$torigin[, .SD[1], by=c("site", "episode_id")]
-        select_episode <- episode_table[, c("site", "episode_id"), with=FALSE]
-        for(inm in names(.self$conf)) {
-            ctg <- .self$conf[[inm]][["categories"]]
-            if (!is.null(ctg)) {
-                select_episode <- cbind(select_episode, episode_table[[inm]]
-                                        %in% c(names(ctg), "NA", NA))
-            }
-        }
-        .self$data_quality[['categories']] <- select_episode
+    drop_entry = function(nmitem, dq){
+        .self$.rindex[[nmitem]] <- 
+            .self$.rindex[[nmitem]] & dq$entry[[nmitem]]
     })
 
 ccDataTable$methods(
-    filter.categorical = function() {
-
-
-    
+    drop_episode = function(nmitem, dq){
+        .self$.epindex[[nmitem]] <- 
+            .self$.rindex[[nmitem]] & dq$episode[[nmitem]]
     })
 
-
-
 ccDataTable$methods(
-    get.missingness = function() {
-        miss_count <- function(tb_) { 
-            cmplt <- function(vec) {
-                length(which(vec!="NA"))/length(vec) * 100 
-            }
-            items <- names(tb_)[!names(tb_) %in% c("site", "time", "episode_id")]
-            flags <- tb_[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
-            setnames(flags, c('episode_id', 'site', items[1]))
-            flags
-        }
-
-        .self$data_quality[['missingness']] <- .self$torigin[, 1, by=c("episode_id", "site")]
-        .self$data_quality[['missingness']][, V1:=NULL]
-        setkey(.self$data_quality[['missingness']], episode_id, site)
-
-        for (i in names(.self$conf)) {
-            missconf <- .self$conf[[i]][["missingness_2d"]][["labels"]]
-            if(!is.null(missconf)) {
-                for (c in seq(missconf)) {
-                    col_name <- names(missconf[c])
-                    colr <- missconf[[c]]
-                    tbq <- selectTable(.self$record, items_opt=i, freq=colr)
-                    setkey(tbq, episode_id, site)
-                    oldnm <- names(.self$data_quality[['missingness']])
-                    .self$data_quality[['missingness']] <- 
-                        merge(.self$data_quality[['missingness']], missingness_count(tbq))
-                    setnames(.self$data_quality[['missingness']], c(oldnm, paste(i, col_name, sep=".")))
-                }
-            }
-        }    
+    spec2function = function(spec) {
+        spec <- as.character(spec)
+        switch(spec, 
+               "drop_entry"=.self$drop_entry,
+               "drop_episode"=.self$drop_episode,
+               "NA"=function(nmitem, dq){}, 
+               "NULL"=function(nmitem, dq){},
+               stop("functions for applying filters can only be 'drop_entry' or 'drop_episode'. "))
 })
 
-
-
-missingness_count <- function(tb) {
-    cmplt <- function(vec) {
-        length(which(vec!="NA"))/length(vec) * 100
-    }
-    items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
-    flags <- tb[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
-    setnames(flags, c('episode_id', 'site', items[1]))
-
-    flags
-}
 
 ccDataTable$methods(
     filter.null = function(items=c("episode_id", "site")) {
@@ -196,8 +132,6 @@ ccDataTable$methods(
             .self$tclean <- .self.tclean[i != "NULL"]
 })
 
-
-
 ccDataTable$methods(
     reload.conf = function(file) {
         "reload yaml configuration."
@@ -205,69 +139,4 @@ ccDataTable$methods(
 })
 
 
-ccDataTable$methods(
-    imputation = function() {
-        imputation_columns <- function(sd) {
-            for (i in names(.self$conf)) {
-                imwin <- .self$conf[[i]][['missingness_2d']][['impute_2d']]
-                if (!is.null(imwin)) {
-                    fun <- imwin[['fun']]
-                    lead <- imwin[['lead']]
-                    lag <- imwin[['lag']]
-                    sd[[i]] <- interpolateVec(v=sd[[i]], lead=lead, lag=lag, FUN=fun, na.rm=T)
-                }
-            }
-            return(sd)
-        }
-        .self$tclean <- .self$tclean[, imputation_columns(.SD), by=c("episode_id", "site")]
-})
 
-
-#' Check if the values of a vector v is in the ranges.
-#' @param v vector numeric
-#' @param range characters numeric ranges in a form such as (low, up). Multiple
-#' ranges should seperated by semi-column.
-inrange <- function(v, range) {
-    funtxt <- function(r) {
-        r <- gsub(";", "|", r)
-        r <- gsub(",", " < v & v < ", r)
-        return(paste("function(v)", r))
-    }
-
-    cmpfunc <- eval(parse(text=funtxt(range)))
-    return(cmpfunc(v))
-}
-
-
-ccDataTable$methods(
-    get.ranges = function(){
-        if (is.null(.self$data_quality$range))
-            .self$data_quality$range <- data.table(seq(nrow(.self$torigin)))#.self$torigin[,c('site', 'episode_id'), with=F]
-        rgnum <- list('red'=1, 'amber'=2, 'green'=3)
-        for(item_name in names(.self$conf)) {
-            item <- .self$conf[[item_name]]
-
-            if (!is.null(item[['range']])){
-                rgclass <- rep(NA, nrow(.self$torigin))
-                rgclass[.self$torigin[[item_name]] != "NA"] <- 0
-                                
-                for(rg_label in names(item[['range']])) {
-                    irg <- item[['range']][[rg_label]]
-                    rgclass[which(inrange(.self$torigin[[item_name]], irg))] <- 
-                        rgnum[[rg_label]]
-                }
-                .self$data_quality$range[[item_name]] <- rgclass
-            }
-        }
-    }
-)
-
-ccDataTable$methods(
-    filter.ranges = function(select='red') {
-        rgnum <- list('red'=1, 'amber'=2, 'green'=3)
-        if(is.null(.self$data_quality$range) || nrow(.self$data_quality$range) != nrow(.self$tclean))
-            .self$get.ranges()
-        for(item in names(.self$data_quality$range)) 
-            .self$tclean[[item]][.self$data_quality$range[[item]] < rgnum[[select]]] <- NA 
-    }
-)

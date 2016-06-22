@@ -74,8 +74,17 @@ test_that("test range check",
     tb <- env$tb
     tb$tclean <- tb$torigin
     tb$filter.ranges()
-    tt <<- tb
 # case1 : no range specified in yml
 # case2 : missing range speicification 
 # case3 : overlapping, i.e. accept and impossible should not overlap.
+})
+
+
+test_that("test categorical data filter", 
+{
+    tb <- env$tb
+    tb$check.categorical()
+    tb$filter.categorical()
+
+    tt <<- tb
 })

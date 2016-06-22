@@ -1,15 +1,16 @@
-#NIHR_HIC_ICU_0398:
-#  shortName: adm_type
-#  dataItem: Admission type
-#  distribution: nominal
-#  categories:
-#    L: unplanned Local admission
-#    U: Unplanned transfer in
-#    P: Planned transfer in
-#    S: planned local Surgical admission
-#    M: planned local Medical admission
-#    R: Repatriation
-#  filter: FALSE
+NIHR_HIC_ICU_0398:
+  shortName: adm_type
+  dataItem: Admission type
+  distribution: nominal
+  categories:
+    L: unplanned Local admission
+    U: Unplanned transfer in
+    P: Planned transfer in
+    S: planned local Surgical admission
+    M: planned local Medical admission
+    R: Repatriation
+  apply:
+      categorical: throw_entry
 #NIHR_HIC_ICU_0077:
 #  shortName: loca_in
 #  dataItem: Prior location (in)
@@ -69,6 +70,9 @@ NIHR_HIC_ICU_0108:
           lead: 3
           lag: 3
           fun: median
+  apply:
+      range: throw_entry
+      missingness: throw_episode
 #NIHR_HIC_ICU_0122:
 #  shortName: lac_bg
 #  dataItem: Lactate - ABG
