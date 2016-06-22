@@ -5,8 +5,8 @@
 #' missingness, 3) categorical
 #' @import data.table
 #' @include ccdata.r
-#' @export ccDataTable
-ccDataTable <- setRefClass("ccDataTable", 
+#' @export ccTable
+ccTable <- setRefClass("ccTable", 
                             fields=c(
                                      record="ccRecord", 
                                      conf="list",
@@ -18,7 +18,7 @@ ccDataTable <- setRefClass("ccDataTable",
                                      .rindex="data.table", 
                                      .epindex="data.table",
                                      items="character"))
-ccDataTable$methods(
+ccTable$methods(
 show = function() {
     panderOptions("table.split.table", 150)
     
@@ -54,7 +54,7 @@ count.present <- function(table, item) {
 }
 
 
-ccDataTable$methods(
+ccTable$methods(
     missingness.show = function()
         if(is.null(.self$data_quality[['missingness']])) {
             cat("no missingness check available.\n")
@@ -83,7 +83,7 @@ ccDataTable$methods(
         }
 )
 
-ccDataTable$methods(
+ccTable$methods(
     create.table = function(freq){
         "Create a table contains the selected items in the conf with a given
         frequency (in hour)"
@@ -101,19 +101,19 @@ ccDataTable$methods(
         setnames(.self$.epindex, c("site", "episode_id", "index"))
 })
 
-ccDataTable$methods(
+ccTable$methods(
     drop_entry = function(nmitem, dq){
         .self$.rindex[[nmitem]] <- 
             .self$.rindex[[nmitem]] & dq$entry[[nmitem]]
     })
 
-ccDataTable$methods(
+ccTable$methods(
     drop_episode = function(nmitem, dq){
         .self$.epindex[[nmitem]] <- 
             .self$.rindex[[nmitem]] & dq$episode[[nmitem]]
     })
 
-ccDataTable$methods(
+ccTable$methods(
     spec2function = function(spec) {
         spec <- as.character(spec)
         switch(spec, 
@@ -125,14 +125,14 @@ ccDataTable$methods(
 })
 
 
-ccDataTable$methods(
+ccTable$methods(
     filter.null = function(items=c("episode_id", "site")) {
         "remove the entire episode when the episode_id or site is NULL"
         for (i in items)
             .self$tclean <- .self.tclean[i != "NULL"]
 })
 
-ccDataTable$methods(
+ccTable$methods(
     reload.conf = function(file) {
         "reload yaml configuration."
         .self$conf=yaml.load_file(file)

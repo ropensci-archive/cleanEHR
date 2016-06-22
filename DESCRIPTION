@@ -25,7 +25,7 @@ Collate:
     'allPatientsInfo.r'
     'ccEpisode.r'
     'ccdata.r'
-    'ccDataTable2.R'
+    'ccTable.R'
     'categorical.filter.R'
     'ccPatient.r'
     'csv2ccdata.r'

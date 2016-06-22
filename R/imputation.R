@@ -1,6 +1,6 @@
-#' @include ccDataTable2.R
+#' @include ccTable.R
 
-ccDataTable$methods(
+ccTable$methods(
     imputation = function() {
         imputation_columns <- function(sd) {
             for (i in names(.self$conf)) {
@@ -16,6 +16,3 @@ ccDataTable$methods(
         }
         .self$tclean <- .self$tclean[, imputation_columns(.SD), by=c("episode_id", "site")]
 })
-
-
-
