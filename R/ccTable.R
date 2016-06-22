@@ -1,7 +1,7 @@
 #' Rearrange 1d and 2d items into a wide table to enable data cleaning and
 #' reporting process.
 #' @field record ccRecord
-#' @field data_quality list contains three data quality tables 1) range, 2)
+#' @field dfilter list contains three data quality tables 1) range, 2)
 #' missingness, 3) categorical
 #' @import data.table
 #' @include ccdata.r
@@ -12,7 +12,7 @@ ccTable <- setRefClass("ccTable",
                                      conf="list",
                                      torigin="data.table", 
                                      tclean="data.table",
-                                     data_quality="list", 
+                                     dfilter="list", 
                                      summary="list",
                                      base_cadence="numeric",
                                      .rindex="data.table", 
@@ -34,7 +34,7 @@ show = function() {
 #        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
 #        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
 #        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
-#        .self$data_quality[['missingness']].show()
+#        .self$dfilter[['missingness']].show()
 #    }
 #    else 
 #        cat("no cleaning data can be found.\n")
@@ -54,7 +54,7 @@ ccTable$methods(
                           length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
                    by=c("site", "episode_id")])
         }
-        if(is.null(.self$data_quality[['missingness']])) {
+        if(is.null(.self$dfilter[['missingness']])) {
             cat("no missingness check available.\n")
         }
         else {
@@ -68,7 +68,7 @@ ccTable$methods(
                              c(NHIC=i, 
                                shortname=itm[["shortName"]],
                                "origin_data %"=
-                                   round(mean(.self$data_quality[['missingness']][[check_name]]), digits=2),
+                                   round(mean(.self$dfilter[['missingness']][[check_name]]), digits=2),
                                "clean_data  %"=
                                    round(mean(count.present(.self$tclean, i)$V1), digits=2),
                                "threshold %"=
@@ -98,6 +98,16 @@ ccTable$methods(
         .self$.epindex <- .self$torigin[, TRUE, by=c("site", "episode_id")]
         setnames(.self$.epindex, c("site", "episode_id", "index"))
 })
+
+
+ccTable$methods(
+    apply.filters = function() {
+        # collect entry filters 
+        .self$dfilter$categories$entry 
+        .self$tclean
+        
+    })
+
 
 ccTable$methods(
     drop_entry = function(nmitem, dq){

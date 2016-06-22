@@ -20,11 +20,11 @@ test_that("test get.missingness", {
     tb$create.table(freq=1)
     tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 1
     tb$get.missingness()
-    expect_equal(tb$data_quality$missingness$NIHR_HIC_ICU_0108.yellow, 100/101*100)
+    expect_equal(tb$dfilter$missingness$NIHR_HIC_ICU_0108.yellow, 100/101*100)
 
     tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 0.1
     tb$get.missingness()
-    expect_equal(tb$data_quality$missingness$NIHR_HIC_ICU_0108.yellow, 100/1001*100)
+    expect_equal(tb$dfilter$missingness$NIHR_HIC_ICU_0108.yellow, 100/1001*100)
 
 
 })
@@ -52,7 +52,7 @@ test_that("test the case where no tclean or missingness been
     tb <- env$tb
     tclean <- tb$tclean
     # check the case when there is no missingness table
-    tb$data_quality$missingness <- data.table(NULL)
+    tb$dfilter$missingness <- data.table(NULL)
     tb$tclean <- data.table(NULL)
     tb$filter.missingness()
     expect_true(any(class(tb$tclean)=="data.table"))
