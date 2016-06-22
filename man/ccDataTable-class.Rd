@@ -4,16 +4,23 @@
 \name{ccDataTable-class}
 \alias{ccDataTable}
 \alias{ccDataTable-class}
-\title{this is ref example}
+\title{Rearrange 1d and 2d items into a wide table to enable data cleaning and
+reporting process.}
 \description{
-this is ref example
+Rearrange 1d and 2d items into a wide table to enable data cleaning and
+reporting process.
 }
+\section{Fields}{
+
+\describe{
+\item{\code{record}}{ccRecord}
+
+\item{\code{data_quality}}{list contains three data quality tables 1) range, 2)
+missingness, 3) categorical}
+}}
 \section{Methods}{
 
 \describe{
-\item{\code{check.category()}}{check individual entries if they are the in the categories specified
-in conf.}
-
 \item{\code{create.table(freq)}}{Create a table contains the selected items in the conf with a given
 frequency (in hour)}
 
