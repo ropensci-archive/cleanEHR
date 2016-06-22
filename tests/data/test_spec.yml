@@ -3,13 +3,12 @@ NIHR_HIC_ICU_0398:
   dataItem: Admission type
   distribution: nominal
   categories:
-      K: bal
-      #    L: unplanned Local admission
-      #    U: Unplanned transfer in
-      #    P: Planned transfer in
-      #    S: planned local Surgical admission
-      #    M: planned local Medical admission
-      #    R: Repatriation
+      L: unplanned Local admission
+      U: Unplanned transfer in
+      P: Planned transfer in
+      S: planned local Surgical admission
+      M: planned local Medical admission
+      R: Repatriation
   apply:
       categorical: drop_entry
 NIHR_HIC_ICU_0108:
@@ -33,6 +32,9 @@ NIHR_HIC_ICU_0108:
           lead: 3
           lag: 3
           fun: median
+  apply:
+      range: drop_entry
+      missingness_2d: drop_episode
 NIHR_HIC_ICU_0113:
   shortName: bp_sys_ni
   dataItem: Systolic Arterial blood pressure - NBPSystolic Arterial blood pressure
@@ -53,6 +55,9 @@ NIHR_HIC_ICU_0113:
           lead: 3
           lag: 3
           fun: median
+  apply: 
+      range: drop_entry
+      missingness_2d: drop_episode
 NIHR_HIC_ICU_0093:
     shortName: nhs_number
     dataItem: NHS number
