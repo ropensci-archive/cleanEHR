@@ -1,6 +1,6 @@
-#' @include ccDataTable2.R
+#' @include ccTable.R
 
-ccDataTable$methods(
+ccTable$methods(
     check.categorical = function() {
         "Check individual entries if they are the in the categories specified
         in conf."
@@ -17,7 +17,7 @@ ccDataTable$methods(
     })
 
 
-ccDataTable$methods(
+ccTable$methods(
     filter.categorical = function() {
         "Substitute original wrong categorical values with "
         for (iname in names(.self$conf)) {

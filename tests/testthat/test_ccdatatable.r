@@ -1,8 +1,8 @@
-context("Testing ccDataTable")
+context("Testing ccTable")
 env <- environment()
 ccd_delta <- suppressWarnings(deltaTime(ccd_, anonymised=T))
 conf <- yaml.load_file('../data/test_spec.yml')
-tb <- ccDataTable(record=ccd_delta, conf=conf)
+tb <- ccTable(record=ccd_delta, conf=conf)
 
 test_that("test create table",{
     tb <- env$tb
@@ -16,7 +16,7 @@ test_that("test get.missingness", {
     cr <-
         ccRecord()+ccEpisode(list(NIHR_HIC_ICU_0108=data.frame(time=as.numeric(seq(100)),
                                                        item2d=as.character(rep(10,100)))))
-    tb <- ccDataTable(record=cr, conf=yaml.load_file('../data/test_2yml.yml'))
+    tb <- ccTable(record=cr, conf=yaml.load_file('../data/test_2yml.yml'))
     tb$create.table(freq=1)
     tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 1
     tb$get.missingness()

@@ -1,4 +1,4 @@
-#' @include ccDataTable2.R
+#' @include ccTable.R
 
 
 # Check if the values of a vector v is in the ranges.
@@ -16,7 +16,7 @@ inrange <- function(v, range) {
     return(cmpfunc(v))
 }
 
-ccDataTable$methods(
+ccTable$methods(
     filter.ranges = function(select='red') {
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         if(is.null(.self$data_quality$range) || nrow(.self$data_quality$range) != nrow(.self$tclean))
@@ -26,7 +26,7 @@ ccDataTable$methods(
     }
 )
 
-ccDataTable$methods(
+ccTable$methods(
     get.ranges = function(){
         if (is.null(.self$data_quality$range))
             .self$data_quality$range <- data.table(seq(nrow(.self$torigin)))#.self$torigin[,c('site', 'episode_id'), with=F]

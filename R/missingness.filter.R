@@ -1,4 +1,4 @@
-#' @include ccDataTable2.R
+#' @include ccTable.R
 
 missingness_count <- function(tb) {
     cmplt <- function(vec) {
@@ -10,7 +10,7 @@ missingness_count <- function(tb) {
     flags
 }
 
-ccDataTable$methods(
+ccTable$methods(
     get.missingness = function() {
         miss_count <- function(tb_) { 
             cmplt <- function(vec) {
@@ -43,7 +43,7 @@ ccDataTable$methods(
         }    
 })
 
-ccDataTable$methods(
+ccTable$methods(
     filter.missingness = function(recount=FALSE){
         "filter out the where missingness is too low."
         if (recount || is.null(.self$data_quality[['missingness']]) ||
