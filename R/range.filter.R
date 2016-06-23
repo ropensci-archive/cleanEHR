@@ -60,12 +60,13 @@ ccTable$methods(
         temp <- .self$dquality$range[, c(-1, -2), with=FALSE]
         .self$dfilter$range <- list()
         # updating range entry with true/false values
-        .self$dfilter$range$entry <- temp[, lapply(.SD, function(x) x < rgnum[[select]])]
+        temp <- temp[, lapply(.SD, inselectrange)]
         # adding site and episode_id columns.
         .self$dfilter$range$entry <- 
             data.table(.self$dquality$range[, c("site", "episode_id"), with=FALSE], temp)
         .self$dfilter$range$episode <- 
-            .self$dfilter$range$entry[, allinselectrange(unlist(.SD)), by=c("site", "episode_id")]
+            .self$dfilter$range$entry[, allinselectrange(unlist(.SD)), 
+                                      by=c("site", "episode_id")]
         setnames(.self$dfilter$range$episode, c("site", "episode_id",
                                                 "select_index"))
     }
