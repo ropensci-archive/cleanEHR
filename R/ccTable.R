@@ -12,7 +12,8 @@ ccTable <- setRefClass("ccTable",
                                      conf="list",
                                      torigin="data.table", 
                                      tclean="data.table",
-                                     dfilter="list", 
+                                     dfilter="list",
+                                     dquality="list",
                                      summary="list",
                                      base_cadence="numeric",
                                      .rindex="data.table", 
@@ -108,7 +109,6 @@ ccTable$methods(
         
     })
 
-
 ccTable$methods(
     drop_entry = function(nmitem, dq){
         .self$.rindex[[nmitem]] <- 
@@ -122,8 +122,10 @@ ccTable$methods(
     })
 
 ccTable$methods(
-    spec2function = function(spec) {
-        spec <- as.character(spec)
+    spec2function = function(item.name, filter.name) {
+        spec <- 
+            unlist(.self$conf[[item.name]])[paste('apply', filter.name, sep=".")]
+        spec <- as.character(as.vector(spec))
         switch(spec, 
                "drop_entry"=.self$drop_entry,
                "drop_episode"=.self$drop_episode,
@@ -139,6 +141,15 @@ ccTable$methods(
         for (i in items)
             .self$tclean <- .self.tclean[i != "NULL"]
 })
+
+
+ccTable$methods(
+    apply.filter = function() {
+
+
+
+    }
+)
 
 ccTable$methods(
     reload.conf = function(file) {

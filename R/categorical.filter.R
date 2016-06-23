@@ -29,12 +29,11 @@ ccTable$methods(
 
 
 ccTable$methods(
-    filter.categorical = function(apply=TRUE) {
+    filter.categorical = function() {
         "Substitute original wrong categorical values with "
-        for (iname in names(.self$conf)) {
-            this.conf <- .self$conf[[iname]]
-            spec <- as.vector(unlist(this.conf)['apply.categorical'])
-            .self$spec2function(spec)(iname, .self$dfilter$categories)
-            
+        for (iname in names(.self$conf)){
+            .self$spec2function(iname, 
+                                'categorical')(iname, 
+                                .self$dfilter$categories)
         }
     })
