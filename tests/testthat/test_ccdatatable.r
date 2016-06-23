@@ -80,11 +80,9 @@ test_that("test range check",
 })
 
 
-test_that("test categorical data filter", 
+test_that("test category data filter", 
 {
     tb <- env$tb
-    tb$check.categorical()
-    tb$filter.categorical()
-
+    tb$filter.category()
     tt <<- tb
 })

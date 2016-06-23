@@ -2,7 +2,7 @@ NIHR_HIC_ICU_0398:
   shortName: adm_type
   dataItem: Admission type
   distribution: nominal
-  categories:
+  category:
       L: unplanned Local admission
       U: Unplanned transfer in
       P: Planned transfer in
@@ -10,7 +10,7 @@ NIHR_HIC_ICU_0398:
       M: planned local Medical admission
       R: Repatriation
   apply:
-      categorical: drop_entry
+      category: drop_entry
 NIHR_HIC_ICU_0108:
   shortName: hrate
   dataItem: Heart rate

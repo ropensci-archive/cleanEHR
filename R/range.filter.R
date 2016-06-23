@@ -49,7 +49,7 @@ ccTable$methods(
 ccTable$methods(
     filter.ranges = function(select='red') {
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
-        inselectrange <- function(x) {
+        inselectrange <- function(x, ...) {
             x > rgnum[[select]]
         }
 
