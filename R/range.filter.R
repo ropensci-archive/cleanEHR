@@ -43,31 +43,20 @@ ccTable$methods(
     }
 )
 
+
+
+
 ccTable$methods(
     filter.ranges = function(select='red') {
+        rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         inselectrange <- function(x) {
-            x < rgnum[[select]]
-        }
-        allinselectrange <- function(x) {
-            all(x < rgnum[[select]], na.rm=TRUE)
+            x > rgnum[[select]]
         }
 
-        rgnum <- list('red'=1, 'amber'=2, 'green'=3)
-        if(is.null(.self$dquality$range) || nrow(.self$dquality$range) != nrow(.self$tclean))
+        if(is.null(.self$dquality$range) || 
+           nrow(.self$dquality$range) != nrow(.self$tclean))
             .self$get.ranges()
 
-        # temporarily remove site episode_id column
-        temp <- .self$dquality$range[, c(-1, -2), with=FALSE]
-        .self$dfilter$range <- list()
-        # updating range entry with true/false values
-        temp <- temp[, lapply(.SD, inselectrange)]
-        # adding site and episode_id columns.
-        .self$dfilter$range$entry <- 
-            data.table(.self$dquality$range[, c("site", "episode_id"), with=FALSE], temp)
-        .self$dfilter$range$episode <- 
-            .self$dfilter$range$entry[, allinselectrange(unlist(.SD)), 
-                                      by=c("site", "episode_id")]
-        setnames(.self$dfilter$range$episode, c("site", "episode_id",
-                                                "select_index"))
+        .self$dfilter$range <- getfilter(.self$dquality$range, inselectrange)
     }
 )

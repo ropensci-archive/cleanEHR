@@ -43,8 +43,22 @@ show = function() {
 
 })
 
-
-
+#' get the dfilter
+#' @param dqaulity table
+#' @param criterion should be a function to give T/F values of each entry.
+#' @export getfilter
+getfilter <- function(dq, criterion) {
+    nokeys <- dq[, c(-1, -2), with=FALSE]
+    # updating range entry with true/false values
+    nokeys <- nokeys[, lapply(.SD, criterion)]
+    # adding site and episode_id columns.
+    entry <- data.table(dq[, c("site", "episode_id"), with=FALSE], nokeys)
+    episode <- entry[, 
+                     all(unlist(.SD), na.rm=TRUE), 
+                     by=c("site", "episode_id")]
+    setnames(episode, c("site", "episode_id", "select_index"))
+    return(list(entry=entry, episode=episode))
+}
 
 
 ccTable$methods(
