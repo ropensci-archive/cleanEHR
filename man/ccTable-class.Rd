@@ -15,7 +15,7 @@ reporting process.
 \describe{
 \item{\code{record}}{ccRecord}
 
-\item{\code{data_quality}}{list contains three data quality tables 1) range, 2)
+\item{\code{dfilter}}{list contains three data quality tables 1) range, 2)
 missingness, 3) categorical}
 }}
 \section{Methods}{

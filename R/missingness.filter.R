@@ -22,9 +22,9 @@ ccTable$methods(
             flags
         }
 
-        .self$dfilter[['missingness']] <- .self$torigin[, 1, by=c("episode_id", "site")]
-        .self$dfilter[['missingness']][, V1:=NULL]
-        setkey(.self$dfilter[['missingness']], episode_id, site)
+        .self$dquality[['missingness']] <- .self$torigin[, 1, by=c("episode_id", "site")]
+        .self$dquality[['missingness']][, V1:=NULL]
+        setkey(.self$dquality[['missingness']], episode_id, site)
 
         for (i in names(.self$conf)) {
             missconf <- .self$conf[[i]][["missingness_2d"]][["labels"]]
@@ -34,10 +34,10 @@ ccTable$methods(
                     colr <- missconf[[c]]
                     tbq <- selectTable(.self$record, items_opt=i, freq=colr)
                     setkey(tbq, episode_id, site)
-                    oldnm <- names(.self$dfilter[['missingness']])
-                    .self$dfilter[['missingness']] <- 
-                        merge(.self$dfilter[['missingness']], missingness_count(tbq))
-                    setnames(.self$dfilter[['missingness']], c(oldnm, paste(i, col_name, sep=".")))
+                    oldnm <- names(.self$dquality[['missingness']])
+                    .self$dquality[['missingness']] <- 
+                        merge(.self$dquality[['missingness']], missingness_count(tbq))
+                    setnames(.self$dquality[['missingness']], c(oldnm, paste(i, col_name, sep=".")))
                 }
             }
         }    
@@ -46,8 +46,8 @@ ccTable$methods(
 ccTable$methods(
     filter.missingness = function(recount=FALSE){
         "filter out the where missingness is too low."
-        if (recount || is.null(.self$dfilter[['missingness']]) ||
-            nrow(.self$dfilter[['missingness']]) == 0)
+        if (recount || is.null(.self$dquality[['missingness']]) ||
+            nrow(.self$dquality[['missingness']]) == 0)
             .self$get.missingness()
 
         if (is.null(.self$tclean) || nrow(.self$tclean) == 0)
@@ -57,17 +57,23 @@ ccTable$methods(
             unlist(lapply(.self$conf, 
                           function(x) x[["missingness_2d"]][["accept_2d"]]))
 
-        select_index <- rep(TRUE, nrow(.self$dfilter[['missingness']]))
+        select_index <- rep(TRUE, nrow(.self$dquality[['missingness']]))
         for (nt in names(thresholds))
             select_index <- 
-                select_index & as.vector(.self$dfilter[['missingness']][, nt, with=FALSE] > thresholds[nt])
+                select_index & as.vector(.self$dquality[['missingness']][, nt, with=FALSE] > thresholds[nt])
+        
+        .self$dfilter$missingness <- list()
+        .self$dfilter$missingness$episode <-
+            data.table(.self$dquality$missingness[, c('site', 'episode_id'),
+                       with=FALSE], select_index)
 
-        select_table <- .self$dfilter[['missingness']][select_index]
-        select_table <- data.table(episode_id=select_table$episode_id,
-                                   site=select_table$site)
+#        select_table <- .self$dquality[['missingness']][select_index]
 
-        .self$tclean <- 
-            merge(select_table, .self$tclean, by=c("episode_id", "site"))
+#        select_table <- data.table(episode_id=select_table$episode_id,
+#                                   site=select_table$site)
+#
+#        .self$tclean <- 
+#            merge(select_table, .self$tclean, by=c("episode_id", "site"))
 })
 
 
