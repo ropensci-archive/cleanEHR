@@ -44,57 +44,61 @@ show = function() {
 })
 
 #' get the dfilter
-#' @param dqaulity table
+#' @param dq can be either dqaulity table or torigin
 #' @param criterion should be a function to give T/F values of each entry.
 #' @export getfilter
 getfilter <- function(dq, criterion) {
-    nokeys <- dq[, c(-1, -2), with=FALSE]
+    keys <- dq[, c("site", "episode_id"), with=FALSE]
+    dq[, c("site", "episode_id"):=NULL]
     # updating range entry with true/false values
-    nokeys <- nokeys[, lapply(.SD, criterion)]
+    dq <- dq[, Map(criterion, .SD, names(.SD))]
     # adding site and episode_id columns.
-    entry <- data.table(dq[, c("site", "episode_id"), with=FALSE], nokeys)
-    episode <- entry[, 
-                     all(unlist(.SD), na.rm=TRUE), 
-                     by=c("site", "episode_id")]
-    setnames(episode, c("site", "episode_id", "select_index"))
-    return(list(entry=entry, episode=episode))
+    if (nrow(dq) > 0) {
+        entry <- data.table(keys, dq)
+        episode <- entry[, 
+                         all(unlist(.SD), na.rm=TRUE), 
+                         by=c("site", "episode_id")]
+        setnames(episode, c("site", "episode_id", "select_index"))
+        return(list(entry=entry, episode=episode))
+    }
+    else return(NULL)
 }
 
 
-ccTable$methods(
-    missingness.show = function() {
-        count.present <- function(table, item) {
-            return(table[,
-                   100 - (length(which(is.na(.SD[[item]]))) + 
-                          length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
-                   by=c("site", "episode_id")])
-        }
-        if(is.null(.self$dfilter[['missingness']])) {
-            cat("no missingness check available.\n")
-        }
-        else {
-            txt <- vector()
-            for(i in names(.self$conf)){
-                itm <- .self$conf[[i]]
-                acc <- itm[["missingness_2d"]][["accept_2d"]]
-                threshold <- itm[["missingness_2d"]][['labels']][[names(acc)]]
-                check_name <- paste(i, names(acc), sep='.')
-                txt <- rbind(txt, 
-                             c(NHIC=i, 
-                               shortname=itm[["shortName"]],
-                               "origin_data %"=
-                                   round(mean(.self$dfilter[['missingness']][[check_name]]), digits=2),
-                               "clean_data  %"=
-                                   round(mean(count.present(.self$tclean, i)$V1), digits=2),
-                               "threshold %"=
-                                   paste(acc[[1]], ' (', threshold, 'h - ', names(acc),  ')', sep="") 
-                               )
-                             ) 
-
-            }
-            pandoc.table(txt, style='simple')
-        }
-    })
+#ccTable$methods(
+#    missingness.show = function() {
+#        count.present <- function(table, item) {
+#            return(table[,
+#                   100 - (length(which(is.na(.SD[[item]]))) + 
+#                          length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
+#                   by=c("site", "episode_id")])
+#        }
+#        if(is.null(.self$dfilter[['missingness']])) {
+#            cat("no missingness check available.\n")
+#        }
+#        else {
+#            txt <- vector()
+#            for(i in names(.self$conf)){
+#                itm <- .self$conf[[i]]
+#                acc <- itm[["missingness_2d"]][["accept_2d"]]
+#                threshold <- itm[["missingness_2d"]][['labels']][[names(acc)]]
+#                check_name <- paste(i, names(acc), sep='.')
+#                txt <- rbind(txt, 
+#                             c(NHIC=i, 
+#                               shortname=itm[["shortName"]],
+#                               "origin_data %"=
+#                                   round(mean(.self$dfilter[['missingness']][[check_name]]), digits=2),
+#                               "clean_data  %"=
+#                                   round(mean(count.present(.self$tclean, i)$V1), digits=2),
+#                               "threshold %"=
+#                                   paste(acc[[1]], ' (', threshold, 'h - ', names(acc),  ')', sep="") 
+#                               )
+#                             ) 
+#
+#            }
+#            pandoc.table(txt, style='simple')
+#        }
+#    })
 
 ccTable$methods(
     create.table = function(freq){
@@ -155,15 +159,6 @@ ccTable$methods(
         for (i in items)
             .self$tclean <- .self.tclean[i != "NULL"]
 })
-
-
-ccTable$methods(
-    apply.filter = function() {
-
-
-
-    }
-)
 
 ccTable$methods(
     reload.conf = function(file) {

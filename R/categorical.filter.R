@@ -1,39 +1,30 @@
 #' @include ccTable.R
 
-ccTable$methods(
-    check.categorical = function() {
-        "Check individual entries if they are the in the categories specified
-        in conf."
-        .self$dfilter$categories <- list()
-        .self$dfilter$categories$entry <- 
-            .self$torigin[, c("site", "episode_id", "time"), with=FALSE]
-        .self$dfilter$categories$episode <- 
-            .self$torigin[, .N, by=c("site", "episode_id")]
-        setkey(.self$dfilter$categories$entry, "site", "episode_id")
-        setkey(.self$dfilter$categories$episode, "site", "episode_id")
+#' @export item.criterion
+item.criterion <- function(conf, criterion) {
+    names(tt$conf)[sapply(tt$conf, function(x) criterion %in% names(x))]
+}
 
-        for (i in .self$items) {
-            ctg <- .self$conf[[i]][['categories']]
-            if (!is.null(ctg)) { 
-                # fill the entry table
-                .self$dfilter$categories$entry[[i]] <-
-                    .self$torigin[[i]] %in% c(names(ctg), "NA", NA)
-                # fill the episode table
-                epcheck <- 
-                    .self$dfilter$categories$entry[, c("site", "episode_id", i), with=FALSE]
-                .self$dfilter$categories$episode[[i]] <-
-                    epcheck[, all(.SD[[i]]), by=c("site", "episode_id")]$V1
-            }
-        }
+ccTable$methods(
+    get.categories = function() {
+        citems <- item.criterion(conf, "category")
+        lapply(.self$conf[citems], function(x) names(x$category))
     })
 
+ccTable$methods(
+    get.data.column = function(filter) {
+        citems <- item.criterion(.self$conf, filter)
+        return(.self$torigin[, c("site", "episode_id", citems), with=FALSE])
+    }
+)
 
 ccTable$methods(
-    filter.categorical = function() {
-        "Substitute original wrong categorical values with "
-        for (iname in names(.self$conf)){
-            .self$spec2function(iname, 
-                                'categorical')(iname, 
-                                .self$dfilter$categories)
-        }
+    filter.category = function() {
+        "Check individual entries if they are the in the categories specified
+        in conf."
+        data <- .self$get.data.column("category")
+        categories <- get.categories()
+        in.category <- function(x, name) 
+            x %in% c(categories[[name]], "NA", NA)
+        .self$dfilter$category <- getfilter(data, in.category)
     })
