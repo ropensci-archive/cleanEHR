@@ -4,7 +4,7 @@ NIHR_HIC_ICU_0108:
   distribution: normal
   decimal_places: 0
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 1
       # accept time series data where the missingness is less than 70%
@@ -15,4 +15,3 @@ NIHR_HIC_ICU_0108:
           lead: 3
           lag: 3
           fun: median
-

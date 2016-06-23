@@ -21,7 +21,7 @@ NIHR_HIC_ICU_0108:
       amber: (0, 170) 
       green: (50, 100)
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
       # accept time series data where the missingness is less than 70%
@@ -34,7 +34,7 @@ NIHR_HIC_ICU_0108:
           fun: median
   apply:
       range: drop_entry
-      missingness_2d: drop_episode
+      missingness: drop_episode
 NIHR_HIC_ICU_0113:
   shortName: bp_sys_ni
   dataItem: Systolic Arterial blood pressure - NBPSystolic Arterial blood pressure
@@ -44,7 +44,7 @@ NIHR_HIC_ICU_0113:
       red: (0, 300)
       amber: (30, 250) 
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
       # accept time series data where the missingness is less than 70%
@@ -57,7 +57,7 @@ NIHR_HIC_ICU_0113:
           fun: median
   apply: 
       range: drop_entry
-      missingness_2d: drop_episode
+      missingness: drop_episode
 NIHR_HIC_ICU_0093:
     shortName: nhs_number
     dataItem: NHS number

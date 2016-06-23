@@ -18,11 +18,11 @@ test_that("test get.missingness", {
                                                        item2d=as.character(rep(10,100)))))
     tb <- ccTable(record=cr, conf=yaml.load_file('../data/test_2yml.yml'))
     tb$create.table(freq=1)
-    tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 1
+    tb$conf[[1]][['missingness']][['labels']][['yellow']] <- 1
     tb$get.missingness()
     expect_equal(tb$dquality$missingness$NIHR_HIC_ICU_0108.yellow, 100/101*100)
 
-    tb$conf[[1]][['missingness_2d']][['labels']][['yellow']] <- 0.1
+    tb$conf[[1]][['missingness']][['labels']][['yellow']] <- 0.1
     tb$get.missingness()
     expect_equal(tb$dquality$missingness$NIHR_HIC_ICU_0108.yellow, 100/1001*100)
 
@@ -40,7 +40,7 @@ test_that("test filter missingness", {
         nonmiss <- as.numeric(as.character(nastamps$V1)) /
             as.numeric(as.character(timestamps$N))*100
         accept <-
-            as.numeric(tb$conf[[i]][["missingness_2d"]][["accept_2d"]])
+            as.numeric(tb$conf[[i]][["missingness"]][["accept_2d"]])
         if (length(accept) != 0)
             expect_true(nonmiss[1] >= accept)
     }
@@ -73,7 +73,6 @@ test_that("test range check",
 {
     tb <- env$tb
     tb$tclean <- tb$torigin
-    tb$filter.ranges()
 # case1 : no range specified in yml
 # case2 : missing range speicification 
 # case3 : overlapping, i.e. accept and impossible should not overlap.
@@ -83,6 +82,17 @@ test_that("test range check",
 test_that("test category data filter", 
 {
     tb <- env$tb
+})
+
+
+
+test_that("test apply filter", 
+{
+    tb <- env$tb
+    tb$filter.ranges()
     tb$filter.category()
+    tb$filter.missingness()
+    tb$apply.filters()
     tt <<- tb
 })
+
