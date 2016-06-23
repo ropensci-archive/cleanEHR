@@ -27,7 +27,7 @@ ccTable$methods(
         setkey(.self$dquality[['missingness']], episode_id, site)
 
         for (i in names(.self$conf)) {
-            missconf <- .self$conf[[i]][["missingness_2d"]][["labels"]]
+            missconf <- .self$conf[[i]][["missingness"]][["labels"]]
             if(!is.null(missconf)) {
                 for (c in seq(missconf)) {
                     col_name <- names(missconf[c])
@@ -55,7 +55,7 @@ ccTable$methods(
 
         thresholds <- 
             unlist(lapply(.self$conf, 
-                          function(x) x[["missingness_2d"]][["accept_2d"]]))
+                          function(x) x[["missingness"]][["accept_2d"]]))
 
         select_index <- rep(TRUE, nrow(.self$dquality[['missingness']]))
         for (nt in names(thresholds))
@@ -66,7 +66,6 @@ ccTable$methods(
         .self$dfilter$missingness$episode <-
             data.table(.self$dquality$missingness[, c('site', 'episode_id'),
                        with=FALSE], select_index)
-
 #        select_table <- .self$dquality[['missingness']][select_index]
 
 #        select_table <- data.table(episode_id=select_table$episode_id,

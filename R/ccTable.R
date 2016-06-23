@@ -48,12 +48,12 @@ show = function() {
 #' @param criterion should be a function to give T/F values of each entry.
 #' @export getfilter
 getfilter <- function(dq, criterion) {
-    keys <- dq[, c("site", "episode_id"), with=FALSE]
-    dq[, c("site", "episode_id"):=NULL]
-    # updating range entry with true/false values
-    dq <- dq[, Map(criterion, .SD, names(.SD))]
-    # adding site and episode_id columns.
-    if (nrow(dq) > 0) {
+    if (ncol(dq) > 2) {
+        keys <- dq[, c("site", "episode_id"), with=FALSE]
+        dq[, c("site", "episode_id"):=NULL]
+        # updating range entry with true/false values
+        dq <- dq[, Map(criterion, .SD, names(.SD))]
+        # adding site and episode_id columns.
         entry <- data.table(keys, dq)
         episode <- entry[, 
                          all(unlist(.SD), na.rm=TRUE), 
@@ -120,10 +120,32 @@ ccTable$methods(
 
 
 ccTable$methods(
+    update.entry = function(){
+        for (i in .self$items) 
+            .self$tclean[[i]][!.self$.rindex[[i]]] <- NA
+    })
+
+
+ccTable$methods(
+    update.episode = function(){
+        sep <- .self$.epindex["index"==TRUE]
+        .self$tclean <- merge(.self$tclean, sep)
+        .self$tclean[["index"]] <- NULL
+    })
+
+ccTable$methods(
     apply.filters = function() {
-        # collect entry filters 
-        .self$dfilter$categories$entry 
-        .self$tclean
+        ops <- unlist(lapply(.self$conf, function(x) x$apply))
+        for (nop in names(ops)) {
+            strnames <- unlist(strsplit(nop, "[.]"))
+            item <- strnames[1]
+            filter <- strnames[2]
+            operation <- ops[nop]
+             .self$spec2function(item, filter)(item, .self$dfilter[[filter]])
+        }
+        .self$update.entry()
+        .self$update.episode()
+        
         
     })
 
@@ -135,8 +157,8 @@ ccTable$methods(
 
 ccTable$methods(
     drop_episode = function(nmitem, dq){
-        .self$.epindex[[nmitem]] <- 
-            .self$.rindex[[nmitem]] & dq$episode[[nmitem]]
+        .self$.epindex[["index"]] <- 
+            .self$.epindex[["index"]] & dq$episode[["select_index"]]
     })
 
 ccTable$methods(

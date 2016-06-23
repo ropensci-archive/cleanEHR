@@ -2,7 +2,7 @@
 
 #' @export item.criterion
 item.criterion <- function(conf, criterion) {
-    names(tt$conf)[sapply(tt$conf, function(x) criterion %in% names(x))]
+    names(conf)[sapply(conf, function(x) criterion %in% names(x))]
 }
 
 ccTable$methods(
