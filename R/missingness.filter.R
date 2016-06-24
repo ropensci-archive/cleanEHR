@@ -24,7 +24,7 @@ ccTable$methods(
 
         .self$dquality[['missingness']] <- .self$torigin[, 1, by=c("episode_id", "site")]
         .self$dquality[['missingness']][, V1:=NULL]
-        setkey(.self$dquality[['missingness']], episode_id, site)
+        setkey(.self$dquality[['missingness']], site, episode_id)
 
         for (i in names(.self$conf)) {
             missconf <- .self$conf[[i]][["missingness"]][["labels"]]

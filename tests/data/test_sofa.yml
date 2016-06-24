@@ -11,11 +11,12 @@ NIHR_HIC_ICU_0398:
     R: Repatriation
   apply:
       category: drop_entry
+
 NIHR_HIC_ICU_0077:
   shortName: loca_in
   dataItem: Prior location (in)
   distribution: nominal
-  categories:
+  category:
     W: Ward
     B: oBstetric area
     M: other interMediate care area
@@ -30,11 +31,14 @@ NIHR_HIC_ICU_0077:
     S: Specialist treatment area
     C: Clinic
     N: Not in hospital
+  apply:
+      category: drop_entry
+
 NIHR_HIC_ICU_0068:
   shortName: loca_in_prior
   dataItem: Location (in)
   distribution: nominal
-  categories:
+  category: #------------------------------------>  Why less values than 0077? In the data we have these values. 
     W: Ward
     B: OBstetric area
     M: other interMediate care area
@@ -43,6 +47,9 @@ NIHR_HIC_ICU_0068:
     H: Level 2 bed in adult ICU or ICU/HDU
     U: Adult HDU
     N: Not in hospital
+  apply:
+      category: drop_entry
+
 NIHR_HIC_ICU_0033:
   shortName: dbirth
   dataItem: Date of birth
@@ -58,6 +65,69 @@ NIHR_HIC_ICU_0108:
       red: (0, 300)
       amber: (0, 170) 
       green: (50, 100)
+  missingness:
+      labels:
+          yellow: 24
+      accept_2d:
+          yellow: 70 
+      impute_2d:
+          lead: 3
+          lag: 3
+          fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
+NIHR_HIC_ICU_0122:
+  shortName: lac_bg
+  dataItem: Lactate - ABG
+  distribution: skewed
+  decimal_places: 1
+  range:
+      red: (0, 50)
+      amber: (0.5, 30) 
+  missingness:
+      labels:
+          yellow: 24
+      accept_2d:
+          yellow: -1 
+      impute_2d:
+          lead: 3
+          lag: 3
+          fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
+NIHR_HIC_ICU_0123:
+  shortName: lac_lab
+  dataItem: Lactate - Lab
+  distribution: skewed
+  decimal_places: 1
+  range:
+      red: (0, 50)
+      amber: (0.5, 30) 
+  missingness:
+      labels:
+          yellow: 24
+      accept_2d:
+        yellow: -1
+      impute_2d:
+          lead: 3
+          lag: 3
+          fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+  distribution: normal
+  decimal_places: 0
+  range:
+      red: (0, 300)
+      amber: (30, 250) 
   # report missingness in hours
   missingness:
       labels:
@@ -73,66 +143,7 @@ NIHR_HIC_ICU_0108:
   apply:
       range: drop_entry
       missingness: drop_episode
-NIHR_HIC_ICU_0122:
-  shortName: lac_bg
-  dataItem: Lactate - ABG
-  distribution: skewed
-  decimal_places: 1
-  range:
-      red: (0, 50)
-      amber: (0.5, 30) 
-  # report missingness in hours
-  missingness_2d:
-      labels:
-          yellow: 24
-      # accept time series data where the missingness is less than 70%
-      # do not put more than one threshold
-      accept_2d:
-          yellow: -1 
-      impute_2d:
-          lead: 3
-          lag: 3
-          fun: median
-NIHR_HIC_ICU_0123:
-  shortName: lac_lab
-  dataItem: Lactate - Lab
-  distribution: skewed
-  decimal_places: 1
-  range:
-      red: (0, 50)
-      amber: (0.5, 30) 
-  # report missingness in hours
-  missingness_2d:
-      labels:
-          yellow: 24
-      # accept time series data where the missingness is less than 70%
-      # do not put more than one threshold
-      accept_2d:
-        yellow: -1
-      impute_2d:
-          lead: 3
-          lag: 3
-          fun: median
-NIHR_HIC_ICU_0112:
-  shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
-  distribution: normal
-  decimal_places: 0
-  range:
-      red: (0, 300)
-      amber: (30, 250) 
-  # report missingness in hours
-  missingness_2d:
-      labels:
-          yellow: 24
-      # accept time series data where the missingness is less than 70%
-      # do not put more than one threshold
-      accept_2d:
-          yellow: 70 
-      impute_2d:
-          lead: 3
-          lag: 3
-          fun: median
+
 NIHR_HIC_ICU_0113:
   shortName: bp_sys_ni
   dataItem: Systolic Arterial blood pressure - NBPSystolic Arterial blood pressure
@@ -142,7 +153,7 @@ NIHR_HIC_ICU_0113:
       red: (0, 300)
       amber: (30, 250) 
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
       # accept time series data where the missingness is less than 70%
@@ -153,6 +164,10 @@ NIHR_HIC_ICU_0113:
           lead: 3
           lag: 3
           fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
 NIHR_HIC_ICU_0114:
   shortName: bp_dia_a
   dataItem: Diastolic arterial blood pressure - Art BPDiastolic arterial blood pressure
@@ -162,7 +177,7 @@ NIHR_HIC_ICU_0114:
       red: (0, 200)
       amber: (10, 150) 
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
       # accept time series data where the missingness is less than 70%
@@ -173,6 +188,10 @@ NIHR_HIC_ICU_0114:
           lead: 3
           lag: 3
           fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
 NIHR_HIC_ICU_0115:
   shortName: bp_dia_ni
   dataItem: Diastolic arterial blood pressure - NBPDiastolic arterial blood pressure
@@ -182,7 +201,7 @@ NIHR_HIC_ICU_0115:
       red: (0, 200)
       amber: (10, 150) 
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
       # accept time series data where the missingness is less than 70%
@@ -193,6 +212,10 @@ NIHR_HIC_ICU_0115:
           lead: 3
           lag: 3
           fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
 NIHR_HIC_ICU_0110:
   shortName: bp_m_a
   dataItem: Mean arterial blood pressure - Art BPMean arterial blood pressure
@@ -202,17 +225,19 @@ NIHR_HIC_ICU_0110:
       red: (10, 200)
       amber: (20, 140) 
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
-      # accept time series data where the missingness is less than 70%
-      # do not put more than one threshold
       accept_2d:
           yellow: 70 
       impute_2d:
           lead: 3
           lag: 3
           fun: median
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
 NIHR_HIC_ICU_0111:
   shortName: bp_m_ni
   dataItem: Mean arterial blood pressure - NBPMean arterial blood pressure
@@ -221,18 +246,19 @@ NIHR_HIC_ICU_0111:
   range:
       red: (10, 200)
       amber: (20, 140) 
-  # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
-      # accept time series data where the missingness is less than 70%
-      # do not put more than one threshold
       accept_2d:
           yellow: 70 
       impute_2d:
           lead: 3
           lag: 3
           fun: median
+  apply:
+    range: drop_entry
+    missingness: drop_episode
+
 NIHR_HIC_ICU_0470:
   shortName: rx_norad
   dataItem: Noradrenaline
@@ -242,10 +268,19 @@ NIHR_HIC_ICU_0470:
       red: (0, 3)
       amber: (0, 1) 
   # report missingness in hours
-  missingness_2d:
+  missingness:
       labels:
           yellow: 24
       # accept time series data where the missingness is less than 70%
       # do not put more than one threshold
       accept_2d:
           yellow: -1
+  apply:
+      range: drop_entry
+      missingness: drop_episode
+
+NIHR_HIC_ICU_0441:
+  shortName: meropenem
+  dataItem: Meropenem
+  distribution: normal
+  decimal_places: 1
