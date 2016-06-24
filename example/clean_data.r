@@ -5,21 +5,14 @@ if (!exists("ccd_delta_num"))
     load('../data/delta_num.Rdata')
 ccd <- ccd_delta_num
 
-dt.sofa <- ccDataTable(conf=yaml.load_file('tests/data/test_sofa.yml'), record=ccd)
+dt.sofa <- ccTable(conf=yaml.load_file('tests/data/test_sofa.yml'), record=ccd)
 # create table with all selected items in yaml conf with cadance of 1 hour.
 dt.sofa$create.table(freq=1)
 
 dt.sofa$filter.ranges()
-
-# derive the traffic light missingness table.
-#dt.sofa$get.missingness()
-
-# filter data by threshold. (throw out episodes)
+dt.sofa$filter.category()
 dt.sofa$filter.missingness()
-
-# reload - if you want to adjust parameters related with missing rate
-#dt.sofa$reload.conf('tests/data/test_yml.yml')
-#dt.sofa$filter.missingness()
+dt.sofa$apply.filters()
 
 # imputation - substituting missing values
-dt.sofa$imputation()
+#dt.sofa$imputation()
