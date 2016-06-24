@@ -66,13 +66,6 @@ ccTable$methods(
         .self$dfilter$missingness$episode <-
             data.table(.self$dquality$missingness[, c('site', 'episode_id'),
                        with=FALSE], select_index)
-#        select_table <- .self$dquality[['missingness']][select_index]
-
-#        select_table <- data.table(episode_id=select_table$episode_id,
-#                                   site=select_table$site)
-#
-#        .self$tclean <- 
-#            merge(select_table, .self$tclean, by=c("episode_id", "site"))
 })
 
 
