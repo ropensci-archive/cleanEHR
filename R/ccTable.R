@@ -44,7 +44,7 @@ show = function() {
 })
 
 #' get the dfilter
-#' @param dq can be eithe#r dqaulity table or torigin
+#' @param dq can be either dqaulity table or torigin
 #' @param criterion should be a function to give T/F values of each entry.
 #' @export getfilter
 getfilter <- function(dq, criterion) {
