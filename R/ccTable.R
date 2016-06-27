@@ -35,16 +35,16 @@ show = function() {
 #        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
 #        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
 #        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
-#        .self$dfilter[['missingness']].show()
+#        .self$dfilter[['#missingness']].show()
 #    }
 #    else 
-#        cat("no cleaning data can be found.\n")
+#        cat("no cleaning# data can be found.\n")
 
 
 })
 
 #' get the dfilter
-#' @param dq can be either dqaulity table or torigin
+#' @param dq can be eithe#r dqaulity table or torigin
 #' @param criterion should be a function to give T/F values of each entry.
 #' @export getfilter
 getfilter <- function(dq, criterion) {
@@ -135,18 +135,14 @@ ccTable$methods(
 
 ccTable$methods(
     apply.filters = function() {
-        ops <- unlist(lapply(.self$conf, function(x) x$apply))
-        for (nop in names(ops)) {
-            strnames <- unlist(strsplit(nop, "[.]"))
-            item <- strnames[1]
-            filter <- strnames[2]
-            operation <- ops[nop]
+       ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
+        for (i in ops) {
+            item <- i[1]
+            filter <- i[2]
              .self$spec2function(item, filter)(item, .self$dfilter[[filter]])
         }
         .self$update.entry()
         .self$update.episode()
-        
-        
     })
 
 ccTable$methods(

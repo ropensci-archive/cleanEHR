@@ -8,7 +8,7 @@ item.criterion <- function(conf, criterion) {
 ccTable$methods(
     get.categories = function() {
         citems <- item.criterion(conf, "category")
-        lapply(.self$conf[citems], function(x) names(x$category))
+        lapply(.self$conf[citems], function(x) names(x$category$levels))
     })
 
 ccTable$methods(
@@ -28,3 +28,13 @@ ccTable$methods(
             x %in% c(categories[[name]], "NA", NA)
         .self$dfilter$category <- getfilter(data, in.category)
     })
+#ccTable$methods(
+#    filter.nodata = function() {
+#        data <- .self$get.data.column()
+#        nodata <- function(x, ...) {
+#            x %in% c("NA", NA)
+#        }
+#        .self$dfilter$category <- getfilter(data, )
+#    }
+#
+#)
