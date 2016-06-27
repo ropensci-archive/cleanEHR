@@ -28,12 +28,12 @@ ccTable$methods(
         for(item_name in names(.self$conf)) {
             item <- .self$conf[[item_name]]
 
-            if (!is.null(item[['range']])){
+            if (!is.null(item$range$labels)){
                 rgclass <- rep(NA, nrow(.self$torigin))
                 rgclass[.self$torigin[[item_name]] != "NA"] <- 0
                                 
-                for(rg_label in names(item[['range']])) {
-                    irg <- item[['range']][[rg_label]]
+                for(rg_label in names(item$range$labels)) {
+                    irg <- item$range$labels[[rg_label]]
                     rgclass[which(inrange(.self$torigin[[item_name]], irg))] <- 
                         rgnum[[rg_label]]
                 }
