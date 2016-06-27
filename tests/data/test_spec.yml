@@ -1,7 +1,7 @@
 NIHR_HIC_ICU_0398:
   shortName: adm_type
   dataItem: Admission type
-  distribution: nominaL
+  distribution: nominal
   category:
       levels:
           L: unplanned Local admission
@@ -11,6 +11,8 @@ NIHR_HIC_ICU_0398:
           M: planned local Medical admission
           R: Repatriation
       apply: drop_entry
+  nodata:
+      apply: drop_episode
 
 NIHR_HIC_ICU_0108:
   shortName: hrate
@@ -20,8 +22,8 @@ NIHR_HIC_ICU_0108:
   range:
       labels:
           red: (100, 300)
-#          amber: (0, 170) 
-#          green: (50, 100)
+          amber: (0, 170) 
+          green: (50, 100)
       apply: drop_entry
   missingness:
       labels:
@@ -32,6 +34,8 @@ NIHR_HIC_ICU_0108:
           lead: 3
           lag: 3
           fun: median
+      apply: drop_episode
+  nodata:
       apply: drop_episode
 
 NIHR_HIC_ICU_0113:
@@ -54,7 +58,9 @@ NIHR_HIC_ICU_0113:
           lag: 3
           fun: median
       apply: drop_episode
+  nodata:
+    apply: drop_episode
 
 NIHR_HIC_ICU_0093:
-    shortName: nhs_number
-    dataItem: NHS number
+  shortName: nhs_number
+  dataItem: NHS number

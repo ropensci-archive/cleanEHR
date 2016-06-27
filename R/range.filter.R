@@ -11,7 +11,7 @@ inrange <- function(v, range) {
         r <- gsub(",", " < v & v < ", r)
         return(paste("function(v)", r))
     }
-
+    
     cmpfunc <- eval(parse(text=funtxt(range)))
     return(cmpfunc(v))
 }
@@ -20,7 +20,6 @@ inrange <- function(v, range) {
 
 ccTable$methods(
     get.ranges = function() {
-
         # Initialise with temp column to make sure that dquality has the same
         # number of rows than torigin 
         .self$dquality$range <- .self$torigin[,c('site', 'episode_id'), with=F]
