@@ -28,13 +28,15 @@ ccTable$methods(
             x %in% c(categories[[name]], "NA", NA)
         .self$dfilter$category <- getfilter(data, in.category)
     })
-#ccTable$methods(
-#    filter.nodata = function() {
-#        data <- .self$get.data.column()
-#        nodata <- function(x, ...) {
-#            x %in% c("NA", NA)
-#        }
-#        .self$dfilter$category <- getfilter(data, )
-#    }
-#
-#)
+
+
+ccTable$methods(
+    filter.nodata = function() {
+        data <- .self$get.data.column("nodata")
+        nodata <- function(x, ...) {
+            !all(x %in% c("NA", NA))
+        }
+        .self$dfilter$nodata <- getfilter(data, nodata)
+    }
+
+)

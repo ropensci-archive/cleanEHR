@@ -92,6 +92,7 @@ test_that("test apply filter",
     tb$filter.ranges()
     tb$filter.category()
     tb$filter.missingness()
+    tb$filter.nodata()
     tb$apply.filters()
     tt <<- tb
 })

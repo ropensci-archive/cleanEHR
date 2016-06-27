@@ -139,8 +139,21 @@ ccTable$methods(
         for (i in ops) {
             item <- i[1]
             filter <- i[2]
-             .self$spec2function(item, filter)(item, .self$dfilter[[filter]])
+             tryCatch(.self$spec2function(item, filter)(item,
+                                                        .self$dfilter[[filter]]), 
+                      error = function(e) {
+                          if (is.null(.self$dfilter[[filter]]))
+                              warning(paste(item, "filter", filter, 
+"has been specified in the configuration but has not been ran."))
+                          else {
+                              cat(paste(item, filter, "\n"))
+                              stop(e)
+                          }
+
+                      }
+            )
         }
+
         .self$update.entry()
         .self$update.episode()
     })
@@ -159,8 +172,7 @@ ccTable$methods(
 
 ccTable$methods(
     spec2function = function(item.name, filter.name) {
-        spec <- 
-            unlist(.self$conf[[item.name]])[paste('apply', filter.name, sep=".")]
+        spec <- .self$conf[[item.name]][[filter.name]]$apply
         spec <- as.character(as.vector(spec))
         switch(spec, 
                "drop_entry"=.self$drop_entry,
