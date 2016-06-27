@@ -4,7 +4,7 @@ ccTable$methods(
     imputation = function() {
         imputation_columns <- function(sd) {
             for (i in names(.self$conf)) {
-                imwin <- .self$conf[[i]][['missingness_2d']][['impute_2d']]
+                imwin <- .self$conf[[i]][['missingness']][['impute_2d']]
                 if (!is.null(imwin)) {
                     fun <- imwin[['fun']]
                     lead <- imwin[['lead']]
