@@ -38,5 +38,4 @@ ccTable$methods(
         }
         .self$dfilter$nodata <- getfilter(data, nodata)
     }
-
 )

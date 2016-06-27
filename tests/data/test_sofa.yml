@@ -62,9 +62,10 @@ NIHR_HIC_ICU_0108:
   distribution: normal
   decimal_places: 0
   range:
-      red: (0, 300)
-      amber: (0, 170) 
-      green: (50, 100)
+      labels:
+          red: (0, 300)
+          amber: (0, 170) 
+          green: (50, 100)
   missingness:
       labels:
           yellow: 24
@@ -84,8 +85,9 @@ NIHR_HIC_ICU_0122:
   distribution: skewed
   decimal_places: 1
   range:
-      red: (0, 50)
-      amber: (0.5, 30) 
+      labels:
+          red: (0, 50)
+          amber: (0.5, 30) 
   missingness:
       labels:
           yellow: 24
@@ -105,8 +107,9 @@ NIHR_HIC_ICU_0123:
   distribution: skewed
   decimal_places: 1
   range:
-      red: (0, 50)
-      amber: (0.5, 30) 
+      labels:
+          red: (0, 50)
+          amber: (0.5, 30) 
   missingness:
       labels:
           yellow: 24
@@ -126,8 +129,9 @@ NIHR_HIC_ICU_0112:
   distribution: normal
   decimal_places: 0
   range:
-      red: (0, 300)
-      amber: (30, 250) 
+      labels:
+          red: (0, 300)
+          amber: (30, 250) 
   # report missingness in hours
   missingness:
       labels:
@@ -150,8 +154,9 @@ NIHR_HIC_ICU_0113:
   distribution: normal
   decimal_places: 0
   range:
-      red: (0, 300)
-      amber: (30, 250) 
+      labels:
+          red: (0, 300)
+          amber: (30, 250) 
   # report missingness in hours
   missingness:
       labels:
@@ -199,8 +204,9 @@ NIHR_HIC_ICU_0115:
   distribution: normal
   decimal_places: 0
   range:
-      red: (0, 200)
-      amber: (10, 150) 
+      labels:
+          red: (0, 200)
+          amber: (10, 150) 
   # report missingness in hours
   missingness:
       labels:
@@ -223,8 +229,9 @@ NIHR_HIC_ICU_0110:
   distribution: normal
   decimal_places: 0
   range:
-      red: (10, 200)
-      amber: (20, 140) 
+      labels:
+          red: (10, 200)
+          amber: (20, 140) 
   # report missingness in hours
   missingness:
       labels:
@@ -245,8 +252,9 @@ NIHR_HIC_ICU_0111:
   distribution: normal
   decimal_places: 0
   range:
-      red: (10, 200)
-      amber: (20, 140) 
+      labels:
+          red: (10, 200)
+          amber: (20, 140) 
   missingness:
       labels:
           yellow: 24
@@ -266,8 +274,9 @@ NIHR_HIC_ICU_0470:
   distribution: normal
   decimal_places: 2
   range:
-      red: (0, 3)
-      amber: (0, 1) 
+      labels:
+          red: (0, 3)
+          amber: (0, 1) 
   # report missingness in hours
   missingness:
       labels:
