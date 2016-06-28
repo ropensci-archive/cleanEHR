@@ -49,6 +49,7 @@ Collate:
     'select_data.r'
     'stdid.r'
     'unique.patient.r'
+    'unique.spell.R'
     'xml2ccdata.r'
     'xmlEpisodeToList.r'
     'xmlTime2POSIX.r'

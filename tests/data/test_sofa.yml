@@ -3,52 +3,52 @@ NIHR_HIC_ICU_0398:
   dataItem: Admission type
   distribution: nominal
   category:
-    L: unplanned Local admission
-    U: Unplanned transfer in
-    P: Planned transfer in
-    S: planned local Surgical admission
-    M: planned local Medical admission
-    R: Repatriation
-  apply:
-      category: drop_entry
+    levels:
+      L: unplanned Local admission
+      U: Unplanned transfer in
+      P: Planned transfer in
+      S: planned local Surgical admission
+      M: planned local Medical admission
+      R: Repatriation
+    apply: drop_entry
 
 NIHR_HIC_ICU_0077:
   shortName: loca_in
   dataItem: Prior location (in)
   distribution: nominal
   category:
-    W: Ward
-    B: oBstetric area
-    M: other interMediate care area
-    P: Paediatric/neonatal ICU/HCU
-    I: level 3 bed in adult ICU or ICU/HDU
-    H: level 2 bed in adult ICU or ICU/HDU
-    U: adUlt HCU
-    T: Theatre & recovery
-    E: accident & Emergency
-    R: Recovery only
-    G: imaGing department
-    S: Specialist treatment area
-    C: Clinic
-    N: Not in hospital
-  apply:
-      category: drop_entry
+    levels:
+      W: Ward
+      B: oBstetric area
+      M: other interMediate care area
+      P: Paediatric/neonatal ICU/HCU
+      I: level 3 bed in adult ICU or ICU/HDU
+      H: level 2 bed in adult ICU or ICU/HDU
+      U: adUlt HCU
+      T: Theatre & recovery
+      E: accident & Emergency
+      R: Recovery only
+      G: imaGing department
+      S: Specialist treatment area
+      C: Clinic
+      N: Not in hospital
+    apply: drop_entry
 
 NIHR_HIC_ICU_0068:
   shortName: loca_in_prior
   dataItem: Location (in)
   distribution: nominal
   category: #------------------------------------>  Why less values than 0077? In the data we have these values. 
-    W: Ward
-    B: OBstetric area
-    M: other interMediate care area
-    P: Paediatric / Neonatal ICU/HDU
-    I: Level 3 bed in adult ICU or ICU/HDU
-    H: Level 2 bed in adult ICU or ICU/HDU
-    U: Adult HDU
-    N: Not in hospital
-  apply:
-      category: drop_entry
+    levels:
+      W: Ward
+      B: OBstetric area
+      M: other interMediate care area
+      P: Paediatric / Neonatal ICU/HDU
+      I: Level 3 bed in adult ICU or ICU/HDU
+      H: Level 2 bed in adult ICU or ICU/HDU
+      U: Adult HDU
+      N: Not in hospital
+    apply: drop_entry
 
 NIHR_HIC_ICU_0033:
   shortName: dbirth
@@ -66,6 +66,7 @@ NIHR_HIC_ICU_0108:
           red: (0, 300)
           amber: (0, 170) 
           green: (50, 100)
+      apply: drop_entry
   missingness:
       labels:
           yellow: 24
@@ -75,9 +76,7 @@ NIHR_HIC_ICU_0108:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
+      apply: drop_episode
 
 NIHR_HIC_ICU_0122:
   shortName: lac_bg
@@ -87,7 +86,8 @@ NIHR_HIC_ICU_0122:
   range:
       labels:
           red: (0, 50)
-          amber: (0.5, 30) 
+          amber: (0.5, 30)
+      range: drop_entry
   missingness:
       labels:
           yellow: 24
@@ -97,9 +97,6 @@ NIHR_HIC_ICU_0122:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
 
 NIHR_HIC_ICU_0123:
   shortName: lac_lab
@@ -110,6 +107,7 @@ NIHR_HIC_ICU_0123:
       labels:
           red: (0, 50)
           amber: (0.5, 30) 
+      range: drop_entry
   missingness:
       labels:
           yellow: 24
@@ -119,9 +117,6 @@ NIHR_HIC_ICU_0123:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
 
 NIHR_HIC_ICU_0112:
   shortName: bp_sys_a
@@ -132,6 +127,7 @@ NIHR_HIC_ICU_0112:
       labels:
           red: (0, 300)
           amber: (30, 250) 
+      range: drop_entry
   # report missingness in hours
   missingness:
       labels:
@@ -144,9 +140,7 @@ NIHR_HIC_ICU_0112:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
+      apply: drop_episode
 
 NIHR_HIC_ICU_0113:
   shortName: bp_sys_ni
@@ -157,6 +151,7 @@ NIHR_HIC_ICU_0113:
       labels:
           red: (0, 300)
           amber: (30, 250) 
+      range: drop_entry
   # report missingness in hours
   missingness:
       labels:
@@ -169,9 +164,7 @@ NIHR_HIC_ICU_0113:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
+      apply: drop_episode
 
 NIHR_HIC_ICU_0114:
   shortName: bp_dia_a
@@ -182,7 +175,7 @@ NIHR_HIC_ICU_0114:
       labels:
           red: (0, 200)
           amber: (10, 150)
-  apply: drop_entry
+      apply: drop_entry
 
   # report missingness in hours
   missingness:
@@ -207,6 +200,7 @@ NIHR_HIC_ICU_0115:
       labels:
           red: (0, 200)
           amber: (10, 150) 
+      range: drop_entry
   # report missingness in hours
   missingness:
       labels:
@@ -219,9 +213,7 @@ NIHR_HIC_ICU_0115:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
+      apply: drop_episode
 
 NIHR_HIC_ICU_0110:
   shortName: bp_m_a
@@ -232,6 +224,7 @@ NIHR_HIC_ICU_0110:
       labels:
           red: (10, 200)
           amber: (20, 140) 
+      range: drop_entry
   # report missingness in hours
   missingness:
       labels:
@@ -242,9 +235,7 @@ NIHR_HIC_ICU_0110:
           lead: 3
           lag: 3
           fun: median
-  apply:
-      range: drop_entry
-      missingness: drop_episode
+      apply: drop_episode
 
 NIHR_HIC_ICU_0111:
   shortName: bp_m_ni
@@ -255,6 +246,7 @@ NIHR_HIC_ICU_0111:
       labels:
           red: (10, 200)
           amber: (20, 140) 
+      range: drop_entry
   missingness:
       labels:
           yellow: 24
@@ -264,9 +256,7 @@ NIHR_HIC_ICU_0111:
           lead: 3
           lag: 3
           fun: median
-  apply:
-    range: drop_entry
-    missingness: drop_episode
+      apply: drop_episode
 
 NIHR_HIC_ICU_0470:
   shortName: rx_norad
@@ -277,6 +267,7 @@ NIHR_HIC_ICU_0470:
       labels:
           red: (0, 3)
           amber: (0, 1) 
+      range: drop_entry
   # report missingness in hours
   missingness:
       labels:
@@ -285,9 +276,6 @@ NIHR_HIC_ICU_0470:
       # do not put more than one threshold
       accept_2d:
           yellow: -1
-  apply:
-      range: drop_entry
-      missingness: drop_episode
 
 NIHR_HIC_ICU_0441:
   shortName: meropenem
