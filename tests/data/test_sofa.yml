@@ -53,9 +53,13 @@ NIHR_HIC_ICU_0068:
 NIHR_HIC_ICU_0033:
   shortName: dbirth
   dataItem: Date of birth
+  nodata:
+    apply: drop_episode
 NIHR_HIC_ICU_0093:
   shortName: sex
   dateItem: Sex
+  nodata:
+    apply: drop_episode
 NIHR_HIC_ICU_0108:
   shortName: hrate
   dataItem: Heart rate
