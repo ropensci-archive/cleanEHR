@@ -128,8 +128,8 @@ ccTable$methods(
 
 ccTable$methods(
     update.episode = function(){
-        sep <- .self$.epindex["index"==TRUE]
-        .self$tclean <- merge(.self$tclean, sep)
+        sep <- .self$.epindex[index==TRUE]
+        .self$tclean <- merge(.self$tclean, sep, by=c("site", "episode_id"))
         .self$tclean[["index"]] <- NULL
     })
 
@@ -149,11 +149,9 @@ ccTable$methods(
                               cat(paste(item, filter, "\n"))
                               stop(e)
                           }
-
                       }
             )
         }
-
         .self$update.entry()
         .self$update.episode()
     })
