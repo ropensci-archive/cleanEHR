@@ -5,8 +5,8 @@ missingness_count <- function(tb) {
         length(which(vec!="NA"))/length(vec) * 100
     }
     items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
-    flags <- tb[, cmplt(.SD[[items[1]]]), .(episode_id, site)]
-    setnames(flags, c('episode_id', 'site', items[1]))
+    flags <- tb[, cmplt(.SD[[items[1]]]), .(site, episode_id)]
+    setnames(flags, c('site', 'episode_id', items[1]))
     flags
 }
 
@@ -16,13 +16,13 @@ ccTable$methods(
             cmplt <- function(vec) {
                 length(which(vec!="NA"))/length(vec) * 100 
             }
-            items_ <- names(tb_)[!names(tb_) %in% c("site", "time", "episode_id")]
-            flags <- tb_[, cmplt(.SD[[items_[1]]]), .(episode_id, site)]
-            setnames(flags, c('episode_id', 'site', items_[1]))
+            items_ <- names(tb_)[!names(tb_) %in% c("site", "episode_id", "time")]
+            flags <- tb_[, cmplt(.SD[[items_[1]]]), .(site, episode_id)]
+            setnames(flags, c('site', 'episode_id', items_[1]))
             flags
         }
 
-        .self$dquality[['missingness']] <- .self$torigin[, 1, by=c("episode_id", "site")]
+        .self$dquality[['missingness']] <- .self$torigin[, 1, by=c("site", "episode_id")]
         .self$dquality[['missingness']][, V1:=NULL]
         setkey(.self$dquality[['missingness']], site, episode_id)
 
