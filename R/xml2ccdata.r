@@ -15,18 +15,32 @@ getXmlepisode <- function(xml.root, id) {
     xml.root[[1]][[2]][[id]]
 }
 
+#' Extract the original file name from a path and file removing
+#' all the suffixes.
+#' @param pathfile a particular file name which may have a suffix
+#' @param removestr last bit from the original filename
+#' @return string
+#' @export extract_file_origin
+extract_file_origin <- function(pathfile, removestr='.xml'){
+  split_path <- unlist(strsplit(pathfile, "/"))
+  filename <- split_path[length(split_path)]
+  original <- unlist(strsplit(filename, removestr))
+  return(paste(original[1], removestr, sep=""))
+  }
+
+
 #' convert xml data to ccdata format
 #' @param file xml file name
 #' @return ccdata 
 #' @export xml2Data
 xml2Data <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
                       file_origin="NA", parse_time=Sys.time()){
-    if (is.null(xml)) {
-        split_file_name <- unlist(strsplit(file, "/"))
-        file_origin <- split_file_name[length(split_file_name)]
-
-        xml <- xmlLoad(file)
+  if (is.null(xml)) {
+    if (file_origin == "NA") {
+      file_origin <- extract_file_origin(file)
     }
+    xml <- xmlLoad(file)
+  }
 
     episode.num <- xmlSize(xml[[1]][[2]])
     if(is.null(select.episode))

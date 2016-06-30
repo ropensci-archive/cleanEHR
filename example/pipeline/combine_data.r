@@ -1,8 +1,10 @@
 #!/usr/bin/Rscript
+
 library(ccdata)
 
+args = commandArgs(trailingOnly=TRUE)
+
 institute <- c("CUH", "Oxford", "GSTT", "imperial", "UCLH")
-#institute <- "imperial"
 
 data<-dir(institute, full.name=TRUE)[grep(".RData", dir(institute,
                                                         full.name=TRUE))]
@@ -16,4 +18,4 @@ for (d in data) {
 
 ccd <- new
 
-save(ccd, file="all_patients.Rdata")
+save(ccd, file=args[1])
