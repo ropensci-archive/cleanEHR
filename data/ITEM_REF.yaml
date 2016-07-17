@@ -4311,7 +4311,7 @@ NIHR_HIC_ICU_0437:
   NHICdtCode: NIHR_HIC_ICU_0341
   NHICmetaCode: NIHR_HIC_ICU_0950
 NIHR_HIC_ICU_0444:
-  ahortName: ~
+  shortName: ~
   ItemId: 204
   Classification1: Drugs
   Classification2: Anti_microbials
