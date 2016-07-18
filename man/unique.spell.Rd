@@ -4,7 +4,7 @@
 \alias{unique.spell}
 \title{find the unique spell ID.}
 \usage{
-\method{unique}{spell}(record)
+\method{unique}{spell}(rec)
 }
 \arguments{
 \item{record}{ccRecord}
