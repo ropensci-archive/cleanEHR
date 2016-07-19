@@ -1,7 +1,10 @@
 .onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
     ccdata.env <<- new.env()
+    path <- find.package("ccdata")
+    
     data("data.checklist", package="ccdata")
-    data("ITEM_REF", package="ccdata", envir=ccdata.env)
+    ccdata.env$ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
+    
     assign('code_pas_number',  getItemInfo("PAS number")["NHIC_code"], envir=ccdata.env)
     assign('code_nhs_number',  getItemInfo("NHS number")["NHIC_code"], envir=ccdata.env)
     assign('code_episode_id', 
