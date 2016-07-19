@@ -54,3 +54,4 @@ Collate:
     'xmlEpisodeToList.r'
     'xmlTime2POSIX.r'
     'zzz.r'
+RoxygenNote: 5.0.1
