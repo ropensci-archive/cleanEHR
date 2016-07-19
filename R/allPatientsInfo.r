@@ -10,7 +10,7 @@ allPatientsInfo <- function(record, item) {
     sapply(record@patients, function(x) {
                       ifelse(is.null(slot(x, item)), 
                              stop("slot ", item, 
-                                  "cannot be found. Most porbably caused by missing patient"), 
+                                  "cannot be found. Most probably caused by missing patient"), 
                              slot(x, item))
                       })
 }
