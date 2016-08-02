@@ -1,5 +1,5 @@
 NIHR_HIC_ICU_0002:
-  shortName: ~
+  shortName: ICNNO
   ItemId: 1
   Classification1: Demographic
   Classification2: Unit
@@ -21,7 +21,7 @@ NIHR_HIC_ICU_0002:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0006:
-  shortName: ~
+  shortName: bed02
   ItemId: 2
   Classification1: Demographic
   Classification2: Unit
@@ -43,7 +43,7 @@ NIHR_HIC_ICU_0006:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0395:
-  shortName: ~
+  shortName: bed03
   ItemId: 3
   Classification1: Demographic
   Classification2: Unit
@@ -65,7 +65,7 @@ NIHR_HIC_ICU_0395:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0396:
-  shortName: ~
+  shortName: bed05
   ItemId: 4
   Classification1: Demographic
   Classification2: Unit
@@ -87,7 +87,7 @@ NIHR_HIC_ICU_0396:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0397:
-  shortName: ~
+  shortName: bed50
   ItemId: 5
   Classification1: Demographic
   Classification2: Unit
@@ -109,7 +109,7 @@ NIHR_HIC_ICU_0397:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0073:
-  shortName: ~
+  shortName: NHSNO
   ItemId: 6
   Classification1: Demographic
   Classification2: Patient
@@ -131,7 +131,7 @@ NIHR_HIC_ICU_0073:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0001:
-  shortName: ~
+  shortName: pasno
   ItemId: 7
   Classification1: Demographic
   Classification2: Patient
@@ -153,7 +153,7 @@ NIHR_HIC_ICU_0001:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0005:
-  shortName: ~
+  shortName: ADNO
   ItemId: 8
   Classification1: Demographic
   Classification2: Patient
@@ -175,7 +175,7 @@ NIHR_HIC_ICU_0005:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0033:
-  shortName: ~
+  shortName: DOB
   ItemId: 9
   Classification1: Demographic
   Classification2: Patient
@@ -197,7 +197,7 @@ NIHR_HIC_ICU_0033:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0076:
-  shortName: ~
+  shortName: PCODE
   ItemId: 10
   Classification1: Demographic
   Classification2: Patient
@@ -219,7 +219,7 @@ NIHR_HIC_ICU_0076:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0003:
-  shortName: ~
+  shortName: GPCODE
   ItemId: 11
   Classification1: Demographic
   Classification2: Patient
@@ -241,7 +241,7 @@ NIHR_HIC_ICU_0003:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0058:
-  shortName: ~
+  shortName: ETHNIC
   ItemId: 12
   Classification1: Demographic
   Classification2: Patient
@@ -263,7 +263,7 @@ NIHR_HIC_ICU_0058:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0093:
-  shortName: sex
+  shortName: SEX
   ItemId: 13
   Classification1: Demographic
   Classification2: Patient
@@ -285,7 +285,7 @@ NIHR_HIC_ICU_0093:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0017:
-  shortName: ~
+  shortName: HCM
   ItemId: 14
   Classification1: Demographic
   Classification2: Patient
@@ -307,7 +307,7 @@ NIHR_HIC_ICU_0017:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0018:
-  shortName: ~
+  shortName: HCMEST
   ItemId: 15
   Classification1: Demographic
   Classification2: Patient
@@ -329,7 +329,7 @@ NIHR_HIC_ICU_0018:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0019:
-  shortName: ~
+  shortName: WKG
   ItemId: 16
   Classification1: Demographic
   Classification2: Patient
@@ -351,7 +351,7 @@ NIHR_HIC_ICU_0019:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0020:
-  shortName: ~
+  shortName: WKGEST
   ItemId: 17
   Classification1: Demographic
   Classification2: Patient
@@ -373,7 +373,7 @@ NIHR_HIC_ICU_0020:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0032:
-  shortName: ~
+  shortName: DAH
   ItemId: 18
   Classification1: Demographic
   Classification2: Dates
@@ -395,7 +395,7 @@ NIHR_HIC_ICU_0032:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0411:
-  shortName: ~
+  shortName: DAICU
   ItemId: 19
   Classification1: Demographic
   Classification2: Dates
@@ -417,7 +417,7 @@ NIHR_HIC_ICU_0411:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0050:
-  shortName: ~
+  shortName: DWFRD
   ItemId: 20
   Classification1: Demographic
   Classification2: Dates
@@ -439,7 +439,7 @@ NIHR_HIC_ICU_0050:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0051:
-  shortName: ~
+  shortName: TWFRD
   ItemId: 21
   Classification1: Demographic
   Classification2: Dates
@@ -461,7 +461,7 @@ NIHR_HIC_ICU_0051:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0412:
-  shortName: ~
+  shortName: DDICU
   ItemId: 22
   Classification1: Demographic
   Classification2: Dates
@@ -483,7 +483,7 @@ NIHR_HIC_ICU_0412:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0037:
-  shortName: ~
+  shortName: DUDICU
   ItemId: 23
   Classification1: Demographic
   Classification2: Dates
@@ -505,7 +505,7 @@ NIHR_HIC_ICU_0037:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0406:
-  shortName: ~
+  shortName: DDH
   ItemId: 24
   Classification1: Demographic
   Classification2: Dates
@@ -527,7 +527,7 @@ NIHR_HIC_ICU_0406:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0408:
-  shortName: ~
+  shortName: DUDH
   ItemId: 25
   Classification1: Demographic
   Classification2: Dates
@@ -549,7 +549,7 @@ NIHR_HIC_ICU_0408:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0930:
-  shortName: ~
+  shortName: UDIS
   ItemId: 271
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -571,7 +571,7 @@ NIHR_HIC_ICU_0930:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0085:
-  shortName: ~
+  shortName: RESA
   ItemId: 34
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -593,7 +593,7 @@ NIHR_HIC_ICU_0085:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0065:
-  shortName: ~
+  shortName: HLOCA
   ItemId: 35
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -615,7 +615,7 @@ NIHR_HIC_ICU_0065:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0068:
-  shortName: ~
+  shortName: LOCA
   ItemId: 36
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -637,7 +637,7 @@ NIHR_HIC_ICU_0068:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0398:
-  shortName: adm_type
+  shortName: PA_V3
   ItemId: 37
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -659,7 +659,7 @@ NIHR_HIC_ICU_0398:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0004:
-  shortName: ~
+  shortName: SCODE
   ItemId: 38
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -681,7 +681,7 @@ NIHR_HIC_ICU_0004:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0027:
-  shortName: ~
+  shortName: CLASSNS
   ItemId: 39
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -703,7 +703,7 @@ NIHR_HIC_ICU_0027:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0007:
-  shortName: ~
+  shortName: CCL2D
   ItemId: 40
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -725,7 +725,7 @@ NIHR_HIC_ICU_0007:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0008:
-  shortName: ~
+  shortName: CCL3D
   ItemId: 41
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -747,7 +747,7 @@ NIHR_HIC_ICU_0008:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0081:
-  shortName: ~
+  shortName: RDIS_V3
   ItemId: 42
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -769,7 +769,7 @@ NIHR_HIC_ICU_0081:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0069:
-  shortName: ~
+  shortName: LOCD
   ItemId: 43
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -791,7 +791,7 @@ NIHR_HIC_ICU_0069:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0405:
-  shortName: ~
+  shortName: TNESSD
   ItemId: 44
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -813,7 +813,7 @@ NIHR_HIC_ICU_0405:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0066:
-  shortName: ~
+  shortName: LEVD
   ItemId: 45
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -835,7 +835,7 @@ NIHR_HIC_ICU_0066:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0097:
-  shortName: dead_icu
+  shortName: DIS
   ItemId: 46
   Classification1: Demographic
   Classification2: Episode_descriptors
@@ -857,7 +857,7 @@ NIHR_HIC_ICU_0097:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0035:
-  shortName: ~
+  shortName: DOAH
   ItemId: 47
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -879,7 +879,7 @@ NIHR_HIC_ICU_0035:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0089:
-  shortName: ~
+  shortName: SOHA
   ItemId: 48
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -901,7 +901,7 @@ NIHR_HIC_ICU_0089:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0077:
-  shortName: ~
+  shortName: PLOCA
   ItemId: 49
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -923,7 +923,7 @@ NIHR_HIC_ICU_0077:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0100:
-  shortName: ~
+  shortName: TUADNO
   ItemId: 50
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -945,7 +945,7 @@ NIHR_HIC_ICU_0100:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0036:
-  shortName: ~
+  shortName: DOAICU
   ItemId: 51
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -967,7 +967,7 @@ NIHR_HIC_ICU_0036:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0101:
-  shortName: ~
+  shortName: TUIDI
   ItemId: 52
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -989,7 +989,7 @@ NIHR_HIC_ICU_0101:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0104:
-  shortName: ~
+  shortName: TYPEIHA
   ItemId: 53
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -1011,7 +1011,7 @@ NIHR_HIC_ICU_0104:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0013:
-  shortName: ~
+  shortName: TGA
   ItemId: 54
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -1033,7 +1033,7 @@ NIHR_HIC_ICU_0013:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0031:
-  shortName: ~
+  shortName: CCA
   ItemId: 55
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -1055,7 +1055,7 @@ NIHR_HIC_ICU_0031:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0034:
-  shortName: ~
+  shortName: DLCCA
   ItemId: 56
   Classification1: Demographic
   Classification2: Pre_episode_descriptors
@@ -1077,7 +1077,7 @@ NIHR_HIC_ICU_0034:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0057:
-  shortName: ~
+  shortName: HLOCD
   ItemId: 57
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1099,7 +1099,7 @@ NIHR_HIC_ICU_0057:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0090:
-  shortName: ~
+  shortName: SOHD
   ItemId: 58
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1121,7 +1121,7 @@ NIHR_HIC_ICU_0090:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0568:
-  shortName: ~
+  shortName: TYPEIHD
   ItemId: 59
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1143,7 +1143,7 @@ NIHR_HIC_ICU_0568:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0014:
-  shortName: ~
+  shortName: TGD
   ItemId: 60
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1165,7 +1165,7 @@ NIHR_HIC_ICU_0014:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0095:
-  shortName: ~
+  shortName: HDIS
   ItemId: 61
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1187,7 +1187,7 @@ NIHR_HIC_ICU_0095:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0030:
-  shortName: ~
+  shortName: CCD
   ItemId: 62
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1209,7 +1209,7 @@ NIHR_HIC_ICU_0030:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0407:
-  shortName: ~
+  shortName: DFCCD
   ItemId: 63
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1231,7 +1231,7 @@ NIHR_HIC_ICU_0407:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0573:
-  shortName: ~
+  shortName: DESTH_V3
   ItemId: 64
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1253,7 +1253,7 @@ NIHR_HIC_ICU_0573:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0084:
-  shortName: ~
+  shortName: RESD
   ItemId: 65
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1275,7 +1275,7 @@ NIHR_HIC_ICU_0084:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0098:
-  shortName: ~
+  shortName: UHDIS
   ItemId: 66
   Classification1: Demographic
   Classification2: Post_episode_descriptors
@@ -1297,7 +1297,7 @@ NIHR_HIC_ICU_0098:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0011:
-  shortName: ~
+  shortName: PSP
   ItemId: 67
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1319,7 +1319,7 @@ NIHR_HIC_ICU_0011:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0021:
-  shortName: ~
+  shortName: CPR_V3
   ItemId: 68
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1341,7 +1341,7 @@ NIHR_HIC_ICU_0021:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0399:
-  shortName: ~
+  shortName: RAICU1
   ItemId: 69
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1363,7 +1363,7 @@ NIHR_HIC_ICU_0399:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0088:
-  shortName: ~
+  shortName: RAICU2
   ItemId: 70
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1385,7 +1385,7 @@ NIHR_HIC_ICU_0088:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0912:
-  shortName: ~
+  shortName: URAICU
   ItemId: 71
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1407,7 +1407,7 @@ NIHR_HIC_ICU_0912:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0024:
-  shortName: ~
+  shortName: CHEMOX
   ItemId: 72
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1429,7 +1429,7 @@ NIHR_HIC_ICU_0024:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0080:
-  shortName: ~
+  shortName: RADIOX
   ItemId: 73
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1451,7 +1451,7 @@ NIHR_HIC_ICU_0080:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0029:
-  shortName: ~
+  shortName: CICIDS
   ItemId: 74
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1473,7 +1473,7 @@ NIHR_HIC_ICU_0029:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0010:
-  shortName: ~
+  shortName: AMLALLMM
   ItemId: 75
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1495,7 +1495,7 @@ NIHR_HIC_ICU_0010:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0025:
-  shortName: ~
+  shortName: CMLCLL
   ItemId: 76
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1517,7 +1517,7 @@ NIHR_HIC_ICU_0025:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0070:
-  shortName: ~
+  shortName: LYM
   ItemId: 77
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1539,7 +1539,7 @@ NIHR_HIC_ICU_0070:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0071:
-  shortName: ~
+  shortName: META
   ItemId: 78
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1561,7 +1561,7 @@ NIHR_HIC_ICU_0071:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0026:
-  shortName: ~
+  shortName: CRRX
   ItemId: 79
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1583,7 +1583,7 @@ NIHR_HIC_ICU_0026:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0016:
-  shortName: ~
+  shortName: BPC
   ItemId: 80
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1605,7 +1605,7 @@ NIHR_HIC_ICU_0016:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0060:
-  shortName: ~
+  shortName: HE
   ItemId: 81
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1627,7 +1627,7 @@ NIHR_HIC_ICU_0060:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0075:
-  shortName: ~
+  shortName: PH
   ItemId: 82
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1649,7 +1649,7 @@ NIHR_HIC_ICU_0075:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0062:
-  shortName: ~
+  shortName: AIDS_V3
   ItemId: 83
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1671,7 +1671,7 @@ NIHR_HIC_ICU_0062:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0063:
-  shortName: ~
+  shortName: HV
   ItemId: 84
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1693,7 +1693,7 @@ NIHR_HIC_ICU_0063:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0092:
-  shortName: ~
+  shortName: SRD
   ItemId: 85
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1715,7 +1715,7 @@ NIHR_HIC_ICU_0092:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0099:
-  shortName: ~
+  shortName: STERX
   ItemId: 86
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1737,7 +1737,7 @@ NIHR_HIC_ICU_0099:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0107:
-  shortName: ~
+  shortName: VSCD
   ItemId: 87
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1759,7 +1759,7 @@ NIHR_HIC_ICU_0107:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0074:
-  shortName: ~
+  shortName: OCPMH
   ItemId: 88
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1781,7 +1781,7 @@ NIHR_HIC_ICU_0074:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0055:
-  shortName: ~
+  shortName: DEP
   ItemId: 89
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1803,7 +1803,7 @@ NIHR_HIC_ICU_0055:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0409:
-  shortName: ~
+  shortName: apache_score
   ItemId: 90
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1825,7 +1825,7 @@ NIHR_HIC_ICU_0409:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0410:
-  shortName: ~
+  shortName: apache_prob
   ItemId: 91
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1847,7 +1847,7 @@ NIHR_HIC_ICU_0410:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0053:
-  shortName: ~
+  shortName: TNESSA
   ItemId: 92
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1869,7 +1869,7 @@ NIHR_HIC_ICU_0053:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0054:
-  shortName: ~
+  shortName: DHRS
   ItemId: 93
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1891,7 +1891,7 @@ NIHR_HIC_ICU_0054:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0015:
-  shortName: ~
+  shortName: AMUAI
   ItemId: 94
   Classification1: Demographic
   Classification2: Prognostication_variables
@@ -1913,7 +1913,7 @@ NIHR_HIC_ICU_0015:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0009:
-  shortName: ~
+  shortName: ORGAN_SUPPORT
   ItemId: 95
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -1935,7 +1935,7 @@ NIHR_HIC_ICU_0009:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0087:
-  shortName: ~
+  shortName: ARSD
   ItemId: 96
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -1957,7 +1957,7 @@ NIHR_HIC_ICU_0087:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0086:
-  shortName: ~
+  shortName: BRSD
   ItemId: 97
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -1979,7 +1979,7 @@ NIHR_HIC_ICU_0086:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0023:
-  shortName: ~
+  shortName: ACSD
   ItemId: 98
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2001,7 +2001,7 @@ NIHR_HIC_ICU_0023:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0022:
-  shortName: ~
+  shortName: BCSD
   ItemId: 99
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2023,7 +2023,7 @@ NIHR_HIC_ICU_0022:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0083:
-  shortName: ~
+  shortName: RSD
   ItemId: 100
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2045,7 +2045,7 @@ NIHR_HIC_ICU_0083:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0072:
-  shortName: ~
+  shortName: NSD
   ItemId: 101
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2067,7 +2067,7 @@ NIHR_HIC_ICU_0072:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0067:
-  shortName: ~
+  shortName: LSD
   ItemId: 102
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2089,7 +2089,7 @@ NIHR_HIC_ICU_0067:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0056:
-  shortName: ~
+  shortName: DSD
   ItemId: 103
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2111,7 +2111,7 @@ NIHR_HIC_ICU_0056:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0059:
-  shortName: ~
+  shortName: GSD
   ItemId: 104
   Classification1: Demographic
   Classification2: Organ_dysfunction
@@ -2133,7 +2133,7 @@ NIHR_HIC_ICU_0059:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0103:
-  shortName: ~
+  shortName: ITW_V3
   ItemId: 105
   Classification1: Demographic
   Classification2: End_of_life
@@ -2155,7 +2155,7 @@ NIHR_HIC_ICU_0103:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0048:
-  shortName: ~
+  shortName: DTW
   ItemId: 106
   Classification1: Demographic
   Classification2: End_of_life
@@ -2177,7 +2177,7 @@ NIHR_HIC_ICU_0048:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0049:
-  shortName: ~
+  shortName: TTW
   ItemId: 107
   Classification1: Demographic
   Classification2: End_of_life
@@ -2199,7 +2199,7 @@ NIHR_HIC_ICU_0049:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0400:
-  shortName: ~
+  shortName: BSDTP
   ItemId: 108
   Classification1: Demographic
   Classification2: End_of_life
@@ -2221,7 +2221,7 @@ NIHR_HIC_ICU_0400:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0044:
-  shortName: ~
+  shortName: DDBSD
   ItemId: 109
   Classification1: Demographic
   Classification2: End_of_life
@@ -2243,7 +2243,7 @@ NIHR_HIC_ICU_0044:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0045:
-  shortName: ~
+  shortName: TDBSD
   ItemId: 110
   Classification1: Demographic
   Classification2: End_of_life
@@ -2265,7 +2265,7 @@ NIHR_HIC_ICU_0045:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0042:
-  shortName: ~
+  shortName: DOD
   ItemId: 111
   Classification1: Demographic
   Classification2: End_of_life
@@ -2287,7 +2287,7 @@ NIHR_HIC_ICU_0042:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0043:
-  shortName: ~
+  shortName: TOD
   ItemId: 112
   Classification1: Demographic
   Classification2: End_of_life
@@ -2309,7 +2309,7 @@ NIHR_HIC_ICU_0043:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0082:
-  shortName: ~
+  shortName: REFOD
   ItemId: 113
   Classification1: Demographic
   Classification2: End_of_life
@@ -2331,7 +2331,7 @@ NIHR_HIC_ICU_0082:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0094:
-  shortName: ~
+  shortName: OD_V3
   ItemId: 114
   Classification1: Demographic
   Classification2: End_of_life
@@ -2353,7 +2353,7 @@ NIHR_HIC_ICU_0094:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0038:
-  shortName: ~
+  shortName: DBRICU
   ItemId: 115
   Classification1: Demographic
   Classification2: End_of_life
@@ -2375,7 +2375,7 @@ NIHR_HIC_ICU_0038:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0039:
-  shortName: ~
+  shortName: TBRICU
   ItemId: 116
   Classification1: Demographic
   Classification2: End_of_life
@@ -2397,7 +2397,7 @@ NIHR_HIC_ICU_0039:
   NHICdtCode: ~
   NHICmetaCode: ~
 NIHR_HIC_ICU_0931:
-  shortName: ~
+  shortName: advsupt_resp
   ItemId: 117
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2419,7 +2419,7 @@ NIHR_HIC_ICU_0931:
   NHICdtCode: NIHR_HIC_ICU_0940
   NHICmetaCode: ~
 NIHR_HIC_ICU_0932:
-  shortName: ~
+  shortName: basicsupt_resp
   ItemId: 118
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2441,7 +2441,7 @@ NIHR_HIC_ICU_0932:
   NHICdtCode: NIHR_HIC_ICU_0941
   NHICmetaCode: ~
 NIHR_HIC_ICU_0933:
-  shortName: ~
+  shortName: advsupt_resp
   ItemId: 119
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2463,7 +2463,7 @@ NIHR_HIC_ICU_0933:
   NHICdtCode: NIHR_HIC_ICU_0942
   NHICmetaCode: ~
 NIHR_HIC_ICU_0934:
-  shortName: ~
+  shortName: basicsupt_cardv
   ItemId: 120
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2485,7 +2485,7 @@ NIHR_HIC_ICU_0934:
   NHICdtCode: NIHR_HIC_ICU_0943
   NHICmetaCode: ~
 NIHR_HIC_ICU_0935:
-  shortName: ~
+  shortName: supt_renal
   ItemId: 121
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2507,7 +2507,7 @@ NIHR_HIC_ICU_0935:
   NHICdtCode: NIHR_HIC_ICU_0944
   NHICmetaCode: ~
 NIHR_HIC_ICU_0936:
-  shortName: ~
+  shortName: supt_neuro
   ItemId: 122
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2529,7 +2529,7 @@ NIHR_HIC_ICU_0936:
   NHICdtCode: NIHR_HIC_ICU_0945
   NHICmetaCode: ~
 NIHR_HIC_ICU_0937:
-  shortName: ~
+  shortName: supt_liver
   ItemId: 123
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2551,7 +2551,7 @@ NIHR_HIC_ICU_0937:
   NHICdtCode: NIHR_HIC_ICU_0946
   NHICmetaCode: ~
 NIHR_HIC_ICU_0938:
-  shortName: ~
+  shortName: supt_dermat
   ItemId: 124
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2573,7 +2573,7 @@ NIHR_HIC_ICU_0938:
   NHICdtCode: NIHR_HIC_ICU_0947
   NHICmetaCode: ~
 NIHR_HIC_ICU_0939:
-  shortName: ~
+  shortName: supt_gastr
   ItemId: 125
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2595,7 +2595,7 @@ NIHR_HIC_ICU_0939:
   NHICdtCode: NIHR_HIC_ICU_0948
   NHICmetaCode: ~
 NIHR_HIC_ICU_0156:
-  shortName: ~
+  shortName: gcs_total
   ItemId: 126
   Classification1: Physiology
   Classification2: Neurology
@@ -2617,7 +2617,7 @@ NIHR_HIC_ICU_0156:
   NHICdtCode: NIHR_HIC_ICU_0293
   NHICmetaCode: ~
 NIHR_HIC_ICU_0157:
-  shortName: ~
+  shortName: gcs_motor
   ItemId: 127
   Classification1: Physiology
   Classification2: Neurology
@@ -2639,7 +2639,7 @@ NIHR_HIC_ICU_0157:
   NHICdtCode: NIHR_HIC_ICU_0294
   NHICmetaCode: ~
 NIHR_HIC_ICU_0158:
-  shortName: ~
+  shortName: gcs_eye
   ItemId: 128
   Classification1: Physiology
   Classification2: Neurology
@@ -2661,7 +2661,7 @@ NIHR_HIC_ICU_0158:
   NHICdtCode: NIHR_HIC_ICU_0295
   NHICmetaCode: ~
 NIHR_HIC_ICU_0159:
-  shortName: ~
+  shortName: gcs_verbal
   ItemId: 129
   Classification1: Physiology
   Classification2: Neurology
@@ -2683,7 +2683,7 @@ NIHR_HIC_ICU_0159:
   NHICdtCode: NIHR_HIC_ICU_0296
   NHICmetaCode: ~
 NIHR_HIC_ICU_0160:
-  shortName: ~
+  shortName: sedation_score
   ItemId: 130
   Classification1: Physiology
   Classification2: Neurology
@@ -2705,7 +2705,7 @@ NIHR_HIC_ICU_0160:
   NHICdtCode: NIHR_HIC_ICU_0917
   NHICmetaCode: ~
 NIHR_HIC_ICU_0911:
-  shortName: ~
+  shortName: sedataion
   ItemId: 131
   Classification1: Physiology
   Classification2: Neurology
@@ -2727,7 +2727,7 @@ NIHR_HIC_ICU_0911:
   NHICdtCode: NIHR_HIC_ICU_0297
   NHICmetaCode: ~
 NIHR_HIC_ICU_0108:
-  shortName: ~
+  shortName: h_rate
   ItemId: 132
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2749,7 +2749,7 @@ NIHR_HIC_ICU_0108:
   NHICdtCode: NIHR_HIC_ICU_0254
   NHICmetaCode: ~
 NIHR_HIC_ICU_0109:
-  shortName: ~
+  shortName: h_rhythm
   ItemId: 133
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2771,7 +2771,7 @@ NIHR_HIC_ICU_0109:
   NHICdtCode: NIHR_HIC_ICU_0255
   NHICmetaCode: ~
 NIHR_HIC_ICU_0110:
-  shortName: ~
+  shortName: bp_m_a
   ItemId: 134
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2793,7 +2793,7 @@ NIHR_HIC_ICU_0110:
   NHICdtCode: NIHR_HIC_ICU_0256
   NHICmetaCode: NIHR_HIC_ICU_0801
 NIHR_HIC_ICU_0111:
-  shortName: ~
+  shortName: bp_m_ni
   ItemId: 135
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2815,7 +2815,7 @@ NIHR_HIC_ICU_0111:
   NHICdtCode: NIHR_HIC_ICU_0257
   NHICmetaCode: ~
 NIHR_HIC_ICU_0112:
-  shortName: ~
+  shortName: bp_sys_a
   ItemId: 136
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2837,7 +2837,7 @@ NIHR_HIC_ICU_0112:
   NHICdtCode: NIHR_HIC_ICU_0258
   NHICmetaCode: NIHR_HIC_ICU_0802
 NIHR_HIC_ICU_0113:
-  shortName: ~
+  shortName: bp_sys_ni
   ItemId: 137
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2859,7 +2859,7 @@ NIHR_HIC_ICU_0113:
   NHICdtCode: NIHR_HIC_ICU_0259
   NHICmetaCode: ~
 NIHR_HIC_ICU_0114:
-  shortName: ~
+  shortName: bp_dia_a
   ItemId: 138
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2881,7 +2881,7 @@ NIHR_HIC_ICU_0114:
   NHICdtCode: NIHR_HIC_ICU_0260
   NHICmetaCode: NIHR_HIC_ICU_0803
 NIHR_HIC_ICU_0115:
-  shortName: ~
+  shortName: bp_dia_ni
   ItemId: 139
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2903,7 +2903,7 @@ NIHR_HIC_ICU_0115:
   NHICdtCode: NIHR_HIC_ICU_0261
   NHICmetaCode: ~
 NIHR_HIC_ICU_0116:
-  shortName: ~
+  shortName: venous_p
   ItemId: 140
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2925,7 +2925,7 @@ NIHR_HIC_ICU_0116:
   NHICdtCode: NIHR_HIC_ICU_0262
   NHICmetaCode: NIHR_HIC_ICU_0804
 NIHR_HIC_ICU_0117:
-  shortName: ~
+  shortName: lidco_plus
   ItemId: 141
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2947,7 +2947,7 @@ NIHR_HIC_ICU_0117:
   NHICdtCode: NIHR_HIC_ICU_0263
   NHICmetaCode: ~
 NIHR_HIC_ICU_0118:
-  shortName: ~
+  shortName: lidco_rapid
   ItemId: 142
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2969,7 +2969,7 @@ NIHR_HIC_ICU_0118:
   NHICdtCode: NIHR_HIC_ICU_0264
   NHICmetaCode: ~
 NIHR_HIC_ICU_0119:
-  shortName: ~
+  shortName: picco
   ItemId: 143
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -2991,7 +2991,7 @@ NIHR_HIC_ICU_0119:
   NHICdtCode: NIHR_HIC_ICU_0265
   NHICmetaCode: ~
 NIHR_HIC_ICU_0120:
-  shortName: ~
+  shortName: pa_catheter
   ItemId: 144
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -3013,7 +3013,7 @@ NIHR_HIC_ICU_0120:
   NHICdtCode: NIHR_HIC_ICU_0266
   NHICmetaCode: ~
 NIHR_HIC_ICU_0121:
-  shortName: ~
+  shortName: doppler
   ItemId: 145
   Classification1: Physiology
   Classification2: Cardiovascular
@@ -3035,7 +3035,7 @@ NIHR_HIC_ICU_0121:
   NHICdtCode: NIHR_HIC_ICU_0267
   NHICmetaCode: ~
 NIHR_HIC_ICU_0126:
-  shortName: ~
+  shortName: airway
   ItemId: 146
   Classification1: Physiology
   Classification2: Respiratory
@@ -3057,7 +3057,7 @@ NIHR_HIC_ICU_0126:
   NHICdtCode: NIHR_HIC_ICU_0271
   NHICmetaCode: ~
 NIHR_HIC_ICU_0144:
-  shortName: ~
+  shortName: ventilation
   ItemId: 147
   Classification1: Physiology
   Classification2: Respiratory
@@ -3079,7 +3079,7 @@ NIHR_HIC_ICU_0144:
   NHICdtCode: NIHR_HIC_ICU_0281
   NHICmetaCode: ~
 NIHR_HIC_ICU_0549:
-  shortName: ~
+  shortName: respiratory_rate_spon
   ItemId: 148
   Classification1: Physiology
   Classification2: Respiratory
@@ -3101,7 +3101,7 @@ NIHR_HIC_ICU_0549:
   NHICdtCode: NIHR_HIC_ICU_0282
   NHICmetaCode: ~
 NIHR_HIC_ICU_0145:
-  shortName: ~
+  shortName: respiratory_rate_totl
   ItemId: 149
   Classification1: Physiology
   Classification2: Respiratory
@@ -3123,7 +3123,7 @@ NIHR_HIC_ICU_0145:
   NHICdtCode: NIHR_HIC_ICU_0283
   NHICmetaCode: ~
 NIHR_HIC_ICU_0129:
-  shortName: ~
+  shortName: spo2
   ItemId: 150
   Classification1: Physiology
   Classification2: Respiratory
@@ -3145,7 +3145,7 @@ NIHR_HIC_ICU_0129:
   NHICdtCode: NIHR_HIC_ICU_0272
   NHICmetaCode: ~
 NIHR_HIC_ICU_0913:
-  shortName: ~
+  shortName: pao2_fio2
   ItemId: 151
   Classification1: Physiology
   Classification2: Respiratory
@@ -3167,7 +3167,7 @@ NIHR_HIC_ICU_0913:
   NHICdtCode: NIHR_HIC_ICU_0914
   NHICmetaCode: ~
 NIHR_HIC_ICU_0150:
-  shortName: ~
+  shortName: fraction_oxygen
   ItemId: 152
   Classification1: Physiology
   Classification2: Respiratory
@@ -3189,7 +3189,7 @@ NIHR_HIC_ICU_0150:
   NHICdtCode: NIHR_HIC_ICU_0287
   NHICmetaCode: ~
 NIHR_HIC_ICU_0151:
-  shortName: ~
+  shortName: pe_expiratory_pressure
   ItemId: 153
   Classification1: Physiology
   Classification2: Respiratory
@@ -3211,7 +3211,7 @@ NIHR_HIC_ICU_0151:
   NHICdtCode: NIHR_HIC_ICU_0288
   NHICmetaCode: ~
 NIHR_HIC_ICU_0147:
-  shortName: ~
+  shortName: mand_resp_rate
   ItemId: 154
   Classification1: Physiology
   Classification2: Respiratory
@@ -3233,7 +3233,7 @@ NIHR_HIC_ICU_0147:
   NHICdtCode: NIHR_HIC_ICU_0284
   NHICmetaCode: ~
 NIHR_HIC_ICU_0146:
-  shortName: ~
+  shortName: total_resp_rate
   ItemId: 155
   Classification1: Physiology
   Classification2: Respiratory
@@ -3255,7 +3255,7 @@ NIHR_HIC_ICU_0146:
   NHICdtCode: NIHR_HIC_ICU_0546
   NHICmetaCode: ~
 NIHR_HIC_ICU_0148:
-  shortName: ~
+  shortName: minute_volume
   ItemId: 156
   Classification1: Physiology
   Classification2: Respiratory
@@ -3277,7 +3277,7 @@ NIHR_HIC_ICU_0148:
   NHICdtCode: NIHR_HIC_ICU_0285
   NHICmetaCode: ~
 NIHR_HIC_ICU_0550:
-  shortName: ~
+  shortName: tidal_volume
   ItemId: 157
   Classification1: Physiology
   Classification2: Respiratory
@@ -3299,7 +3299,7 @@ NIHR_HIC_ICU_0550:
   NHICdtCode: NIHR_HIC_ICU_0401
   NHICmetaCode: ~
 NIHR_HIC_ICU_0149:
-  shortName: ~
+  shortName: airway_pressure
   ItemId: 158
   Classification1: Physiology
   Classification2: Respiratory
@@ -3321,7 +3321,7 @@ NIHR_HIC_ICU_0149:
   NHICdtCode: NIHR_HIC_ICU_0286
   NHICmetaCode: ~
 NIHR_HIC_ICU_0153:
-  shortName: ~
+  shortName: frequency
   ItemId: 159
   Classification1: Physiology
   Classification2: Respiratory
@@ -3343,7 +3343,7 @@ NIHR_HIC_ICU_0153:
   NHICdtCode: NIHR_HIC_ICU_0290
   NHICmetaCode: ~
 NIHR_HIC_ICU_0154:
-  shortName: ~
+  shortName: cycle_volumn
   ItemId: 160
   Classification1: Physiology
   Classification2: Respiratory
@@ -3365,7 +3365,7 @@ NIHR_HIC_ICU_0154:
   NHICdtCode: NIHR_HIC_ICU_0291
   NHICmetaCode: ~
 NIHR_HIC_ICU_0155:
-  shortName: ~
+  shortName: base_flow
   ItemId: 161
   Classification1: Physiology
   Classification2: Respiratory
@@ -3387,7 +3387,7 @@ NIHR_HIC_ICU_0155:
   NHICdtCode: NIHR_HIC_ICU_0292
   NHICmetaCode: ~
 NIHR_HIC_ICU_0152:
-  shortName: ~
+  shortName: airway_pressure
   ItemId: 162
   Classification1: Physiology
   Classification2: Respiratory
@@ -3409,7 +3409,7 @@ NIHR_HIC_ICU_0152:
   NHICdtCode: NIHR_HIC_ICU_0289
   NHICmetaCode: ~
 NIHR_HIC_ICU_0915:
-  shortName: ~
+  shortName: fluid_balance
   ItemId: 163
   Classification1: Physiology
   Classification2: Renal
@@ -3431,7 +3431,7 @@ NIHR_HIC_ICU_0915:
   NHICdtCode: NIHR_HIC_ICU_0916
   NHICmetaCode: ~
 NIHR_HIC_ICU_0413:
-  shortName: ~
+  shortName: fluid_balance
   ItemId: 164
   Classification1: Physiology
   Classification2: Renal
@@ -3453,7 +3453,7 @@ NIHR_HIC_ICU_0413:
   NHICdtCode: NIHR_HIC_ICU_0317
   NHICmetaCode: ~
 NIHR_HIC_ICU_0162:
-  shortName: ~
+  shortName: urine_output
   ItemId: 165
   Classification1: Physiology
   Classification2: Renal
@@ -3475,7 +3475,7 @@ NIHR_HIC_ICU_0162:
   NHICdtCode: NIHR_HIC_ICU_0299
   NHICmetaCode: ~
 NIHR_HIC_ICU_0161:
-  shortName: ~
+  shortName: renal_replace
   ItemId: 166
   Classification1: Physiology
   Classification2: Renal
@@ -3497,7 +3497,7 @@ NIHR_HIC_ICU_0161:
   NHICdtCode: NIHR_HIC_ICU_0298
   NHICmetaCode: ~
 NIHR_HIC_ICU_0552:
-  shortName: ~
+  shortName: duration_therapy
   ItemId: 167
   Classification1: Physiology
   Classification2: Renal
@@ -3519,7 +3519,7 @@ NIHR_HIC_ICU_0552:
   NHICdtCode: NIHR_HIC_ICU_0869
   NHICmetaCode: ~
 NIHR_HIC_ICU_0553:
-  shortName: ~
+  shortName: effluent_per_day
   ItemId: 168
   Classification1: Physiology
   Classification2: Renal
@@ -3541,7 +3541,7 @@ NIHR_HIC_ICU_0553:
   NHICdtCode: NIHR_HIC_ICU_0870
   NHICmetaCode: ~
 NIHR_HIC_ICU_0554:
-  shortName: ~
+  shortName: dialysate
   ItemId: 169
   Classification1: Physiology
   Classification2: Renal
@@ -3563,7 +3563,7 @@ NIHR_HIC_ICU_0554:
   NHICdtCode: NIHR_HIC_ICU_0871
   NHICmetaCode: ~
 NIHR_HIC_ICU_0555:
-  shortName: ~
+  shortName: replace_fluid_RRT
   ItemId: 170
   Classification1: Physiology
   Classification2: Renal
@@ -3585,7 +3585,7 @@ NIHR_HIC_ICU_0555:
   NHICdtCode: NIHR_HIC_ICU_0872
   NHICmetaCode: ~
 NIHR_HIC_ICU_0556:
-  shortName: ~
+  shortName: anticoagulation
   ItemId: 171
   Classification1: Physiology
   Classification2: Renal
@@ -3607,7 +3607,7 @@ NIHR_HIC_ICU_0556:
   NHICdtCode: NIHR_HIC_ICU_0999
   NHICmetaCode: ~
 NIHR_HIC_ICU_0143:
-  shortName: ~
+  shortName: position
   ItemId: 172
   Classification1: Nursing_other
   Classification2: Position
@@ -3629,7 +3629,7 @@ NIHR_HIC_ICU_0143:
   NHICdtCode: NIHR_HIC_ICU_0280
   NHICmetaCode: ~
 NIHR_HIC_ICU_0141:
-  shortName: ~
+  shortName: temperature_central
   ItemId: 173
   Classification1: Nursing_other
   Classification2: Temperature
@@ -3651,7 +3651,7 @@ NIHR_HIC_ICU_0141:
   NHICdtCode: NIHR_HIC_ICU_0278
   NHICmetaCode: ~
 NIHR_HIC_ICU_0142:
-  shortName: ~
+  shortName: temperature_non_central
   ItemId: 174
   Classification1: Nursing_other
   Classification2: Temperature
@@ -3673,7 +3673,7 @@ NIHR_HIC_ICU_0142:
   NHICdtCode: NIHR_HIC_ICU_0279
   NHICmetaCode: ~
 NIHR_HIC_ICU_0168:
-  shortName: ~
+  shortName: sodium
   ItemId: 175
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3695,7 +3695,7 @@ NIHR_HIC_ICU_0168:
   NHICdtCode: NIHR_HIC_ICU_0302
   NHICmetaCode: ~
 NIHR_HIC_ICU_0169:
-  shortName: ~
+  shortName: sodium_abg_vbg
   ItemId: 176
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3717,7 +3717,7 @@ NIHR_HIC_ICU_0169:
   NHICdtCode: NIHR_HIC_ICU_0303
   NHICmetaCode: ~
 NIHR_HIC_ICU_0171:
-  shortName: ~
+  shortName: potassium
   ItemId: 177
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3739,7 +3739,7 @@ NIHR_HIC_ICU_0171:
   NHICdtCode: NIHR_HIC_ICU_0304
   NHICmetaCode: ~
 NIHR_HIC_ICU_0172:
-  shortName: ~
+  shortName: potassium_abg_vbg
   ItemId: 178
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3761,7 +3761,7 @@ NIHR_HIC_ICU_0172:
   NHICdtCode: NIHR_HIC_ICU_0305
   NHICmetaCode: ~
 NIHR_HIC_ICU_0164:
-  shortName: ~
+  shortName: urea
   ItemId: 179
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3783,7 +3783,7 @@ NIHR_HIC_ICU_0164:
   NHICdtCode: NIHR_HIC_ICU_0300
   NHICmetaCode: ~
 NIHR_HIC_ICU_0166:
-  shortName: ~
+  shortName: creatinine
   ItemId: 180
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3805,7 +3805,7 @@ NIHR_HIC_ICU_0166:
   NHICdtCode: NIHR_HIC_ICU_0301
   NHICmetaCode: ~
 NIHR_HIC_ICU_0174:
-  shortName: ~
+  shortName: bilirubin
   ItemId: 181
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3827,7 +3827,7 @@ NIHR_HIC_ICU_0174:
   NHICdtCode: NIHR_HIC_ICU_0306
   NHICmetaCode: ~
 NIHR_HIC_ICU_0918:
-  shortName: ~
+  shortName: glucose_lab
   ItemId: 182
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3849,7 +3849,7 @@ NIHR_HIC_ICU_0918:
   NHICdtCode: NIHR_HIC_ICU_0919
   NHICmetaCode: ~
 NIHR_HIC_ICU_0175:
-  shortName: ~
+  shortName: glucode_abg_vbg
   ItemId: 183
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3871,7 +3871,7 @@ NIHR_HIC_ICU_0175:
   NHICdtCode: NIHR_HIC_ICU_0307
   NHICmetaCode: ~
 NIHR_HIC_ICU_0176:
-  shortName: ~
+  shortName: glucode_bedtest
   ItemId: 184
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3893,7 +3893,7 @@ NIHR_HIC_ICU_0176:
   NHICdtCode: NIHR_HIC_ICU_0308
   NHICmetaCode: ~
 NIHR_HIC_ICU_0557:
-  shortName: ~
+  shortName: cprotein
   ItemId: 185
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3915,7 +3915,7 @@ NIHR_HIC_ICU_0557:
   NHICdtCode: NIHR_HIC_ICU_0800
   NHICmetaCode: ~
 NIHR_HIC_ICU_0136:
-  shortName: ~
+  shortName: ph_abg_vbg
   ItemId: 186
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3937,7 +3937,7 @@ NIHR_HIC_ICU_0136:
   NHICdtCode: NIHR_HIC_ICU_0276
   NHICmetaCode: NIHR_HIC_ICU_0807
 NIHR_HIC_ICU_0138:
-  shortName: ~
+  shortName: hco3_abg_vbg
   ItemId: 187
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3959,7 +3959,7 @@ NIHR_HIC_ICU_0138:
   NHICdtCode: NIHR_HIC_ICU_0277
   NHICmetaCode: NIHR_HIC_ICU_0808
 NIHR_HIC_ICU_0122:
-  shortName: ~
+  shortName: lactate_abg
   ItemId: 188
   Classification1: Laboratory
   Classification2: Chemistry
@@ -3981,7 +3981,7 @@ NIHR_HIC_ICU_0122:
   NHICdtCode: NIHR_HIC_ICU_0268
   NHICmetaCode: NIHR_HIC_ICU_0980
 NIHR_HIC_ICU_0123:
-  shortName: ~
+  shortName: lactate_lab
   ItemId: 189
   Classification1: Laboratory
   Classification2: Chemistry
@@ -4003,7 +4003,7 @@ NIHR_HIC_ICU_0123:
   NHICdtCode: NIHR_HIC_ICU_0269
   NHICmetaCode: ~
 NIHR_HIC_ICU_0179:
-  shortName: ~
+  shortName: haemoglobin
   ItemId: 190
   Classification1: Laboratory
   Classification2: Haematology
@@ -4025,7 +4025,7 @@ NIHR_HIC_ICU_0179:
   NHICdtCode: NIHR_HIC_ICU_0310
   NHICmetaCode: ~
 NIHR_HIC_ICU_0178:
-  shortName: ~
+  shortName: haemoglobin_abg_vbg
   ItemId: 191
   Classification1: Laboratory
   Classification2: Haematology
@@ -4047,7 +4047,7 @@ NIHR_HIC_ICU_0178:
   NHICdtCode: NIHR_HIC_ICU_0309
   NHICmetaCode: ~
 NIHR_HIC_ICU_0182:
-  shortName: ~
+  shortName: white_cell
   ItemId: 192
   Classification1: Laboratory
   Classification2: Haematology
@@ -4069,7 +4069,7 @@ NIHR_HIC_ICU_0182:
   NHICdtCode: NIHR_HIC_ICU_0311
   NHICmetaCode: ~
 NIHR_HIC_ICU_0183:
-  shortName: ~
+  shortName: neutrophil
   ItemId: 193
   Classification1: Laboratory
   Classification2: Haematology
@@ -4091,7 +4091,7 @@ NIHR_HIC_ICU_0183:
   NHICdtCode: NIHR_HIC_ICU_0312
   NHICmetaCode: ~
 NIHR_HIC_ICU_0184:
-  shortName: ~
+  shortName: platelets
   ItemId: 194
   Classification1: Laboratory
   Classification2: Haematology
@@ -4113,7 +4113,7 @@ NIHR_HIC_ICU_0184:
   NHICdtCode: NIHR_HIC_ICU_0313
   NHICmetaCode: ~
 NIHR_HIC_ICU_0186:
-  shortName: ~
+  shortName: site
   ItemId: 195
   Classification1: Laboratory
   Classification2: Microbiology
@@ -4135,7 +4135,7 @@ NIHR_HIC_ICU_0186:
   NHICdtCode: NIHR_HIC_ICU_0314
   NHICmetaCode: ~
 NIHR_HIC_ICU_0187:
-  shortName: ~
+  shortName: organism
   ItemId: 196
   Classification1: Laboratory
   Classification2: Microbiology
@@ -4157,7 +4157,7 @@ NIHR_HIC_ICU_0187:
   NHICdtCode: NIHR_HIC_ICU_0314
   NHICmetaCode: ~
 NIHR_HIC_ICU_0188:
-  shortName: ~
+  shortName: sensitivity
   ItemId: 197
   Classification1: Laboratory
   Classification2: Microbiology
@@ -4179,7 +4179,7 @@ NIHR_HIC_ICU_0188:
   NHICdtCode: NIHR_HIC_ICU_0314
   NHICmetaCode: ~
 NIHR_HIC_ICU_0132:
-  shortName: ~
+  shortName: pao2_abg
   ItemId: 198
   Classification1: Laboratory
   Classification2: Respiratory
@@ -4201,7 +4201,7 @@ NIHR_HIC_ICU_0132:
   NHICdtCode: NIHR_HIC_ICU_0274
   NHICmetaCode: NIHR_HIC_ICU_0805
 NIHR_HIC_ICU_0130:
-  shortName: ~
+  shortName: sao2_abg
   ItemId: 199
   Classification1: Laboratory
   Classification2: Respiratory
@@ -4223,7 +4223,7 @@ NIHR_HIC_ICU_0130:
   NHICdtCode: NIHR_HIC_ICU_0273
   NHICmetaCode: NIHR_HIC_ICU_0866
 NIHR_HIC_ICU_0125:
-  shortName: ~
+  shortName: venous_saturation
   ItemId: 200
   Classification1: Laboratory
   Classification2: Respiratory
@@ -4245,7 +4245,7 @@ NIHR_HIC_ICU_0125:
   NHICdtCode: NIHR_HIC_ICU_0270
   NHICmetaCode: NIHR_HIC_ICU_0545
 NIHR_HIC_ICU_0134:
-  shortName: ~
+  shortName: paco2_abg
   ItemId: 201
   Classification1: Laboratory
   Classification2: Respiratory
@@ -4267,7 +4267,7 @@ NIHR_HIC_ICU_0134:
   NHICdtCode: NIHR_HIC_ICU_0275
   NHICmetaCode: NIHR_HIC_ICU_0806
 NIHR_HIC_ICU_0414:
-  shortName: ~
+  shortName: amikacin
   ItemId: 202
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4289,7 +4289,7 @@ NIHR_HIC_ICU_0414:
   NHICdtCode: NIHR_HIC_ICU_0318
   NHICmetaCode: NIHR_HIC_ICU_0949
 NIHR_HIC_ICU_0437:
-  shortName: ~
+  shortName: gentamicin
   ItemId: 203
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4311,7 +4311,7 @@ NIHR_HIC_ICU_0437:
   NHICdtCode: NIHR_HIC_ICU_0341
   NHICmetaCode: NIHR_HIC_ICU_0950
 NIHR_HIC_ICU_0444:
-  shortName: ~
+  shortName: neomycin
   ItemId: 204
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4333,7 +4333,7 @@ NIHR_HIC_ICU_0444:
   NHICdtCode: NIHR_HIC_ICU_0348
   NHICmetaCode: NIHR_HIC_ICU_0951
 NIHR_HIC_ICU_0459:
-  shortName: ~
+  shortName: tobramycin
   ItemId: 205
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4355,7 +4355,7 @@ NIHR_HIC_ICU_0459:
   NHICdtCode: NIHR_HIC_ICU_0363
   NHICmetaCode: NIHR_HIC_ICU_0952
 NIHR_HIC_ICU_0447:
-  shortName: ~
+  shortName: pentamidine
   ItemId: 206
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4377,7 +4377,7 @@ NIHR_HIC_ICU_0447:
   NHICdtCode: NIHR_HIC_ICU_0351
   NHICmetaCode: NIHR_HIC_ICU_0953
 NIHR_HIC_ICU_0434:
-  shortName: ~
+  shortName: ethambutal hcl
   ItemId: 207
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4399,7 +4399,7 @@ NIHR_HIC_ICU_0434:
   NHICdtCode: NIHR_HIC_ICU_0338
   NHICmetaCode: NIHR_HIC_ICU_0959
 NIHR_HIC_ICU_0438:
-  shortName: ~
+  shortName: isoniazid
   ItemId: 208
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4421,7 +4421,7 @@ NIHR_HIC_ICU_0438:
   NHICdtCode: NIHR_HIC_ICU_0342
   NHICmetaCode: NIHR_HIC_ICU_0954
 NIHR_HIC_ICU_0450:
-  shortName: ~
+  shortName: pyrazinamide
   ItemId: 209
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4443,7 +4443,7 @@ NIHR_HIC_ICU_0450:
   NHICdtCode: NIHR_HIC_ICU_0354
   NHICmetaCode: NIHR_HIC_ICU_0955
 NIHR_HIC_ICU_0452:
-  shortName: ~
+  shortName: rifampacin
   ItemId: 210
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4465,7 +4465,7 @@ NIHR_HIC_ICU_0452:
   NHICdtCode: NIHR_HIC_ICU_0356
   NHICmetaCode: NIHR_HIC_ICU_0956
 NIHR_HIC_ICU_0453:
-  shortName: ~
+  shortName: rifater
   ItemId: 211
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4487,7 +4487,7 @@ NIHR_HIC_ICU_0453:
   NHICdtCode: NIHR_HIC_ICU_0357
   NHICmetaCode: NIHR_HIC_ICU_0957
 NIHR_HIC_ICU_0454:
-  shortName: ~
+  shortName: rifinah
   ItemId: 212
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4509,7 +4509,7 @@ NIHR_HIC_ICU_0454:
   NHICdtCode: NIHR_HIC_ICU_0358
   NHICmetaCode: NIHR_HIC_ICU_0958
 NIHR_HIC_ICU_0432:
-  shortName: ~
+  shortName: ertapenem
   ItemId: 213
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4531,7 +4531,7 @@ NIHR_HIC_ICU_0432:
   NHICdtCode: NIHR_HIC_ICU_0336
   NHICmetaCode: NIHR_HIC_ICU_0576
 NIHR_HIC_ICU_0441:
-  shortName: ~
+  shortName: meropenem
   ItemId: 214
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4553,7 +4553,7 @@ NIHR_HIC_ICU_0441:
   NHICdtCode: NIHR_HIC_ICU_0345
   NHICmetaCode: NIHR_HIC_ICU_0967
 NIHR_HIC_ICU_0418:
-  shortName: ~
+  shortName: cefotaxime
   ItemId: 215
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4575,7 +4575,7 @@ NIHR_HIC_ICU_0418:
   NHICdtCode: NIHR_HIC_ICU_0322
   NHICmetaCode: NIHR_HIC_ICU_0987
 NIHR_HIC_ICU_0419:
-  shortName: ~
+  shortName: ceftazidime
   ItemId: 216
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4597,7 +4597,7 @@ NIHR_HIC_ICU_0419:
   NHICdtCode: NIHR_HIC_ICU_0323
   NHICmetaCode: NIHR_HIC_ICU_0588
 NIHR_HIC_ICU_0420:
-  shortName: ~
+  shortName: ceftriaxone
   ItemId: 217
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4619,7 +4619,7 @@ NIHR_HIC_ICU_0420:
   NHICdtCode: NIHR_HIC_ICU_0324
   NHICmetaCode: NIHR_HIC_ICU_0589
 NIHR_HIC_ICU_0421:
-  shortName: ~
+  shortName: cefuroxime
   ItemId: 218
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4641,7 +4641,7 @@ NIHR_HIC_ICU_0421:
   NHICdtCode: NIHR_HIC_ICU_0325
   NHICmetaCode: NIHR_HIC_ICU_0590
 NIHR_HIC_ICU_0422:
-  shortName: ~
+  shortName: chloramphenicol
   ItemId: 219
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4663,7 +4663,7 @@ NIHR_HIC_ICU_0422:
   NHICdtCode: NIHR_HIC_ICU_0326
   NHICmetaCode: NIHR_HIC_ICU_0567
 NIHR_HIC_ICU_0436:
-  shortName: ~
+  shortName: fuscidic acid
   ItemId: 220
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4685,7 +4685,7 @@ NIHR_HIC_ICU_0436:
   NHICdtCode: NIHR_HIC_ICU_0340
   NHICmetaCode: NIHR_HIC_ICU_0579
 NIHR_HIC_ICU_0456:
-  shortName: ~
+  shortName: sodium fusidate
   ItemId: 221
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4707,7 +4707,7 @@ NIHR_HIC_ICU_0456:
   NHICdtCode: NIHR_HIC_ICU_0360
   NHICmetaCode: NIHR_HIC_ICU_0960
 NIHR_HIC_ICU_0457:
-  shortName: ~
+  shortName: teicoplanin
   ItemId: 222
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4729,7 +4729,7 @@ NIHR_HIC_ICU_0457:
   NHICdtCode: NIHR_HIC_ICU_0361
   NHICmetaCode: NIHR_HIC_ICU_0961
 NIHR_HIC_ICU_0461:
-  shortName: ~
+  shortName: vancomycin
   ItemId: 223
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4751,7 +4751,7 @@ NIHR_HIC_ICU_0461:
   NHICdtCode: NIHR_HIC_ICU_0365
   NHICmetaCode: NIHR_HIC_ICU_0964
 NIHR_HIC_ICU_0425:
-  shortName: ~
+  shortName: clindamycin
   ItemId: 224
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4773,7 +4773,7 @@ NIHR_HIC_ICU_0425:
   NHICdtCode: NIHR_HIC_ICU_0329
   NHICmetaCode: NIHR_HIC_ICU_0591
 NIHR_HIC_ICU_0416:
-  shortName: ~
+  shortName: azithromycin
   ItemId: 225
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4795,7 +4795,7 @@ NIHR_HIC_ICU_0416:
   NHICdtCode: NIHR_HIC_ICU_0320
   NHICmetaCode: NIHR_HIC_ICU_0986
 NIHR_HIC_ICU_0424:
-  shortName: ~
+  shortName: clarithromycin
   ItemId: 226
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4817,7 +4817,7 @@ NIHR_HIC_ICU_0424:
   NHICdtCode: NIHR_HIC_ICU_0328
   NHICmetaCode: NIHR_HIC_ICU_0594
 NIHR_HIC_ICU_0433:
-  shortName: ~
+  shortName: erythromycin
   ItemId: 227
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4839,7 +4839,7 @@ NIHR_HIC_ICU_0433:
   NHICdtCode: NIHR_HIC_ICU_0337
   NHICmetaCode: NIHR_HIC_ICU_0577
 NIHR_HIC_ICU_0445:
-  shortName: ~
+  shortName: nitrofurantion
   ItemId: 228
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4861,7 +4861,7 @@ NIHR_HIC_ICU_0445:
   NHICdtCode: NIHR_HIC_ICU_0349
   NHICmetaCode: NIHR_HIC_ICU_0580
 NIHR_HIC_ICU_0442:
-  shortName: ~
+  shortName: metronidazole
   ItemId: 229
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4883,7 +4883,7 @@ NIHR_HIC_ICU_0442:
   NHICdtCode: NIHR_HIC_ICU_0346
   NHICmetaCode: NIHR_HIC_ICU_0968
 NIHR_HIC_ICU_0440:
-  shortName: ~
+  shortName: linezolid
   ItemId: 230
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4905,7 +4905,7 @@ NIHR_HIC_ICU_0440:
   NHICdtCode: NIHR_HIC_ICU_0344
   NHICmetaCode: NIHR_HIC_ICU_0966
 NIHR_HIC_ICU_0415:
-  shortName: ~
+  shortName: amoxicillin
   ItemId: 231
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4927,7 +4927,7 @@ NIHR_HIC_ICU_0415:
   NHICdtCode: NIHR_HIC_ICU_0319
   NHICmetaCode: NIHR_HIC_ICU_0985
 NIHR_HIC_ICU_0417:
-  shortName: ~
+  shortName: benzylpenicillin
   ItemId: 232
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4949,7 +4949,7 @@ NIHR_HIC_ICU_0417:
   NHICdtCode: NIHR_HIC_ICU_0321
   NHICmetaCode: NIHR_HIC_ICU_0562
 NIHR_HIC_ICU_0426:
-  shortName: ~
+  shortName: co-amoxiclav
   ItemId: 233
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4971,7 +4971,7 @@ NIHR_HIC_ICU_0426:
   NHICdtCode: NIHR_HIC_ICU_0330
   NHICmetaCode: NIHR_HIC_ICU_0571
 NIHR_HIC_ICU_0435:
-  shortName: ~
+  shortName: flucloxacillin
   ItemId: 234
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4993,7 +4993,7 @@ NIHR_HIC_ICU_0435:
   NHICdtCode: NIHR_HIC_ICU_0339
   NHICmetaCode: NIHR_HIC_ICU_0578
 NIHR_HIC_ICU_0448:
-  shortName: ~
+  shortName: phenoxymethylpenicillin
   ItemId: 235
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5015,7 +5015,7 @@ NIHR_HIC_ICU_0448:
   NHICdtCode: NIHR_HIC_ICU_0352
   NHICmetaCode: NIHR_HIC_ICU_0582
 NIHR_HIC_ICU_0449:
-  shortName: ~
+  shortName: piperacillin_tazobactam
   ItemId: 236
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5037,7 +5037,7 @@ NIHR_HIC_ICU_0449:
   NHICdtCode: NIHR_HIC_ICU_0353
   NHICmetaCode: NIHR_HIC_ICU_0583
 NIHR_HIC_ICU_0427:
-  shortName: ~
+  shortName: colistin
   ItemId: 237
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5059,7 +5059,7 @@ NIHR_HIC_ICU_0427:
   NHICdtCode: NIHR_HIC_ICU_0331
   NHICmetaCode: NIHR_HIC_ICU_0572
 NIHR_HIC_ICU_0423:
-  shortName: ~
+  shortName: ciprofloxacin
   ItemId: 238
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5081,7 +5081,7 @@ NIHR_HIC_ICU_0423:
   NHICdtCode: NIHR_HIC_ICU_0327
   NHICmetaCode: NIHR_HIC_ICU_0593
 NIHR_HIC_ICU_0439:
-  shortName: ~
+  shortName: levofloxacin
   ItemId: 239
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5103,7 +5103,7 @@ NIHR_HIC_ICU_0439:
   NHICdtCode: NIHR_HIC_ICU_0343
   NHICmetaCode: NIHR_HIC_ICU_0965
 NIHR_HIC_ICU_0443:
-  shortName: ~
+  shortName: moxifloxacin
   ItemId: 240
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5125,7 +5125,7 @@ NIHR_HIC_ICU_0443:
   NHICdtCode: NIHR_HIC_ICU_0347
   NHICmetaCode: NIHR_HIC_ICU_0969
 NIHR_HIC_ICU_0446:
-  shortName: ~
+  shortName: ofloxacin
   ItemId: 241
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5147,7 +5147,7 @@ NIHR_HIC_ICU_0446:
   NHICdtCode: NIHR_HIC_ICU_0350
   NHICmetaCode: NIHR_HIC_ICU_0581
 NIHR_HIC_ICU_0428:
-  shortName: ~
+  shortName: co-trimoxazole
   ItemId: 242
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5169,7 +5169,7 @@ NIHR_HIC_ICU_0428:
   NHICdtCode: NIHR_HIC_ICU_0332
   NHICmetaCode: NIHR_HIC_ICU_0592
 NIHR_HIC_ICU_0460:
-  shortName: ~
+  shortName: trimethoprim
   ItemId: 243
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5191,7 +5191,7 @@ NIHR_HIC_ICU_0460:
   NHICdtCode: NIHR_HIC_ICU_0364
   NHICmetaCode: NIHR_HIC_ICU_0963
 NIHR_HIC_ICU_0429:
-  shortName: ~
+  shortName: demeclocycline hcl
   ItemId: 244
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5213,7 +5213,7 @@ NIHR_HIC_ICU_0429:
   NHICdtCode: NIHR_HIC_ICU_0333
   NHICmetaCode: NIHR_HIC_ICU_0574
 NIHR_HIC_ICU_0430:
-  shortName: ~
+  shortName: doxycycline
   ItemId: 245
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5235,7 +5235,7 @@ NIHR_HIC_ICU_0430:
   NHICdtCode: NIHR_HIC_ICU_0334
   NHICmetaCode: NIHR_HIC_ICU_0575
 NIHR_HIC_ICU_0458:
-  shortName: ~
+  shortName: tigecycline
   ItemId: 246
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5257,7 +5257,7 @@ NIHR_HIC_ICU_0458:
   NHICdtCode: NIHR_HIC_ICU_0362
   NHICmetaCode: NIHR_HIC_ICU_0962
 NIHR_HIC_ICU_0462:
-  shortName: ~
+  shortName: propofol
   ItemId: 247
   Classification1: Drugs
   Classification2: CNS
@@ -5279,7 +5279,7 @@ NIHR_HIC_ICU_0462:
   NHICdtCode: NIHR_HIC_ICU_0369
   NHICmetaCode: ~
 NIHR_HIC_ICU_0558:
-  shortName: ~
+  shortName: thiopentone_thiopental
   ItemId: 248
   Classification1: Drugs
   Classification2: CNS
@@ -5301,7 +5301,7 @@ NIHR_HIC_ICU_0558:
   NHICdtCode: NIHR_HIC_ICU_0876
   NHICmetaCode: ~
 NIHR_HIC_ICU_0463:
-  shortName: ~
+  shortName: midazolam
   ItemId: 249
   Classification1: Drugs
   Classification2: CNS
@@ -5323,7 +5323,7 @@ NIHR_HIC_ICU_0463:
   NHICdtCode: NIHR_HIC_ICU_0367
   NHICmetaCode: ~
 NIHR_HIC_ICU_0559:
-  shortName: ~
+  shortName: clonidine
   ItemId: 250
   Classification1: Drugs
   Classification2: CNS
@@ -5345,7 +5345,7 @@ NIHR_HIC_ICU_0559:
   NHICdtCode: NIHR_HIC_ICU_0873
   NHICmetaCode: ~
 NIHR_HIC_ICU_0560:
-  shortName: ~
+  shortName: dexmedetomidine
   ItemId: 251
   Classification1: Drugs
   Classification2: CNS
@@ -5367,7 +5367,7 @@ NIHR_HIC_ICU_0560:
   NHICdtCode: NIHR_HIC_ICU_0372
   NHICmetaCode: ~
 NIHR_HIC_ICU_0561:
-  shortName: ~
+  shortName: ketamine
   ItemId: 252
   Classification1: Drugs
   Classification2: CNS
@@ -5389,7 +5389,7 @@ NIHR_HIC_ICU_0561:
   NHICdtCode: NIHR_HIC_ICU_0874
   NHICmetaCode: ~
 NIHR_HIC_ICU_0242:
-  shortName: ~
+  shortName: fentanyl
   ItemId: 253
   Classification1: Drugs
   Classification2: CNS
@@ -5411,7 +5411,7 @@ NIHR_HIC_ICU_0242:
   NHICdtCode: NIHR_HIC_ICU_0371
   NHICmetaCode: ~
 NIHR_HIC_ICU_0563:
-  shortName: ~
+  shortName: morphine
   ItemId: 254
   Classification1: Drugs
   Classification2: CNS
@@ -5433,7 +5433,7 @@ NIHR_HIC_ICU_0563:
   NHICdtCode: NIHR_HIC_ICU_0875
   NHICmetaCode: ~
 NIHR_HIC_ICU_0464:
-  shortName: ~
+  shortName: remifentanil
   ItemId: 255
   Classification1: Drugs
   Classification2: CNS
@@ -5455,7 +5455,7 @@ NIHR_HIC_ICU_0464:
   NHICdtCode: NIHR_HIC_ICU_0368
   NHICmetaCode: ~
 NIHR_HIC_ICU_0469:
-  shortName: ~
+  shortName: levosimendan
   ItemId: 256
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5477,7 +5477,7 @@ NIHR_HIC_ICU_0469:
   NHICdtCode: NIHR_HIC_ICU_0892
   NHICmetaCode: ~
 NIHR_HIC_ICU_0465:
-  shortName: ~
+  shortName: adrenaline
   ItemId: 257
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5499,7 +5499,7 @@ NIHR_HIC_ICU_0465:
   NHICdtCode: NIHR_HIC_ICU_0888
   NHICmetaCode: ~
 NIHR_HIC_ICU_0466:
-  shortName: ~
+  shortName: dobutamine
   ItemId: 258
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5521,7 +5521,7 @@ NIHR_HIC_ICU_0466:
   NHICdtCode: NIHR_HIC_ICU_0889
   NHICmetaCode: ~
 NIHR_HIC_ICU_0467:
-  shortName: ~
+  shortName: dopamine
   ItemId: 259
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5543,7 +5543,7 @@ NIHR_HIC_ICU_0467:
   NHICdtCode: NIHR_HIC_ICU_0890
   NHICmetaCode: ~
 NIHR_HIC_ICU_0564:
-  shortName: ~
+  shortName: dopexamine
   ItemId: 260
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5565,7 +5565,7 @@ NIHR_HIC_ICU_0564:
   NHICdtCode: NIHR_HIC_ICU_0897
   NHICmetaCode: ~
 NIHR_HIC_ICU_0468:
-  shortName: ~
+  shortName: enoximone
   ItemId: 261
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5587,7 +5587,7 @@ NIHR_HIC_ICU_0468:
   NHICdtCode: NIHR_HIC_ICU_0891
   NHICmetaCode: ~
 NIHR_HIC_ICU_0252:
-  shortName: ~
+  shortName: milrinone
   ItemId: 262
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5609,7 +5609,7 @@ NIHR_HIC_ICU_0252:
   NHICdtCode: NIHR_HIC_ICU_0896
   NHICmetaCode: ~
 NIHR_HIC_ICU_0470:
-  shortName: ~
+  shortName: noradrenaline
   ItemId: 263
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5631,7 +5631,7 @@ NIHR_HIC_ICU_0470:
   NHICdtCode: NIHR_HIC_ICU_0893
   NHICmetaCode: ~
 NIHR_HIC_ICU_0471:
-  shortName: ~
+  shortName: vasopressin
   ItemId: 264
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5653,7 +5653,7 @@ NIHR_HIC_ICU_0471:
   NHICdtCode: NIHR_HIC_ICU_0894
   NHICmetaCode: ~
 NIHR_HIC_ICU_0565:
-  shortName: ~
+  shortName: terlipressin
   ItemId: 265
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5675,7 +5675,7 @@ NIHR_HIC_ICU_0565:
   NHICdtCode: NIHR_HIC_ICU_0867
   NHICmetaCode: ~
 NIHR_HIC_ICU_0906:
-  shortName: ~
+  shortName: esmolol
   ItemId: 266
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5697,7 +5697,7 @@ NIHR_HIC_ICU_0906:
   NHICdtCode: NIHR_HIC_ICU_0920
   NHICmetaCode: ~
 NIHR_HIC_ICU_0907:
-  shortName: ~
+  shortName: metoprolol
   ItemId: 267
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5719,7 +5719,7 @@ NIHR_HIC_ICU_0907:
   NHICdtCode: NIHR_HIC_ICU_0921
   NHICmetaCode: NIHR_HIC_ICU_0981
 NIHR_HIC_ICU_0908:
-  shortName: ~
+  shortName: dexamethasone
   ItemId: 268
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5741,7 +5741,7 @@ NIHR_HIC_ICU_0908:
   NHICdtCode: NIHR_HIC_ICU_0922
   NHICmetaCode: NIHR_HIC_ICU_0982
 NIHR_HIC_ICU_0909:
-  shortName: ~
+  shortName: hydrocortisone
   ItemId: 269
   Classification1: Drugs
   Classification2: CVSvasoactive
@@ -5763,7 +5763,7 @@ NIHR_HIC_ICU_0909:
   NHICdtCode: NIHR_HIC_ICU_0923
   NHICmetaCode: NIHR_HIC_ICU_0983
 NIHR_HIC_ICU_0910:
-  shortName: ~
+  shortName: methylprednisolone
   ItemId: 270
   Classification1: Drugs
   Classification2: CVSvasoactive
