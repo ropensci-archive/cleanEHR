@@ -1,9 +1,22 @@
 .onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
     ccdata.env <<- new.env()
-    path <- find.package("ccdata")
     
+    reverse.name.value <- function(vec) {
+        new <- names(vec)
+        names(new) <- vec
+        return(new)
+    }
+    path <- find.package("ccdata")
     data("data.checklist", package="ccdata")
-    ccdata.env$ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
+    
+    ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
+    code2stname.dict <- sapply(ITEM_REF, function(x) x$shortName)
+    stname2code.dict <- reverse.name.value(code2stname.dict)
+
+    ccdata.env$ITEM_REF <- ITEM_REF
+    ccdata.env$code2stname.dict <- code2stname.dict
+    ccdata.env$stname2code.dict <- stname2code.dict
+
     
     assign('code_pas_number',  getItemInfo("PAS number")["NHIC_code"], envir=ccdata.env)
     assign('code_nhs_number',  getItemInfo("NHS number")["NHIC_code"], envir=ccdata.env)
