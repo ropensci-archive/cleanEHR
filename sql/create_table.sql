@@ -1,13 +1,17 @@
-/************ Update: Tables ***************/
---ALTER TABLE "episodes" DROP CONSTRAINT IF EXISTS pkepisodes;
-DROP TABLE "demographic";
-DROP TABLE "episodes";
-DROP TABLE "physiology";
-/******************** Add Table: "episodes" ************************/
+/******************** Purge the database  ************************/
+DROP TABLE IF EXISTS "episodes" CASCADE;
+DROP TABLE IF EXISTS "demographic" CASCADE;
+DROP TABLE IF EXISTS "physiology" CASCADE;
+
+DROP SEQUENCE IF EXISTS "episode_seq";
 CREATE SEQUENCE "episode_seq" INCREMENT BY 1;
+DROP SEQUENCE IF EXISTS "demographic_seq";
 CREATE SEQUENCE "demographic_seq" INCREMENT BY 1;
+DROP SEQUENCE IF EXISTS "physiology_seq";
 CREATE SEQUENCE "physiology_seq" INCREMENT BY 1;
 
+--ALTER TABLE "episodes" DROP CONSTRAINT IF EXISTS pkepisodes;
+/******************** Add Table: "episodes" ************************/
 /* Build Table Structure */
 CREATE TABLE "episodes"
 (
@@ -22,9 +26,7 @@ CREATE TABLE "episodes"
 ALTER TABLE "episodes" ADD CONSTRAINT pkepisodes
 PRIMARY KEY ("Id");
 
-
 /******************** Add Table: "demographic" ************************/
-
 /* Build Table Structure */
 CREATE TABLE "demographic"
 (
@@ -32,19 +34,13 @@ CREATE TABLE "demographic"
   item CHAR(100) NOT NULL,
   value CHAR(100) NULL,
   episode_id INTEGER NOT NULL
-
-
 );
 
 /* Add Primary Key */
 ALTER TABLE "demographic" ADD CONSTRAINT pkdemographic
 PRIMARY KEY ("Id");
 
-
-
-
 /******************** Add Table: "physiology" ************************/
-
 /* Build Table Structure */
 CREATE TABLE "physiology"
 (
