@@ -46,3 +46,23 @@ as.number <- function(obj) {
 .as.number <- function(code) {
     return(as.numeric(strsplit(code, "NIHR_HIC_ICU_")[[1]][2]))
 }
+
+
+all.nhic.code <- function(cls) {
+        data.checklist[data.checklist$Classification1 == cls,"NHICcode"]
+}
+
+code2stname <- function(code) {
+    ccdata.env$code2stname.dict[code]
+}
+
+stname2code <- function(stname) {
+    ccdata.env$stname2code.dict[stname]
+}
+
+short2longname <- function(stname) {
+    longname <- array("NULL", length(stname))
+    for (i in seq_along(stname))
+        longname[i] <- ccdata.env$ITEM_REF[[stname2code(stname[i])]]$dataItem
+    return(longname)
+}
