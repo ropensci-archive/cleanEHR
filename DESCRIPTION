@@ -12,7 +12,9 @@ Depends:
     reshape2,
     data.table,
     yaml,
-    pander
+    pander,
+    RPostgreSQL,
+    sqldf
 License: GPL-2.0
 Suggests:
     testthat
@@ -47,6 +49,7 @@ Collate:
     'record2table.r'
     'selectIndex.r'
     'select_data.r'
+    'sql_demographic.r'
     'stdid.r'
     'unique.patient.r'
     'unique.spell.R'
