@@ -66,3 +66,59 @@ short2longname <- function(stname) {
         longname[i] <- ccdata.env$ITEM_REF[[stname2code(stname[i])]]$dataItem
     return(longname)
 }
+
+
+#' Identify the classification - classification1 of a given item code or short
+#' name. Classification1 has 5 labels: 
+#' [1] "Demographic", [2] "Physiology" 
+#' [3] "Drugs" [4] "Nursing_other" [5] "Laboratory"
+#' @param item_name NHIC code or the short name
+#' @return character the item classification
+#' @export which.classification
+which.classification <- function(item_name) {
+    cls <- ccdata.env$class.dict_code[item_name]
+    if (is.na(cls))
+        cls <- ccdata.env$class.dict_stname[item_name]
+    if (is.na(cls)) stop(paste("item name", item_name, "cannot be found."))
+    return(cls)
+}
+
+
+#' Check if the item NHIC code or short name belongs to the demographic
+#' category.
+#' @param item_name character the NHIC code or the short name
+#' @return logical
+#' @export is.demographic
+is.demographic <- function(item_name) {
+    return(which.classification(item_name) == "Demographic")
+}
+
+
+#' Check if the item NHIC code or short name belongs to the physiology
+#' category.
+#' @param item_name character the NHIC code or the short name
+#' @return logical
+#' @export is.physiology
+is.physiology <- function(item_name) {
+    return(which.classification(item_name) == "Physiology")
+}
+
+
+#' Check if the item NHIC code or short name belongs to the drugs 
+#' category.
+#' @param item_name character the NHIC code or the short name
+#' @return logical
+#' @export is.drugs
+is.drugs <- function(item_name) {
+    return(which.classification(item_name) == "Drugs")
+}
+
+
+#' Check if the item NHIC code or short name belongs to the Laboratory 
+#' category.
+#' @param item_name character the NHIC code or the short name
+#' @return logical
+#' @export is.laboratory
+is.laboratory <- function(item_name) {
+    return(which.classification(item_name) == "Laboratory")
+}
