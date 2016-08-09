@@ -32,7 +32,7 @@ selectIndex<- function(ids, type){
     return(ccdata.env$checklist[[id]])
 }
 
-#'
+#' 
 #' @export .which.datatype
 .which.datatype <- function(id) {
   # List with the convertion operations to do for each datatype
@@ -53,5 +53,12 @@ selectIndex<- function(ids, type){
   }
   # accounts for not listed or null (eg. when working with dt labels)
   return(as.character)
+}
 
+
+#' Convert item data to its corresponding data type.
+#' @param id NHIC code of the data
+#' @param vals The vector of values of the item.
+#' @return vector values in its corresponding data type
+which.datatype <- function(id, vals) {
 }
