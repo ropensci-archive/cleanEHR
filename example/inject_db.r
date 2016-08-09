@@ -6,4 +6,4 @@ if (!exists("ccd")) {
 
 
 sql.newdb()
-sql.add.demographic(ccd)
+tb <- sql.add.demographic(ccd)
