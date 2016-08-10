@@ -39,6 +39,7 @@ Collate:
     'getEpisodeTable.r'
     'getItemList.r'
     'imputation.R'
+    'inrange.R'
     'interpolation.r'
     'miss_2d.r'
     'missingness.filter.R'

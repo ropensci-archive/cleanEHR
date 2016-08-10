@@ -1,7 +1,4 @@
-#' @include ccTable.R
-
-
-#' Check if the values of a vector v is in the ranges.
+#' Check if the values of a vector v is in the given ranges.
 #' @param v vector numeric
 #' @param range A string contains the numeric ranges in a form such as (low,
 #' up) for open range and [low, up] for close range. Multiple
@@ -36,9 +33,7 @@ inrange <- function(v, range) {
     return(cmpfunc(v))
 }
 
-
-
-
+#' @include ccTable.R
 ccTable$methods(
     get.ranges = function() {
         # Initialise with temp column to make sure that dquality has the same
@@ -62,9 +57,6 @@ ccTable$methods(
         }
     }
 )
-
-
-
 
 ccTable$methods(
     filter.ranges = function(select='red') {
