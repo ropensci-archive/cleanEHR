@@ -22,7 +22,6 @@ LinkingTo: Rcpp
 Imports:
     data.table
 Collate:
-    'ITEM_REF.r'
     'RcppExports.R'
     'allPatientsInfo.r'
     'ccEpisode.r'
