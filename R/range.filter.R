@@ -1,20 +1,41 @@
 #' @include ccTable.R
 
 
-# Check if the values of a vector v is in the ranges.
-# @param v vector numeric
-# @param range characters numeric ranges in a form such as (low, up). Multiple
-#       ranges should seperated by semi-column.
+#' Check if the values of a vector v is in the ranges.
+#' @param v vector numeric
+#' @param range A string contains the numeric ranges in a form such as (low,
+#' up) for open range and [low, up] for close range. Multiple
+#' ranges should be separated by semi-columns which is equivalent to logical
+#' OR. e.g. (low1, up1); (low2, up2)
 inrange <- function(v, range) {
     funtxt <- function(r) {
-        r <- gsub(";", "|", r)
-        r <- gsub(",", " < v & v < ", r)
-        return(paste("function(v)", r))
+        spr <- unlist(strsplit(r, ";"))
+        number <- regmatches(spr, gregexpr("[-+]?[0-9]*\\.?[0-9]+", spr))
+        operation <- regmatches(spr, gregexpr("\\[|\\]|\\(|\\)", spr))
+        
+        if (any(is.na(as.numeric(unlist(number)))))
+            stop("Cannot find the proper numeric range expression.")
+
+        stopifnot(length(number) == length(operation))
+        total.op <- vector()
+
+        for (i in seq(operation)) {
+            op <- operation[[i]]
+            op[op == "("] <- "x >"
+            op[op == "["] <- "x >="
+            op[op == ")"] <- "x <"
+            op[op == "]"] <- "x <="
+            if (as.numeric(number[[i]][1]) > as.numeric(number[[i]][2]))
+                stop("the lower bound value (", number[[i]][1], ') is bigger than the upper bound value (', number[[i]][2], ")")
+            total.op[i] <- paste("(", paste(op, number[[i]], collapse=" & "), ")")
+        }
+        total.op <- paste(total.op, collapse=" | ")
+        return(paste("function(x) ", total.op))
     }
-    
     cmpfunc <- eval(parse(text=funtxt(range)))
     return(cmpfunc(v))
 }
+
 
 
 
