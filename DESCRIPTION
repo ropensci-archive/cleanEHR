@@ -30,6 +30,7 @@ Collate:
     'categorical.filter.R'
     'ccPatient.r'
     'consecutivetime.r'
+    'create2dclean.r'
     'csv2ccdata.r'
     'deltaTime.r'
     'duplicated.episode.R'
