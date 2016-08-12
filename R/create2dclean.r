@@ -27,18 +27,25 @@ create2dclean <- function(record, config, freq=1, nchunks=1) {
     }
 
     confs <- suppressWarnings(split(config, seq(nchunks)))
+    by <- c("site","episode_id", "time")
     
     # create 2d tables in column groups.
     tbclean <- list()
     for (cf in confs) {
         gc()
         dt.sofa <- .create2dclean(record, cf, freq)
+        temp <- dt.sofa$tclean
+        setkey(temp, "site", "episode_id", "time")
         tbclean[[length(tbclean) + 1]] <- dt.sofa$tclean
     }
+
     # merge tables
-    by <- c("site","episode_id", "time")
     tbclean_all <- tbclean[[1]][, by, with=F]
-    for (i in tbclean) tbclean_all <- merge(tbclean_all, i, by=by,
-                                            allow.cartesian=TRUE)
+    for (i in tbclean) {
+        stopifnot(all((tbclean_all$time - i$time) == 0))
+        colnames <- names(i[, -by, with=F])
+        for(j in colnames) 
+            tbclean_all[[j]] <- i[[j]]
+    }
     return(tbclean_all)
 }
