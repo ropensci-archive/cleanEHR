@@ -38,6 +38,7 @@ create2dclean <- function(record, config, freq=1, nchunks=1) {
     # merge tables
     by <- c("site","episode_id", "time")
     tbclean_all <- tbclean[[1]][, by, with=F]
-    for (i in tbclean) tbclean_all <- merge(tbclean_all, i, by=by, all=T)
+    for (i in tbclean) tbclean_all <- merge(tbclean_all, i, by=by,
+                                            allow.cartesian=TRUE)
     return(tbclean_all)
 }
