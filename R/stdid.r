@@ -51,15 +51,20 @@ as.number <- function(obj) {
 all.nhic.code <- function(cls) {
         data.checklist[data.checklist$Classification1 == cls,"NHICcode"]
 }
-
+#' convert NHIC codes to the short names
+#' @export code2stname
 code2stname <- function(code) {
     ccdata.env$code2stname.dict[code]
 }
 
+#' convert short names to NHIC code
+#' @export stname2code
 stname2code <- function(stname) {
     ccdata.env$stname2code.dict[stname]
 }
 
+#' convert short names to long names
+#' @export short2longname
 short2longname <- function(stname) {
     longname <- array("NULL", length(stname))
     for (i in seq_along(stname))
