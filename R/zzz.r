@@ -11,12 +11,15 @@
 
     ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
     code2stname.dict <- sapply(ITEM_REF, function(x) x$shortName)
+    meta <- paste0(code2stname.dict, ".meta")
+    names(meta) <- paste0(names(code2stname.dict), ".meta")
+    code2stname.dict <- c(code2stname.dict, meta)
     stname2code.dict <- reverse.name.value(code2stname.dict)
 
     #' classification dictionary: demographic, nurse, physiology, laboratory, drugs
     class.dict_code <-  sapply(ITEM_REF, function(x) x$Classification1)
     class.dict_stname <- class.dict_code
-    names(class.dict_stname) <- as.character(code2stname.dict)
+    names(class.dict_stname) <- as.character(code2stname.dict[class.dict_stname])
 
     #' Time variable dictionary
     tval.dict_code <- data.checklist$NHICdtCode != "NULL" 

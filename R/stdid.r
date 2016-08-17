@@ -54,13 +54,17 @@ all.nhic.code <- function(cls) {
 #' convert NHIC codes to the short names
 #' @export code2stname
 code2stname <- function(code) {
-    ccdata.env$code2stname.dict[code]
+    stn <- ccdata.env$code2stname.dict[code]
+    stn[is.na(stn)] <- code[is.na(stn)]
+    return(stn)
 }
 
 #' convert short names to NHIC code
 #' @export stname2code
 stname2code <- function(stname) {
-    ccdata.env$stname2code.dict[stname]
+    code <- ccdata.env$stname2code.dict[stname]
+    code[is.na(code)] <- stname[is.na(code)]
+    return(code)
 }
 
 #' convert short names to long names
