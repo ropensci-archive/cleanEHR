@@ -67,20 +67,20 @@ getEpisodePeriod <- function (e, unit="hours") {
 #' the earliest data time stamp will be used instead.
 #' @export reallocateTimeRecord
 reallocateTimeRecord <- function(record, delta=0.5) {
-    newdata <- for_each_episode(record, 
-                                function(e) {
-                                    env <- environment()
-                                    # make sure admin and disc time is correct
-                                    period_length <- getEpisodePeriod(e)
+    reallocate.episode <- function(e) {
+        env <- environment()
+        # make sure admin and disc time is correct
+        period_length <- getEpisodePeriod(e)
 
-                                    # calling reallocateTime for each data item
-                                    lapply(e@data, 
-                                           function(d) {
-                                               if (length(d) > 1) {
-                                                   return(reallocateTime(d, env$period_length, delta))
-                                               } else 
-                                                   return(d)
-                                           })
-                                })
+        # calling reallocateTime for each data item
+        lapply(e@data, 
+               function(d) {
+                   if (length(d) > 1) {
+                       return(reallocateTime(d, env$period_length, delta))
+                   } else 
+                       return(d)
+               })
+    }
+    newdata <- for_each_episode(record, reallocate.episode)
     return(ccRecord() + newdata)
 }
