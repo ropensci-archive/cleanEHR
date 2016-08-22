@@ -53,8 +53,8 @@ get_missing_rate <- function(record, item, freq, sites=NULL, years=NULL) {
 #' @param items if specified, items should be the NHIC code of the selected
 #'              items, if not the output will contain be all the possible items, even
 #'              those not appearing in the ccRecord
-#' @param file  the name of csv files. If speicified 1d/2d tables will be
-#'              written into two sperate csv files.
+#' @param file  the name of csv files. If specified 1d/2d tables will be
+#'              written into two separate csv files.
 #' @export record2Table
 record2Table <- function(record, items=NULL, file=NULL) {
     # the final output should have df_items either the selected items or all
