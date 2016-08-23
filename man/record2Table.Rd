@@ -13,8 +13,8 @@ record2Table(record, items = NULL, file = NULL)
 items, if not the output will contain be all the possible items, even
 those not appearing in the ccRecord}
 
-\item{file}{the name of csv files. If speicified 1d/2d tables will be
-written into two sperate csv files.}
+\item{file}{the name of csv files. If specified 1d/2d tables will be
+written into two separate csv files.}
 }
 \description{
 Convert ccRecord data to item tables

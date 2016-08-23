@@ -59,6 +59,10 @@ getEpisodePeriod <- function (e, unit="hours") {
 }
 
 
+.episodeDuration <- function(e, unit="hours") {
+    
+}
+
 
 #' Propagate a numerical delta time interval record.
 #' @param record ccRecord
@@ -71,7 +75,8 @@ reallocateTimeRecord <- function(record, delta=0.5) {
         env <- environment()
         # make sure admin and disc time is correct
         period_length <- getEpisodePeriod(e)
-
+        admttime <- e@admin_icu_time
+        
         # calling reallocateTime for each data item
         lapply(e@data, 
                function(d) {

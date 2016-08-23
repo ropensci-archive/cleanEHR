@@ -1,15 +1,19 @@
 .onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
-    ccdata.env <<- new.env()
-
+    path <- find.package("ccdata")
+    env <- parent.env(environment())
+    
+    # Assign ITEM_REF tables
+    data("ITEM_REFTABLE", package="ccdata", envir=env)
+    ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
+    assign("ITEM_REF", ITEM_REF, envir=env)
+   
+    # Build up short name / NIHR code / Classification conversion dictionary
     reverse.name.value <- function(vec) {
         new <- names(vec)
         names(new) <- vec
         return(new)
     }
-    path <- find.package("ccdata")
-    data("data.checklist", package="ccdata")
 
-    ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
     code2stname.dict <- sapply(ITEM_REF, function(x) x$shortName)
     meta <- paste0(code2stname.dict, ".meta")
     names(meta) <- paste0(names(code2stname.dict), ".meta")
@@ -27,35 +31,13 @@
     names(tval.dict_stname) <- as.character(data.checklist$NHICcode)
     names(tval.dict_code) <- as.character(data.checklist$NHICcode)
 
-    ccdata.env$ITEM_REF <- ITEM_REF
-    ccdata.env$code2stname.dict <- code2stname.dict
-    ccdata.env$stname2code.dict <- stname2code.dict
-    ccdata.env$class.dict_code <- class.dict_code
-    ccdata.env$class.dict_stname <- class.dict_stname 
-    ccdata.env$tval.dict_code <- tval.dict_code 
-    ccdata.env$tval.dict_stname <- tval.dict_stname
+    assign("ITEM_REF"         , ITEM_REF         , envir=env) 
+    assign("code2stname.dict" , code2stname.dict , envir=env) 
+    assign("stname2code.dict" , stname2code.dict , envir=env) 
+    assign("class.dict_code"  , class.dict_code  , envir=env)
+    assign("class.dict_stname", class.dict_stname, envir=env) 
+    assign("tval.dict_code"   , tval.dict_code   , envir=env) 
+    assign("tval.dict_stname" , tval.dict_stname , envir=env) 
 
-    assign('code_pas_number',  getItemInfo("PAS number")["NHIC_code"], envir=ccdata.env)
-    assign('code_nhs_number',  getItemInfo("NHS number")["NHIC_code"], envir=ccdata.env)
-    assign('code_episode_id', 
-           getItemInfo("Critical care local identifier / ICNARC admission number")["NHIC_code"], 
-           envir=ccdata.env)
-    assign('code_site_id', 'NIHR_HIC_ICU_0002', envir=ccdata.env)
-    assign('code_deadicu_id', 
-           getItemInfo("Dead or alive on discharge")["NHIC_code"], envir=ccdata.env)
-    assign('code_admin_icu_t', 
-           getItemInfo("Date & Time of admission to your unit")["NHIC_code"],
-           envir=ccdata.env)
-    assign('code_discharge_icu_t',
-           getItemInfo("Date & Time of discharge from your unit")["NHIC_code"],
-           envir=ccdata.env)
-
-    assign('checklist', extractIndexTable(), envir=ccdata.env)
-
-}
-
-#' This is a patch for reloading environment variables after doing clean all.
-#' @export recreate.env
-recreate.env <- function() {
-    .onLoad()
+    assign('checklist', extractIndexTable(), envir=env)
 }

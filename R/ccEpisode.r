@@ -38,20 +38,21 @@ addItemData <- function(obj, data) {
         if (any(names(data) != c("id", "val"))) { 
             stop("1d data must have columns: id, val.")
         }
+        nhscode <- stname2code("NHSNO")
+        pascode <- stname2code("pasno")
+        epidcode <- stname2code("ADNO")
+        sitecode <- stname2code("ICNNO")
+
 
         # assign row by row to episode data 
         for (i in seq(nrow(data))) {
             id <- as.character(data[i, "id"])
             if (is.null(obj@data[[id]])) {
                 obj@data[[id]] <- as.character(data[i,"val"])
-                if (id == ccdata.env$code_nhs_number)
-                    obj@nhs_number <- obj@data[[id]]
-                if (id == ccdata.env$code_pas_number)
-                    obj@pas_number <- obj@data[[id]]
-                if (id == ccdata.env$code_episode_id)
-                    obj@episode_id <- obj@data[[id]]
-                if (id == ccdata.env$code_site_id)
-                    obj@site_id <- obj@data[[id]]
+                if (id == nhscode)  obj@nhs_number <- obj@data[[id]]
+                if (id == pascode)  obj@pas_number <- obj@data[[id]]
+                if (id == epidcode) obj@episode_id <- obj@data[[id]]
+                if (id == sitecode) obj@site_id <- obj@data[[id]]
             }
             else {
                 stop("data already exist.")
@@ -85,29 +86,37 @@ ccEpisode <- function(data=NULL, anon=FALSE, ...) {
     if (is.null(data))
         return(new("ccEpisode", ...))
 
+    nhscode <- stname2code("NHSNO")
+    pascode <- stname2code("pasno")
+    epidcode <- stname2code("ADNO")
+    sitecode <- stname2code("ICNNO")
+    ldcode <- stname2code("DIS")
+    admtcode <- stname2code("DAICU")
+    disccode <- stname2code("DDICU")
+
     new.ep <- new("ccEpisode", data=data)
-    if (!is.null(data[[ccdata.env$code_nhs_number]]))
-        new.ep@nhs_number <- data[[ccdata.env$code_nhs_number]]
+    if (!is.null(data[[nhscode]]))
+        new.ep@nhs_number <- data[[nhscode]]
 
-    if (!is.null(data[[ccdata.env$code_pas_number]]))
-        new.ep@pas_number <- data[[ccdata.env$code_pas_number]]
+    if (!is.null(data[[pascode]]))
+        new.ep@pas_number <- data[[pascode]]
 
-    if (!is.null(data[[ccdata.env$code_episode_id]]))
-        new.ep@episode_id <- data[[ccdata.env$code_episode_id]]
+    if (!is.null(data[[epidcode]]))
+        new.ep@episode_id <- data[[epidcode]]
 
-    if (!is.null(data[[ccdata.env$code_site_id]]))
-        new.ep@site_id <- data[[ccdata.env$code_site_id]]
+    if (!is.null(data[[sitecode]]))
+        new.ep@site_id <- data[[sitecode]]
 
-    if (!is.null(data[[ccdata.env$code_discharge_icu_t]]))
+    if (!is.null(data[[disccode]]))
         new.ep@discharge_icu_time <-
-            xmlTime2POSIX(data[[ccdata.env$code_discharge_icu_t]], allow=T)
+            xmlTime2POSIX(data[[disccode]], allow=T)
 
-    if (!is.null(data[[ccdata.env$code_admin_icu_t]]))
+    if (!is.null(data[[admtcode]]))
         new.ep@admin_icu_time <-
-            xmlTime2POSIX(data[[ccdata.env$code_admin_icu_t]], allow=T)
+            xmlTime2POSIX(data[[admtcode]], allow=T)
 
-    if (!is.null(data[[ccdata.env$code_deadicu_id]]))
-        new.ep@live_dead <- data[[ccdata.env$code_deadicu_id]]
+    if (!is.null(data[[ldcode]]))
+        new.ep@live_dead <- data[[ldcode]]
 
     return(new.ep)
 }

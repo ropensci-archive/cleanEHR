@@ -7,7 +7,7 @@
 readOneItem <- function(record, item_id, convert_type=NULL, as.POSIX=FALSE,
                         unlist=TRUE) {
     StdId(item_id)
-    short_name <- ccdata.env$ITEM_REF[['item_id']]$shortName
+    short_name <- ccdata:::ITEM_REF[['item_id']]$shortName
     if (is.null(short_name))
         short_name <- "NULL"
     env <- new.env()
