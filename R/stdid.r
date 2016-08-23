@@ -54,7 +54,7 @@ all.nhic.code <- function(cls) {
 #' convert NHIC codes to the short names
 #' @export code2stname
 code2stname <- function(code) {
-    stn <- ccdata.env$code2stname.dict[code]
+    stn <- ccdata:::code2stname.dict[code]
     stn[is.na(stn)] <- code[is.na(stn)]
     return(stn)
 }
@@ -62,7 +62,7 @@ code2stname <- function(code) {
 #' convert short names to NHIC code
 #' @export stname2code
 stname2code <- function(stname) {
-    code <- ccdata.env$stname2code.dict[stname]
+    code <- ccdata:::stname2code.dict[stname]
     code[is.na(code)] <- stname[is.na(code)]
     return(code)
 }
@@ -72,7 +72,7 @@ stname2code <- function(stname) {
 short2longname <- function(stname) {
     longname <- array("NULL", length(stname))
     for (i in seq_along(stname))
-        longname[i] <- ccdata.env$ITEM_REF[[stname2code(stname[i])]]$dataItem
+        longname[i] <- ccdata:::ITEM_REF[[stname2code(stname[i])]]$dataItem
     return(longname)
 }
 
@@ -85,9 +85,9 @@ short2longname <- function(stname) {
 #' @return character the item classification
 #' @export which.classification
 which.classification <- function(item_name) {
-    cls <- ccdata.env$class.dict_code[item_name]
+    cls <- ccdata:::class.dict_code[item_name]
     if (is.na(cls))
-        cls <- ccdata.env$class.dict_stname[item_name]
+        cls <- ccdata:::class.dict_stname[item_name]
     if (is.na(cls)) stop(paste("item name", item_name, "cannot be found."))
     return(cls)
 }
