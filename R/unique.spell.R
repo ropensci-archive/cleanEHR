@@ -1,6 +1,3 @@
-
-
-
 #' find the unique spell ID. 
 #' @param record ccRecord
 #' @return data.table contains spell id.

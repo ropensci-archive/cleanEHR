@@ -1,4 +1,4 @@
-#' @include ccEpisode.r
+#' @include ccEpisode.R
 ###' @section Slots: 
 ##'   \describe{
 ##'      \item{\code{hospital.id}:}{vector}
