@@ -23,14 +23,16 @@ Imports:
     data.table
 Collate:
     'RcppExports.R'
-    'ccEpisode.r'
+    'ccEpisode.R'
     'ccdata.r'
     'ccTable.R'
     'categorical.filter.R'
     'ccPatient.r'
+    'ccRecord.R'
     'create2dclean.r'
     'csv2ccdata.r'
     'deltaTime.r'
+    'demographic.table.R'
     'extractInfo.r'
     'findMaxMinTime.R'
     'for_each_episode.r'
