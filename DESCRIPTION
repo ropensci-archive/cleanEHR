@@ -27,6 +27,7 @@ Collate:
     'ccdata.r'
     'ccTable.R'
     'categorical.filter.R'
+    'ccEpisode.r'
     'ccPatient.r'
     'ccRecord.R'
     'create2dclean.r'
