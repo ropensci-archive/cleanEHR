@@ -24,6 +24,8 @@ missingness, 3) categorical}
 \item{\code{create.table(freq)}}{Create a table contains the selected items in the conf with a given
 frequency (in hour)}
 
+\item{\code{export.csv(file)}}{Export the cleaned table to a CSV file.}
+
 \item{\code{filter.category()}}{Check individual entries if they are the in the categories specified
 in conf.}
 

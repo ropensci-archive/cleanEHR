@@ -193,3 +193,10 @@ ccTable$methods(
         "reload yaml configuration."
         .self$conf=yaml.load_file(file)
 })
+
+
+ccTable$methods(
+    export.csv = function(file) {
+        "Export the cleaned table to a CSV file."
+        write.csv(.self$tclean, file=file)
+})
