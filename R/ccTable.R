@@ -5,7 +5,7 @@
 #' missingness, 3) categorical
 #' @import data.table
 #' @include ccdata.r
-#' @export ccTable
+#' @exportClass ccTable
 ccTable <- setRefClass("ccTable", 
                             fields=c(
                                      record="ccRecord", 
@@ -43,6 +43,23 @@ show = function() {
 
 })
 
+#' construct function of ccTable object
+#' @param rec ccRecord
+#' @param conf the path of YAML configuration file.
+#' @param freq the data cadence in hour.
+#' @return ccTable object
+#' @export create.cctable
+create.cctable <- function(rec, freq, conf=NULL) {
+    if (is.null(conf)) 
+        conf <- ccdata.env$ITEM_REF
+    else 
+        conf <- yaml.load_file(conf)
+
+    cct <- ccTable(record=rec, conf=conf)
+    cct$create.table(freq)
+    return(cct)
+}
+
 #' get the dfilter
 #' @param dq can be either dqaulity table or torigin
 #' @param criterion should be a function to give T/F values of each entry.
@@ -64,41 +81,6 @@ getfilter <- function(dq, criterion) {
     else return(NULL)
 }
 
-
-#ccTable$methods(
-#    missingness.show = function() {
-#        count.present <- function(table, item) {
-#            return(table[,
-#                   100 - (length(which(is.na(.SD[[item]]))) + 
-#                          length(which(as.character(.SD[[item]]) == "NA")))/.N * 100,
-#                   by=c("site", "episode_id")])
-#        }
-#        if(is.null(.self$dfilter[['missingness']])) {
-#            cat("no missingness check available.\n")
-#        }
-#        else {
-#            txt <- vector()
-#            for(i in names(.self$conf)){
-#                itm <- .self$conf[[i]]
-#                acc <- itm[["missingness_2d"]][["accept_2d"]]
-#                threshold <- itm[["missingness_2d"]][['labels']][[names(acc)]]
-#                check_name <- paste(i, names(acc), sep='.')
-#                txt <- rbind(txt, 
-#                             c(NHIC=i, 
-#                               shortname=itm[["shortName"]],
-#                               "origin_data %"=
-#                                   round(mean(.self$dfilter[['missingness']][[check_name]]), digits=2),
-#                               "clean_data  %"=
-#                                   round(mean(count.present(.self$tclean, i)$V1), digits=2),
-#                               "threshold %"=
-#                                   paste(acc[[1]], ' (', threshold, 'h - ', names(acc),  ')', sep="") 
-#                               )
-#                             ) 
-#
-#            }
-#            pandoc.table(txt, style='simple')
-#        }
-#    })
 
 ccTable$methods(
     create.table = function(freq){
