@@ -29,13 +29,13 @@ selectIndex<- function(ids, type){
 #'
 #' @export .which.type
 .which.type <- function(id) {
-    return(ccdata.env$checklist[[id]])
+    return(ccdata:::checklist[[id]])
 }
 
 #' 
 #' @export .which.datatype
 .which.datatype <- function(id) {
-  # List with the convertion operations to do for each datatype
+  # List with the conversion operations to do for each data type
   operations <- list('numeric' = as.numeric,
                      'text' = as.character,
                      'date' = as.character, # They are hashed for now
@@ -45,7 +45,7 @@ selectIndex<- function(ids, type){
                      'date/time' = as.character, # They are hashed for now
                      'list / logical' = as.character) # what are they?
 
-  datatype = ccdata.env$ITEM_REF[[id]]$Datatype
+  datatype = ccdata:::ITEM_REF[[id]]$Datatype
   if (!is.null(datatype)){
     if (exists(datatype, operations)){
       return(operations[[datatype]])

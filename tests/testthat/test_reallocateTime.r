@@ -74,3 +74,8 @@ test_that("check data with meta data column (C++ function)", {
     output <- reallocateTime(input, 100, 0.1)
     expect_equal(nrow(output), 1001)
 })
+
+test_that("find episode duration", 
+{
+   .episodeDuration("a") 
+})

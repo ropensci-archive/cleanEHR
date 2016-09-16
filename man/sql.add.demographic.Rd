@@ -4,7 +4,7 @@
 \alias{sql.add.demographic}
 \title{Add demographic table to the postgreSQL table.}
 \usage{
-sql.add.demographic(record)
+sql.add.demographic(record, update = FALSE)
 }
 \description{
 Add demographic table to the postgreSQL table.

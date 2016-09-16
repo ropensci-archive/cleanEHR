@@ -4,11 +4,11 @@ test_that("test",
 {
     delta_num <- deltaTime(ccd, anonymised=TRUE, tdiff=F)
     tb <- list()
-    config <- '../data/ANALYSIS_REF.yaml'
+    config <- '../data/test_analysis_ref.yaml'
     ncol <- length(yaml.load_file(config))
     
     tb_1 <- create2dclean(delta_num, config, 1)
-    for(i in c(2, 5,  ncol+1000)) {
+    for(i in c(2)) {
         tb <- create2dclean(delta_num, config, nchunks=i)
         expect_equal(tb_1$time, tb$time)
         expect_equal(tb_1$site, tb$site)
@@ -16,5 +16,3 @@ test_that("test",
         expect_equal(tb_1$NIHR_HIC_ICU_0108, tb$NIHR_HIC_ICU_0108)
     }
 })
-
-
