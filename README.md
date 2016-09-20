@@ -9,7 +9,8 @@ package,
 * The XML parser
 * Data cleaning and validation modules
 * Table exporter
-* Data analysis help functions 
+* Data analysis functions 
+
 The `ccdata` package is portable to all platforms where a R environment is available.
 It covers the most part of the data processing pipeline. The XML files will be
 parsed to an R data structure which is a bespoken query-able storage format for
@@ -18,7 +19,7 @@ can obtain a clean table guided by the _YAML_ configuration file specified by th
 users. The user can subsequently perform their data analysis on the clean
 table. 
 
-[Data processing pipeline](https://github.com/sinashi/hic_report_16/pipeline.png)
+![Data processing pipeline](https://github.com/sinanshi/hic_report_16/blob/master/pipeline.png)
 
 The _YAML_ configuration example:  
 ```python
