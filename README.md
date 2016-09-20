@@ -1,8 +1,6 @@
 ![](https://travis-ci.com/UCL-HIC/ccdata.svg?token=p5mAVecvBzaxDH7pcXyP&branch=master)
 [![codecov](https://codecov.io/gh/UCL-HIC/ccdata/branch/master/graph/badge.svg?token=DYDE2yg17Z)](https://codecov.io/gh/UCL-HIC/ccdata)
 
-
-# The R package: `ccdata`
 The `ccdata` R package is the centralised tool set for the critical care data
 analysis. Three key components can be found in the current version of `ccdata`
 package,  
