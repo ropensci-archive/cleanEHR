@@ -51,7 +51,7 @@ show = function() {
 #' @export create.cctable
 create.cctable <- function(rec, freq, conf=NULL) {
     if (is.null(conf)) 
-        conf <- ccdata.env$ITEM_REF
+        conf <- ccdata:::ITEM_REF
     else 
         conf <- yaml.load_file(conf)
 
