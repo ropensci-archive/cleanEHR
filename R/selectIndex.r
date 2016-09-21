@@ -18,14 +18,6 @@ extractIndexTable <- function() {
     return(checklist)
 }
 
-#' this one should no longer be useful.
-#' here maybe some checking is necessary.
-#' @return an selected index
-selectIndex<- function(ids, type){
-    id.num <- as.numeric(as.number(ids))
-    return(ccdata.env$info.index[[type]][id.num] == 1)
-}
-
 #'
 #' @export .which.type
 .which.type <- function(id) {
