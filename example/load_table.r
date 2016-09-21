@@ -16,7 +16,7 @@ is.2d <- function(codes) {
 longname <- function(x) {
     ln <- vector()
     for(i in x)
-        ln <- c(ln, ccdata.env$ITEM_REF[[i]]$dataItem)
+        ln <- c(ln, ccdata:::ITEM_REF[[i]]$dataItem)
     return(ln)
 }
 

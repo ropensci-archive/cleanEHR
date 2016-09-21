@@ -98,7 +98,7 @@ for (i in nhic_1d) {
     stopifnot(nrow(have_data) == nepisode)
     result <- for_each_unit_year(have_data)
 
-    cp <- paste(ccdata.env$ITEM_REF[[i]]$dataItem, ": ")
+    cp <- paste(ccdata:::ITEM_REF[[i]]$dataItem, ": ")
     cp <- paste(cp, (missmesg("", nrow(have_data[val!=TRUE]), nrow(have_data))))
     txt <- paste(txt, pandoc.table(result, style='rmarkdown', split.table=1000,
                                    caption=cp))
