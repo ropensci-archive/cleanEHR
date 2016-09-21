@@ -2,6 +2,9 @@ language: r
 cache: packages
 sudo: false
 
+env:
+  - CODECOV_TOKEN="40f86a6d-0a11-485b-986d-385f921a73f5"
+
 r_packages:
   - roxygen2
   - devtools
