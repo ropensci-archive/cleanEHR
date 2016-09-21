@@ -11,7 +11,8 @@ create.cctable(rec, freq, conf = NULL)
 
 \item{freq}{the data cadence in hour.}
 
-\item{conf}{the path of YAML configuration file.}
+\item{conf}{either the path of YAML configuration file or the configuration
+structure in list.}
 }
 \value{
 ccTable object

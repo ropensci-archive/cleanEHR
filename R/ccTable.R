@@ -45,15 +45,18 @@ show = function() {
 
 #' construct function of ccTable object
 #' @param rec ccRecord
-#' @param conf the path of YAML configuration file.
+#' @param conf either the path of YAML configuration file or the configuration
+#'        structure in list.
 #' @param freq the data cadence in hour.
 #' @return ccTable object
 #' @export create.cctable
 create.cctable <- function(rec, freq, conf=NULL) {
     if (is.null(conf)) 
         conf <- ccdata:::ITEM_REF
-    else 
-        conf <- yaml.load_file(conf)
+    else { 
+        if (is.character(conf))
+            conf <- yaml.load_file(conf)
+    }
 
     cct <- ccTable(record=rec, conf=conf)
     cct$create.table(freq)

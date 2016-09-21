@@ -1,5 +1,5 @@
 .create2dclean <- function(record, config, freq) {
-        dt.sofa <- create.cctable(conf=config, record=record, freq=freq)
+        dt.sofa <- create.cctable(rec=record, conf=config, freq=freq)
         dt.sofa$filter.ranges()
         dt.sofa$filter.category()
         dt.sofa$filter.missingness()
