@@ -1,15 +1,14 @@
 ![](https://travis-ci.com/UCL-HIC/ccdata.svg?token=p5mAVecvBzaxDH7pcXyP&branch=master)
 [![codecov](https://codecov.io/gh/UCL-HIC/ccdata/branch/master/graph/badge.svg?token=DYDE2yg17Z)](https://codecov.io/gh/UCL-HIC/ccdata)
 
-
-# The R package: `ccdata`
 The `ccdata` R package is the centralised tool set for the critical care data
 analysis. Three key components can be found in the current version of `ccdata`
 package,  
 * The XML parser
 * Data cleaning and validation modules
 * Table exporter
-* Data analysis help functions 
+* Data analysis functions 
+
 The `ccdata` package is portable to all platforms where a R environment is available.
 It covers the most part of the data processing pipeline. The XML files will be
 parsed to an R data structure which is a bespoken query-able storage format for
@@ -18,7 +17,7 @@ can obtain a clean table guided by the _YAML_ configuration file specified by th
 users. The user can subsequently perform their data analysis on the clean
 table. 
 
-[Data processing pipeline](https://github.com/sinashi/hic_report_16/pipeline.png)
+![Data processing pipeline](https://github.com/sinanshi/hic_report_16/blob/master/pipeline.png)
 
 The _YAML_ configuration example:  
 ```python
