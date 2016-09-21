@@ -9,7 +9,7 @@ r_packages:
   - yaml
 
 script:
-  - Rscript -e 'library(devtools); checkOutput <- data.frame(test()); if (sum(checkOutput["failed"]) > 0){q(status = 1, save = "no")}'
+  - Rscript -e 'library(devtools); checkOutput <- data.frame(test()); if (sum(checkOutput["failed"]) + sum(checkOutput[["error"]]) > 0){q(status = 1, save = "no")}'
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -t 40f86a6d-0a11-485b-986d-385f921a73f5
