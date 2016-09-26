@@ -160,3 +160,14 @@ select_data <- function(record, item, sites=NULL, years=NULL, propgt=FALSE,
 
     return(result)
 }
+
+
+#' This is a simplified version of as.data.frame() with better performance. 
+#' @export .simple.data.frame
+.simple.data.frame <- function(x) {
+    nm <- names(x)
+    attr(x, "row.names") <- .set_row_names(length(x[[1]]))
+    attr(x, "col.names") <- nm
+    class(x) <- "data.frame"
+    x
+}
