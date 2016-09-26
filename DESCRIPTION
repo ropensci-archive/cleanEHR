@@ -34,7 +34,6 @@ Collate:
     'deltaTime.r'
     'demographic.table.R'
     'extractInfo.r'
-    'findMaxMinTime.R'
     'for_each_episode.r'
     'getEpisodeTable.r'
     'getItemList.r'

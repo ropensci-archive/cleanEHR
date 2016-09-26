@@ -10,6 +10,28 @@ reallocateTime <- function(d, t_discharge, frequency) {
 }
 
 
+findMaxTime <- function(episode) {
+    get2dTime <- function(episode){
+        time_lt <- 
+            lapply(episode@data, 
+                   function(item){
+                       if(length(item) > 1) {
+                           if (!is.numeric(item$time))
+                               item$time <-
+                                   as.numeric(as.character(item$time))
+                               return(max(item$time))
+                       }
+                   })
+        tm <- unlist(time_lt)
+        tm
+    }
+    tm <- get2dTime(episode)
+    if (is.null(tm))
+        return(NULL)
+    else
+        return(max(tm))
+}
+
 
 #' getEpisodePeriod
 #' @param e episode
