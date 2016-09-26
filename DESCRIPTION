@@ -40,7 +40,6 @@ Collate:
     'getItemList.r'
     'helper.r'
     'imputation.R'
-    'interpolation.r'
     'missingness.filter.R'
     'range.filter.R'
     'readItems.r'
