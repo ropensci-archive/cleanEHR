@@ -24,39 +24,6 @@ interpolateVec <- function(v, lead, lag, FUN="mean", ...) {
     v
 }
 
-#' interpolate list format 
-#' @param lead 
-#' @param lag 
-#' @param FUN function 
-list_interpolation <- function(l, item_id, lead=1, lag=1, FUN=mean, ...) {
-    if (!all(item_id %in% names(l[[1]])))
-        stop('item_id cannot be found in the list.')
-
-    check_ <- function(var, name) {
-        if(length(item_id) != length(var)) {
-            if (length(var) == 1) 
-                var <- rep(var, length(item_id))
-            else  stop(paste('length of', name, 'is not correct.', name, '=',
-                             length(var), 'item_id = ', length(item_id)))
-        }
-        var
-    }
-
-    lean <- check_(lead, "lead")
-    lag <- check_(lag, "lag")
-    FUN <- check_(FUN, "FUN")
-
-    lapply(l, 
-           function(episode) {
-               for (i in seq(item_id)) {
-                   episode[[item_id[i]]] <-
-                       interpolateVec(episode[[item_id[i]]], lead[[i]],
-                                      lag[[i]], FUN[[i]], ...)
-               }
-               episode
-           })
-}
-
 
 ccTable$methods(
     imputation = function() {
