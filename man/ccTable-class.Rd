@@ -33,6 +33,9 @@ in conf.}
 
 \item{\code{filter.null(items = c("episode_id", "site"))}}{remove the entire episode when the episode_id or site is NULL}
 
+\item{\code{imputation()}}{Filling missing data to a time series data by performing a given imputation
+method on a selected window period nearby the missing data.}
+
 \item{\code{reload.conf(file)}}{reload yaml configuration.}
 }}
 
