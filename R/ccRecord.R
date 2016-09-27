@@ -123,7 +123,6 @@ ccEpisode2 <- setClass("ccEpisode2",
                                            parse_file="NA",
                                            parse_time=as.POSIXct(NA),
                                            data=list()))
-
 #' @title Create a new episode
 #' @description create a new ccEpisode2 object by given the episode data as a
 #' list. The list should be organised in data items and indexed with NIHC code,
