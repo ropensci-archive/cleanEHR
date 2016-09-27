@@ -22,4 +22,18 @@ and discharge date/time.}
 \item{\code{parseinfo}}{a data.table holding the parsing information of each episode such as the
 parsing time and from which file it parsed from.}
 }}
+\examples{
+heart_rate <- data.frame(seq(10), rep(70, 10)) # NIHR_HIC_ICU_0108
+site_id <- "Q70" #  NIHR_HIC_ICU_0002
+episode_id <- 0000001 # NIHR_HIC_ICU_0005
+
+# Create a new episode 
+ep <- new.ccEpisode2(list(NIHR_HIC_ICU_0108=heart_rate, NIHR_HIC_ICU_0002=site_id, NIHR_HIC_ICU_0005=episode_id)) 
+
+# modifying records 
+rec <- ccRecord2() # a new record 
+rec <- rec + ep # adding a new episode to the record
+rec <- rec + NULL # adding nothing to the record
+rec <- rec + rec # adding a record to a record
+}
 

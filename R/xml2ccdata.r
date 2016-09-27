@@ -113,8 +113,7 @@ xml2Data2 <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
             setTxtProgressBar(pb, episode.id)
     }
 
-    record <- ccRecord2()
-    record <- add.episode.list.to.record(record, eps)
+    record <- ccRecord2() + eps
     if (!quiet)
         cat("\n")
 
