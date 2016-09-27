@@ -2,7 +2,7 @@
 % Please edit documentation in R/xml2ccdata.r
 \name{xml2Data}
 \alias{xml2Data}
-\title{convert xml data to ccdata format}
+\title{convert xml data to ccdata format - [ready for retire]}
 \usage{
 xml2Data(file, select.episode = NULL, quiet = TRUE, xml = NULL,
   file_origin = "NA", parse_time = Sys.time())
@@ -14,6 +14,6 @@ xml2Data(file, select.episode = NULL, quiet = TRUE, xml = NULL,
 ccdata
 }
 \description{
-convert xml data to ccdata format
+convert xml data to ccdata format - [ready for retire]
 }
 

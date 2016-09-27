@@ -4,8 +4,7 @@
 \name{ccRecord2-class}
 \alias{ccRecord2}
 \alias{ccRecord2-class}
-\title{ccRecord is a class to hold the raw episode data parsed directly from XML or
-CSV files.}
+\title{A class to hold raw episode data.}
 \description{
 ccRecord is a class to hold the raw episode data parsed directly from XML or
 CSV files.
@@ -13,11 +12,12 @@ CSV files.
 \section{Slots}{
 
 \describe{
-\item{\code{nepisodes}}{an integer number describe the number of episode the record
-held.}
+\item{\code{nepisodes}}{is an integer number indicates the total number of episode
+the record is holding.}
 
 \item{\code{dmgc}}{a data.table containing all the demographic information of each
-episode.}
+episode, including site_id, NHS number, PAS number, admission date/time,
+and discharge date/time.}
 
 \item{\code{parseinfo}}{a data.table holding the parsing information of each episode such as the
 parsing time and from which file it parsed from.}
