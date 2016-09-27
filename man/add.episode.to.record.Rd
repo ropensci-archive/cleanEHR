@@ -2,14 +2,16 @@
 % Please edit documentation in R/ccRecord.R
 \name{add.episode.to.record}
 \alias{add.episode.to.record}
-\title{adding episode data as a list to ccRecord}
+\title{Adding one ccEpisode object to ccRecord2 object.}
 \usage{
 add.episode.to.record(rec, episode)
 }
 \arguments{
 \item{rec}{ccRecord2}
+
+\item{episode}{ccEpisode2 object}
 }
-\description{
-adding episode data as a list to ccRecord
+\value{
+ccRecord2 object
 }
 

@@ -13,26 +13,72 @@ NULL
 #'       parsing time and from which file it parsed from.
 #' @exportClass ccRecord2
 #' @export ccRecord2
+#' @examples
+#' heart_rate <- data.frame(seq(10), rep(70, 10)) # NIHR_HIC_ICU_0108
+#' site_id <- "Q70" #  NIHR_HIC_ICU_0002
+#' episode_id <- 0000001 # NIHR_HIC_ICU_0005
+#'
+#' # Create a new episode 
+#' ep <- new.ccEpisode2(list(NIHR_HIC_ICU_0108=heart_rate, NIHR_HIC_ICU_0002=site_id, NIHR_HIC_ICU_0005=episode_id)) 
+#' 
+#' # modifying records 
+#' rec <- ccRecord2() # a new record 
+#' rec <- rec + ep # adding a new episode to the record
+#' rec <- rec + NULL # adding nothing to the record
+#' rec <- rec + rec # adding a record to a record
 ccRecord2 <- setClass("ccRecord2", 
                       slots=c(nepisodes="integer", dmgtb="data.table", 
                               infotb="data.table", episodes="list"),
                       prototype=prototype(nepisodes=as.integer(0)))
 
-#' adding episode data as a list to ccRecord
+#' @title Adding one ccEpisode object to ccRecord2 object.
 #' @param rec ccRecord2
+#' @param episode ccEpisode2 object
+#' @return ccRecord2 object
 #' @export add.episode.to.record
 add.episode.to.record <- function(rec, episode) {
     rec@episodes[[length(rec@episodes) + 1]] <- episode
     index.record(rec)
 }
 
-
+#' @title Adding a list of ccEpisode to ccRecord
+#' @description Adding a list of one or multiple ccEpisode2 objects to
+#' ccRecord2 object, the information table (infotb) will be updated automatically.
+#' It is a more efficient way to add multiple ccEpisode2 objects. See
+#' add.episode.to.record() for just adding one ccEpisode. 
+#' @param rec ccRecord2
+#' @param lst a list of ccEpisode2 objects
+#' @return ccRecord2
+#' @export add.episode.list.to.record
 add.episode.list.to.record <- function(rec, lst) {
     for(i in seq(length(lst)))
         rec@episodes[[length(rec@episodes) + 1]] <- lst[[i]]
     index.record(rec)
 }
 
+#' @title Concatenating two ccRecords objects
+#' @param rec1 ccRecord2 object
+#' @param rec2 ccRecord2 object
+#' @return ccRecord2 object
+add.record.to.record <- function(rec1, rec2) {
+    rec1@episodes <- append(rec1@episodes, rec2@episodes)
+    index.record(rec1)
+}
+
+setMethod('+', c("ccRecord2", "list"), 
+          function(e1, e2) {add.episode.list.to.record(e1, e2)}
+          )
+
+setMethod('+', c("ccRecord2", "ccEpisode"), 
+          function(e1, e2) {add.episode.to.record(e1, e2)})
+
+
+setMethod('+', c("ccRecord2", "ccRecord2"), 
+          function(e1, e2) {add.record.to.record(e1, e2)}
+          )
+
+setMethod('+', c("ccRecord2", "NULL"), 
+          function(e1, e2) return(e1))
 
 
 
