@@ -1,5 +1,3 @@
-library("XML")
-
 #' load xml clinical data
 #' @return the root of the xml data
 #' @export xmlLoad
@@ -29,7 +27,7 @@ extract_file_origin <- function(pathfile, removestr='.xml'){
   }
 
 
-#' convert xml data to ccdata format
+#' convert xml data to ccdata format - [ready for retire]
 #' @param file xml file name
 #' @return ccdata 
 #' @export xml2Data
