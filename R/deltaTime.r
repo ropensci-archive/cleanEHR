@@ -16,7 +16,7 @@ find.episode.time <- function(episode) {
                              print(unlist(time))
                              stop()
                          })
-        return(c(min(time), max(time)))
+        return(list(admt=min(time), dsct=max(time)))
     }
 }
 
@@ -37,50 +37,51 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
     # for anonymised data only: 
     # convert hash admin time to the earliest time of the record
     if (anonymised == TRUE) {
-        admin_disc_time <- for_each_episode(record, find.episode.time)
-        # NOTE: please try Map here which may look neater. 
-        for (p in seq(record@patients)) {
-            for(e in seq(record@patients[[p]]@episodes)) {
-                record@patients[[p]]@episodes[[e]]@admin_icu_time <- admin_disc_time[[p]][[e]][1]
-                record@patients[[p]]@episodes[[e]]@discharge_icu_time <- admin_disc_time[[p]][[e]][2]
-            }
+        admdsct <- for_each_episode2(record, find.episode.time)
+        for(e in seq(record@episodes)) {
+                record@episodes[[e]]@t_admission <- admdsct[[e]]$admt
+                record@episodes[[e]]@t_discharge <- admdsct[[e]]$dsct
         }
     }
 
     update_time <- function(ep) {
         env <- environment()
-        admin_icu_time <- xmlTime2POSIX(ep@admin_icu_time, allow=TRUE)
-        if (is.na(admin_icu_time)) {
-            return(NULL)
+        t_admission <- xmlTime2POSIX(ep@t_admission, allow=TRUE)
+        if (is.na(t_admission)) {
+            return(new.episode())
         }
         else {
-            lapply(ep@data,
-                   function(data) {
-                       if (length(data) > 1) {
-                           data$time <- difftime(xmlTime2POSIX(data$time), 
-                                                 env$admin_icu_time,
-                                                 units=units)
-                           if (!tdiff)
-                               data$time <- as.numeric(data$time)
+            eps <- 
+                lapply(ep@data,
+                       function(data) {
+                           if (length(data) > 1) {
+                               data$time <- 
+                                   difftime(xmlTime2POSIX(data$time), 
+                                            env$t_admission,
+                                            units=units)
+                               if (!tdiff)
+                                   data$time <- as.numeric(data$time)
 
-                       }
-                       return(data)
-                   })
+                           }
+                           return(data)
+                       })
+            return(new.episode(eps))
         }
     }
 
-    record <- ccRecord() + for_each_episode(record, update_time)
-    if (anonymised == TRUE) {
-        # remove the "NULL" from admin_disc_time, since the NULL episodes are
-        # removed in `+` above. 
-        admin_disc_time <- admin_disc_time[sapply(admin_disc_time, function(x) x!="NULL")]
 
-        for (p in seq(record@patients)) {
-            for(e in seq(record@patients[[p]]@episodes)) {
-                record@patients[[p]]@episodes[[e]]@admin_icu_time <- admin_disc_time[[p]][[e]][1]
-                record@patients[[p]]@episodes[[e]]@discharge_icu_time <- admin_disc_time[[p]][[e]][2]
+    record <- ccRecord2() + for_each_episode2(record, update_time)
+
+    if (anonymised == TRUE) {
+        for(e in seq(record@episodes)) {
+                record@episodes[[e]]@t_admission <- admdsct[[e]]$admt
+                record@episodes[[e]]@t_discharge <- admdsct[[e]]$dsct
             }
-        }
     }
     return(record)
 }
+
+
+
+
+
