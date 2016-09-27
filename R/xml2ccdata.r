@@ -9,6 +9,7 @@ xmlLoad <- function(file) {
 
 #' get the episode data from xml 
 #' @param xml.root root of xml data returned by xmlLoad()
+#' @export getXmlepisode
 getXmlepisode <- function(xml.root, id) {
     xml.root[[1]][[2]][[id]]
 }
@@ -70,6 +71,53 @@ xml2Data <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
 
     setkey(record@nhs_numbers, nhs_number)
     setkey(record@pas_numbers, pas_number)
+
+    return(record)
+}
+
+
+
+#' convert xml data to ccdata format - [ready for retire]
+#' @param file xml file name
+#' @return ccdata 
+#' @export xml2Data2
+xml2Data2 <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
+                      file_origin="NA", parse_time=Sys.time()){
+  if (is.null(xml)) {
+    if (file_origin == "NA") {
+      file_origin <- extract_file_origin(file)
+    }
+    xml <- xmlLoad(file)
+  }
+
+    episode.num <- xmlSize(xml[[1]][[2]])
+    if(is.null(select.episode))
+        select.episode <- seq(episode.num)
+
+
+    if (!quiet)
+        pb <- txtProgressBar(min = min(select.episode)-1, 
+                             max = max(select.episode), style = 3)
+    eps <- list()
+
+    for(episode.id in select.episode){
+        episode <- getXmlepisode(xml, episode.id)
+        episode_list <- tryCatch(xmlEpisodeToList(episode), 
+                                 error=function(err) {
+                                     cat(paste(err, "episode.id = ", episode.id, "\n"))
+                                     stop()
+                                 })
+        eps[[episode.id]] <- new.episode(episode_list, file_origin, parse_time)
+
+        if (!quiet)
+            setTxtProgressBar(pb, episode.id)
+    }
+
+    record <- ccRecord2()
+    record <- add.episode.list.to.record(record, eps)
+    if (!quiet)
+        cat("\n")
+
 
     return(record)
 }

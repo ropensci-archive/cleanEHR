@@ -13,21 +13,21 @@ for_each_patient <- function(record, fun) {
     lapply(record@patients, fun)
 }
 
-#' @export for_each_episode2
-for_each_episode2 <- function(record, fun) {
-    env <- environment()
-    np <- 0
-    lapply(record@patients, 
-           function(p) {
-               env$ne <- 0
-               env$np <- env$np + 1
-               lapply(p@episodes, 
-                      function(e) {
-                          env$ne <- env$ne + 1
-                          fun(e, env$np, env$ne)
-                      })
-           })
-}
+##' @export for_each_episode2
+#for_each_episode2 <- function(record, fun) {
+#    env <- environment()
+#    np <- 0
+#    lapply(record@patients, 
+#           function(p) {
+#               env$ne <- 0
+#               env$np <- env$np + 1
+#               lapply(p@episodes, 
+#                      function(e) {
+#                          env$ne <- env$ne + 1
+#                          fun(e, env$np, env$ne)
+#                      })
+#           })
+#}
 
 
 
