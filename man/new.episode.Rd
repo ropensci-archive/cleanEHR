@@ -4,17 +4,22 @@
 \alias{new.episode}
 \title{Create a new episode}
 \usage{
-new.episode(lt)
+new.episode(lt, parse_file = "NA", parse_time = as.POSIXct(NA))
 }
 \arguments{
 \item{lt}{is a list}
+
+\item{parse_file}{the file location from which the episode comes from.}
+
+\item{parse_time}{the parse date and time of the episode.}
 }
 \value{
 ccEpisode object
 }
 \description{
 create a new ccEpisode2 object by given the episode data as a
-list. The list should be organised in data items. See examples.
+list. The list should be organised in data items and indexed with NIHC code,
+e.g. NIHR_HIC_ICU_0108.
 }
 \examples{
 eps <- list()

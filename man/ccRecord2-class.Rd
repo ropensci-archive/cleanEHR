@@ -4,7 +4,7 @@
 \name{ccRecord2-class}
 \alias{ccRecord2}
 \alias{ccRecord2-class}
-\title{A class to hold raw episode data.}
+\title{A class to hold parsed episode data.}
 \description{
 ccRecord is a class to hold the raw episode data parsed directly from XML or
 CSV files.
