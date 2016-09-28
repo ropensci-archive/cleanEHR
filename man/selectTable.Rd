@@ -2,7 +2,7 @@
 % Please edit documentation in R/selectTable.R
 \name{selectTable}
 \alias{selectTable}
-\title{getItemList}
+\title{selectTable}
 \usage{
 selectTable(record, items_opt = NULL, items_obg = NULL, freq,
   item.name = NULL, return_list = FALSE)
@@ -19,6 +19,6 @@ item in this vector will be removed.}
 data.table
 }
 \description{
-getItemList
+selectTable
 }
 
