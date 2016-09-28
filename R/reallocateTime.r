@@ -39,17 +39,17 @@ findMaxTime <- function(episode) {
 #' @export getEpisodePeriod
 getEpisodePeriod <- function (e, unit="hours") {
     # pseudo delta period, see addPseudoTime()
-    if (class(e@discharge_icu_time)[1] == "numeric")
-        return(e@discharge_icu_time)
+    if (class(e@t_discharge)[1] == "numeric")
+        return(e@t_discharge)
 
-    if (class(e@admin_icu_time)[1] != "POSIXct")
-        tadm <- xmlTime2POSIX(as.character(e@admin_icu_time), allow=T)
+    if (class(e@t_admission)[1] != "POSIXct")
+        tadm <- xmlTime2POSIX(as.character(e@t_admission), allow=T)
     else 
-        tadm <- e@admin_icu_time
-    if (class(e@discharge_icu_time)[1] != "POSIXct")
-        tdisc <- xmlTime2POSIX(as.character(e@discharge_icu_time), allow=T)
+        tadm <- e@t_admission
+    if (class(e@t_discharge)[1] != "POSIXct")
+        tdisc <- xmlTime2POSIX(as.character(e@t_discharge), allow=T)
     else 
-        tdisc <- e@discharge_icu_time
+        tdisc <- e@t_discharge
 
     # The failure of POSIX conversion indicates that this episode is either 
     # anonymised or has a missing or incorrect value of discharge or admission
@@ -80,12 +80,6 @@ getEpisodePeriod <- function (e, unit="hours") {
     return(period_length)
 }
 
-
-.episodeDuration <- function(e, unit="hours") {
-    
-}
-
-
 #' Propagate a numerical delta time interval record.
 #' @param record ccRecord
 #' @param delta time frequency in hours
@@ -97,17 +91,17 @@ reallocateTimeRecord <- function(record, delta=0.5) {
         env <- environment()
         # make sure admin and disc time is correct
         period_length <- getEpisodePeriod(e)
-        admttime <- e@admin_icu_time
+        admttime <- e@t_admission
         
         # calling reallocateTime for each data item
-        lapply(e@data, 
+        new.episode(lapply(e@data, 
                function(d) {
                    if (length(d) > 1) {
                        return(reallocateTime(d, env$period_length, delta))
                    } else 
                        return(d)
-               })
+               }))
     }
-    newdata <- for_each_episode(record, reallocate.episode)
-    return(ccRecord() + newdata)
+    newdata <- for_each_episode2(record, reallocate.episode)
+    return(ccRecord2() + newdata)
 }
