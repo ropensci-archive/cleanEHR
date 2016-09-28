@@ -24,12 +24,12 @@ test_that("reorder the index of record", {
 
 
 test_that("reorder the index of record", {
-    rec <- ccRecord2()
+    rec <- ccRecord()
 #    add.episode.to.record(rec, )
 
 })
 
 
 test_that("test xml2Data2", {
-    ccd2 <<- xml2Data2("../data/test_data_anonym.xml")
+    ccd <<- xml2Data2("../data/test_data_anonym.xml")
 })

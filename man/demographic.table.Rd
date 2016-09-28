@@ -8,7 +8,7 @@
 demographic.table(obj)
 }
 \arguments{
-\item{obj}{\code{\link{ccRecord2-class}} or \code{\link{ccEpisode-class}}}
+\item{obj}{\code{\link{ccRecord-class}} or \code{\link{ccEpisode-class}}}
 }
 \value{
 return a data.table with all demographic fields of each episode.

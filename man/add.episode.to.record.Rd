@@ -2,16 +2,16 @@
 % Please edit documentation in R/ccRecord.R
 \name{add.episode.to.record}
 \alias{add.episode.to.record}
-\title{Adding one ccEpisode object to ccRecord2 object.}
+\title{Adding one ccEpisode object to ccRecord object.}
 \usage{
 add.episode.to.record(rec, episode)
 }
 \arguments{
-\item{rec}{ccRecord2}
+\item{rec}{ccRecord}
 
-\item{episode}{ccEpisode2 object}
+\item{episode}{ccEpisode object}
 }
 \value{
-ccRecord2 object
+ccRecord object
 }
 

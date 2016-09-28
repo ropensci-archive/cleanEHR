@@ -7,17 +7,17 @@
 add.episode.list.to.record(rec, lst)
 }
 \arguments{
-\item{rec}{ccRecord2}
+\item{rec}{ccRecord}
 
-\item{lst}{a list of ccEpisode2 objects}
+\item{lst}{a list of ccEpisode objects}
 }
 \value{
-ccRecord2
+ccRecord
 }
 \description{
-Adding a list of one or multiple ccEpisode2 objects to
-ccRecord2 object, the information table (infotb) will be updated automatically.
-It is a more efficient way to add multiple ccEpisode2 objects. See
+Adding a list of one or multiple ccEpisode objects to
+ccRecord object, the information table (infotb) will be updated automatically.
+It is a more efficient way to add multiple ccEpisode objects. See
 add.episode.to.record() for just adding one ccEpisode.
 }
 

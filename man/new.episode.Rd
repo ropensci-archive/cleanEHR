@@ -17,7 +17,7 @@ new.episode(lt, parse_file = "NA", parse_time = as.POSIXct(NA))
 ccEpisode object
 }
 \description{
-create a new ccEpisode2 object by given the episode data as a
+create a new ccEpisode object by given the episode data as a
 list. The list should be organised in data items and indexed with NIHC code,
 e.g. NIHR_HIC_ICU_0108.
 }

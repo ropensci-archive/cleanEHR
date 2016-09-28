@@ -70,7 +70,7 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
     }
 
 
-    record <- ccRecord2() + for_each_episode2(record, update_time)
+    record <- ccRecord() + for_each_episode2(record, update_time)
 
     if (anonymised == TRUE) {
         for(e in seq(record@episodes)) {
