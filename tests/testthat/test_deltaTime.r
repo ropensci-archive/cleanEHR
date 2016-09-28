@@ -39,5 +39,5 @@ context("Testing deltaTime")
 
 
 test_that("convert to delta time and recover it back", {
-    ddd <- deltaTime(ccd2, anonymised=TRUE, tdiff=TRUE)
+    ddd <- deltaTime(ccd, anonymised=TRUE, tdiff=TRUE)
 })

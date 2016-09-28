@@ -8,7 +8,7 @@
 #' @exportClass ccTable
 ccTable <- setRefClass("ccTable", 
                             fields=c(
-                                     record="ccRecord2", 
+                                     record="ccRecord", 
                                      conf="list",
                                      torigin="data.table", 
                                      tclean="data.table",

@@ -7,11 +7,11 @@
 add.record.to.record(rec1, rec2)
 }
 \arguments{
-\item{rec1}{ccRecord2 object}
+\item{rec1}{ccRecord object}
 
-\item{rec2}{ccRecord2 object}
+\item{rec2}{ccRecord object}
 }
 \value{
-ccRecord2 object
+ccRecord object
 }
 

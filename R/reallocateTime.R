@@ -103,5 +103,5 @@ reallocateTimeRecord <- function(record, delta=0.5) {
                }))
     }
     newdata <- for_each_episode2(record, reallocate.episode)
-    return(ccRecord2() + newdata)
+    return(ccRecord() + newdata)
 }
