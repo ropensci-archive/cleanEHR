@@ -136,8 +136,7 @@ ccEpisode2 <- setClass("ccEpisode2",
 #' eps[["NIHR_HIC_ICU_0018"]] <- data.frame(time=seq(10), rep(70, 10))
 #' new.episode(eps)
 #' @export new.episode 
-new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) {
-    eps <- ccEpisode2()
+new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) { eps <- ccEpisode2()
     eps@data <- lt
     
     short.name <- c("NHSNO", "pasno", "ADNO", "ICNNO")
@@ -148,9 +147,7 @@ new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) {
         val <- lt[[stname2code(short.name[i])]]
         if (is.null(val)) slot(eps, slot.name[i]) <- "NA"
         else slot(eps, slot.name[i]) <- val
-    }
-
-    # Time data 
+    } # Time data 
     short.name <- c("DAICU", "DDICU")
     slot.name <- c("t_admission", "t_discharge")
     for (i in seq(slot.name)) 
