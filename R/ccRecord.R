@@ -1,6 +1,3 @@
-#' @include ccEpisode.R
-NULL
-
 #' @title A class to hold parsed episode data.
 #' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or
 #' CSV files.
@@ -30,6 +27,29 @@ ccRecord2 <- setClass("ccRecord2",
                       slots=c(nepisodes="integer", dmgtb="data.table", 
                               infotb="data.table", episodes="list"),
                       prototype=prototype(nepisodes=as.integer(0)))
+
+# NOTE: put some description here.
+ccEpisode2 <- setClass("ccEpisode2", 
+                       slots=c(site_id="character", 
+                               episode_id="character",
+                               nhs_number="character",
+                               pas_number="character",
+                               t_admission="POSIXct", 
+                               t_discharge="POSIXct",
+                               parse_file="character",
+                               parse_time="POSIXct", 
+                               data="list"), 
+
+                       prototype=prototype(site_id="NA", 
+                                           episode_id="NA", 
+                                           nhs_number="NA",
+                                           pas_number="NA", 
+                                           t_admission=as.POSIXct(NA), 
+                                           t_discharge=as.POSIXct(NA), 
+                                           parse_file="NA",
+                                           parse_time=as.POSIXct(NA),
+                                           data=list()))
+
 
 #' @title Adding one ccEpisode object to ccRecord2 object.
 #' @param rec ccRecord2
@@ -69,7 +89,7 @@ setMethod('+', c("ccRecord2", "list"),
           function(e1, e2) {add.episode.list.to.record(e1, e2)}
           )
 
-setMethod('+', c("ccRecord2", "ccEpisode"), 
+setMethod('+', c("ccRecord2", "ccEpisode2"), 
           function(e1, e2) {add.episode.to.record(e1, e2)})
 
 
@@ -102,27 +122,6 @@ index.record <- function(rec) {
 }
 
 
-# NOTE: put some description here.
-ccEpisode2 <- setClass("ccEpisode2", 
-                       slots=c(site_id="character", 
-                               episode_id="character",
-                               nhs_number="character",
-                               pas_number="character",
-                               t_admission="POSIXct", 
-                               t_discharge="POSIXct",
-                               parse_file="character",
-                               parse_time="POSIXct", 
-                               data="list"), 
-
-                       prototype=prototype(site_id="NA", 
-                                           episode_id="NA", 
-                                           nhs_number="NA",
-                                           pas_number="NA", 
-                                           t_admission=as.POSIXct(NA), 
-                                           t_discharge=as.POSIXct(NA), 
-                                           parse_file="NA",
-                                           parse_time=as.POSIXct(NA),
-                                           data=list()))
 #' @title Create a new episode
 #' @description create a new ccEpisode2 object by given the episode data as a
 #' list. The list should be organised in data items and indexed with NIHC code,

@@ -8,7 +8,7 @@ setGeneric("demographic.table", function(obj) {
     standardGeneric("demographic.table")
 })
 
-setMethod("demographic.table", signature = c("ccEpisode"),
+setMethod("demographic.table", signature = c("ccEpisode2"),
           definition = function(obj) {
 
 
