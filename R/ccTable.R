@@ -4,7 +4,7 @@
 #' @field dfilter list contains three data quality tables 1) range, 2)
 #' missingness, 3) categorical
 #' @import data.table
-#' @include ccdata.r
+#' @include ccRecord.R
 #' @exportClass ccTable
 ccTable <- setRefClass("ccTable", 
                             fields=c(

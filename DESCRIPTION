@@ -23,10 +23,7 @@ Imports:
     data.table
 Collate:
     'RcppExports.R'
-    'ccEpisode.R'
-    'ccPatient.r'
     'ccRecord.R'
-    'ccdata.r'
     'ccTable.R'
     'create2dclean.r'
     'deltaTime.r'
@@ -35,7 +32,6 @@ Collate:
     'filter.categorical.R'
     'filter.missingness.R'
     'filter.range.R'
-    'for_each_episode.r'
     'getEpisodeTable.r'
     'getItemList.r'
     'helper.r'
