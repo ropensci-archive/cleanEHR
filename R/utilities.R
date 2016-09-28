@@ -171,3 +171,168 @@ select_data <- function(record, item, sites=NULL, years=NULL, propgt=FALSE,
     class(x) <- "data.frame"
     x
 }
+
+
+
+#' get indexing tables for time label, time-wise value, meta data label, and
+#' meta data.  
+#' @return list of vectors contains time.index, datat.index, meta.index,
+#'          datam.index
+extractIndexTable <- function() {
+    info <- extractInfo()
+
+    checklist <- list()
+    for(i in seq(info$nontime))
+        checklist[[info$nontime[i]]] <- "item1d"
+    for(i in seq(info$time$idt))
+        checklist[[info$time$idt[i]]] <-"time"
+    for(i in seq(info$time$id))
+        checklist[[info$time$id[i]]] <- "item2d"
+    for(i in seq(info$meta$meta))
+        checklist[[info$meta$meta[i]]] <- "meta"
+    
+    return(checklist)
+}
+
+#'
+#' @export .which.type
+.which.type <- function(id) {
+    return(ccdata:::checklist[[id]])
+}
+
+#' 
+#' @export .which.datatype
+.which.datatype <- function(id) {
+  # List with the conversion operations to do for each data type
+  operations <- list('numeric' = as.numeric,
+                     'text' = as.character,
+                     'date' = as.character, # They are hashed for now
+                     'time' = as.character, # They are hashed for now
+                     'logical' = as.logical,
+                     'list' = as.character,
+                     'date/time' = as.character, # They are hashed for now
+                     'list / logical' = as.character) # what are they?
+
+  datatype = ccdata:::ITEM_REF[[id]]$Datatype
+  if (!is.null(datatype)){
+    if (exists(datatype, operations)){
+      return(operations[[datatype]])
+    }
+  }
+  # accounts for not listed or null (eg. when working with dt labels)
+  return(as.character)
+}
+
+
+#' Convert item data to its corresponding data type.
+#' @param id NHIC code of the data
+#' @param vals The vector of values of the item.
+#' @return vector values in its corresponding data type
+which.datatype <- function(id, vals) {
+}
+
+
+#' give id number from NHIC code like "NIHR_HIC_ICU_xxxx"
+#' @param nhic NHIC code
+whichIsCode <- function(nhic) {
+    return(grepl(nhic, pattern="[0-9][0-9][0-9][0-9]"))
+}
+
+#' extract information from data.checklist
+#' @return list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)], 
+#'         nontime [numeric], MAX_NUM_NHIC
+#' @export extractInfo
+extractInfo <- function() {
+    if(!exists("data.checklist"))
+        data("data.checklist")
+    index.time <- whichIsCode(data.checklist$NHICdtCode) 
+    index.meta <- whichIsCode(data.checklist$NHICmetaCode)
+
+    item.labels <- StdId(data.checklist$NHICcode[index.time])
+    time.labels <- StdId(data.checklist$NHICdtCode[index.time])
+
+    metaitem.labels <- StdId(data.checklist$NHICcode[index.meta])
+    meta.labels <- StdId(data.checklist$NHICmetaCode[index.meta])
+    
+    time.list <-
+        data.frame(id=item.labels@ids, idt=time.labels@ids,
+                   stringsAsFactors=FALSE)
+    meta.list <- data.frame(id=metaitem.labels@ids, meta=meta.labels@ids,
+                            stringsAsFactors=FALSE)
+    
+    
+    nontime<- StdId(data.checklist$NHICcode[!index.time])
+    # get all ids which should be the assemble of NHICcode and NHICmetaCode
+    all.nhic.code <- StdId(data.checklist$NHICcode)
+    all.ids <- c(meta.list$idmeta,
+                 all.nhic.code@ids)
+    if (any(duplicated(all.ids)))
+        stop("data.checklist.RData error! meta data code and NHICcode are overlaped")
+    return(list(time=time.list, meta=meta.list, nontime=nontime@ids,
+                MAX_NUM_NHIC=max(as.numeric(as.number(all.nhic.code)), 
+                                 as.numeric(as.number(StdId(time.list$idt))))))
+}
+
+#' retrieve information of the query code/item names from data.checklist
+#' @param item.code it can be either item name or NHIC_code, dt_code, or
+#'        meta_code
+#' @return a vector contains NHIC_code, dt_code, meta_code and row_in_checklist
+#' @examples 
+#' getItemInfo("Time of death on your unit")
+#' getItemInfo("NIHR_HIC_ICU_0001")
+#' @export getItemInfo
+getItemInfo <- function(item.code) {
+    if (!exists("data.checklist"))
+        data("data.checklist")
+
+    if(grepl("NIHR_HIC_ICU_", item.code)){# input is code
+        item <- data.checklist$NHICcode == item.code
+        dt <- data.checklist$NHICdtCode == item.code
+        meta <- data.checklist$NHICmetaCode == item.code
+        row.in.list <- which(item | dt | meta)
+    }
+    else{ # input is item name
+        row.in.list <- which(data.checklist$dataItem==item.code)
+    }
+
+    if (length(row.in.list) != 1){
+        stop("item/NHIC code cannot be found in the list.\n")
+    }
+
+    item.info <- c(as.character(data.checklist$dataItem[row.in.list]),
+                   as.character(data.checklist$NHICcode[row.in.list]),
+                   as.character(data.checklist$NHICdtCode[row.in.list]),
+                   as.character(data.checklist$NHICmetaCode[row.in.list]),
+                   as.character(data.checklist$Units[row.in.list]),
+                   as.character(row.in.list))
+
+    names(item.info) <- c("item", "NHIC_code", "dt_code", 
+                          "meta_code", "unit", "row_in_checklist")
+    return(item.info)
+}
+
+#' get information of a group of code of items and return an array.
+getItemsInfo <- function(items.code, var) {
+    info_ <- array(NA, length(items.code))
+    for (i in seq(items.code))
+        info_[i] <- getItemInfo(items.code[i])[var]
+    return(info_)
+}
+
+#' convert time from xml table to POSIX format.
+#' @param allow If allow is FASLE, it returns error when time format is wrong,
+#' however it allows exceptions when "allow" is set to be true, where it
+#' returns NA. It is useful when dealing with anonymised data.
+#' e.g. 2014-02-01T03:00:00 -> 2014-02-01 03:00:00
+#' @export xmlTime2POSIX
+xmlTime2POSIX <- function(xml.time, allow=FALSE){
+    if (is.null(xml.time))
+        return(NA)
+    tp <- as.POSIXct(xml.time, "GMT", format="%Y-%m-%dT%H:%M:%S")
+    tp[is.na(tp)] <- as.POSIXct(xml.time[is.na(tp)], "GMT", format="%Y-%m-%d")
+    if (!allow) {
+        if(any(is.na(tp)))
+            stop(xml.time[is.na(tp)])
+    }
+    return(tp)
+}

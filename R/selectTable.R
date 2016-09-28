@@ -1,4 +1,4 @@
-#' getItemList
+#' selectTable
 #' @param record ccRecord
 #' @param items_obg obligatory items that is obligatory; Any episode that doesn't contain
 #' item in this vector will be removed.
