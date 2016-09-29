@@ -9,18 +9,17 @@ Description: data manipulation tools for critical care data.
 Depends:
     R (>= 2.1.0),
     XML,
-    reshape2,
     data.table,
     yaml,
-    pander,
     RPostgreSQL,
-    sqldf
+    sqldf,
+    Rcpp
 License: GPL-2.0
 Suggests:
     testthat
-LinkingTo: Rcpp
 Imports:
     data.table
+RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'
     'ccRecord.R'
@@ -41,4 +40,3 @@ Collate:
     'utilities.R'
     'xml2ccdata.R'
     'zzz.R'
-RoxygenNote: 5.0.1

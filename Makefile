@@ -14,3 +14,4 @@ manual:
 clean:
 	rm -rf src/*.o src/*.so
 	rm -rf man
+	rm ..pdf
