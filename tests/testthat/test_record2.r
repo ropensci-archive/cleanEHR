@@ -1,6 +1,6 @@
-context("Testing new ccRecord")
+context("Testing ccRecord")
 
-test_that("test new.episode", {
+test_that("test ccEpisode", {
     eps <- new.episode(list())
     
     expect_equal(eps@nhs_number, "NA")
@@ -31,5 +31,5 @@ test_that("reorder the index of record", {
 
 
 test_that("test xml2Data2", {
-    ccd <<- xml2Data2("../data/test_data_anonym.xml")
+    ccd <- xml2Data("../data/test_data_anonym.xml")
 })
