@@ -29,6 +29,7 @@ Collate:
     'categorical.filter.R'
     'ccPatient.r'
     'ccRecord.R'
+    'checkICNARC.R'
     'create2dclean.r'
     'csv2ccdata.r'
     'deltaTime.r'
