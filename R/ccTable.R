@@ -21,7 +21,7 @@ ccTable <- setRefClass("ccTable",
                                      items="character"))
 ccTable$methods(
 show = function() {
-    panderOptions("table.split.table", 150)
+#    panderOptions("table.split.table", 150)
     
     cat("$tclean", "\n")
     print(.self$tclean)
