@@ -15,7 +15,7 @@ test.teardown <- function() {
 test_that("Discover parsed XML files and new files", {
     test.setup()
     f <- find.new.xml.file(".temp/XML")
-    expect_true(dir.exists(".temp/XML/.RData"))
+    expect_true(dir.exists(".temp/XML/.database"))
     expect_length(f, 0)
 
     file.create(".temp/XML/test1.xml")
@@ -24,7 +24,7 @@ test_that("Discover parsed XML files and new files", {
     f <- find.new.xml.file(".temp/XML")
     expect_equivalent(f, c("test1.xml", "test2.xml"))
 
-    file.create(".temp/XML/.RData/test1.xml_someothersuffix.RData")
+    file.create(".temp/XML/.database/test1.xml_someothersuffix.RData")
     f <- find.new.xml.file(".temp/XML")
     expect_equivalent(f, c("test2.xml"))
 
@@ -57,8 +57,8 @@ test_that("Discover parsed XML files and new files", {
 
 test_that("update the new XML files", {
     test.setup()
-    system("cp ../data/test_data_anonym.xml .temp/xml/test1.xml")
-    system("cp ../data/test_data_anonym.xml .temp/xml/test2.xml")
+    system("cp ../data/test_data_anonym.xml .temp/XML/test1.xml")
+    system("cp ../data/test_data_anonym.xml .temp/XML/test2.xml")
     new.db <- update.new.xml(".temp/XML")
     expect_is(new.db, "ccRecord")
 
@@ -66,14 +66,14 @@ test_that("update the new XML files", {
     xml2 <- xml2Data(".temp/xml/test2.xml")
 
     expect_equal(new.db@nepisodes, xml1@nepisodes + xml2@nepisodes)
-    expect_true("test1.xml.RData" %in% dir(".temp/xml/.RData"))
-    expect_true("test2.xml.RData" %in% dir(".temp/xml/.RData"))
+    expect_true("test1.xml.RData" %in% dir(".temp/XML/.database"))
+    expect_true("test2.xml.RData" %in% dir(".temp/XML/.database"))
 })
 
 test_that("update the database", {
     alld <- update.database(".temp/XML")
     
-    expect_true("alldata.RData" %in% dir(".temp/XML/.RData"))
+    expect_true("alldata.RData" %in% dir(".temp/XML/.database"))
 })
 
 

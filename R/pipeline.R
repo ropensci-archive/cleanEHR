@@ -1,5 +1,5 @@
 find.new.xml.file <- function(xml.path, restart=FALSE) {
-    rdata.path <- paste(xml.path, ".RData", sep="/")
+    rdata.path <- paste(xml.path, ".database", sep="/")
     dir.create(rdata.path, showWarnings=F)
 
     xml.file.name <- dir(xml.path)
@@ -29,7 +29,7 @@ update.new.xml <- function(xml.path, restart=FALSE, mc.cores=4) {
     db.collection <- mclapply(files.to.parse, 
                               function(x) {
                                   fxml <- paste(xml.path, x, sep="/")
-                                  frdata <- paste(xml.path, "/.RData/", x, ".RData", sep="")
+                                  frdata <- paste(xml.path, "/.database/", x, ".RData", sep="")
                                   db <- xml2Data(fxml, quiet=F)
                                   save(db, file=frdata)
                                   return(db)
@@ -58,7 +58,7 @@ update.database <- function(xml.path, restart=FALSE, split=FALSE,
     alldata <- alldata + new.db
 
     if (save) 
-        save(alldata, file=paste(xml.path, ".RData", "alldata.RData", sep="/"))
+        save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
     
     invisible(alldata)
 }
