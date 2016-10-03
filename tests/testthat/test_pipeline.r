@@ -31,24 +31,25 @@ test_that("Discover parsed XML files and new files", {
     f <- find.new.xml.file(".temp/XML", restart=TRUE)
     expect_equivalent(f, c("test1.xml", "test2.xml"))
 
-
-    file.create(".temp/XML/test1.xml_part1")
-    file.create(".temp/XML/test1.xml_part2")
-    file.create(".temp/XML/test1.xml_part3")
+    # adding xml files with the same name pattern should not initiating the 
+    # parsing process. 
+    file.create(".temp/XML/test1.xml_1.partxml")
+    file.create(".temp/XML/test1.xml_2.partxml")
     f <- find.new.xml.file(".temp/XML")
     expect_equivalent(f, "test2.xml")
-    
-    file.create(".temp/XML/test2.xml_part1")
-    file.create(".temp/XML/test2.xml_part2")
-    file.create(".temp/XML/test2.xml_part3")
-    f <- find.new.xml.file(".temp/xml")
+   
+    # test if .partxml suffix can pass
+    file.create(".temp/XML/test2.xml_2.partxml")
+    file.create(".temp/XML/test2.xml_1.partxml")
+    file.create(".temp/XML/test2.xml_3.partxml")
+    f <- find.new.xml.file(".temp/XML")
 
     # should pass with XML as suffix
     file.create(".temp/XML/file.XML")
-    find.new.xml.file(".temp/xml")
+    find.new.xml.file(".temp/XML")
 
     file.create(".temp/XML/not_end_with_xmlsuffix")
-    expect_error(find.new.xml.file(".temp/xml"))
+    expect_error(find.new.xml.file(".temp/XML"))
     file.remove(".temp/XML/not_end_with_xmlsuffix")
 
     test.teardown()
@@ -62,8 +63,8 @@ test_that("update the new XML files", {
     new.db <- update.new.xml(".temp/XML")
     expect_is(new.db, "ccRecord")
 
-    xml1 <- xml2Data(".temp/xml/test1.xml")
-    xml2 <- xml2Data(".temp/xml/test2.xml")
+    xml1 <- xml2Data(".temp/XML/test1.xml")
+    xml2 <- xml2Data(".temp/XML/test2.xml")
 
     expect_equal(new.db@nepisodes, xml1@nepisodes + xml2@nepisodes)
     expect_true("test1.xml.RData" %in% dir(".temp/XML/.database"))
