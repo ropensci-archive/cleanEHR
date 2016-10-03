@@ -15,11 +15,11 @@ CSV files.
 \item{\code{nepisodes}}{is an integer number indicates the total number of episode
 the record is holding.}
 
-\item{\code{dmgc}}{a data.table containing all the demographic information of each
+\item{\code{dmgtb}}{a data.table containing all the demographic information of each
 episode, including site_id, NHS number, PAS number, admission date/time,
 and discharge date/time.}
 
-\item{\code{parseinfo}}{a data.table holding the parsing information of each episode such as the
+\item{\code{infotb}}{a data.table holding the parsing information of each episode such as the
 parsing time and from which file it parsed from.}
 }}
 \examples{
@@ -28,7 +28,9 @@ site_id <- "Q70" #  NIHR_HIC_ICU_0002
 episode_id <- 0000001 # NIHR_HIC_ICU_0005
 
 # Create a new episode 
-ep <- new.ccEpisode(list(NIHR_HIC_ICU_0108=heart_rate, NIHR_HIC_ICU_0002=site_id, NIHR_HIC_ICU_0005=episode_id)) 
+ep <- new.ccEpisode(list(NIHR_HIC_ICU_0108=heart_rate, 
+                         NIHR_HIC_ICU_0002=site_id, 
+                         NIHR_HIC_ICU_0005=episode_id)) 
 
 # modifying records 
 rec <- ccRecord() # a new record 
