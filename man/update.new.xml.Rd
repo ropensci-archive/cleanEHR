@@ -4,7 +4,21 @@
 \alias{update.new.xml}
 \title{update the RData database}
 \usage{
-\method{update}{new.xml}(xml.path, restart = FALSE, split = FALSE,
-  mc.cores = 4)
+\method{update}{new.xml}(xml.path, restart = FALSE, mc.cores = 4)
+}
+\arguments{
+\item{xml.path}{}
+
+\item{restart}{}
+
+\item{mc.cores}{}
+}
+\value{
+ccRecord object
+combine new data to a ccRecord
+}
+\description{
+Detect the new XML files which has never been parsed first and
+inject the new episode data to the .RData database.
 }
 
