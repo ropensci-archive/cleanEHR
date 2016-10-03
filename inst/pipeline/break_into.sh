@@ -1,5 +1,11 @@
 #!/bin/bash
 
+case $(sed --help 2>&1) in
+  *GNU*) sed_i () { sed -i "$@"; };;
+  *) sed_i () { sed -i '' "$@"; };;
+esac
+
+
 if [[ $# < 2 ]]
 then
     echo "You need to input a file name and the number of patients per file"
@@ -23,13 +29,16 @@ subject="${dchar}subject"
 # so it is not counted in the awk below.
 sed -e 's|</'"${subject}"'>|<cut_here>\n|' ${1} > ${1}.tmp
 
+if [[ -e ${1}_0.${default_ext} ]]; then
+  rm ${1}*${default_ext}
+fi
 # Break the file into chunks where <${subject}> occurs.
 # Each time <subject> is found, delim will increase
 #   if delim/maxpatients (2nd argument) == 1 then
 #   create a new file.
 # initialising delim as -1 so the first file includes the
 # number of subjects asked.
-awk 'BEGIN {delim=-1} \
+awk -P 'BEGIN {delim=-1} \
          /\<'"${subject}"'\>/ { delim++ } \
                   {file = sprintf("'${1}'_%s.'${default_ext}'", int(delim/'${2}'));\
                    print >> file; } \
@@ -49,12 +58,13 @@ lastline="</${dchar}data></${dchar}context></${dchar}document>"
 nfiles=$(ls "${1}"_* | wc -l)
 
 # loop over all the files to add header and footer for each file that needs it
+
 for ((i=0; i<${nfiles}; i++))
 do
     output=${1}_${i}.${default_ext}
     # replace the label changed before
-    sed -i 's|<cut_here>|</'"${subject}"'>|' ${output}
-
+    sed_i  's|<cut_here>|</"${subject}">|' ${output}
+    
     # add footer to the files
     if [ $i -lt $((${nfiles} - 1)) ]
     then
@@ -64,11 +74,10 @@ do
     # add header to the files
     if [ $i -gt 0 ]
     then
-        sed -i '1s|^|'"${firstlines}"'|' ${output}
+        sed_i '1s|^|'"${firstlines}"'|' ${output}
     fi
 
 done
 
 # Remove the temporary file used
 rm ${1}.tmp
-
