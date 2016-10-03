@@ -9,12 +9,11 @@ Description: data manipulation tools for critical care data.
 Depends:
     R (>= 2.1.0),
     XML,
-    data.table,
     yaml,
     RPostgreSQL,
-    sqldf,
-    Rcpp
+    sqldf
 License: GPL-2.0
+LinkingTo: Rcpp
 Suggests:
     testthat
 Imports:

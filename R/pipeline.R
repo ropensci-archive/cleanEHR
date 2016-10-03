@@ -1,3 +1,6 @@
+#' @import parallel
+NULL
+
 find.new.xml.file <- function(xml.path, restart=FALSE) {
     rdata.path <- paste(xml.path, ".database", sep="/")
     dir.create(rdata.path, showWarnings=F)
@@ -19,13 +22,16 @@ find.new.xml.file <- function(xml.path, restart=FALSE) {
 
 
 #' @title update the RData database
-#' @description 
-#' @import parallel
+#' @description Detect the new XML files which has never been parsed first and
+#' inject the new episode data to the .RData database. 
+#' @param xml.path 
+#' @param restart 
+#' @param mc.cores 
+#' @return ccRecord object
 update.new.xml <- function(xml.path, restart=FALSE, mc.cores=4) {
     cat("\nupdating new XML files\n")
     files.to.parse <- find.new.xml.file(xml.path, restart)
 
-    #'  
     db.collection <- mclapply(files.to.parse, 
                               function(x) {
                                   fxml <- paste(xml.path, x, sep="/")
@@ -44,6 +50,9 @@ update.new.xml <- function(xml.path, restart=FALSE, mc.cores=4) {
 }
 
 
+#' @title updating the database 
+#' @description something 
+#' @details 
 #' @export update.database
 update.database <- function(xml.path, restart=FALSE, split=FALSE, 
                             mc.cores=4, save=TRUE) {
