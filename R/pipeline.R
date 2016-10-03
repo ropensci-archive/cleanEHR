@@ -7,8 +7,8 @@ find.new.xml.file <- function(xml.path, restart=FALSE) {
 
     xml.file.name <- dir(xml.path)
 
-    if (! all(grepl("(.xml|.XML)$|.xml_", xml.file.name))) 
-        stop("file names in xml.path ", xml.path, " must contain the key word .xml. ") 
+    if (! all(grepl("(.xml|.XML|.partxml)$", xml.file.name))) 
+        stop("file names in xml.path ", xml.path, " must end with suffix .xml or .partxml. ") 
 
     parsed.pattern <- unique(sapply(strsplit(dir(rdata.path), ".xml"), function(x) x[1]))
     if (length(parsed.pattern) == 0 | restart == TRUE) {
