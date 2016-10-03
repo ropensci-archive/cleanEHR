@@ -1,10 +1,14 @@
-#!/bin/bash
+#!/bin/bash 
 
-case $(sed --help 2>&1) in
-  *GNU*) sed_i () { sed -i "$@"; };;
-  *) sed_i () { sed -i '' "$@"; };;
-esac
-
+if [[ $(sed --help 2>&1 | grep GNU) ]]; then
+  sed_i () { sed -i "$@"; }
+  gnused=1
+  echo "gnu here"
+else 
+  sed_i () { sed -i '' "$@"; }
+  gnused=0
+  echo "not gnu"
+fi
 
 if [[ $# < 2 ]]
 then
@@ -27,7 +31,12 @@ subject="${dchar}subject"
 
 # change the end subject for something different - <cut_here>
 # so it is not counted in the awk below.
-sed -e 's|</'"${subject}"'>|<cut_here>\n|' ${1} > ${1}.tmp
+if [[ $gnused == 1 ]]; then
+  echo "gnu here"
+  sed -e 's|</'"${subject}"'>|<cut_here>\n|' ${1} > ${1}.tmp
+else
+  sed -e 's|</'"${subject}"'>|<cut_here>\'$'\n|' ${1} > ${1}.tmp
+fi
 
 if [[ -e ${1}_0.${default_ext} ]]; then
   rm ${1}*${default_ext}
@@ -63,7 +72,7 @@ for ((i=0; i<${nfiles}; i++))
 do
     output=${1}_${i}.${default_ext}
     # replace the label changed before
-    sed_i  's|<cut_here>|</"${subject}">|' ${output}
+    sed_i  's|<cut_here>|</'${subject}'>|' ${output}
     
     # add footer to the files
     if [ $i -lt $((${nfiles} - 1)) ]
