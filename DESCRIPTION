@@ -31,6 +31,7 @@ Collate:
     'filter.missingness.R'
     'filter.range.R'
     'imputation.R'
+    'pipeline.R'
     'reallocateTime.R'
     'selectTable.R'
     'sql_demographic.R'
