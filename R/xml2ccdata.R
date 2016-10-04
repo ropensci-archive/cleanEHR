@@ -212,6 +212,8 @@ xml2Data <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
         pb <- txtProgressBar(min = min(select.episode)-1, 
                              max = max(select.episode), style = 3)
     eps <- list()
+    if (!quiet)
+        cat("parsing XML file: ", file, "\n")
 
     for(episode.id in select.episode){
         episode <- getXmlepisode(xml, episode.id)

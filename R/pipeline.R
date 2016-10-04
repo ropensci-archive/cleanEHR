@@ -1,7 +1,7 @@
 #' @import parallel
 NULL
 
-find.new.xml.file <- function(xml.path, restart=FALSE) {
+find.new.xml.file <- function(xml.path) {
     rdata.path <- paste(xml.path, ".database", sep="/")
     dir.create(rdata.path, showWarnings=F)
 
@@ -11,7 +11,7 @@ find.new.xml.file <- function(xml.path, restart=FALSE) {
         stop("file names in xml.path ", xml.path, " must end with suffix .xml or .partxml. ") 
 
     parsed.pattern <- unique(sapply(strsplit(dir(rdata.path), ".xml"), function(x) x[1]))
-    if (length(parsed.pattern) == 0 | restart == TRUE) {
+    if (length(parsed.pattern) == 0) {
         return(xml.file.name)
     } else {
         all.xml.files <- 
@@ -25,18 +25,16 @@ find.new.xml.file <- function(xml.path, restart=FALSE) {
 #' @description Detect the new XML files which has never been parsed first and
 #' inject the new episode data to the .RData database. 
 #' @param xml.path 
-#' @param restart 
 #' @param mc.cores 
 #' @return ccRecord object
-update.new.xml <- function(xml.path, restart=FALSE, mc.cores=4) {
-    cat("\nupdating new XML files\n")
-    files.to.parse <- find.new.xml.file(xml.path, restart)
+update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
+    files.to.parse <- find.new.xml.file(xml.path)
 
     db.collection <- mclapply(files.to.parse, 
                               function(x) {
                                   fxml <- paste(xml.path, x, sep="/")
                                   frdata <- paste(xml.path, "/.database/", x, ".RData", sep="")
-                                  db <- xml2Data(fxml, quiet=F)
+                                  db <- xml2Data(fxml, quiet=quiet)
                                   save(db, file=frdata)
                                   return(db)
                               }, mc.cores=mc.cores)
@@ -54,26 +52,59 @@ update.new.xml <- function(xml.path, restart=FALSE, mc.cores=4) {
 #' @description something 
 #' @details 
 #' @export update.database
-update.database <- function(xml.path, restart=FALSE, split=FALSE, 
-                            mc.cores=4, save=TRUE) {
-    alldata.loc <- paste(xml.path, "alldata.RData", paste="/")
-
-    if (exists(alldata.loc)) 
-        load(alldata.loc) # the old database has a variable name alldata
+update.database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
+                            mc.cores=4, quiet=FALSE) {
+    if (restart)
+        unlink('.database')
+    if (splitxml) {
+        break.down.xml(xml.path)
+        xml.path2 <- paste(xml.path, ".partxml", sep="/")
+    }
     else 
-        alldata <- ccRecord()
+        xml.path2 <- xml.path
 
-    new.db <- update.new.xml(xml.path, restart, mc.cores)
-    alldata <- alldata + new.db
+    alldata.loc <- paste(xml.path, "alldata.RData", paste="/")
+    update.new.xml(xml.path2, mc.cores, quiet)
 
-    if (save) 
-        save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
+
+    alldata <- ccRecord()
+    files <- dir(paste(xml.path, ".database", sep="/"), 
+                 pattern="[^alldata.RData]", 
+                 full.name=TRUE)
+    
+    for (i in files) {
+        load(i)
+        alldata <- alldata + db
+    }
+
+    save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
     
     invisible(alldata)
 }
 
 
 break.down.xml <- function(xml.path) {
-    dir.creaet(paste(xml.path, ".origin"))
+    unlink(paste(xml.path, ".partxml", sep="/"), recursive=T)
+    partxml.dir <- paste(xml.path, ".partxml", sep="/")
+    dir.create(partxml.dir)
+    cmd <- paste(find.package('ccdata'), "pipeline/break_into.sh", sep="/")
+    # in the case of using testings, the original package layout is slightly
+    # different from the compiled one. 
+    if (! file.exists(cmd))         
+        cmd <- paste(find.package('ccdata'), "inst/pipeline/break_into.sh", sep="/")
+    
+    newfile <- find.new.xml.file(xml.path)
+    if (length(newfile) > 0)
+        newfile <- paste(xml.path, newfile, sep="/")
+    else{
+        return(1)
+    } 
 
+    for (f in newfile) {
+        system2(cmd, c(f, 100))
+        partxml.file <- list.files(xml.path, pattern=".partxml", full.name=T)
+        file.copy(partxml.file, partxml.dir) 
+        file.remove(partxml.file)
+    }
+    return(1)
 }

@@ -28,9 +28,6 @@ test_that("Discover parsed XML files and new files", {
     f <- find.new.xml.file(".temp/XML")
     expect_equivalent(f, c("test2.xml"))
 
-    f <- find.new.xml.file(".temp/XML", restart=TRUE)
-    expect_equivalent(f, c("test1.xml", "test2.xml"))
-
     # adding xml files with the same name pattern should not initiating the 
     # parsing process. 
     file.create(".temp/XML/test1.xml_1.partxml")
@@ -60,23 +57,46 @@ test_that("update the new XML files", {
     test.setup()
     system("cp ../data/test_data_anonym.xml .temp/XML/test1.xml")
     system("cp ../data/test_data_anonym.xml .temp/XML/test2.xml")
-    new.db <- update.new.xml(".temp/XML")
+    new.db <- update.new.xml(".temp/XML", quiet=T)
     expect_is(new.db, "ccRecord")
 
     xml1 <- xml2Data(".temp/XML/test1.xml")
     xml2 <- xml2Data(".temp/XML/test2.xml")
-
+    
     expect_equal(new.db@nepisodes, xml1@nepisodes + xml2@nepisodes)
     expect_true("test1.xml.RData" %in% dir(".temp/XML/.database"))
     expect_true("test2.xml.RData" %in% dir(".temp/XML/.database"))
 })
 
 test_that("update the database", {
-    alld <- update.database(".temp/XML")
-    
+    alld <- update.database(xml.path=".temp/XML", restart=T)
     expect_true("alldata.RData" %in% dir(".temp/XML/.database"))
+    expect_equal(alld@nepisodes, 4)
+
+    alld <- update.database(xml.path=".temp/XML", restart=F)
+    expect_equal(alld@nepisodes, 4)
+
+    load(".temp/XML/.database/alldata.RData")
+    expect_equal(alldata@nepisodes, 4)
+
 })
 
+test_that("break down the large XML files", {
+    partxml.dir <-".temp/XML/.partxml" 
+
+    unlink("partxml.dir", recursive=T)
+    expect_true(!file.exists("partxml.dir"))
+
+    unlink(".temp/XML/.database/", recursive=T)
+    break.down.xml(".temp/XML")
+    expect_true(file.exists(partxml.dir))
+    expect_equal(length(dir(partxml.dir)), 2)
+
+    file.create(paste(partxml.dir, "files_to_be_delete", sep="/"))
+    break.down.xml(".temp/XML")
+    expect_true(file.exists(partxml.dir))
+    expect_equal(length(dir(partxml.dir)), 2)
+})
 
 test_that("Tear down the test", {
     test.teardown()

@@ -4,8 +4,8 @@
 \alias{update.database}
 \title{updating the database}
 \usage{
-\method{update}{database}(xml.path, restart = FALSE, split = FALSE,
-  mc.cores = 4, save = TRUE)
+\method{update}{database}(xml.path, restart = FALSE, splitxml = FALSE,
+  mc.cores = 4, quiet = FALSE)
 }
 \description{
 something
