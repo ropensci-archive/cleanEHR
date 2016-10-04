@@ -1,6 +1,7 @@
 language: r
 cache: packages
-sudo: false
+sudo: true
+dist: trusty
 
 env:
   - CODECOV_TOKEN="40f86a6d-0a11-485b-986d-385f921a73f5"
