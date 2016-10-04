@@ -4,12 +4,10 @@
 \alias{update.new.xml}
 \title{update the RData database}
 \usage{
-\method{update}{new.xml}(xml.path, restart = FALSE, mc.cores = 4)
+\method{update}{new.xml}(xml.path, mc.cores = 4, quiet = FALSE)
 }
 \arguments{
 \item{xml.path}{}
-
-\item{restart}{}
 
 \item{mc.cores}{}
 }

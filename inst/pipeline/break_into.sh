@@ -3,11 +3,9 @@
 if [[ $(sed --help 2>&1 | grep GNU) ]]; then
   sed_i () { sed -i "$@"; }
   gnused=1
-  echo "gnu here"
 else 
   sed_i () { sed -i '' "$@"; }
   gnused=0
-  echo "not gnu"
 fi
 
 if [[ $# < 2 ]]
@@ -18,7 +16,6 @@ then
 fi
 
 default_ext='partxml'
-
 # <d:xx> or <xx> file?
 dchar="d:"
 dchar_exist=$(head -2 $1 | grep -c "<${dchar}")
@@ -85,7 +82,6 @@ do
     then
         sed_i '1s|^|'"${firstlines}"'|' ${output}
     fi
-
 done
 
 # Remove the temporary file used
