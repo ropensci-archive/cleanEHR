@@ -17,4 +17,4 @@ script:
   - Rscript -e 'library(devtools); checkOutput <- data.frame(test()); if (sum(checkOutput["failed"]) + sum(checkOutput[["error"]]) > 0){q(status = 1, save = "no")}'
 
 after_success:
-  - Rscript -e 'library(covr); codecov(quiet=FALSE)'
+  - Rscript -e 'library(covr); codecov(quiet=FALSE, line_exclusions = "src/collapseTime.cpp")'
