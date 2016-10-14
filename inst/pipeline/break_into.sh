@@ -1,9 +1,9 @@
-#!/bin/bash 
+#!/bin/bash
 
 if [[ $(sed --help 2>&1 | grep GNU) ]]; then
   sed_i () { sed -i "$@"; }
   gnused=1
-else 
+else
   sed_i () { sed -i '' "$@"; }
   gnused=0
 fi
@@ -57,8 +57,9 @@ awk -P 'BEGIN {delim=-1} \
 # - remove all no printing characters - it seems there's one making the insertion to
 #   fail afterwards.
 # head won't work because some files run over multiple lines
-firstlines=$(sed -n '1,/<'"${subject}"'>/p' ${1}_0.${default_ext} | \
-                    sed 's/<'"${subject}"'>//' | tr -dc '[:print:]')
+# firstlines=$(sed -n '1,/<'"${subject}"'>/p' ${1}_0.${default_ext} | \
+#                     sed 's/<'"${subject}"'>//' | tr -dc '[:print:]')
+firstlines=$(sed -n 's/\(.*\)<'"${subject}"'>/\1/p' ${1}_0.${default_ext} | tr -dc '[:print:]')
 
 lastline="</${dchar}data></${dchar}context></${dchar}document>"
 nfiles=$(ls "${1}"_* | wc -l)
@@ -69,8 +70,8 @@ for ((i=0; i<${nfiles}; i++))
 do
     output=${1}_${i}.${default_ext}
     # replace the label changed before
-    sed_i  's|<cut_here>|</'${subject}'>|' ${output}
-    
+    sed -i  -e "s|<cut_here>|</${subject}>|" ${output}
+
     # add footer to the files
     if [ $i -lt $((${nfiles} - 1)) ]
     then
@@ -80,7 +81,7 @@ do
     # add header to the files
     if [ $i -gt 0 ]
     then
-        sed_i '1s|^|'"${firstlines}"'|' ${output}
+        sed -i "1s|^|${firstlines}|" ${output}
     fi
 done
 
