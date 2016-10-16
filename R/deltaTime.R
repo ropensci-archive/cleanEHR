@@ -37,7 +37,7 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
     # for anonymised data only: 
     # convert hash admin time to the earliest time of the record
     if (anonymised == TRUE) {
-        admdsct <- for_each_episode2(record, find.episode.time)
+        admdsct <- for_each_episode(record, find.episode.time)
         for(e in seq(record@episodes)) {
                 record@episodes[[e]]@t_admission <- admdsct[[e]]$admt
                 record@episodes[[e]]@t_discharge <- admdsct[[e]]$dsct
@@ -70,7 +70,7 @@ deltaTime <- function(record, anonymised=FALSE, units="hours", tdiff=FALSE) {
     }
 
 
-    record <- ccRecord() + for_each_episode2(record, update_time)
+    record <- ccRecord() + for_each_episode(record, update_time)
 
     if (anonymised == TRUE) {
         for(e in seq(record@episodes)) {

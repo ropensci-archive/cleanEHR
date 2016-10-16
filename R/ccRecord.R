@@ -118,7 +118,7 @@ index.record <- function(rec) {
     
     }
     rec@nepisodes <- length(rec@episodes)
-    rec@infotb <- rbindlist(for_each_episode2(rec, retrieve_all))
+    rec@infotb <- rbindlist(for_each_episode(rec, retrieve_all))
 
     rec
 }
@@ -161,6 +161,6 @@ new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) { eps <-
 }
 
 
-for_each_episode2 <- function(record, fun) {
+for_each_episode <- function(record, fun) {
     lapply(record@episodes, fun)
 }
