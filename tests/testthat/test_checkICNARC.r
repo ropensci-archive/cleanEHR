@@ -1,4 +1,4 @@
-ontext("Tests for ICNARC-related functions")
+context("Tests for ICNARC-related functions")
 
 test_that("validate codes",
 {
