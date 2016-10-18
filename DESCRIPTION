@@ -14,7 +14,8 @@ Depends:
     yaml,
     pander,
     RPostgreSQL,
-    sqldf
+    sqldf, 
+    data.tree
 License: GPL-2.0
 Suggests:
     testthat
