@@ -23,8 +23,8 @@ function remove_spaces_ext (){
 
     extension=${1-$DEFAULT_SPACES}
 
-    FILES_spaced_num=$(find ./ -type f -iname '* *.'"${extension}" | wc -l)
-    find ./ -type f -iname '*\ *.'"${extension}" -exec bash -c 'remove_spaces "{}"' \;
+    FILES_spaced_num=$(find -L ./ -type f -iname '* *.'"${extension}" | wc -l)
+    find -L ./ -type f -iname '*\ *.'"${extension}" -exec bash -c 'remove_spaces "{}"' \;
     # if you try to do this as a loop read:
     #  http://mywiki.wooledge.org/BashPitfalls#for_i_in_.24.28ls_.2A.mp3.29
 
@@ -43,13 +43,13 @@ remove_spaces_ext
 #  - extract the file names and run break_into 4 at a time
 #  => filename.xml_xx.xml; where xx is a non padded number
 #============================================================
-find ./ -type f -iname '*.xml' -printf "%k %p\n" | sort -nr \
+find -L ./ -type f -iname '*.xml' -printf "%k %p\n" | sort -nr \
     | awk '{print $2}' | xargs -n1 -P 4 -I % ./break_into.sh % 3
 
 #============================================================
 # Convert each portion to ccdata
 #============================================================
-find ./ -type f -iname '*.partxml' | xargs -n1 -P 4 ./extract_data.r
+find -L ./ -type f -iname '*.partxml' | xargs -n1 -P 4 ./extract_data.r
 
 #============================================================
 # Combine all the files
