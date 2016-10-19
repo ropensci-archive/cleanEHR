@@ -13,7 +13,7 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
 
     env <- environment()
     lt <- list()
-    for_each_episode2(record,
+    for_each_episode(record,
                      function(ep) {
                          if (all(items_obg %in% names(ep@data))) {
                              result <- list()
