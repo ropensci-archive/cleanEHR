@@ -58,7 +58,9 @@ NIHR_HIC_ICU_0108:
 * yaml,
 * pander,
 * RPostgreSQL,
-* sqldf
+* sqldf,
+* testthat,
+* data.tree
 
 ## How to install the R package
 ### Mac & Linux

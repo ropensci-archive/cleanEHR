@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xe
 
 if [[ $(sed --help 2>&1 | grep GNU) ]]; then
   sed_i () { sed -i "$@"; }
@@ -26,6 +26,9 @@ fi
 
 subject="${dchar}subject"
 
+# Add lines before and after each subject starts
+sed -e  's|<'"${subject}"'>|\n<'"${subject}"'>\n|' ${1} > ${1}.tmp
+
 # change the end subject for something different - <cut_here>
 # so it is not counted in the awk below.
 if [[ $gnused == 1 ]]; then
@@ -44,7 +47,7 @@ fi
 #   create a new file.
 # initialising delim as -1 so the first file includes the
 # number of subjects asked.
-awk -P 'BEGIN {delim=-1} \
+awk 'BEGIN {delim=-1} \
          /\<'"${subject}"'\>/ { delim++ } \
                   {file = sprintf("'${1}'_%s.'${default_ext}'", int(delim/'${2}'));\
                    print >> file; } \
