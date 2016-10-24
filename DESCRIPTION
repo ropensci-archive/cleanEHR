@@ -11,7 +11,7 @@ Depends:
     XML,
     yaml,
     RPostgreSQL,
-    sqldf, 
+    sqldf,
     data.tree
 License: GPL-2.0
 LinkingTo: Rcpp
@@ -26,8 +26,6 @@ Collate:
     'ccTable.R'
     'create2dclean.R'
     'deltaTime.R'
-    'checkICNARC.R'
-    'csv2ccdata.r'
     'demographic.table.R'
     'filter.categorical.R'
     'filter.missingness.R'
