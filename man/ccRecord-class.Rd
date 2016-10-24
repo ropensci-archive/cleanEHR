@@ -28,7 +28,7 @@ site_id <- "Q70" #  NIHR_HIC_ICU_0002
 episode_id <- 0000001 # NIHR_HIC_ICU_0005
 
 # Create a new episode 
-ep <- new.ccEpisode(list(NIHR_HIC_ICU_0108=heart_rate, 
+ep <- new.episode(list(NIHR_HIC_ICU_0108=heart_rate, 
                          NIHR_HIC_ICU_0002=site_id, 
                          NIHR_HIC_ICU_0005=episode_id)) 
 
