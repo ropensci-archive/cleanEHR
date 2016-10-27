@@ -160,7 +160,7 @@ new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) { eps <-
     eps
 }
 
-
+#' @export 
 for_each_episode <- function(record, fun) {
     lapply(record@episodes, fun)
 }
