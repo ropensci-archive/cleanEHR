@@ -17,7 +17,7 @@ sql.demographic.table <- function(record, dtype=TRUE) {
             }
             env$demogls[[length(env$demogls) + 1]] <- .simple.data.frame(demog.data)
         })
-    demogt <- rbindlist(demogls)
+    demogt <- rbindlist(demogls, fill=T)
     setnames(demogt, code2stname(names(demogt)))
 
     if (dtype) {
