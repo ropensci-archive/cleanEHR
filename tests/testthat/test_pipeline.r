@@ -82,20 +82,22 @@ test_that("update the database", {
 })
 
 test_that("break down the large XML files", {
-    partxml.dir <-".temp/XML/.partxml" 
+    if (Sys.info()[['sysname']] != "Darwin") {
+        partxml.dir <-".temp/XML/.partxml" 
 
-    unlink("partxml.dir", recursive=T)
-    expect_true(!file.exists("partxml.dir"))
+        unlink("partxml.dir", recursive=T)
+        expect_true(!file.exists("partxml.dir"))
 
-    unlink(".temp/XML/.database/", recursive=T)
-    break.down.xml(".temp/XML")
-    expect_true(file.exists(partxml.dir))
-    expect_equal(length(dir(partxml.dir)), 2)
+        unlink(".temp/XML/.database/", recursive=T)
+        break.down.xml(".temp/XML")
+        expect_true(file.exists(partxml.dir))
+        expect_equal(length(dir(partxml.dir)), 2)
 
-    file.create(paste(partxml.dir, "files_to_be_delete", sep="/"))
-    break.down.xml(".temp/XML")
-    expect_true(file.exists(partxml.dir))
-    expect_equal(length(dir(partxml.dir)), 2)
+        file.create(paste(partxml.dir, "files_to_be_delete", sep="/"))
+        break.down.xml(".temp/XML")
+        expect_true(file.exists(partxml.dir))
+        expect_equal(length(dir(partxml.dir)), 2)
+    }
 })
 
 test_that("Tear down the test", {
