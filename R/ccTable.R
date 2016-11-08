@@ -119,7 +119,7 @@ ccTable$methods(
     })
 
 ccTable$methods(
-    apply.filters = function() {
+    apply.filters = function(warnings=T) {
        ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
         for (i in ops) {
             item <- i[1]
@@ -127,9 +127,11 @@ ccTable$methods(
              tryCatch(.self$spec2function(item, filter)(item,
                                                         .self$dfilter[[filter]]), 
                       error = function(e) {
-                          if (is.null(.self$dfilter[[filter]]))
-                              warning(paste(item, "filter", filter, 
-"has been specified in the configuration but has not been ran."))
+                          if (is.null(.self$dfilter[[filter]])) {
+                              if (warnings)
+                                  warning(paste(item, "filter", filter, 
+                                    "has been specified in the configuration but has not been ran."))
+                          }
                           else {
                               cat(paste(item, filter, "\n"))
                               stop(e)

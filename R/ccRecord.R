@@ -119,7 +119,6 @@ index.record <- function(rec) {
     }
     rec@nepisodes <- length(rec@episodes)
     rec@infotb <- rbindlist(for_each_episode(rec, retrieve_all))
-
     rec
 }
 
