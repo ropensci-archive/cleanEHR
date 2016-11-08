@@ -1,3 +1,9 @@
+#' @import XML
+#' @import data.table
+#' @import yaml
+NULL
+
+
 .onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
     path <- find.package("ccdata")
     env <- parent.env(environment())
