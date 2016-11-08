@@ -25,7 +25,7 @@ parsing time and from which file it parsed from.}
 \examples{
 heart_rate <- data.frame(seq(10), rep(70, 10)) # NIHR_HIC_ICU_0108
 site_id <- "Q70" #  NIHR_HIC_ICU_0002
-episode_id <- 0000001 # NIHR_HIC_ICU_0005
+episode_id <- "0000001" # NIHR_HIC_ICU_0005
 
 # Create a new episode 
 ep <- new.episode(list(NIHR_HIC_ICU_0108=heart_rate, 

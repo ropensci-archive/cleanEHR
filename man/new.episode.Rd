@@ -25,5 +25,6 @@ e.g. NIHR_HIC_ICU_0108.
 eps <- list()
 eps[["NIHR_HIC_ICU_0018"]] <- data.frame(time=seq(10), rep(70, 10))
 new.episode(eps)
+
 }
 

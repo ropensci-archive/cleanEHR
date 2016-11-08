@@ -1,5 +1,6 @@
 #' S4 class to hold standard IDs such as "NIHR_HIC_ICU_0001"
 #' @slot ids single or multiple characters
+#' @import methods
 #' @examples
 #' \donttest{
 #' selected_tags <- StdId(c("NIHR_HIC_ICU_0001", "NIHR_HIC_ICU_0002")
@@ -26,7 +27,7 @@ StdId <- function(text) {
     if (length(text) != length(ids) | length(text) == 0) 
         stop("StdId: initialisation failure, as the standard ID pattern cannot be found.")
     else
-        return(new("StdId", ids=ids))
+        return(methods::new("StdId", ids=ids))
 }
 
 

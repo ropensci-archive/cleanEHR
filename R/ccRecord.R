@@ -1,4 +1,5 @@
-#' @title A class to hold parsed episode data.
+#' A class to hold parsed episode data.
+#'
 #' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or
 #' CSV files.
 #' @slot nepisodes is an integer number indicates the total number of episode
@@ -13,7 +14,7 @@
 #' @examples
 #' heart_rate <- data.frame(seq(10), rep(70, 10)) # NIHR_HIC_ICU_0108
 #' site_id <- "Q70" #  NIHR_HIC_ICU_0002
-#' episode_id <- 0000001 # NIHR_HIC_ICU_0005
+#' episode_id <- "0000001" # NIHR_HIC_ICU_0005
 #'
 #' # Create a new episode 
 #' ep <- new.episode(list(NIHR_HIC_ICU_0108=heart_rate, 
@@ -123,10 +124,12 @@ index.record <- function(rec) {
 }
 
 
-#' @title Create a new episode
-#' @description create a new ccEpisode object by given the episode data as a
+#' Create a new episode
+#' 
+#' create a new ccEpisode object by given the episode data as a
 #' list. The list should be organised in data items and indexed with NIHC code,
 #' e.g. NIHR_HIC_ICU_0108. 
+#'
 #' @param lt is a list
 #' @param parse_file the file location from which the episode comes from.
 #' @param parse_time the parse date and time of the episode.
@@ -135,7 +138,8 @@ index.record <- function(rec) {
 #' eps <- list()
 #' eps[["NIHR_HIC_ICU_0018"]] <- data.frame(time=seq(10), rep(70, 10))
 #' new.episode(eps)
-#' @export new.episode 
+#' 
+#' @export 
 new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) { eps <- ccEpisode()
     eps@data <- lt
     

@@ -1,6 +1,7 @@
 #' @import XML
 #' @import data.table
 #' @import yaml
+#' @import Rcpp
 NULL
 
 
@@ -9,7 +10,7 @@ NULL
     env <- parent.env(environment())
     
     # Assign ITEM_REF tables
-    data("ITEM_REFTABLE", package="ccdata", envir=env)
+    utils::data("ITEM_REFTABLE", package="ccdata", envir=env)
     ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
     assign("ITEM_REF", ITEM_REF, envir=env)
    

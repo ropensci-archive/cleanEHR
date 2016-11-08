@@ -15,7 +15,9 @@ Suggests:
 Imports:
     data.table, 
     XML,
-    yaml
+    yaml,
+    Rcpp, 
+    methods
 RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'
