@@ -2,8 +2,9 @@
 #' @import data.table
 #' @import yaml
 #' @import Rcpp
+#' @import RPostgreSQL
+#' @import sqldf
 NULL
-
 
 .onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
     path <- find.package("ccdata")

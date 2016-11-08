@@ -13,11 +13,13 @@ LinkingTo: Rcpp
 Suggests:
     testthat
 Imports:
-    data.table, 
+    data.table,
     XML,
     yaml,
-    Rcpp, 
-    methods
+    Rcpp,
+    methods,
+    RPostgreSQL,
+    sqldf
 RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'
@@ -25,7 +27,6 @@ Collate:
     'ccTable.R'
     'create2dclean.R'
     'deltaTime.R'
-    'demographic.table.R'
     'filter.categorical.R'
     'filter.missingness.R'
     'filter.range.R'
