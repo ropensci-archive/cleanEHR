@@ -14,4 +14,14 @@ add.episode.to.record(rec, episode)
 \value{
 ccRecord object
 }
+\description{
+Adding one ccEpisode object to ccRecord object.
+}
+\examples{
+rec <- ccRecord()
+eps <- new.episode()
+new.rec <- add.episode.to.record(rec, eps)
+# Alternatively
+new.rec <- rec + eps
+}
 

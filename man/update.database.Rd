@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline.R
 \name{update.database}
 \alias{update.database}
-\title{updating the database}
+\title{Updating the database}
 \usage{
 \method{update}{database}(xml.path, restart = FALSE, splitxml = FALSE,
   mc.cores = 4, quiet = FALSE)

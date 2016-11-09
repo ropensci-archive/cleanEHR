@@ -4,7 +4,7 @@
 \alias{new.episode}
 \title{Create a new episode}
 \usage{
-new.episode(lt, parse_file = "NA", parse_time = as.POSIXct(NA))
+new.episode(lt = list(), parse_file = "NA", parse_time = as.POSIXct(NA))
 }
 \arguments{
 \item{lt}{is a list}

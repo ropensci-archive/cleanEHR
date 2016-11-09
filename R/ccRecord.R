@@ -6,7 +6,7 @@
 #'       the record is holding.
 #' @slot dmgtb a data.table containing all the demographic information of each
 #'       episode, including site_id, NHS number, PAS number, admission date/time,
-#'       and discharge date/time. 
+#'       and discharge date/time. Call 
 #' @slot infotb a data.table holding the parsing information of each episode such as the
 #'       parsing time and from which file it parsed from.
 #' @exportClass ccRecord
@@ -54,35 +54,59 @@ ccEpisode <- setClass("ccEpisode",
                                            data=list()))
 
 
-#' @title Adding one ccEpisode object to ccRecord object.
+#' Adding one ccEpisode object to ccRecord object.
+#'
 #' @param rec ccRecord
 #' @param episode ccEpisode object
 #' @return ccRecord object
-#' @export add.episode.to.record
+#' @examples
+#' rec <- ccRecord()
+#' eps <- new.episode()
+#' new.rec <- add.episode.to.record(rec, eps)
+#' # Alternatively
+#' new.rec <- rec + eps
+#' @export 
 add.episode.to.record <- function(rec, episode) {
     rec@episodes[[length(rec@episodes) + 1]] <- episode
     index.record(rec)
 }
 
-#' @title Adding a list of ccEpisode to ccRecord
-#' @description Adding a list of one or multiple ccEpisode objects to
+#' Adding a list of ccEpisode to ccRecord
+#' 
+#' @description Adding a list of one or multiple ccEpisode objects to a
 #' ccRecord object, the information table (infotb) will be updated automatically.
-#' It is a more efficient way to add multiple ccEpisode objects. See
+#' It is the more efficient way to add multiple ccEpisode objects. See
 #' add.episode.to.record() for just adding one ccEpisode. 
 #' @param rec ccRecord
 #' @param lst a list of ccEpisode objects
 #' @return ccRecord
-#' @export add.episode.list.to.record
+#' @examples
+#' rec <- ccRecord()
+#' ep1 <- new.episode()
+#' ep2 <- new.episode()
+#' eps.list <- list(ep1, ep2)
+#' new.rec <- add.episode.list.to.record(rec, eps.list)
+#' # Alternatively
+#' new.rec <- rec + eps.list
+#' @export
 add.episode.list.to.record <- function(rec, lst) {
     for(i in seq(length(lst)))
         rec@episodes[[length(rec@episodes) + 1]] <- lst[[i]]
     index.record(rec)
 }
 
-#' @title Concatenating two ccRecords objects
+#' Combine two ccRecord objects
+#'
+#' Combine two ccRecord objects and re-calculate the infortb
+#' 
 #' @param rec1 ccRecord object
 #' @param rec2 ccRecord object
 #' @return ccRecord object
+#' @examples 
+#' rec1 <- ccRecord()
+#' rec2 <- ccRecord()
+#' rec.new <- rec1 + rec2
+#' @export
 add.record.to.record <- function(rec1, rec2) {
     rec1@episodes <- append(rec1@episodes, rec2@episodes)
     index.record(rec1)
@@ -104,8 +128,6 @@ setMethod('+', c("ccRecord", "NULL"),
           function(e1, e2) return(e1))
 
 
-
-#' @export index.record
 index.record <- function(rec) {
     retrieve_all <- function(x) {
         .simple.data.frame(list(site_id    = x@site_id, 
@@ -140,7 +162,8 @@ index.record <- function(rec) {
 #' new.episode(eps)
 #' 
 #' @export 
-new.episode <- function(lt, parse_file="NA", parse_time=as.POSIXct(NA)) { eps <- ccEpisode()
+new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) { 
+    eps <- ccEpisode()
     eps@data <- lt
     
     short.name <- c("NHSNO", "pasno", "ADNO", "ICNNO")

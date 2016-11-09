@@ -1,6 +1,5 @@
 #' @include ccTable.R
 
-#' @export item.criterion
 item.criterion <- function(conf, criterion) {
     names(conf)[sapply(conf, function(x) criterion %in% names(x))]
 }

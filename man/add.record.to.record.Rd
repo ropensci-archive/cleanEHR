@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccRecord.R
 \name{add.record.to.record}
 \alias{add.record.to.record}
-\title{Concatenating two ccRecords objects}
+\title{Combine two ccRecord objects}
 \usage{
 add.record.to.record(rec1, rec2)
 }
@@ -13,5 +13,13 @@ add.record.to.record(rec1, rec2)
 }
 \value{
 ccRecord object
+}
+\description{
+Combine two ccRecord objects and re-calculate the infortb
+}
+\examples{
+rec1 <- ccRecord()
+rec2 <- ccRecord()
+rec.new <- rec1 + rec2
 }
 

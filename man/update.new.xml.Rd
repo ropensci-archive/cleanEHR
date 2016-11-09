@@ -2,7 +2,7 @@
 % Please edit documentation in R/pipeline.R
 \name{update.new.xml}
 \alias{update.new.xml}
-\title{update the RData database}
+\title{Update the RData database}
 \usage{
 \method{update}{new.xml}(xml.path, mc.cores = 4, quiet = FALSE)
 }

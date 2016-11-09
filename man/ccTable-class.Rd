@@ -4,38 +4,59 @@
 \name{ccTable-class}
 \alias{ccTable}
 \alias{ccTable-class}
-\title{Rearrange 1d and 2d items into a wide table to enable data cleaning and
-reporting process.}
+\title{Rearrange and clean the critical care record into a 2D table.}
 \description{
-Rearrange 1d and 2d items into a wide table to enable data cleaning and
-reporting process.
+Data rearranging and major data cleaning processes will be performed under
+the ccTable structre.  It holds the original record (ccRecord), the dirty table
+(torigin) clean table (tclean) and various data quality information (dquality).
+Various data filters can also be found within the ccTable class.
 }
 \section{Fields}{
 
 \describe{
-\item{\code{record}}{ccRecord}
+\item{\code{record}}{ccRecord.}
 
-\item{\code{dfilter}}{list contains three data quality tables 1) range, 2)
-missingness, 3) categorical}
+\item{\code{conf}}{the YAML style configuration.}
+
+\item{\code{torigin}}{the original wide data table.}
+
+\item{\code{tclean}}{the wide data table after cleaning processes.}
+
+\item{\code{dfilter}}{list contains data filtering information.}
+
+\item{\code{dquality}}{list contains data quality.}
+
+\item{\code{summary}}{list}
+
+\item{\code{base_cadence}}{the base cadence is specified in hours}
 }}
 \section{Methods}{
 
 \describe{
+\item{\code{apply.filters(warnings = T)}}{Apply all filters specified in the configuration to update the clean
+table (tclean)}
+
 \item{\code{create.table(freq)}}{Create a table contains the selected items in the conf with a given
 frequency (in hour)}
 
-\item{\code{export.csv(file)}}{Export the cleaned table to a CSV file.}
+\item{\code{export.csv(file = NULL)}}{Export the cleaned table to a CSV file.}
 
 \item{\code{filter.category()}}{Check individual entries if they are the in the categories specified
 in conf.}
 
 \item{\code{filter.missingness(recount = FALSE)}}{filter out the where missingness is too low.}
 
-\item{\code{filter.null(items = c("episode_id", "site"))}}{remove the entire episode when the episode_id or site is NULL}
+\item{\code{filter.null(items = c("episode_id", "site"))}}{remove the entire episode when any of the selected items is NULL}
 
 \item{\code{imputation()}}{Filling missing data to a time series data by performing a given imputation
 method on a selected window period nearby the missing data.}
 
 \item{\code{reload.conf(file)}}{reload yaml configuration.}
 }}
+\examples{
+rec <- ccRecord()
+cctable <- create.cctable(rec, freq=1)
+cctable <- cctable$clean()
+table <- cctable$tclean 
+}
 

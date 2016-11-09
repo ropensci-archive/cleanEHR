@@ -2,7 +2,7 @@
 % Please edit documentation in R/create2dclean.R
 \name{create2dclean}
 \alias{create2dclean}
-\title{create2dclean}
+\title{Create a 2D wide clean table - low memory}
 \usage{
 create2dclean(record, config, freq = 1, nchunks = 1)
 }
@@ -13,12 +13,17 @@ create2dclean(record, config, freq = 1, nchunks = 1)
 
 \item{freq}{table cadence}
 
-\item{nchunks}{integer number}
+\item{nchunks}{integer number. The larger the nchunks the less memory
+requirement.}
 }
 \value{
 A cleaned 2d wide table
 }
 \description{
-create2dclean
+The cleaning process is specified by the YAML configuration. All the filters
+presented in the configuration will be applied. It returns only the cleaned
+data. However all the data quality information will be lost. This function
+is useful when the memory is not sufficiently enough to hold all the
+information.
 }
 

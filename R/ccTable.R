@@ -1,10 +1,24 @@
-#' Rearrange 1d and 2d items into a wide table to enable data cleaning and
-#' reporting process.
-#' @field record ccRecord
-#' @field dfilter list contains three data quality tables 1) range, 2)
-#' missingness, 3) categorical
-#' @import data.table
+#' Rearrange and clean the critical care record into a 2D table.
+#'
+#' Data rearranging and major data cleaning processes will be performed under
+#' the ccTable structre.  It holds the original record (ccRecord), the dirty table
+#' (torigin) clean table (tclean) and various data quality information (dquality).
+#' Various data filters can also be found within the ccTable class. 
+#'
+#' @field record ccRecord.
+#' @field conf the YAML style configuration.
+#' @field torigin the original wide data table.
+#' @field tclean the wide data table after cleaning processes. 
+#' @field dfilter list contains data filtering information.
+#' @field dquality list contains data quality. 
+#' @field summary list
+#' @field base_cadence the base cadence is specified in hours
 #' @include ccRecord.R
+#' @examples
+#' rec <- ccRecord()
+#' cctable <- create.cctable(rec, freq=1)
+#' cctable <- cctable$clean()
+#' table <- cctable$tclean 
 #' @exportClass ccTable
 ccTable <- setRefClass("ccTable", 
                             fields=c(
@@ -120,6 +134,8 @@ ccTable$methods(
 
 ccTable$methods(
     apply.filters = function(warnings=T) {
+        "Apply all filters specified in the configuration to update the clean
+        table (tclean)"
        ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
         for (i in ops) {
             item <- i[1]
@@ -170,7 +186,7 @@ ccTable$methods(
 
 ccTable$methods(
     filter.null = function(items=c("episode_id", "site")) {
-        "remove the entire episode when the episode_id or site is NULL"
+        "remove the entire episode when any of the selected items is NULL"
         for (i in items)
             .self$tclean <- .self.tclean[i != "NULL"]
 })
@@ -183,7 +199,20 @@ ccTable$methods(
 
 
 ccTable$methods(
-    export.csv = function(file) {
+    export.csv = function(file=NULL) {
         "Export the cleaned table to a CSV file."
+        if (is.null(file))
+            return(.self$tclean)
+
         write.csv(.self$tclean, file=file)
 })
+
+
+ccTable$methods(
+    clean = function() {
+        .self$filter.ranges()
+        .self$filter.category()
+        .self$filter.missingess()
+        .self$filter.nodata()
+        .self$apply.filters()
+    })

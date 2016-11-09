@@ -21,7 +21,8 @@ find.new.xml.file <- function(xml.path) {
 }
 
 
-#' @title update the RData database
+#' Update the RData database
+#'
 #' @description Detect the new XML files which has never been parsed first and
 #' inject the new episode data to the .RData database. 
 #' @param xml.path 
@@ -48,10 +49,9 @@ update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
 }
 
 
-#' @title updating the database 
+#' Updating the database 
 #' @description something 
-#' @details 
-#' @export update.database
+#' @export 
 update.database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
                             mc.cores=4, quiet=FALSE) {
     if (restart)
