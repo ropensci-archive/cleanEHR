@@ -1,15 +1,4 @@
 #' @include ccTable.R
-
-missingness_count <- function(tb) {
-    cmplt <- function(vec) {
-        length(which(vec!="NA"))/length(vec) * 100
-    }
-    items <- names(tb)[!names(tb) %in% c("site", "time", "episode_id")]
-    flags <- tb[, cmplt(.SD[[items[1]]]), .(site, episode_id)]
-    setnames(flags, c('site', 'episode_id', items[1]))
-    flags
-}
-
 ccTable$methods(
     get.missingness = function() {
         miss_count <- function(tb_) { 
@@ -36,7 +25,7 @@ ccTable$methods(
                     setkey(tbq, episode_id, site)
                     oldnm <- names(.self$dquality[['missingness']])
                     .self$dquality[['missingness']] <- 
-                        merge(.self$dquality[['missingness']], missingness_count(tbq))
+                        merge(.self$dquality[['missingness']], miss_count(tbq))
                     setnames(.self$dquality[['missingness']], c(oldnm, paste(i, col_name, sep=".")))
                 }
             }
