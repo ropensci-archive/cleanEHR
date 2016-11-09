@@ -67,7 +67,12 @@
                     <d:NIHR_HIC_ICU_0108 m="2015-02-26">89</d:NIHR_HIC_ICU_0108>
                     <d:NIHR_HIC_ICU_0254 m="2015-02-26">2014-02-01T12:00:00</d:NIHR_HIC_ICU_0254>
                   </d:physiology-cardiovascular-heart-rate>
-                </d:Heart_rate>
+              </d:Heart_rate>
+              <laboratory-microbiology>
+                  <d:NIHR_HIC_ICU_0187 m="2016-04-07">STAPHYLOCOCCUS AUREUS</d:NIHR_HIC_ICU_0187>
+                  <d:NIHR_HIC_ICU_0314 m="2016-04-07">2014-02-07T14:49:53</d:NIHR_HIC_ICU_0314>
+                  <d:NIHR_HIC_ICU_0186 m="2016-04-07">URINE ROUTINE CULTURE</d:NIHR_HIC_ICU_0186>
+              </laboratory-microbiology>
               </d:subject>
               
               <d:subject>

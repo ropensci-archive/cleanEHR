@@ -137,7 +137,7 @@ xmlEpisodeToList <- function(episode_node) {
                }
                # still wrong and keep it as it is for now.
                # 4 columns case only happens in laboratory microbiology
-               # culture, where item labels 0186 (Site), 0187 (Oranism) 
+               # culture, where item labels 0186 (Site), 0187 (Organism) 
                # and 0189 (Sensitivity) share the same time label and being
                # allocated in the same XML block. In `ccdata` a 4 columns data
                # frame will be created and duplicated under the item names. 
