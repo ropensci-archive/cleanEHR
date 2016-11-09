@@ -19,7 +19,7 @@
                         <d:NIHR_HIC_ICU_0086 m="2015-02-26">1</d:NIHR_HIC_ICU_0086>
                         <d:NIHR_HIC_ICU_0083 m="2015-02-26">0</d:NIHR_HIC_ICU_0083>
                        <d:NIHR_HIC_ICU_0002 m="2015-02-26">site_1</d:NIHR_HIC_ICU_0002>
-                        <d:NIHR_HIC_ICU_0005 m="2015-02-26">episode_id1</d:NIHR_HIC_ICU_0005>
+                       <d:NIHR_HIC_ICU_0005 m="2015-02-26">1</d:NIHR_HIC_ICU_0005>
                       </d:Individual>
                     </d:Cumulative>
                   </d:Organ_dysfunction>
@@ -80,7 +80,7 @@
                 <d:Numerical_local><d:NIHR_HIC_ICU_0001 m="2015-02-26">pas_2</d:NIHR_HIC_ICU_0001></d:Numerical_local>
                 <d:Hospital_discharge><d:Date><d:NIHR_HIC_ICU_0406 m="2015-02-26">2014-02-07</d:NIHR_HIC_ICU_0406></d:Date></d:Hospital_discharge>
                 <d:NIHR_HIC_ICU_0002 m="2015-02-26">site_1</d:NIHR_HIC_ICU_0002>
-                <d:NIHR_HIC_ICU_0005 m="2015-02-26">episode_id2</d:NIHR_HIC_ICU_0005>
+                <d:NIHR_HIC_ICU_0005 m="2015-02-26">2</d:NIHR_HIC_ICU_0005>
 
                 <d:Heart_rate>
                     <d:physiology-cardiovascular-heart-rate>
