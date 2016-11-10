@@ -6,7 +6,7 @@
     #ccd_ <<- ccd_ + ccd[2, 1] + ccd[3, 1]
 
     ccd <<- xml2Data("../data/test_data_anonym.xml")
-    ccdt <<- deltaTime(ccd, anonymised=TRUE)
+    ccdt <<- deltaTime(ccd, pseudotime=TRUE)
 
 
 #}

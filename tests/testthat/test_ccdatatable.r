@@ -17,7 +17,7 @@ test.record <- function(v, item) {
 
 test_that("test create table",{
     
-    ccd_delta <- suppressWarnings(deltaTime(ccd, anonymised=T))
+    ccd_delta <- suppressWarnings(deltaTime(ccd, pseudotime=T))
     conf <- yaml.load_file('../data/test_2yml.yml')
 
     tb <- ccTable(record=ccd_delta, conf=conf)

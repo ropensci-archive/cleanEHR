@@ -35,9 +35,9 @@ test_that("input and output data types",
 
 test_that("check when item t_admission or t_discharge is missing", 
 {
-    # anonymised delta time used the same mechenism that searching first and
+    # pseudotime delta time used the same mechenism that searching first and
     # last data time stamp.
-    dt <- deltaTime(ccd, anonymised=TRUE)
+    dt <- deltaTime(ccd, pseudotime=TRUE)
     ta <- dt@episodes[[1]]@t_admission
     td <- dt@episodes[[1]]@t_discharge
    
