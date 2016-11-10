@@ -7,8 +7,6 @@
 \method{update}{new.xml}(xml.path, mc.cores = 4, quiet = FALSE)
 }
 \arguments{
-\item{xml.path}{}
-
 \item{mc.cores}{}
 }
 \value{
@@ -16,7 +14,6 @@ ccRecord object
 combine new data to a ccRecord
 }
 \description{
-Detect the new XML files which has never been parsed first and
-inject the new episode data to the .RData database.
+Inject episode data from the newly added XML files to the RData database.
 }
 

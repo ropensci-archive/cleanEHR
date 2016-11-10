@@ -23,9 +23,8 @@ find.new.xml.file <- function(xml.path) {
 
 #' Update the RData database
 #'
-#' @description Detect the new XML files which has never been parsed first and
-#' inject the new episode data to the .RData database. 
-#' @param xml.path 
+#' Inject episode data from the newly added XML files to the RData database. 
+#' @param xml.path
 #' @param mc.cores 
 #' @return ccRecord object
 update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
@@ -49,8 +48,11 @@ update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
 }
 
 
-#' Updating the database 
-#' @description something 
+#' Update the critical care database (RData) 
+#' 
+#' Parse critical care data from XML files and inject them into the RData
+#' database. 
+#' 
 #' @export 
 update.database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
                             mc.cores=4, quiet=FALSE) {
