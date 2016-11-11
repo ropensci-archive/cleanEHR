@@ -190,3 +190,26 @@ new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) {
 for_each_episode <- function(record, fun) {
     lapply(record@episodes, fun)
 }
+
+
+#' @exportMethod [[
+setMethod("[[", "ccRecord",
+          function(x, i) {
+              eplst <- list()
+              for (ep in i) {
+                  eplst[[length(eplst) + 1]] <- x@episodes[[ep]]
+              }
+              eplst
+          }
+)
+
+
+#' @exportMethod [
+setMethod("[", "ccRecord",
+          function(x, i){ 
+              eplst <- list()
+              for (ep in i) {
+                  eplst[[length(eplst) + 1]] <- x@episodes[[ep]]
+              }
+              ccRecord() + eplst
+          })
