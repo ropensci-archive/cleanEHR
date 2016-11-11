@@ -53,7 +53,7 @@ update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
 #' Parse critical care data from XML files and inject them into the RData
 #' database. 
 #' 
-#' @export 
+#' @export update.database 
 update.database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
                             mc.cores=4, quiet=FALSE) {
     if (restart)

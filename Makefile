@@ -15,3 +15,8 @@ clean:
 	rm -rf src/*.o src/*.so
 	rm -rf man
 	rm ..pdf
+
+idhs:
+	rsync -av . /tmp/ccdata --exclude '.*' --exclude '*.so' --exclude '*.o'
+	zip -r ../ccdata.zip /tmp/ccdata
+	rm -r /tmp/ccdata

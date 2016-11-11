@@ -1,4 +1,4 @@
-#!/bin/bash -xe
+#!/bin/bash 
 
 if [[ $(sed --help 2>&1 | grep GNU) ]]; then
   sed_i () { sed -i "$@"; }
