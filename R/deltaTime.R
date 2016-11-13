@@ -73,7 +73,6 @@ deltaTime <- function(record, pseudotime=FALSE, units="hours", tdiff=FALSE) {
             newep@parse_file <- ep@parse_file
             newep@parse_time <- ep@parse_time
             newep
-
         }
     }
 

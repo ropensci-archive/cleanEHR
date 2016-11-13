@@ -128,6 +128,26 @@ setMethod('+', c("ccRecord", "NULL"),
           function(e1, e2) return(e1))
 
 
+patient.index <- function(tb) {
+    if (all(is.na(tb$nhs_number))) {
+        warning("No patient identity can be found.")
+    }
+    else {
+        tb$t_discharge <- suppressWarnings(as.POSIXct(as.numeric(unclass(tb$t_discharge)),
+                                                      origin="1970-01-01"))
+        tb$t_admission <- suppressWarnings(as.POSIXct(as.numeric(unclass(tb$t_admission)),
+                                                      origin="1970-01-01"))
+
+        tb[, id:= nhs_number]
+        tb$id[tb$id == "NULL"] <- tb$pas_number[tb$id == "NULL"]
+
+        tb[, pid:=.GRP, by="id"]
+        tb[, index:=seq(nrow(tb))]
+    }
+    return(tb)
+}
+
+
 index.record <- function(rec) {
     retrieve_all <- function(x) {
         .simple.data.frame(list(site_id    = x@site_id, 
@@ -141,7 +161,8 @@ index.record <- function(rec) {
     
     }
     rec@nepisodes <- length(rec@episodes)
-    rec@infotb <- rbindlist(for_each_episode(rec, retrieve_all))
+    infotb <- rbindlist(for_each_episode(rec, retrieve_all))
+    rec@infotb <- patient.index(infotb)
     rec
 }
 
