@@ -13,9 +13,9 @@ unique.spell <- function(rec, duration=2) {
                     episode_id= as.character(x@episode_id), 
                     nhs_number= as.character(x@nhs_number),
                     pas_number= as.character(x@pas_number), 
-                    admt      = as.numeric(x@admin_icu_time),
-                    dict      = as.numeric(x@discharge_icu_time), 
-                    file_origin=as.character(x@file_origin)))
+                    admt      = as.numeric(x@t_admission),
+                    dict      = as.numeric(x@t_discharge), 
+                    file_origin=as.character(x@parse_file)))
         }
     )
     tb <- rbindlist(tb, fill=TRUE)
