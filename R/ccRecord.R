@@ -142,6 +142,15 @@ index.record <- function(rec) {
     }
     rec@nepisodes <- length(rec@episodes)
     rec@infotb <- rbindlist(for_each_episode(rec, retrieve_all))
+
+    if (nrow(rec@infotb) > 1) {
+        id <- rec@infotb$nhs_number
+        id[id=="NULL"] <- rec@infotb$pas_number[id=="NULL"]
+        id <- data.table(id=id)
+        id[, pid:=.GRP, by="id"]
+        rec@infotb[, pid:=id$pid]
+    }
+
     rec
 }
 

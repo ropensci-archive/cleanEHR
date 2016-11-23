@@ -5,7 +5,9 @@ Version: 0.1
 Date: 2016-11-10
 Author: Steve Harris, Sinan Shi, David Perez-Suarez
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
-Description: The package contains essential tools and utility functions to facilitate the data processing pipeline, data cleaning and data analysing of clinical data from Critical Care - Health Informatics Collaborative (CC-HIC). 
+Description: The package contains essential tools and utility functions to
+    facilitate the data processing pipeline, data cleaning and data analysing of
+    clinical data from Critical Care - Health Informatics Collaborative (CC-HIC).
 Depends:
     R (>= 3.1.0)
 License: GPL-3
@@ -34,7 +36,6 @@ Collate:
     'selectTable.R'
     'sql_demographic.R'
     'stdid.R'
-    'unique.patient.R'
     'unique.spell.R'
     'utilities.R'
     'xml2ccdata.R'
