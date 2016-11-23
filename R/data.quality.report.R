@@ -4,15 +4,15 @@
 #' @import knitr
 data.quality.report <- function(ccd, pdf=T) {
     
-    if (!dir.exists(".temp")) {
-        unlink(".temp", recursive=T)
-        dir.create(".temp")
+    if (!dir.exists(".report")) {
+        unlink(".report", recursive=T)
+        dir.create(".report")
     }
     wd <- getwd()
     rptpath <- paste(path.package('ccdata'), "report", sep="/")
-    file.copy(rptpath, ".temp", recursive=T)
+    file.copy(rptpath, ".report", recursive=T)
 
-    setwd('.temp/report')
+    setwd('.report/report')
     dqpath <- "data_quality_report.Rmd"
     headerpath <- "listings-setup.tex"
     tpltpath <- "report.latex"

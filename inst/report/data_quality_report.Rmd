@@ -2,8 +2,22 @@
 title: Data Quality Report
 ---
 
+# Data Summary
+This database contains `r ccd@nepisodes` episodes from 
+`r length(unique(ccd@infotb$site_id)) - 1` sites. Based on the NHS numbers and
+PAS numbers, `r max(ccd@infotb$pid)` unique patients are found. 
 
-# Introduction
-```{r, echo=FALSE, result="hide"}
-print(ccd@nepisodes)
+## The original XML files and parse information
+```{r, echo=FALSE}
+suppressWarnings(library(pander))
+panderOptions("digits", 2) 
+panderOptions("table.split.table", Inf)
+
+infotb <- ccd@infotb
+neps.file <- infotb[, list("Number of Eipsode"=.N), by=parse_file]
+site.file <- infotb[, list("Sites"=paste(unique(site_id), collapse=", ")), by=parse_file]
+setkey(neps.file, "parse_file")
+setkey(site.file, "parse_file")
+pander(merge(neps.file, site.file))
 ```
+

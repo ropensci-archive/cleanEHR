@@ -2,12 +2,12 @@
 
 
 
-
+\usepackage{booktabs}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage[svgnames]{xcolor} % Enabling colors by their 'svgnames'
+\usepackage[table]{xcolor} % Enabling colors by their 'svgnames'
 \usepackage{fixltx2e} % provides \textsubscript
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
@@ -64,12 +64,16 @@ $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
 $if(tables)$
+
+\definecolor{ccdblue}{RGB}{0, 54, 73}
 \usepackage{longtable}
+\definecolor{light-gray}{gray}{0.95}
 \let\oldlongtable\longtable
-
-\def\longtable{\tiny \oldlongtable}
-
+\rowcolors{1}{white}{light-gray}
+\def\longtable{\footnotesize \oldlongtable }
 $endif$
+
+
 \usepackage{libertine}
 \usepackage{framed}
 \let\oldquote\quote
@@ -153,7 +157,6 @@ $endfor$
 \color{DarkGreen}
 {\textsf{#1}}}{}}
 
-\definecolor{ccdblue}{RGB}{0, 54, 73}
 \usepackage{sectsty} % Enables custom section titles
 \sectionfont{\color{ccdblue}\fontsize{20}{20}\usefont{OT1}{phv}{b}{n}} % Change the font of all section commands
 \subsectionfont{\color{ccdblue}\fontsize{16}{16}\usefont{OT1}{phv}{b}{n}} % Change the font of all section commands
@@ -171,13 +174,17 @@ $endfor$
     \color{ccdblue}    
     \selectfont
 }
-\posttitle{\vspace*{\fill}}
+\posttitle{
+  %  \par 
+  %\Oldincludegraphics[height=.7cm]{bar}
+  \vspace*{\fill}
+  }
 $if(title)$
 \title{$title$}
 $endif$
 
 \author{$for(author)$$author$$sep$ \and $endfor$}
-\date{$date$}
+\date{\today}
 
 %\postauthor{\footnotesize \usefont{OT1}{phv}{m}{sl} \color{Black} % Configuration for the institution name
 %
@@ -220,6 +227,9 @@ $if(toc)$
 \tableofcontents
 }
 $endif$
+
+\newpage
+
 $body$
 
 $if(natbib)$
