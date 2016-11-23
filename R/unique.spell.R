@@ -11,7 +11,10 @@ unique.spell <- function(rec, duration=2) {
             return(zeroday)
         dic <- sd$t_discharge[1:length(sd$t_discharge)-1]
         adm <- sd$t_admission[2:length(sd$t_admission)]
-        return(c(zeroday, difftime(adm, dic, units="days")))
+        
+        diffday <- (c(zeroday, difftime(adm, dic, units="days")))
+        diffday[is.na(diffday)] <- 0
+        diffday
     }
     setkey(tb, "pid", "t_admission", "t_discharge")
     tb[, diffday:=short.time.group(.SD), by="pid"]
@@ -21,5 +24,10 @@ unique.spell <- function(rec, duration=2) {
     return(tb)
 }
 
-
-
+demographic.patient.spell <- function(rec, duration=2) {
+    dmg <- sql.demographic.table(rec)
+    us <- unique.spell(rec, duration)
+    us <- data.table(index=us$index, pid=us$pid, spell=us$spell)
+    dmg <- merge(dmg, us, by=c("index"))
+    return(dmg)
+} 

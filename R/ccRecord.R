@@ -143,16 +143,19 @@ index.record <- function(rec) {
     rec@nepisodes <- length(rec@episodes)
     rec@infotb <- rbindlist(for_each_episode(rec, retrieve_all))
 
+    # id will be filled in the following sequence, NHS number, PAS number,
+    # site-episode combination and unknown tags. 
     if (nrow(rec@infotb) > 1) {
         id <- rec@infotb$nhs_number
-        id[id=="NULL"] <- rec@infotb$pas_number[id=="NULL"]
-        id[id=="NULL"] <- paste(rec@infotb$site_id[id=="NULL"], 
-                                rec@infotb$episode_id[id=="NULL"],
+        id[id=="NA"] <- rec@infotb$pas_number[id=="NA"]
+        id[id=="NA"] <- paste(rec@infotb$site_id[id=="NA"], 
+                                rec@infotb$episode_id[id=="NA"],
                                 sep="-")
-        id[id=="NULL"] <- paste("unknown", seq(length(which(id=="NULL"))))
+        id[id=="NA-NA"] <- paste("unknown", seq(length(which(id=="NA-NA"))))
         id <- data.table(id=id)
         id[, pid:=.GRP, by="id"]
         rec@infotb[, pid:=id$pid]
+        rec@infotb[, index:=seq(nrow(rec@infotb))]
     }
     rec
 }

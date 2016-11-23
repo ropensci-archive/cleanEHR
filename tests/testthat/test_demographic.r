@@ -14,6 +14,6 @@ test_that("create demographic table from ccdata and expect the equivalent
     }
 
     demg_t <- suppressWarnings(sql.demographic.table(ccd))
-    for (i in seq(ncol(demg)))
+    for (i in seq(ncol(demg) - 1))
         expect_equivalent(demg[[i]], convert.back.to.char(demg_t[[i]]))
 }) 
