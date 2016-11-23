@@ -31,5 +31,10 @@ test_that("reorder the index of record", {
 
 
 test_that("test xml2Data2", {
-    ccd <- xml2Data("../data/test_data_anonym.xml")
+#    ccd <- xml2Data("../data/test_data_anonym.xml")
+})
+
+
+test_that("testing unique spell", {
+    us <- unique.spell(ccd)
 })

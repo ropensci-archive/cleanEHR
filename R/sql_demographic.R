@@ -26,5 +26,6 @@ sql.demographic.table <- function(record, dtype=TRUE) {
                 .which.datatype(stname2code(names(demogt)[i]))(demogt[[i]])
         }
     }
+    demogt[, index:=seq(nrow(demogt))]
     return(demogt)
 }

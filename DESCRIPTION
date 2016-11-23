@@ -38,7 +38,6 @@ Collate:
     'selectTable.R'
     'sql_demographic.R'
     'stdid.R'
-    'unique.patient.R'
     'unique.spell.R'
     'utilities.R'
     'xml2ccdata.R'

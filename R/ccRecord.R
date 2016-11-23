@@ -128,26 +128,6 @@ setMethod('+', c("ccRecord", "NULL"),
           function(e1, e2) return(e1))
 
 
-patient.index <- function(tb) {
-    if (all(is.na(tb$nhs_number))) {
-        warning("No patient identity can be found.")
-    }
-    else {
-        tb$t_discharge <- suppressWarnings(as.POSIXct(as.numeric(unclass(tb$t_discharge)),
-                                                      origin="1970-01-01"))
-        tb$t_admission <- suppressWarnings(as.POSIXct(as.numeric(unclass(tb$t_admission)),
-                                                      origin="1970-01-01"))
-
-        tb[, id:= nhs_number]
-        tb$id[tb$id == "NULL"] <- tb$pas_number[tb$id == "NULL"]
-
-        tb[, pid:=.GRP, by="id"]
-        tb[, index:=seq(nrow(tb))]
-    }
-    return(tb)
-}
-
-
 index.record <- function(rec) {
     retrieve_all <- function(x) {
         .simple.data.frame(list(site_id    = x@site_id, 
@@ -161,8 +141,22 @@ index.record <- function(rec) {
     
     }
     rec@nepisodes <- length(rec@episodes)
-    infotb <- rbindlist(for_each_episode(rec, retrieve_all))
-    rec@infotb <- patient.index(infotb)
+    rec@infotb <- rbindlist(for_each_episode(rec, retrieve_all))
+
+    # id will be filled in the following sequence, NHS number, PAS number,
+    # site-episode combination and unknown tags. 
+    if (nrow(rec@infotb) > 1) {
+        id <- rec@infotb$nhs_number
+        id[id=="NA"] <- rec@infotb$pas_number[id=="NA"]
+        id[id=="NA"] <- paste(rec@infotb$site_id[id=="NA"], 
+                                rec@infotb$episode_id[id=="NA"],
+                                sep="-")
+        id[id=="NA-NA"] <- paste("unknown", seq(length(which(id=="NA-NA"))))
+        id <- data.table(id=id)
+        id[, pid:=.GRP, by="id"]
+        rec@infotb[, pid:=id$pid]
+        rec@infotb[, index:=seq(nrow(rec@infotb))]
+    }
     rec
 }
 
