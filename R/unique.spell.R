@@ -24,6 +24,7 @@ unique.spell <- function(rec, duration=2) {
     return(tb)
 }
 
+#' @export demographic.patient.spell
 demographic.patient.spell <- function(rec, duration=2) {
     dmg <- sql.demographic.table(rec)
     us <- unique.spell(rec, duration)
