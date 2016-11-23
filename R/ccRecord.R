@@ -146,11 +146,14 @@ index.record <- function(rec) {
     if (nrow(rec@infotb) > 1) {
         id <- rec@infotb$nhs_number
         id[id=="NULL"] <- rec@infotb$pas_number[id=="NULL"]
+        id[id=="NULL"] <- paste(rec@infotb$site_id[id=="NULL"], 
+                                rec@infotb$episode_id[id=="NULL"],
+                                sep="-")
+        id[id=="NULL"] <- paste("unknown", seq(length(which(id=="NULL"))))
         id <- data.table(id=id)
         id[, pid:=.GRP, by="id"]
         rec@infotb[, pid:=id$pid]
     }
-
     rec
 }
 
