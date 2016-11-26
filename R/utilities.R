@@ -167,3 +167,24 @@ xmlTime2POSIX <- function(xml.time, allow=FALSE){
     }
     return(tp)
 }
+
+
+#' @export site.info
+site.info <- function(){
+list(
+     "D20N"=c("Addenbrooke's Hospital", "Neuro", "Cambridge", ""),  
+     "D20"=c("Addenbrooke's Hospital", "ICU/HDU", "Cambridge", "John Farnham"), 
+     "K32"=c("Guy's Hospital", "ICU", "GSTT", ""),   
+     "V47"=c("St Thomas' Hospital", "ICU/HDU", "GSTT", ""),   
+     "H09"=c("St Thomas' Hospital", "OIR", "GSTT", "overnight intensive recovery"), 
+     "Z89"=c("St Thomas' Hosptial", "HDU", "GSTT", "page and victoria"), 
+     "C90"=c("Hammersmith Hospital", "ICU/HDU", "Imperial", ""),  
+     "Q13"=c("St Mary's Hospital London", "ICU", "Imperial", "Milne Ward"),
+     "S28"=c("John Radcliffe", "ICU", "Oxford", ""),
+     "F42"=c("Oxford Neuro", "", "Oxford", "no data"),
+     "F54"=c("Oxford Horton", "", "Oxford", "no data because not on ICIP"),
+     "Q70"=c("University College Hospital", "ICU/HDU", "UCLH", ""),
+     "Q70W"=c("Westmoreland Street", "ICU/HDU", "UCLH", ""),   
+     "R42"=c("Unknown", "Unknown", "Unknown", "Duncan said is Churchill??")
+     )
+}
