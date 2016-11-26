@@ -262,6 +262,26 @@ NIHR_HIC_ICU_0058:
   NHICcode: NIHR_HIC_ICU_0058
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      "A": white British
+      "B": white Irish
+      "C": white any other
+      "D": mixed white and black Caribbean
+      "E": mixed white and black African
+      "F": mixed white and Asian
+      "G": mixed any other
+      "H": Asian or Asian British - Indian
+      "J": Asian or Asian British - Pakistani
+      "K": Asian or Asian British - Bangladeshi
+      "L": Asian or Asian British - any other
+      "M": black or black British - Caribbean
+      "N": black or black British - African
+      "P": black or black British - any other
+      "R": other ethnic group - Chinese
+      "S": any other ethnic group
+      "Z": not stated
+
 NIHR_HIC_ICU_0093:
   shortName: SEX
   ItemId: 13
@@ -570,6 +590,12 @@ NIHR_HIC_ICU_0930:
   NHICcode: NIHR_HIC_ICU_0930
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      A: Alive
+      D: Dead
+      E: Alive - not discharged
+
 NIHR_HIC_ICU_0085:
   shortName: RESA
   ItemId: 34
@@ -2748,6 +2774,12 @@ NIHR_HIC_ICU_0108:
   NHICcode: NIHR_HIC_ICU_0108
   NHICdtCode: NIHR_HIC_ICU_0254
   NHICmetaCode: ~
+  range:
+    labels:
+      red: (0, 300)
+      amber: (11, 170) 
+      green: (60, 100)
+
 NIHR_HIC_ICU_0109:
   shortName: h_rhythm
   ItemId: 133

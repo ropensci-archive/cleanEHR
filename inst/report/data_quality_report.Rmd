@@ -3,21 +3,32 @@ title: Data Quality Report
 ---
 
 # Data Summary
-This database contains `r ccd@nepisodes` episodes from 
-`r length(unique(ccd@infotb$site_id)) - 1` sites. Based on the NHS numbers and
-PAS numbers, `r max(ccd@infotb$pid)` unique patients are found. 
+```{r, echo=FALSE}
+dp <- total.data.point(ccd)
+np <- max(ccd@infotb$pid, na.rm=T)
+```
+
+This database contains **`r ccd@nepisodes`** episode data from 
+**`r length(unique(ccd@infotb$site_id)) - 1`** sites. Based on the NHS numbers and
+PAS numbers, we can identify **`r np`** unique patients, among which the earliest
+admission is `r min(ccd@infotb$t_admission, na.rm=T)` and the latest discharge time is
+`r max(ccd@infotb$t_discharge, na.rm=T)`. There are `r dp `
+total data points found in the current database, which makes in average
+`r round(dp/np)` per unique patient. 
 
 ## The original XML files and parse information
 ```{r, echo=FALSE}
 suppressWarnings(library(pander))
 panderOptions("digits", 2) 
 panderOptions("table.split.table", Inf)
+if (!exists("demg")) demg <- demographic.patient.spell(ccd)
 
-infotb <- ccd@infotb
-neps.file <- infotb[, list("Number of Eipsode"=.N), by=parse_file]
-site.file <- infotb[, list("Sites"=paste(unique(site_id), collapse=", ")), by=parse_file]
-setkey(neps.file, "parse_file")
-setkey(site.file, "parse_file")
-pander(merge(neps.file, site.file))
+fs <- file.summary(ccd)
+#pander(fs[, c("File", "Upload time"), with=F])
+pander(fs[, c("File", "Number of Episode", "Sites"), with=F])
+pander(data.frame("xxx", table1.row(demg, "ETHNIC")))
+```
+```{r fig.width=10, fig.height=7, echo=FALSE}
+xml.file.duration.plot(ccd)
 ```
 
