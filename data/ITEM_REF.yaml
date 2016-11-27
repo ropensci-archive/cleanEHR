@@ -2501,7 +2501,7 @@ NIHR_HIC_ICU_0932:
   NHICdtCode: NIHR_HIC_ICU_0941
   NHICmetaCode: ~
 NIHR_HIC_ICU_0933:
-  shortName: advsupt_resp
+  shortName: advsupt_cardv
   ItemId: 119
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -3365,7 +3365,7 @@ NIHR_HIC_ICU_0550:
   NHICdtCode: NIHR_HIC_ICU_0401
   NHICmetaCode: ~
 NIHR_HIC_ICU_0149:
-  shortName: airway_pressure
+  shortName: airway_pressure_peak
   ItemId: 158
   Classification1: Physiology
   Classification2: Respiratory
@@ -3475,7 +3475,7 @@ NIHR_HIC_ICU_0152:
   NHICdtCode: NIHR_HIC_ICU_0289
   NHICmetaCode: ~
 NIHR_HIC_ICU_0915:
-  shortName: fluid_balance
+  shortName: fluid_balance_d
   ItemId: 163
   Classification1: Physiology
   Classification2: Renal
@@ -3497,7 +3497,7 @@ NIHR_HIC_ICU_0915:
   NHICdtCode: NIHR_HIC_ICU_0916
   NHICmetaCode: ~
 NIHR_HIC_ICU_0413:
-  shortName: fluid_balance
+  shortName: fluid_balance_h
   ItemId: 164
   Classification1: Physiology
   Classification2: Renal
