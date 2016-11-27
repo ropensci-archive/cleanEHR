@@ -70,6 +70,13 @@ stname2code <- function(stname) {
     return(code)
 }
 
+#' @export 
+stname2longname <- function(stname) {
+    stname <- as.character(stname)
+    code <- ccdata:::stname2longname.dict[stname]
+    code[is.na(code)] <- stname[is.na(code)]
+    return(code)
+}
 #' convert short names to long names
 #' @export short2longname
 short2longname <- function(stname) {
