@@ -304,6 +304,11 @@ NIHR_HIC_ICU_0093:
   NHICcode: NIHR_HIC_ICU_0093
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      "M": Male
+      "F": Female
+
 NIHR_HIC_ICU_0017:
   shortName: HCM
   ItemId: 14
@@ -662,6 +667,23 @@ NIHR_HIC_ICU_0068:
   NHICcode: NIHR_HIC_ICU_0068
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      "W": Ward
+      "B": oBstetric area
+      "M": other interMediate care area
+      "P": Paediatric/neonatal ICU/HCU
+      "I": level 3 bed in adult ICU or ICU/HDU
+      "H": level 2 bed in adult ICU or ICU/HDU
+      "U": adUlt HCU
+      "T": Theatre & recovery
+      "E": accident & Emergency
+      "R": Recovery only
+      "G": imaGing department
+      "S": Specialist treatment area
+      "C": Clinic
+      "N": Not in hospital
+
 NIHR_HIC_ICU_0398:
   shortName: PA_V3
   ItemId: 37
@@ -882,6 +904,12 @@ NIHR_HIC_ICU_0097:
   NHICcode: NIHR_HIC_ICU_0097
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      A: Alive
+      D: Dead
+      E: Alive - not discharged
+
 NIHR_HIC_ICU_0035:
   shortName: DOAH
   ItemId: 47
@@ -1212,6 +1240,12 @@ NIHR_HIC_ICU_0095:
   NHICcode: NIHR_HIC_ICU_0095
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      A: Alive
+      D: Dead
+      E: Alive - not discharged
+
 NIHR_HIC_ICU_0030:
   shortName: CCD
   ItemId: 62

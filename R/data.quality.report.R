@@ -2,8 +2,10 @@
 #' 
 #' @export data.quality.report
 #' @import knitr
+#' @import pander
+#' @import ggplot2
 data.quality.report <- function(ccd, pdf=T) {
-    
+ 
     if (dir.exists(".report")) {
         unlink(".report", recursive=T)
     }
@@ -13,28 +15,33 @@ data.quality.report <- function(ccd, pdf=T) {
     rptpath <- paste(path.package('ccdata'), "report", sep="/")
     file.copy(rptpath, ".report", recursive=T)
 
-    setwd('.report/report')
-    dqpath <- "data_quality_report.Rmd"
-    headerpath <- "listings-setup.tex"
-    tpltpath <- "report.latex"
+    write.report <- function() {
+        setwd('.report/report')
+        dqpath <- "data_quality_report.Rmd"
+        headerpath <- "listings-setup.tex"
+        tpltpath <- "report.latex"
 
-    knit(dqpath, "data_quality_report.md")
-    if (pdf) {
-        pandoc.cmd <- 
-            paste("pandoc -s -N --toc --listings -H ", headerpath,
-                  " --template=", tpltpath, 
-                  " -V --number-section  -V papersize:a4paper -V geometry:margin=1.3in ", 
-                  "data_quality_report.md -o data_quality_report.pdf", sep="")
-        tryCatch(system(pandoc.cmd), 
-                 error = function(e) {
-                     cat(e)
-                     setwd(wd)
-                 }, 
-                 finally = {
-                     setwd(wd)
-                 })
-        setwd(wd)
+        knit(dqpath, "data_quality_report.md")
+        if (pdf) {
+            pandoc.cmd <- 
+                paste("pandoc -s -N --toc --listings -H ", headerpath,
+                      " --template=", tpltpath, 
+                      " -V --number-section  -V papersize:a4paper -V geometry:margin=1.3in ", 
+                      "data_quality_report.md -o data_quality_report.pdf", sep="")
+            tryCatch(system(pandoc.cmd), 
+                     error = function(e) {
+                         cat(e)
+                         setwd(wd)
+                     }, 
+                     finally = {
+                         setwd(wd)
+                     })
+            setwd(wd)
+        }
     }
+
+    tryCatch(write.report(), finally={setwd(wd)})
+
 }
 
 
@@ -49,6 +56,28 @@ file.summary <- function(ccd) {
     return(file.summary)
 }
 
+#' @export xml.site.duration.plot
+xml.site.duration.plot <- function(ccd) {
+    tb <- copy(ccd@infotb)
+    tb <- tb[, list(minadm=min(t_admission, na.rm=T), 
+              maxadm=max(t_admission, na.rm=T),
+              mindis=min(t_discharge, na.rm=T),
+              maxdis=max(t_discharge, na.rm=T)), by=site_id]
+    site_name <- apply((site.info()[tb$site_id, ][,1:2]), 1, 
+          function(x) paste(x, collapse="-"))
+    tb[, site_name:=site_name]
+    
+    ggplot(tb, aes(x=minadm, y=site_name)) +
+        geom_segment(aes(xend=maxdis, yend=site_name), color="gray", size=10) +
+        annotate("text", x=tb$minadm+(tb$maxdis-tb$minadm)/2, 
+                 y=tb$site_name, label=tb$site_name, size=7) + 
+        scale_x_datetime(date_breaks="3 month")+
+        theme(axis.text.y=element_blank()) + 
+        ggtitle("Site") +
+        xlab("") + ylab("")
+}
+
+
 #' @export xml.file.duration.plot
 xml.file.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
@@ -57,9 +86,9 @@ xml.file.duration.plot <- function(ccd) {
               mindis=min(t_discharge, na.rm=T),
               maxdis=max(t_discharge, na.rm=T)), by=parse_file]
     ggplot(tb, aes(x=minadm, y=parse_file)) +
-        geom_segment(aes(xend=maxdis, yend=parse_file), color="gray", size=7) +
+        geom_segment(aes(xend=maxdis, yend=parse_file), color="gray", size=10) +
         annotate("text", x=tb$minadm+(tb$maxdis-tb$minadm)/2, 
-                 y=tb$parse_file, label=tb$parse_file, size=3) + 
+                 y=tb$parse_file, label=tb$parse_file, size=7) + 
         scale_x_datetime(date_breaks="3 month")+
         theme(axis.text.y=element_blank()) + 
         ggtitle("The Duration of XML Files") +
@@ -67,6 +96,8 @@ xml.file.duration.plot <- function(ccd) {
 }
 
 
+
+#' Abandoned
 ethnicity.plot <- function(demg) {
     ggplot(demg, aes(x=ETHNIC, fill=ETHNIC)) + 
         scale_fill_discrete(h=c(50,250)) +
@@ -77,47 +108,82 @@ ethnicity.plot <- function(demg) {
 }
 
 
+#' @demographic.data.completeness
+demographic.data.completeness <- function(demg, names=NULL) {
+    demg <- copy(demg)
+    demg[, index:=NULL]
+    if (!is.null(names))
+        demg <- demg[, names, with=F]
 
-#demographic.data.completeness <- function(ccd) {
-#    demographic
-#}
+    cptb <- apply(demg, 2, function(x) length(which(!(x=="NULL" | is.na(x)))))
+    cptb <- data.frame(cptb)
+    cptb[, 1] <- round(cptb[, 1]/nrow(demg)*100, digits=2)
+    
+    names(cptb) <- "Completeness %"
+    rownames(cptb) <- stname2longname(rownames(cptb))
+    pander(cptb, style="rmarkdown", justify = c('left', 'center'))
+}
 
 #' 
 #' @export total.data.point
 total.data.point <- function(ccd) {
-    dp.physio <- 
-        sum(unlist(for_each_episode(ccd, 
-                                    function(x) 
-                                        Reduce(sum, sapply(x@data, nrow)))))
-    dp.demg <-
-        sum(unlist(for_each_episode(ccd, 
-                                    function(x) 
-                                        Reduce(sum, sapply(x@data, nrow)))))
-    return(sum(dp.physio, dp.demg))
+#    dp.physio <- 
+#        sum(unlist(for_each_episode(ccd, 
+#                                    function(x) 
+#                                        Reduce(sum, sapply(x@data, nrow)))))
+#    dp.demg <-
+#        sum(unlist(for_each_episode(ccd, 
+#                                    function(x) 
+#                                        Reduce(sum, sapply(x@data, nrow)))))
+#    return(sum(dp.physio, dp.demg))
+    return(10)
 }
 
-#' @export table1.row
-table1.row <- function(demg, name) {
-    ref <- ccdata:::ITEM_REF[[stname2code(name)]]
-    if (ref$Datatype %in% c("text", "list")) {
-        stopifnot(!is.null(ref$category))
-        nmref <- sapply(ref$category$levels, function(x) x)
-        r <- demg[, .N, by=name]
-        level.name <- nmref[r[[name]]]
-        r[, nm:=level.name]
-        r[, percent:=N/nrow(demg)*100]
+#' @export table1
+table1 <- function(demg, names) {
+    panderOptions('knitr.auto.asis', FALSE)
+    cat(paste("\n## Table ONE\n"))
+    table1.item <- function(demg, name) {
+        ref <- ccdata:::ITEM_REF[[stname2code(name)]]
+        if (is.null(ref))
+            stop("The short name cannot be found in ITEM_REF.")
+        cat(paste("\n###", ref$dataItem, "\n"))
+        if (ref$Datatype %in% c("text", "list", "Logical", "list / Logical")) {
+            stopifnot(!is.null(ref$category))
+            nmref <- sapply(ref$category$levels, function(x) x)
+            r <- demg[, .N, by=name]
+            level.name <- nmref[r[[name]]]
+            r[, nm:=level.name]
+            r[, percent:=N/nrow(demg)*100]
 
-        txt <- paste("<li>",
-                     r$nm, ":\t\t\t\t", 
-                     r$N, "[", 
-                     round(r$percent),"%]",
-                     "</li>",
-                     sep="", 
-                     collapse="")
-        txt <- paste("<ul>", txt, "<ul>")
+            tb <- data.table(
+                              "Category"=r$nm,
+                              "Episode Count"=r$N,  
+                              "Percentage"=paste(round(r$percent, digits=1), "%"))
+            setkey(tb, "Episode Count")
+
+        }
+        else stop(name, "is not a categorical variable.")
+       pander(tb, style="rmarkdown")
     }
-    return(txt)
+
+    for (i in names)
+        table1.item(demg, i)
+
+    panderOptions('knitr.auto.asis', TRUE)
+}
 
 
 
+#' @export demg.distribution
+demg.distribution <- function(demg, names) {
+    cat("\n## Distribution\n")
+    for (nm in names) {
+        ref <- ccdata:::ITEM_REF[[stname2code(nm)]]
+        cat(paste("\n\n###", ref$dataItem, "\n"))
+        gg <- ggplot(demg, aes_string(nm)) + geom_density(fill="lightsteelblue3") + 
+            facet_wrap(~ICNNO, scales="free")
+        print(gg)
+        cat('\\newpage')
+    }
 }
