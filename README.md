@@ -1,67 +1,52 @@
 [![Build Status](https://travis-ci.com/UCL-HIC/ccdata.svg?token=tpqYy2kGKwjiyqQSznFy&branch=master)](https://travis-ci.com/UCL-HIC/ccdata)
-[![codecov](https://codecov.io/gh/UCL-HIC/ccdata/branch/master/graph/badge.svg?token=DYDE2yg17Z)](https://codecov.io/gh/UCL-HIC/ccdata)
+[![codecov](https://codecov.io/gh/CC-HIC/ccdata/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/ccdata)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 
-The `ccdata` R package is the centralised tool set for the critical care data
-analysis. Three key components can be found in the current version of `ccdata`
-package,  
-* The XML parser
-* Data cleaning and validation modules
-* Table exporter
-* Data analysis functions 
+`ccdata` is an R package for working with the Critical Care Health Informatics
+Collaborative's data set. Since 2014 data from the critical care units at
+Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, and University College
+London has been extracted and stored securely in a standardised format. 
 
-The `ccdata` package is portable to all platforms where a R environment is available.
-It covers the most part of the data processing pipeline. The XML files will be
-parsed to an R data structure which is a bespoken query-able storage format for
-the critical patient records. With the selecting and cleaning process, the user
-can obtain a clean table guided by the _YAML_ configuration file specified by the
-users. The user can subsequently perform their data analysis on the clean
-table. 
+The purpose of the project is to enable researchers to answer clinical
+questions that are important to patients, but which are normally too difficult
+because data is unstandardised, siloed, and inaccessible. 
 
-![Data processing pipeline](https://github.com/sinanshi/hic_report_16/blob/master/pipeline.png)
+These data are crucially needed by healthcare professionals for the delivery
+and continuity of care; by administrators for audit, planning and service
+improvement; and by academic and industry researchers for the translation of
+scientific progress into patient benefit. Through this process, CC-HIC can
+improve patient outcomes, reduce the costs of care, and accelerate the pace of
+translational health research. 
 
-The _YAML_ configuration example:  
-```python
-NIHR_HIC_ICU_0108:
-  shortName: hrate
-  dataItem: Heart rate
-  distribution: normal
-  decimal_places: 0
+The physical database is held at the [UCL
+IDHS](http://www.ucl.ac.uk/isd/itforslms/services/handling-sens-data/tech-soln)
+within the Information Services Division of University College London (UCL).
+UCL manage and ensure that the database and the surrounding governance
+structures are appropriate for holding identifiable and sensitive NHS data. The
+safe haven is compliant to NHS Information Governance Toolkit Level 2 and
+operates to the ISO 27001, the Safe Haven already holds identifiable, sensitive
+NHS data for secondary purpose. The Critical Care HIC management group will
+maintain oversight and be the point of contact for researchers wishing to
+access data.
 
-  # filter1: do not use the episode where hrate cannot be found.
-  nodata:
-     apply: drop_episode
+The security put in place to ensure the safety of this resource inevitably
+creates challenges for the researchers. We have therefore created a three sided
+tool to make CCHIC _research ready_.
 
-  # filter2: mark all the values based on reference range (traffic colour)
-  # remove entries where the range check is not fullfilled.  
-  range: 
-      labels:
-          red: (0, 300)
-          amber: (0, 170) 
-          green: (50, 150)
-      apply: drop_entry
+- this shared code library
+- an anonymised development data set 
+- a virtual machine for simulating work within the safe haven
 
-  # filter3: compute the item missing rate on given cadences; in this case, we compute the daily (red) and hourly (amber) missing rate, and only accpet episodes of which hourly missing rate (amber) is lower than 30%. 
-  missingness: 
-      labels:
-          red: 24
-          amber: 1
-      accept_2d:
-          amber: 70 
-  apply: drop_episode 
-```
 
 ## Required packages
-* R (>= 2.1.0),
+* R (>= 3.1.0),
 * XML,
-* reshape2,
 * data.table,
 * yaml,
 * pander,
-* RPostgreSQL,
-* sqldf,
-* testthat,
-* data.tree
+* Rcpp,
+* methods
+
 
 ## How to install the R package
 ### Mac & Linux
