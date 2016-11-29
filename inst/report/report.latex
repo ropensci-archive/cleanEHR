@@ -66,6 +66,9 @@ $endif$
 $if(tables)$
 
 \definecolor{ccdblue}{RGB}{0, 54, 73}
+\definecolor{ccdred}{RGB}{230, 90, 80}
+\definecolor{ccdyellow}{RGB}{200, 200, 0}
+\definecolor{ccdgreen}{RGB}{181, 212, 148}
 \usepackage{longtable}
 \definecolor{light-gray}{gray}{0.95}
 \let\oldlongtable\longtable
@@ -165,9 +168,11 @@ $endfor$
 \usepackage{titling} % Allows custom title configuration 
 \newcommand{\HorRule}{\color{DarkSeaGreen} \rule{\linewidth}{1pt}} % Defines the gold horizontal rule around the title
 \usepackage{pagecolor}% With option pagecolor={somecolor or none}
+
+
 \pretitle{
   \vspace*{\fill}
-  \Oldincludegraphics[scale=0.15]{ccd_color}
+  \Oldincludegraphics[scale=0.7]{ccd_color}
     \par
     \fontsize{35}{35}
     \usefont{OT1}{phv}{b}{n}
@@ -175,38 +180,45 @@ $endfor$
     \selectfont
 }
 \posttitle{
-  %  \par 
-  %\Oldincludegraphics[height=.7cm]{bar}
+  \vskip 0.5em
+  \fontsize{10}{10}
+    \usefont{OT1}{phv}{n}{n}
+    \color{ccdblue}    
+    \selectfont
+    \begin{tabular}{| r | p{0.8\linewidth}|}
+      \hline
+      Site & $site$ \\ \hline
+      N. episode & $nep$ \\ \hline
+      N. patient & $np$\\ \hline
+      Time span &  from $admt$ to $disct$\\ \hline
+      Last update of database& $dbupdate$ \\ \hline
+      Full database & $fulldb$ \\ \hline
+    \end{tabular}
   \vspace*{\fill}
   }
+  
+  \date{}
 $if(title)$
 \title{$title$}
 $endif$
 
-\author{$for(author)$$author$$sep$ \and $endfor$}
-\date{\today}
-
-%\postauthor{\footnotesize \usefont{OT1}{phv}{m}{sl} \color{Black} % Configuration for the institution name
-%
-%
-%University College London% Your institution
-%
-%\par\end{flushleft}\HorRule} % Horizontal rule after the title
-      
+%\author{$for(author)$$author$$sep$ \and $endfor$}
 
 \usepackage{picture}
 \usepackage{eso-pic}
-
 \renewcommand{\rmdefault}{phv}
-
 \usepackage{fancyhdr}
 
 \begin{document}
 %\pagecolor{seafoam}
 $if(title)$
 \maketitle
+\thispagestyle{empty}
 $endif$
-\newpage
+
+\clearpage
+\setcounter{page}{1}
+
 \pagecolor{white}
 \pagestyle{fancy}
 \fancyhf{}

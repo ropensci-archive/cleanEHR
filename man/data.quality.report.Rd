@@ -4,7 +4,7 @@
 \alias{data.quality.report}
 \title{Create the data quality report}
 \usage{
-data.quality.report(ccd, pdf = T)
+data.quality.report(ccd, site = NULL, pdf = T)
 }
 \description{
 Create the data quality report

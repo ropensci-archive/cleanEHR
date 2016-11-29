@@ -4,7 +4,14 @@
 #' @import knitr
 #' @import pander
 #' @import ggplot2
-data.quality.report <- function(ccd, pdf=T) {
+data.quality.report <- function(ccd, site=NULL, pdf=T) {
+    if (is.null(site)) {
+        dbfull <<- "YES"
+    }
+    else {
+        dbfull <<- "NO"
+        ccd <- ccd[site]
+    }
  
     if (dir.exists(".report")) {
         unlink(".report", recursive=T)
@@ -108,35 +115,107 @@ ethnicity.plot <- function(demg) {
 }
 
 
-#' @demographic.data.completeness
+txt.color <- function(x, color) {
+    x <- sprintf("%3.2f", x)
+    paste("\\colorbox{", color, "}{", x, "}", sep="")
+}
+
+
+#' @export demographic.data.completeness
 demographic.data.completeness <- function(demg, names=NULL) {
+    site.reject <- function(demg, name, ref) {
+        if (ref == 0 | name == "ICNNO")
+            return("")
+       stb <- 
+            demg[, 
+                 round(length(which(!is.na(get(name)) & 
+                                    get(name)!="NULL"))/.N * 100, 
+                       digits=2), by="ICNNO"]
+        rej <- stb[stb[[2]] < ref]
+        if (nrow(rej) == 0)
+            return("")
+        else
+            return(paste(apply(rej, 1, function(x) paste(x, collapse=":")),
+                  collapse="; "))
+    }
+
+    path <- find.package("ccdata")
+    acpt <- unlist(yaml.load_file(paste(path, "data", "accept_completeness.yaml", 
+                                             sep=.Platform$file.sep)))
+
+ 
     demg <- copy(demg)
     demg[, index:=NULL]
     if (!is.null(names))
         demg <- demg[, names, with=F]
 
-    cptb <- apply(demg, 2, function(x) length(which(!(x=="NULL" | is.na(x)))))
-    cptb <- data.frame(cptb)
-    cptb[, 1] <- round(cptb[, 1]/nrow(demg)*100, digits=2)
+    cmplt <- apply(demg, 2, function(x) length(which(!(x=="NULL" | is.na(x)))))
+    cmplt <- data.frame(cmplt)
+    cmplt[, 1] <- round(cmplt[, 1]/nrow(demg)*100, digits=2)
+
+    ref <- acpt[rownames(cmplt)]
+    stopifnot(all(!is.na(ref)))
+    vals <- cmplt[, 1]
+    stname <- rownames(cmplt)
     
-    names(cptb) <- "Completeness %"
-    rownames(cptb) <- stname2longname(rownames(cptb))
-    pander(cptb, style="rmarkdown", justify = c('left', 'center'))
+    reject <- array("", length(stname))
+    for (i in seq(nrow(cmplt))) { 
+        reject[i] <- site.reject(demg, stname[i], ref[i])
+    }
+
+    # color the text according the reference
+    ind <- vals >= ref & ref != 0
+    cmplt[, 1][ind] <- txt.color(vals[ind], "ccdgreen")
+    ind <- vals < ref & ref != 0
+    cmplt[, 1][ind] <- txt.color(vals[ind], "ccdred")
+
+    
+
+   
+    rownames(cmplt) <- stname2longname(rownames(cmplt))
+    cmplt$ref <- as.character(ref)
+    cmplt$ref[cmplt$ref=="0"] <- ""
+    cmplt$reject <- reject
+
+    names(cmplt) <- c("Completeness %", "Accept Completeness %", "Rejected Sites (Site: %)")
+    pander(cmplt, style="rmarkdown", justify = c('left', 'center', "center",
+                                                 "center"))
 }
+
+#' @export samplerate2d
+samplerate2d <- function(cctb) {
+    sample.rate.table <- data.frame(fix.empty.names=T)
+    # items are the columns before site.  
+    items <- names(cctb)[-c(grep("meta", names(cctb)), 
+                            which(names(cctb) %in% 
+                                  c("site", "time", "episode_id")))]
+    for (i in items) {
+        sr <- nrow(cctb)/length(which(is.na(cctb[[i]])))
+        sample.rate.table <- 
+            rbind(sample.rate.table, 
+                  data.frame("item"=stname2longname(code2stname(i)), 
+                             "sr"=sr))
+    }
+    rownames(sample.rate.table) <- NULL
+    names(sample.rate.table) <- c("Item", "Sample Period (hour)")
+
+    pander(sample.rate.table, style="rmarkdown")
+}
+
+
 
 #' 
 #' @export total.data.point
 total.data.point <- function(ccd) {
-#    dp.physio <- 
-#        sum(unlist(for_each_episode(ccd, 
-#                                    function(x) 
-#                                        Reduce(sum, sapply(x@data, nrow)))))
-#    dp.demg <-
-#        sum(unlist(for_each_episode(ccd, 
-#                                    function(x) 
-#                                        Reduce(sum, sapply(x@data, nrow)))))
-#    return(sum(dp.physio, dp.demg))
-    return(10)
+    dp.physio <- 
+        sum(unlist(for_each_episode(ccd, 
+                                    function(x) 
+                                        Reduce(sum, sapply(x@data, nrow)))))
+    dp.demg <-
+        sum(unlist(for_each_episode(ccd, 
+                                    function(x) 
+                                        Reduce(sum, sapply(x@data, nrow)))))
+    return(sum(dp.physio, dp.demg))
 }
 
 #' @export table1
@@ -177,12 +256,24 @@ table1 <- function(demg, names) {
 
 #' @export demg.distribution
 demg.distribution <- function(demg, names) {
-    cat("\n## Distribution\n")
     for (nm in names) {
         ref <- ccdata:::ITEM_REF[[stname2code(nm)]]
         cat(paste("\n\n###", ref$dataItem, "\n"))
         gg <- ggplot(demg, aes_string(nm)) + geom_density(fill="lightsteelblue3") + 
             facet_wrap(~ICNNO, scales="free")
+        print(gg)
+        cat('\\newpage')
+    }
+}
+
+
+#' @export physio.distribution
+physio.distribution <- function(cctb, names) {
+    for (nm in names) {
+        ref <- ccdata:::ITEM_REF[[stname2code(nm)]]
+        cat(paste("\n\n###", ref$dataItem, "\n"))
+        gg <- ggplot(cctb, aes_string(ref$NHICcode)) + geom_density(fill="lightsteelblue3") + 
+            facet_wrap(~site)
         print(gg)
         cat('\\newpage')
     }
