@@ -1,6 +1,17 @@
-#' Create the data quality report
+#' Create the data quality report 
+#' Create a detailed data quality report, including file summary, site 
+#' summary, data completeness, and density plot. The result can be found 
+#' in {work_dir}/report/data_quality_report.{pdf}/{md}. Using this function, 
+#' one can also create a site/trust specified report, see the argument "site". 
+#' You need to make sure that you have the right to write into the {work_dir}. 
 #' 
+#' @param ccd ccRecord 
+#' @param site a vector of the site ids for the site specified report. 
+#' @param pdf logical create the pdf version of the DQ report, 
+#' otherwise stay in markdown format
 #' @export data.quality.report
+#' @examples 
+#' \dontrun{data.quality.report(ccd, c("Q70", "C90"))}
 #' @import knitr
 #' @import pander
 #' @import ggplot2
@@ -13,17 +24,16 @@ data.quality.report <- function(ccd, site=NULL, pdf=T) {
         ccd <- ccd[site]
     }
  
-    if (dir.exists(".report")) {
-        unlink(".report", recursive=T)
+    if (dir.exists("report")) {
+        unlink("report", recursive=T)
     }
 
-    dir.create(".report")
     wd <- getwd()
     rptpath <- paste(path.package('ccdata'), "report", sep="/")
-    file.copy(rptpath, ".report", recursive=T)
+    file.copy(rptpath, ".", recursive=T)
 
     write.report <- function() {
-        setwd('.report/report')
+        setwd('report')
         dqpath <- "data_quality_report.Rmd"
         headerpath <- "listings-setup.tex"
         tpltpath <- "report.latex"
@@ -102,17 +112,6 @@ xml.file.duration.plot <- function(ccd) {
         xlab("") + ylab("")
 }
 
-
-
-#' Abandoned
-ethnicity.plot <- function(demg) {
-    ggplot(demg, aes(x=ETHNIC, fill=ETHNIC)) + 
-        scale_fill_discrete(h=c(50,250)) +
-        geom_bar(aes(y=(..count..)/sum(..count..) * 100)) + 
-        geom_text(aes(y = ((..count..)/sum(..count..))*100,
-                      label = scales::percent((..count..)/sum(..count..))),
-                  stat = "count", vjust = -0.25)
-}
 
 
 txt.color <- function(x, color) {
@@ -261,9 +260,17 @@ table1 <- function(demg, names, return.data=FALSE) {
 }
 
 
-
+#' demg.distribution
+#' Create a plot of the distribution of numerical demographic data.
+#' 
+#' @param demg ccRecord or demographic table created by sql.demographic.table()
+#' @param names a vector of short names of numerical demographic data. 
+#' @examples
+#' demg.distribution(ccd, "HCM")
 #' @export demg.distribution
 demg.distribution <- function(demg, names) {
+    if (class(demg) == "ccRecord")
+        demg <- sql.demographic.table(demg)
     for (nm in names) {
         ref <- ccdata:::ITEM_REF[[stname2code(nm)]]
         cat(paste("\n\n###", ref$dataItem, "\n"))
