@@ -122,7 +122,7 @@ txt.color <- function(x, color) {
 
 
 #' @export demographic.data.completeness
-demographic.data.completeness <- function(demg, names=NULL) {
+demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     site.reject <- function(demg, name, ref) {
         if (ref == 0 | name == "ICNNO")
             return("")
@@ -178,6 +178,8 @@ demographic.data.completeness <- function(demg, names=NULL) {
     cmplt$reject <- reject
 
     names(cmplt) <- c("Completeness %", "Accept Completeness %", "Rejected Sites (Site: %)")
+    if (return.data)
+        return(cmplt)
     pander(cmplt, style="rmarkdown", justify = c('left', 'center', "center",
                                                  "center"))
 }
@@ -219,14 +221,17 @@ total.data.point <- function(ccd) {
 }
 
 #' @export table1
-table1 <- function(demg, names) {
+table1 <- function(demg, names, return.data=FALSE) {
     panderOptions('knitr.auto.asis', FALSE)
-    cat(paste("\n## Table ONE\n"))
+
+    if (!return.data)
+        cat(paste("\n## Table ONE\n"))
     table1.item <- function(demg, name) {
         ref <- ccdata:::ITEM_REF[[stname2code(name)]]
         if (is.null(ref))
             stop("The short name cannot be found in ITEM_REF.")
-        cat(paste("\n###", ref$dataItem, "\n"))
+        if (!return.data)
+            cat(paste("\n###", ref$dataItem, "\n"))
         if (ref$Datatype %in% c("text", "list", "Logical", "list / Logical")) {
             stopifnot(!is.null(ref$category))
             nmref <- sapply(ref$category$levels, function(x) x)
@@ -243,7 +248,10 @@ table1 <- function(demg, names) {
 
         }
         else stop(name, "is not a categorical variable.")
-       pander(tb, style="rmarkdown")
+        if (return.data)
+            return(tb)
+        else 
+            pander(tb, style="rmarkdown")
     }
 
     for (i in names)

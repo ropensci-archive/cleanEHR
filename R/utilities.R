@@ -185,7 +185,7 @@ site.info <- function(){
                "F54"=c("Oxford Horton", "", "Oxford", "no data because not on ICIP"),
                "Q70"=c("University College Hospital", "ICU/HDU", "UCLH", ""),
                "Q70W"=c("Westmoreland Street", "ICU/HDU", "UCLH", ""),   
-               "R42"=c("Unknown", "Unknown", "Unknown", "Unknown")
+               "R42"=c("Unknown", "Unknown", "Unknown", "Unknown"),
                "X90"=c("Addenbrooke's Hospital", "General/Liver/Transplant",  "Cambridge", "John Farnham")
                )
     si <- data.frame(t(.simple.data.frame(si)), stringsAsFactors=F)
