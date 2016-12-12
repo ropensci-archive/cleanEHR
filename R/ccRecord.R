@@ -228,3 +228,16 @@ setMethod("[", "ccRecord",
               }
               ccRecord() + eplst
           })
+
+setMethod("[", signature(x="ccRecord", i="character"), 
+          definition=function(x, i) {
+              ind <- x@infotb[site_id%in%i]$index
+              if (length(ind) == 0) {
+                  return(ccRecord())
+              }
+              eplst <- list()
+              for (ep in ind) {
+                  eplst[[length(eplst) + 1]] <- x@episodes[[ep]]
+              }
+              ccRecord() + eplst
+          })

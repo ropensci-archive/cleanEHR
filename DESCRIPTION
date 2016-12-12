@@ -13,7 +13,8 @@ Depends:
 License: GPL-3
 LinkingTo: Rcpp
 Suggests:
-    testthat
+    testthat,
+    knitr
 Imports:
     data.table,
     XML,
@@ -26,6 +27,7 @@ Collate:
     'ccRecord.R'
     'ccTable.R'
     'create2dclean.R'
+    'data.quality.report.R'
     'deltaTime.R'
     'filter.categorical.R'
     'filter.missingness.R'

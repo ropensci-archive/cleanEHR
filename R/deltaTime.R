@@ -69,7 +69,10 @@ deltaTime <- function(record, pseudotime=FALSE, units="hours", tdiff=FALSE) {
                            }
                            return(data)
                        })
-            return(new.episode(eps))
+            newep <- new.episode(eps)
+            newep@parse_file <- ep@parse_file
+            newep@parse_time <- ep@parse_time
+            newep
         }
     }
 
@@ -81,7 +84,9 @@ deltaTime <- function(record, pseudotime=FALSE, units="hours", tdiff=FALSE) {
                 record@episodes[[e]]@t_admission <- admdsct[[e]]$admt
                 record@episodes[[e]]@t_discharge <- admdsct[[e]]$dsct
             }
+        record <- index.record(record)
     }
+
 
     if (nep != record@nepisodes) {
         if (pseudotime)

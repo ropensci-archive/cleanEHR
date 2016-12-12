@@ -262,6 +262,26 @@ NIHR_HIC_ICU_0058:
   NHICcode: NIHR_HIC_ICU_0058
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      "A": white British
+      "B": white Irish
+      "C": white any other
+      "D": mixed white and black Caribbean
+      "E": mixed white and black African
+      "F": mixed white and Asian
+      "G": mixed any other
+      "H": Asian or Asian British - Indian
+      "J": Asian or Asian British - Pakistani
+      "K": Asian or Asian British - Bangladeshi
+      "L": Asian or Asian British - any other
+      "M": black or black British - Caribbean
+      "N": black or black British - African
+      "P": black or black British - any other
+      "R": other ethnic group - Chinese
+      "S": any other ethnic group
+      "Z": not stated
+
 NIHR_HIC_ICU_0093:
   shortName: SEX
   ItemId: 13
@@ -284,6 +304,11 @@ NIHR_HIC_ICU_0093:
   NHICcode: NIHR_HIC_ICU_0093
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      "M": Male
+      "F": Female
+
 NIHR_HIC_ICU_0017:
   shortName: HCM
   ItemId: 14
@@ -570,6 +595,12 @@ NIHR_HIC_ICU_0930:
   NHICcode: NIHR_HIC_ICU_0930
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      A: Alive
+      D: Dead
+      E: Alive - not discharged
+
 NIHR_HIC_ICU_0085:
   shortName: RESA
   ItemId: 34
@@ -636,6 +667,23 @@ NIHR_HIC_ICU_0068:
   NHICcode: NIHR_HIC_ICU_0068
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      "W": Ward
+      "B": oBstetric area
+      "M": other interMediate care area
+      "P": Paediatric/neonatal ICU/HCU
+      "I": level 3 bed in adult ICU or ICU/HDU
+      "H": level 2 bed in adult ICU or ICU/HDU
+      "U": adUlt HCU
+      "T": Theatre & recovery
+      "E": accident & Emergency
+      "R": Recovery only
+      "G": imaGing department
+      "S": Specialist treatment area
+      "C": Clinic
+      "N": Not in hospital
+
 NIHR_HIC_ICU_0398:
   shortName: PA_V3
   ItemId: 37
@@ -856,6 +904,12 @@ NIHR_HIC_ICU_0097:
   NHICcode: NIHR_HIC_ICU_0097
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      A: Alive
+      D: Dead
+      E: Alive - not discharged
+
 NIHR_HIC_ICU_0035:
   shortName: DOAH
   ItemId: 47
@@ -1186,6 +1240,12 @@ NIHR_HIC_ICU_0095:
   NHICcode: NIHR_HIC_ICU_0095
   NHICdtCode: ~
   NHICmetaCode: ~
+  category:
+    levels:
+      A: Alive
+      D: Dead
+      E: Alive - not discharged
+
 NIHR_HIC_ICU_0030:
   shortName: CCD
   ItemId: 62
@@ -2441,7 +2501,7 @@ NIHR_HIC_ICU_0932:
   NHICdtCode: NIHR_HIC_ICU_0941
   NHICmetaCode: ~
 NIHR_HIC_ICU_0933:
-  shortName: advsupt_resp
+  shortName: advsupt_cardv
   ItemId: 119
   Classification1: Physiology
   Classification2: Organ_dysfunction
@@ -2748,6 +2808,12 @@ NIHR_HIC_ICU_0108:
   NHICcode: NIHR_HIC_ICU_0108
   NHICdtCode: NIHR_HIC_ICU_0254
   NHICmetaCode: ~
+  range:
+    labels:
+      red: (0, 300)
+      amber: (11, 170) 
+      green: (60, 100)
+
 NIHR_HIC_ICU_0109:
   shortName: h_rhythm
   ItemId: 133
@@ -3299,7 +3365,7 @@ NIHR_HIC_ICU_0550:
   NHICdtCode: NIHR_HIC_ICU_0401
   NHICmetaCode: ~
 NIHR_HIC_ICU_0149:
-  shortName: airway_pressure
+  shortName: airway_pressure_peak
   ItemId: 158
   Classification1: Physiology
   Classification2: Respiratory
@@ -3409,7 +3475,7 @@ NIHR_HIC_ICU_0152:
   NHICdtCode: NIHR_HIC_ICU_0289
   NHICmetaCode: ~
 NIHR_HIC_ICU_0915:
-  shortName: fluid_balance
+  shortName: fluid_balance_d
   ItemId: 163
   Classification1: Physiology
   Classification2: Renal
@@ -3431,7 +3497,7 @@ NIHR_HIC_ICU_0915:
   NHICdtCode: NIHR_HIC_ICU_0916
   NHICmetaCode: ~
 NIHR_HIC_ICU_0413:
-  shortName: fluid_balance
+  shortName: fluid_balance_h
   ItemId: 164
   Classification1: Physiology
   Classification2: Renal
