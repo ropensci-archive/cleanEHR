@@ -57,6 +57,6 @@ method on a selected window period nearby the missing data.}
 rec <- ccRecord()
 cctable <- create.cctable(rec, freq=1)
 cctable <- cctable$clean()
-table <- cctable$tclean 
+#table <- cctable$tclean 
 }
 

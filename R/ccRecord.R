@@ -29,7 +29,9 @@
 ccRecord <- setClass("ccRecord", 
                       slots=c(nepisodes="integer", dmgtb="data.table", 
                               infotb="data.table", episodes="list"),
-                      prototype=prototype(nepisodes=as.integer(0)))
+                      prototype=prototype(nepisodes=as.integer(0), 
+                                          infotb=data.table(), 
+                                          dmgtb=data.table()))
 
 # NOTE: put some description here.
 ccEpisode <- setClass("ccEpisode", 

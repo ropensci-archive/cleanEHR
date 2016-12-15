@@ -17,6 +17,6 @@ demg.distribution
 Create a plot of the distribution of numerical demographic data.
 }
 \examples{
-demg.distribution(ccd, "HCM")
+\dontrun{tdemg.distribution(ccd, "HCM")}
 }
 

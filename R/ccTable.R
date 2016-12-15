@@ -18,7 +18,7 @@
 #' rec <- ccRecord()
 #' cctable <- create.cctable(rec, freq=1)
 #' cctable <- cctable$clean()
-#' table <- cctable$tclean 
+#' #table <- cctable$tclean 
 #' @exportClass ccTable
 ccTable <- setRefClass("ccTable", 
                             fields=c(
@@ -105,16 +105,21 @@ ccTable$methods(
         frequency (in hour)"
         .self$items <- names(.self$conf)
         .self$torigin <- selectTable(record=record, items_opt=items, freq=freq)
-        setkey(.self$torigin, "site", "episode_id")
-        .self$tclean <- .self$torigin
-        setkey(.self$torigin, "site", "episode_id")
-        .self$base_cadence <- freq
+        if (nrow(.self$torigin) != 0) {
+            setkey(.self$torigin, "site", "episode_id")
+            .self$tclean <- .self$torigin
+            setkey(.self$torigin, "site", "episode_id")
+            .self$base_cadence <- freq
 
-        .self$.rindex <- .self$torigin
-        for(i in .self$items) .self$.rindex[[i]] <- TRUE
+            .self$.rindex <- .self$torigin
+            for(i in .self$items) .self$.rindex[[i]] <- TRUE
 
-        .self$.epindex <- .self$torigin[, TRUE, by=c("site", "episode_id")]
-        setnames(.self$.epindex, c("site", "episode_id", "index"))
+            .self$.epindex <- .self$torigin[, TRUE, by=c("site", "episode_id")]
+            setnames(.self$.epindex, c("site", "episode_id", "index"))
+        } else 
+            .self$torigin <- data.table(site=character(), 
+                                        episode_id=character(),
+                                        time=integer())
 })
 
 
@@ -210,9 +215,13 @@ ccTable$methods(
 
 ccTable$methods(
     clean = function() {
-        .self$filter.ranges()
-        .self$filter.category()
-        .self$filter.missingess()
-        .self$filter.nodata()
-        .self$apply.filters()
+        if (nrow(.self$torigin) != 0 ) {
+            .self$filter.ranges()
+            .self$filter.category()
+            .self$filter.missingess()
+            .self$filter.nodata()
+            .self$apply.filters()
+        }
+        else 
+            warning("The original table is NULL, hence no cleaning process has been performed.")
     })

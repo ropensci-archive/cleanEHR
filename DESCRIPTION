@@ -13,14 +13,16 @@ Depends:
 License: GPL-3
 LinkingTo: Rcpp
 Suggests:
-    testthat,
-    knitr
+    testthat
 Imports:
     data.table,
     XML,
     yaml,
     Rcpp,
-    methods
+    methods, 
+    knitr, 
+    ggplot2, 
+    pander
 RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'

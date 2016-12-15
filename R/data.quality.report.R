@@ -266,7 +266,7 @@ table1 <- function(demg, names, return.data=FALSE) {
 #' @param demg ccRecord or demographic table created by sql.demographic.table()
 #' @param names a vector of short names of numerical demographic data. 
 #' @examples
-#' demg.distribution(ccd, "HCM")
+#' \dontrun{tdemg.distribution(ccd, "HCM")}
 #' @export demg.distribution
 demg.distribution <- function(demg, names) {
     if (class(demg) == "ccRecord")
