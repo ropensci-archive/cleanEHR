@@ -2,11 +2,18 @@
 % Please edit documentation in R/data.quality.report.R
 \name{demographic.data.completeness}
 \alias{demographic.data.completeness}
-\title{create a demographic completeness table}
+\title{Create a demographic completeness table (in pander table)}
 \usage{
 demographic.data.completeness(demg, names = NULL, return.data = FALSE)
 }
+\arguments{
+\item{demg}{data.table the demographic data table created by sql.demographic.table()}
+
+\item{names}{short name of selected items}
+
+\item{return.data}{logical return the table if TRUE}
+}
 \description{
-create a demographic completeness table
+Create a demographic completeness table (in pander table)
 }
 

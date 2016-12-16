@@ -6,6 +6,9 @@
 \usage{
 xml.file.duration.plot(ccd)
 }
+\arguments{
+\item{ccd}{ccRecord-class}
+}
 \description{
 plot the duration of XML files.
 }

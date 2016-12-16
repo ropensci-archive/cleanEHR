@@ -6,6 +6,12 @@
 \usage{
 file.summary(ccd)
 }
+\arguments{
+\item{ccd}{ccRecord-class}
+}
+\value{
+data.table
+}
 \description{
 Produce a file summary table
 }

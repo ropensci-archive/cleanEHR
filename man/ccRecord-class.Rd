@@ -4,7 +4,7 @@
 \name{ccRecord-class}
 \alias{ccRecord}
 \alias{ccRecord-class}
-\title{A class to hold parsed episode data.}
+\title{The S3 class which holds all the CCHIC patient record - served as a database.}
 \description{
 ccRecord is a class to hold the raw episode data parsed directly from XML or
 CSV files.
@@ -39,5 +39,11 @@ rec <- ccRecord() # a new record
 rec <- rec + ep # adding a new episode to the record
 rec <- rec + NULL # adding nothing to the record
 rec <- rec + rec # adding a record to a record
+# Adding a list of episodes 
+rec <- ccRecord()
+ep1 <- new.episode()
+ep2 <- new.episode()
+eps.list <- list(ep1, ep2)
+new.rec <- rec + eps.list
 }
 

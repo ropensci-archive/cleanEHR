@@ -62,6 +62,9 @@ data.quality.report <- function(ccd, site=NULL, pdf=T) {
 }
 
 #' Produce a file summary table
+#' 
+#' @param ccd ccRecord-class
+#' @return data.table
 #' @export file.summary
 file.summary <- function(ccd) {
     infotb <- ccd@infotb
@@ -74,6 +77,8 @@ file.summary <- function(ccd) {
 }
 
 #' Plot the XML duration in terms of sites. 
+#'
+#' @param ccd ccRecord-class
 #' @export xml.site.duration.plot
 xml.site.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
@@ -96,6 +101,8 @@ xml.site.duration.plot <- function(ccd) {
 }
 
 #' plot the duration of XML files. 
+#'
+#' @param ccd ccRecord-class
 #' @export xml.file.duration.plot
 xml.file.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
@@ -120,7 +127,11 @@ txt.color <- function(x, color) {
     paste("\\colorbox{", color, "}{", x, "}", sep="")
 }
 
-#' create a demographic completeness table
+#' Create a demographic completeness table (in pander table)
+#' 
+#' @param demg data.table the demographic data table created by sql.demographic.table()
+#' @param names short name of selected items
+#' @param return.data logical return the table if TRUE
 #' @export demographic.data.completeness
 demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     site.reject <- function(demg, name, ref) {
@@ -184,7 +195,9 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
                                                  "center"))
 }
 
-#' Produce a pander table of sample rate of longitudinal data. 
+#' Produce a pander table of sample rate of longitudinal data.
+#'
+#' @param cctb ccTable-class, see create.cctable().  
 #' @export samplerate2d
 samplerate2d <- function(cctb) {
     sample.rate.table <- data.frame(fix.empty.names=T)
@@ -208,6 +221,8 @@ samplerate2d <- function(cctb) {
 
 
 #' Return total data point of the ccRecord object. 
+#'
+#' @param ccd ccRecord-class
 #' @export total.data.point
 total.data.point <- function(ccd) {
     dp.physio <- 
@@ -222,6 +237,11 @@ total.data.point <- function(ccd) {
 }
 
 #' Produce the item specified table one. 
+#'
+#' @param demg ccTable-clas demographic table created by sql.demographic.table()
+#' @param names character string. Short names of data items, e.g. h_rate. 
+#' @param return.data logical, FALSE: printing the pander table, TRUE: return the table but not print out the pander table. 
+#' @return if return.data is TRUE, return data.table
 #' @export table1
 table1 <- function(demg, names, return.data=FALSE) {
     panderOptions('knitr.auto.asis', FALSE)
@@ -267,7 +287,7 @@ table1 <- function(demg, names, return.data=FALSE) {
 #' Create a plot of the distribution of numerical demographic data.
 #' 
 #' @param demg ccRecord or demographic table created by sql.demographic.table()
-#' @param names a vector of short names of numerical demographic data. 
+#' @param names character vector of short names of numerical demographic data. 
 #' @examples
 #' \dontrun{tdemg.distribution(ccd, "HCM")}
 #' @export demg.distribution
@@ -284,7 +304,10 @@ demg.distribution <- function(demg, names) {
     }
 }
 
-#' plot the physiological data distribution.
+#' Plot the physiological data distribution.
+#'
+#' @param cctb ccTable-class, see create.cctable().  
+#' @param names character vector of short names of numerical demographic data. 
 #' @export physio.distribution
 physio.distribution <- function(cctb, names) {
     for (nm in names) {

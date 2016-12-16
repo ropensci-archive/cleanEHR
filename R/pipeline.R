@@ -25,7 +25,8 @@ find.new.xml.file <- function(xml.path) {
 #'
 #' Inject episode data from the newly added XML files to the RData database. 
 #' @param xml.path the path of the folder of which contains the XML files. 
-#' @param mc.cores number of processors to be applied for parallelisation. 
+#' @param mc.cores number of processors to be applied for parallelisation.
+#' @param quiet logical switch on/off of the progress bar. 
 #' @return ccRecord object
 update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
     files.to.parse <- find.new.xml.file(xml.path)

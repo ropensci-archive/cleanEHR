@@ -1,6 +1,7 @@
 #' find the unique spell ID.
 #'
-#' @param record ccRecord
+#' @param rec  ccRecord-class
+#' @param duration integer hours 
 #' @return data.table contains spell id.
 #' @export unique_spell
 unique_spell <- function(rec, duration=2) {
@@ -26,7 +27,7 @@ unique_spell <- function(rec, duration=2) {
 
 #' Assign unique spell ID to the demographic table 
 #'
-#' @param record ccRecord
+#' @param rec ccRecord
 #' @param duration the maximum hours of transition period
 #' @return data.table demographic table with spell ID in column spell
 #' 

@@ -6,6 +6,9 @@
 \usage{
 xml.site.duration.plot(ccd)
 }
+\arguments{
+\item{ccd}{ccRecord-class}
+}
 \description{
 Plot the XML duration in terms of sites.
 }

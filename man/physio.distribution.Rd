@@ -2,11 +2,16 @@
 % Please edit documentation in R/data.quality.report.R
 \name{physio.distribution}
 \alias{physio.distribution}
-\title{plot the physiological data distribution.}
+\title{Plot the physiological data distribution.}
 \usage{
 physio.distribution(cctb, names)
 }
+\arguments{
+\item{cctb}{ccTable-class, see create.cctable().}
+
+\item{names}{character vector of short names of numerical demographic data.}
+}
 \description{
-plot the physiological data distribution.
+Plot the physiological data distribution.
 }
 

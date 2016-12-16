@@ -7,6 +7,14 @@
 \usage{
 \S4method{+}{ccRecord,ccRecord}(e1, e2)
 }
+\arguments{
+\item{e1}{ccRecord-class}
+
+\item{e2}{ccRecord-class}
+}
+\value{
+ccRecord-class
+}
 \description{
 Combine two ccRecord objects
 }

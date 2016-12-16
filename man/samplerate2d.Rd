@@ -6,6 +6,9 @@
 \usage{
 samplerate2d(cctb)
 }
+\arguments{
+\item{cctb}{ccTable-class, see create.cctable().}
+}
 \description{
 Produce a pander table of sample rate of longitudinal data.
 }

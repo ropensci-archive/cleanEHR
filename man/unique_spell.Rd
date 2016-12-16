@@ -7,7 +7,9 @@
 unique_spell(rec, duration = 2)
 }
 \arguments{
-\item{record}{ccRecord}
+\item{rec}{ccRecord-class}
+
+\item{duration}{integer hours}
 }
 \value{
 data.table contains spell id.

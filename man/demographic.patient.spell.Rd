@@ -7,9 +7,9 @@
 demographic.patient.spell(rec, duration = 2)
 }
 \arguments{
-\item{duration}{the maximum hours of transition period}
+\item{rec}{ccRecord}
 
-\item{record}{ccRecord}
+\item{duration}{the maximum hours of transition period}
 }
 \value{
 data.table demographic table with spell ID in column spell

@@ -20,13 +20,4 @@ ccRecord object, the information table (infotb) will be updated automatically.
 It is the more efficient way to add multiple ccEpisode objects. See
 add.episode.to.record() for just adding one ccEpisode.
 }
-\examples{
-rec <- ccRecord()
-ep1 <- new.episode()
-ep2 <- new.episode()
-eps.list <- list(ep1, ep2)
-new.rec <- add.episode.list.to.record(rec, eps.list)
-# Alternatively
-new.rec <- rec + eps.list
-}
 

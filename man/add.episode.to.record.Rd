@@ -7,21 +7,14 @@
 add.episode.to.record(rec, episode)
 }
 \arguments{
-\item{rec}{ccRecord}
+\item{rec}{ccRecord-class}
 
-\item{episode}{ccEpisode object}
+\item{episode}{ccEpisode-class}
 }
 \value{
 ccRecord object
 }
 \description{
 Adding one ccEpisode object to ccRecord object.
-}
-\examples{
-rec <- ccRecord()
-eps <- new.episode()
-new.rec <- add.episode.to.record(rec, eps)
-# Alternatively
-new.rec <- rec + eps
 }
 

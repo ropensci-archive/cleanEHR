@@ -10,7 +10,7 @@ demg.distribution(demg, names)
 \arguments{
 \item{demg}{ccRecord or demographic table created by sql.demographic.table()}
 
-\item{names}{a vector of short names of numerical demographic data.}
+\item{names}{character vector of short names of numerical demographic data.}
 }
 \description{
 demg.distribution

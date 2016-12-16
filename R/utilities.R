@@ -111,7 +111,8 @@ extractInfo <- function() {
                                  as.numeric(as.number(StdId(time.list$idt))))))
 }
 
-#' retrieve information of the query code/item names from data.checklist
+#' Retrieve information of the query code/item names from data.checklist
+#'
 #' @param item.code it can be either item name or NHIC_code, dt_code, or
 #'        meta_code
 #' @return a vector contains NHIC_code, dt_code, meta_code and row_in_checklist
@@ -149,13 +150,6 @@ getItemInfo <- function(item.code) {
     return(item.info)
 }
 
-#' get information of a group of code of items and return an array.
-getItemsInfo <- function(items.code, var) {
-    info_ <- array(NA, length(items.code))
-    for (i in seq(items.code))
-        info_[i] <- getItemInfo(items.code[i])[var]
-    return(info_)
-}
 
 #' Convert time from xml to POSIX format.
 #'

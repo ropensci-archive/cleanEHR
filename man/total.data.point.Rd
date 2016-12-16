@@ -6,6 +6,9 @@
 \usage{
 total.data.point(ccd)
 }
+\arguments{
+\item{ccd}{ccRecord-class}
+}
 \description{
 Return total data point of the ccRecord object.
 }

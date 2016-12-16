@@ -7,6 +7,11 @@
 \usage{
 \S4method{[[}{ccRecord}(x, i)
 }
+\arguments{
+\item{x}{ccRecord-class}
+
+\item{i}{integer vector}
+}
 \description{
 Subseting a ccRecord object and return a list of ccEpisode objects.
 }

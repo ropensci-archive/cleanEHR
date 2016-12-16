@@ -7,6 +7,11 @@
 \usage{
 \S4method{[}{ccRecord,character}(x, i)
 }
+\arguments{
+\item{x}{ccRecord-class}
+
+\item{i}{character vector which contains site_ids, e.g. c("Q70", "Q70W")}
+}
 \description{
 Create a ccRecord subset via selected sites.
 }

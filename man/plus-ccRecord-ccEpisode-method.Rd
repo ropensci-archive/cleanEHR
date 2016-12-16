@@ -7,6 +7,14 @@
 \usage{
 \S4method{+}{ccRecord,ccEpisode}(e1, e2)
 }
+\arguments{
+\item{e1}{ccRecord-class}
+
+\item{e2}{ccEpisode-class}
+}
+\value{
+ccRecord-class
+}
 \description{
 Adding one ccEpisode object to a ccRecord
 }

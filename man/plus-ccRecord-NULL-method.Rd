@@ -7,6 +7,11 @@
 \usage{
 \S4method{+}{ccRecord,`NULL`}(e1, e2)
 }
+\arguments{
+\item{e1}{ccRecord-class}
+
+\item{e2}{NULL}
+}
 \description{
 Adding nothing to a ccRecord object.
 }
