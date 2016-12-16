@@ -139,8 +139,8 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     }
 
     path <- find.package("ccdata")
-    acpt <- unlist(yaml.load_file(paste(path, "data", "accept_completeness.yaml", 
-                                             sep=.Platform$file.sep)))
+    acpt <- unlist(yaml.load_file(system.file("conf/accept_completeness.yaml", 
+                                              package="ccdata")))
 
  
     demg <- copy(demg)

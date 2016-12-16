@@ -11,7 +11,8 @@ NULL
     
     # Assign ITEM_REF tables
     utils::data("ITEM_REFTABLE", package="ccdata", envir=env)
-    ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
+
+    ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="ccdata"))
     assign("ITEM_REF", ITEM_REF, envir=env)
    
     # Build up short name / NIHR code / Classification conversion dictionary
