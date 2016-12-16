@@ -8,6 +8,9 @@ StdId(text)
 
 StdId(text)
 }
+\arguments{
+\item{text}{NIHC code which should be in a format like NIHR_HIC_ICU_xxxx}
+}
 \description{
 S4 class to hold standard IDs such as "NIHR_HIC_ICU_0001"
 

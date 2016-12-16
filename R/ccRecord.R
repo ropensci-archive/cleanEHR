@@ -2,13 +2,14 @@
 #'
 #' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or
 #' CSV files.
-#' @slot nepisodes is an integer number indicates the total number of episode
+#' @field nepisodes is an integer number indicates the total number of episode
 #'       the record is holding.
-#' @slot dmgtb a data.table containing all the demographic information of each
+#' @field dmgtb a data.table containing all the demographic information of each
 #'       episode, including site_id, NHS number, PAS number, admission date/time,
 #'       and discharge date/time. Call 
-#' @slot infotb a data.table holding the parsing information of each episode such as the
+#' @field infotb a data.table holding the parsing information of each episode such as the
 #'       parsing time and from which file it parsed from.
+#' @field episdoes a list of ccEpisode objects. 
 #' @exportClass ccRecord
 #' @export ccRecord
 #' @examples
@@ -114,18 +115,21 @@ add.record.to.record <- function(rec1, rec2) {
     index.record(rec1)
 }
 
+#' Adding a list of ccEpisode objects to a ccRecord 
 setMethod('+', c("ccRecord", "list"), 
           function(e1, e2) {add.episode.list.to.record(e1, e2)}
           )
 
+#' Adding one ccEpisode object to a ccRecord 
 setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {add.episode.to.record(e1, e2)})
 
-
+#' Combine two ccRecord objects 
 setMethod('+', c("ccRecord", "ccRecord"), 
           function(e1, e2) {add.record.to.record(e1, e2)}
           )
 
+#' Adding nothing to a ccRecord object. 
 setMethod('+', c("ccRecord", "NULL"), 
           function(e1, e2) return(e1))
 
@@ -203,12 +207,17 @@ new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) {
     eps
 }
 
+#' loop over all episodes of a ccRecord object 
+#' 
+#' @param record ccRecord 
+#' @param fun function 
 #' @export 
 for_each_episode <- function(record, fun) {
     lapply(record@episodes, fun)
 }
 
 
+#' Subseting a ccRecord object and return a list of ccEpisode objects. 
 #' @exportMethod [[
 setMethod("[[", "ccRecord",
           function(x, i) {
@@ -220,7 +229,7 @@ setMethod("[[", "ccRecord",
           }
 )
 
-
+#' Create a subset of ccRecord object from the original one via specifying the row number of episodes. 
 #' @exportMethod [
 setMethod("[", "ccRecord",
           function(x, i){ 
@@ -231,6 +240,8 @@ setMethod("[", "ccRecord",
               ccRecord() + eplst
           })
 
+#' Create a ccRecord subset via selected sites.
+#' @exportMethod [
 setMethod("[", signature(x="ccRecord", i="character"), 
           definition=function(x, i) {
               ind <- x@infotb[site_id%in%i]$index

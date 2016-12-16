@@ -1,3 +1,14 @@
+
+#' This a reference table of NHIC data items. 
+#'
+#' @name data.checklist
+#' @docType data
+#' @author Sinan Shi \email{s.shi@ucl.ac.uk}
+#' @keywords data
+NULL
+
+
+
 #' This is a simplified version of as.data.frame() with better performance. 
 #' @export .simple.data.frame
 .simple.data.frame <- function(x) {
@@ -168,7 +179,9 @@ xmlTime2POSIX <- function(xml.time, allow=FALSE){
     return(tp)
 }
 
-
+#' Produce a site id reference table.
+#'
+#' @return data.frame 
 #' @export site.info
 site.info <- function(){
     si <- list(

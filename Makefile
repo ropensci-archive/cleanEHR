@@ -5,6 +5,14 @@ all:
 
 check:
 	R CMD check '.'
+
+cran:
+	rm -r cran_ccdata
+	mkdir cran_ccdata 
+	cp -r R man data inst src tests DESCRIPTION NAMESPACE cran_ccdata
+	rm cran_ccdata/src/*.o cran_ccdata/src/*.so
+	R CMD check cran_ccdata 
+
 test:
 	@Rscript -e 'library(devtools); test()'
 

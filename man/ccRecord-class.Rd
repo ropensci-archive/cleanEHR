@@ -9,7 +9,7 @@
 ccRecord is a class to hold the raw episode data parsed directly from XML or
 CSV files.
 }
-\section{Slots}{
+\section{Fields}{
 
 \describe{
 \item{\code{nepisodes}}{is an integer number indicates the total number of episode
@@ -21,6 +21,8 @@ and discharge date/time. Call}
 
 \item{\code{infotb}}{a data.table holding the parsing information of each episode such as the
 parsing time and from which file it parsed from.}
+
+\item{\code{episdoes}}{a list of ccEpisode objects.}
 }}
 \examples{
 heart_rate <- data.frame(seq(10), rep(70, 10)) # NIHR_HIC_ICU_0108

@@ -7,7 +7,9 @@
 \method{update}{new.xml}(xml.path, mc.cores = 4, quiet = FALSE)
 }
 \arguments{
-\item{mc.cores}{}
+\item{xml.path}{the path of the folder of which contains the XML files.}
+
+\item{mc.cores}{number of processors to be applied for parallelisation.}
 }
 \value{
 ccRecord object

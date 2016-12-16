@@ -47,7 +47,6 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     return(dt)
 }
 
-#' @export itemsToDataFrame
 itemsToDataFrame <- function(ep, items, period_length, freq) {
     listmatrix <- list()
     time <- seq(0, period_length, freq)

@@ -17,10 +17,10 @@
 #' @import ggplot2
 data.quality.report <- function(ccd, site=NULL, pdf=T) {
     if (is.null(site)) {
-        dbfull <<- "YES"
+        dbfull <- "YES"
     }
     else {
-        dbfull <<- "NO"
+        dbfull <- "NO"
         ccd <- ccd[site]
     }
  
@@ -61,7 +61,7 @@ data.quality.report <- function(ccd, site=NULL, pdf=T) {
 
 }
 
-
+#' Produce a file summary table
 #' @export file.summary
 file.summary <- function(ccd) {
     infotb <- ccd@infotb
@@ -73,6 +73,7 @@ file.summary <- function(ccd) {
     return(file.summary)
 }
 
+#' Plot the XML duration in terms of sites. 
 #' @export xml.site.duration.plot
 xml.site.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
@@ -94,7 +95,7 @@ xml.site.duration.plot <- function(ccd) {
         xlab("") + ylab("")
 }
 
-
+#' plot the duration of XML files. 
 #' @export xml.file.duration.plot
 xml.file.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
@@ -119,7 +120,7 @@ txt.color <- function(x, color) {
     paste("\\colorbox{", color, "}{", x, "}", sep="")
 }
 
-
+#' create a demographic completeness table
 #' @export demographic.data.completeness
 demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     site.reject <- function(demg, name, ref) {
@@ -183,6 +184,7 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
                                                  "center"))
 }
 
+#' Produce a pander table of sample rate of longitudinal data. 
 #' @export samplerate2d
 samplerate2d <- function(cctb) {
     sample.rate.table <- data.frame(fix.empty.names=T)
@@ -205,7 +207,7 @@ samplerate2d <- function(cctb) {
 
 
 
-#' 
+#' Return total data point of the ccRecord object. 
 #' @export total.data.point
 total.data.point <- function(ccd) {
     dp.physio <- 
@@ -219,6 +221,7 @@ total.data.point <- function(ccd) {
     return(sum(dp.physio, dp.demg))
 }
 
+#' Produce the item specified table one. 
 #' @export table1
 table1 <- function(demg, names, return.data=FALSE) {
     panderOptions('knitr.auto.asis', FALSE)
@@ -281,7 +284,7 @@ demg.distribution <- function(demg, names) {
     }
 }
 
-
+#' plot the physiological data distribution.
 #' @export physio.distribution
 physio.distribution <- function(cctb, names) {
     for (nm in names) {

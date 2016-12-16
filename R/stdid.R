@@ -20,6 +20,8 @@ StdId <- setClass ("StdId",
 
 
 #' constructor of StdId class
+#'
+#' @param text NIHC code which should be in a format like NIHR_HIC_ICU_xxxx
 #' @export StdId
 StdId <- function(text) {
     reg <- regexpr("NIHR_HIC_ICU_[0-9]+", text)
@@ -31,7 +33,9 @@ StdId <- function(text) {
 }
 
 
-#' convert standard ids to numbers (character) which can be used for indexing.
+#' Convert standard IDs to numbers (character) which can be used for indexing.
+#'
+#' @param obj a StdId object. 
 #' @export as.number
 as.number <- function(obj) {
     d <- as.character(obj@ids)
@@ -42,8 +46,6 @@ as.number <- function(obj) {
     return(as.character(no.prefix))
 }
 
-#'
-#' @export .as.number
 .as.number <- function(code) {
     return(as.numeric(strsplit(code, "NIHR_HIC_ICU_")[[1]][2]))
 }
@@ -52,7 +54,11 @@ as.number <- function(obj) {
 all.nhic.code <- function(cls) {
         data.checklist[data.checklist$Classification1 == cls,"NHICcode"]
 }
-#' convert NHIC codes to the short names
+
+#' Convert NHIC codes to the short names
+#'
+#' @param code character NIHC code, e.g. NIHR_HIC_ICU_0108
+#' @return shortname character e.g. h_rate 
 #' @export code2stname
 code2stname <- function(code) {
     code <- as.character(code)
@@ -61,7 +67,10 @@ code2stname <- function(code) {
     return(stn)
 }
 
-#' convert short names to NHIC code
+#' Convert short names to NHIC codes
+#' 
+#' @param stname character short names of data item h_rate 
+#' @return NIHC code character such as NIHR_HIC_ICU_0108
 #' @export stname2code
 stname2code <- function(stname) {
     stname <- as.character(stname)
@@ -70,6 +79,10 @@ stname2code <- function(stname) {
     return(code)
 }
 
+#' Convert short names to long names. 
+#' 
+#' @param stname character short names of data item h_rate 
+#' @return longname character such as "heart rate"
 #' @export 
 stname2longname <- function(stname) {
     stname <- as.character(stname)
@@ -77,18 +90,11 @@ stname2longname <- function(stname) {
     code[is.na(code)] <- stname[is.na(code)]
     return(code)
 }
-#' convert short names to long names
-#' @export short2longname
-short2longname <- function(stname) {
-    stname <- as.character(stname)
-    longname <- array("NULL", length(stname))
-    for (i in seq_along(stname))
-        longname[i] <- ccdata:::ITEM_REF[[stname2code(stname[i])]]$dataItem
-    return(longname)
-}
 
 
-#' Identify the classification - classification1 of a given item code or short
+#' Identify the classification - classification1 
+#' 
+#' Identify the classification of a given item code or short
 #' name. Classification1 has 5 labels: 
 #' [1] "Demographic", [2] "Physiology" 
 #' [3] "Drugs" [4] "Nursing_other" [5] "Laboratory"
