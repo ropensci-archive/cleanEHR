@@ -7,7 +7,7 @@ check:
 	R CMD check '.'
 
 cran:
-	rm -r cran_ccdata
+	if [ -d cran_ccdata ]; then  rm -r cran_ccdata; fi 
 	mkdir cran_ccdata 
 	cp -r R man data inst src tests DESCRIPTION NAMESPACE cran_ccdata
 	rm cran_ccdata/src/*.o cran_ccdata/src/*.so
@@ -23,10 +23,11 @@ manual:
 clean:
 	rm -rf src/*.o src/*.so
 	rm -rf man
-	rm ..pdf
+
+rmcran: 
+	rm -rf cran*
+	rm -rf *.Rcheck
 	rm *.tar.gz
-	rm ccdata.*
-	rm ccdata_*
 
 idhs:
 	rsync -av . /tmp/ccdata --exclude '.*' --exclude '*.so' --exclude '*.o'
