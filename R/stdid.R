@@ -62,7 +62,7 @@ all.nhic.code <- function(cls) {
 #' @export code2stname
 code2stname <- function(code) {
     code <- as.character(code)
-    stn <- ccdata:::code2stname.dict[code]
+    stn <- code2stname.dict[code]
     stn[is.na(stn)] <- code[is.na(stn)]
     return(stn)
 }
@@ -74,7 +74,7 @@ code2stname <- function(code) {
 #' @export stname2code
 stname2code <- function(stname) {
     stname <- as.character(stname)
-    code <- ccdata:::stname2code.dict[stname]
+    code <- stname2code.dict[stname]
     code[is.na(code)] <- stname[is.na(code)]
     return(code)
 }
@@ -86,7 +86,7 @@ stname2code <- function(stname) {
 #' @export 
 stname2longname <- function(stname) {
     stname <- as.character(stname)
-    code <- ccdata:::stname2longname.dict[stname]
+    code <- stname2longname.dict[stname]
     code[is.na(code)] <- stname[is.na(code)]
     return(code)
 }
@@ -102,9 +102,9 @@ stname2longname <- function(stname) {
 #' @return character the item classification
 #' @export which.classification
 which.classification <- function(item_name) {
-    cls <- ccdata:::class.dict_code[item_name]
+    cls <- class.dict_code[item_name]
     if (is.na(cls))
-        cls <- ccdata:::class.dict_stname[item_name]
+        cls <- class.dict_stname[item_name]
     if (is.na(cls)) stop(paste("item name", item_name, "cannot be found."))
     return(cls)
 }

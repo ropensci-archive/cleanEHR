@@ -1,3 +1,10 @@
+#' @import XML
+#' @import data.table
+#' @import yaml
+#' @import Rcpp
+NULL
+
+
 #' The S3 class which holds all the CCHIC patient record - served as a database.
 #'
 #' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or

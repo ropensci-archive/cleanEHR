@@ -1,4 +1,3 @@
-
 #' This a reference table of NHIC data items. 
 #'
 #' @name data.checklist
@@ -7,17 +6,6 @@
 #' @keywords data
 NULL
 
-
-
-#' This is a simplified version of as.data.frame() with better performance. 
-#' @export .simple.data.frame
-.simple.data.frame <- function(x) {
-    nm <- names(x)
-    attr(x, "row.names") <- .set_row_names(length(x[[1]]))
-    attr(x, "col.names") <- nm
-    class(x) <- "data.frame"
-    x
-}
 
 
 
@@ -41,14 +29,23 @@ extractIndexTable <- function() {
     return(checklist)
 }
 
-#'
-#' @export .which.type
-.which.type <- function(id) {
-    return(ccdata:::checklist[[id]])
+
+# This is a simplified version of as.data.frame() with better performance. 
+.simple.data.frame <- function(x) {
+    nm <- names(x)
+    attr(x, "row.names") <- .set_row_names(length(x[[1]]))
+    attr(x, "col.names") <- nm
+    class(x) <- "data.frame"
+    x
 }
 
-#'
-#' @export .which.datatype
+
+
+.which.type <- function(id) {
+    return(checklist[[id]])
+}
+
+
 .which.datatype <- function(id) {
   # List with the conversion operations to do for each data type
   operations <- list('numeric' = as.numeric,
@@ -60,7 +57,7 @@ extractIndexTable <- function() {
                      'date/time' = as.character, # They are hashed for now
                      'list / logical' = as.character) # what are they?
 
-  datatype = ccdata:::ITEM_REF[[id]]$Datatype
+  datatype = ITEM_REF[[id]]$Datatype
   if (!is.null(datatype)){
     if (exists(datatype, operations)){
       return(operations[[datatype]])
@@ -81,8 +78,6 @@ whichIsCode <- function(nhic) {
 #'         nontime [numeric], MAX_NUM_NHIC
 #' @export extractInfo
 extractInfo <- function() {
-    if(!exists("data.checklist"))
-        data("data.checklist")
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
 

@@ -82,7 +82,7 @@ file.summary <- function(ccd) {
 #' @export xml.site.duration.plot
 xml.site.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
-    tb <- tb[, list(minadm=min(t_admission, na.rm=T), 
+    tb <- tb[, list("minadm"=min(t_admission, na.rm=T), 
               maxadm=max(t_admission, na.rm=T),
               mindis=min(t_discharge, na.rm=T),
               maxdis=max(t_discharge, na.rm=T)), by=site_id]
@@ -90,7 +90,7 @@ xml.site.duration.plot <- function(ccd) {
           function(x) paste(x, collapse="-"))
     tb[, site_name:=site_name]
     
-    ggplot(tb, aes(x=minadm, y=site_name)) +
+    ggplot(tb, aes_string(x="minadm", y="site_name")) +
         geom_segment(aes(xend=maxdis, yend=site_name), color="gray", size=10) +
         annotate("text", x=tb$minadm+(tb$maxdis-tb$minadm)/2, 
                  y=tb$site_name, label=tb$site_name, size=7) + 
@@ -156,7 +156,7 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
 
  
     demg <- copy(demg)
-    demg[, index:=NULL]
+    demg[, "index":=NULL]
     if (!is.null(names))
         demg <- demg[, names, with=F]
 
@@ -249,7 +249,7 @@ table1 <- function(demg, names, return.data=FALSE) {
     if (!return.data)
         cat(paste("\n## Table ONE\n"))
     table1.item <- function(demg, name) {
-        ref <- ccdata:::ITEM_REF[[stname2code(name)]]
+        ref <- ITEM_REF[[stname2code(name)]]
         if (is.null(ref))
             stop("The short name cannot be found in ITEM_REF.")
         if (!return.data)
@@ -295,7 +295,7 @@ demg.distribution <- function(demg, names) {
     if (class(demg) == "ccRecord")
         demg <- sql.demographic.table(demg)
     for (nm in names) {
-        ref <- ccdata:::ITEM_REF[[stname2code(nm)]]
+        ref <- ITEM_REF[[stname2code(nm)]]
         cat(paste("\n\n###", ref$dataItem, "\n"))
         gg <- ggplot(demg, aes_string(nm)) + geom_density(fill="lightsteelblue3") + 
             facet_wrap(~ICNNO, scales="free")
@@ -311,7 +311,7 @@ demg.distribution <- function(demg, names) {
 #' @export physio.distribution
 physio.distribution <- function(cctb, names) {
     for (nm in names) {
-        ref <- ccdata:::ITEM_REF[[stname2code(nm)]]
+        ref <- ITEM_REF[[stname2code(nm)]]
         cat(paste("\n\n###", ref$dataItem, "\n"))
         gg <- ggplot(cctb, aes_string(ref$NHICcode)) + geom_density(fill="lightsteelblue3") + 
             facet_wrap(~site)
