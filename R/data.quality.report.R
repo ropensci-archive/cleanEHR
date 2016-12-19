@@ -1,4 +1,5 @@
-#' Create the data quality report 
+#' Create the data quality report
+#'
 #' Create a detailed data quality report, including file summary, site 
 #' summary, data completeness, and density plot. The result can be found 
 #' in {work_dir}/report/data_quality_report.{pdf}/{md}. Using this function, 
