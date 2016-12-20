@@ -5,6 +5,15 @@ all:
 
 check:
 	R CMD check '.'
+
+cran:
+	if [ -d cran_ccdata ]; then  rm -r cran_ccdata; fi 
+	mkdir cran_ccdata 
+	cp -r R man data inst src tests DESCRIPTION NAMESPACE cran_ccdata
+	rm cran_ccdata/src/*.o cran_ccdata/src/*.so
+	R CMD build cran_ccdata 
+	R CMD check *.tar.gz --as-cran 
+
 test:
 	@Rscript -e 'library(devtools); test()'
 
@@ -14,7 +23,11 @@ manual:
 clean:
 	rm -rf src/*.o src/*.so
 	rm -rf man
-	rm ..pdf
+
+rmcran: 
+	rm -rf cran*
+	rm -rf *.Rcheck
+	rm *.tar.gz
 
 idhs:
 	rsync -av . /tmp/ccdata --exclude '.*' --exclude '*.so' --exclude '*.o'

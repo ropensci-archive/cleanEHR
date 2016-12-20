@@ -1,14 +1,22 @@
-#' A class to hold parsed episode data.
+#' @import XML
+#' @import data.table
+#' @import yaml
+#' @import Rcpp
+NULL
+
+
+#' The S3 class which holds all the CCHIC patient record - served as a database.
 #'
 #' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or
 #' CSV files.
-#' @slot nepisodes is an integer number indicates the total number of episode
+#' @field nepisodes is an integer number indicates the total number of episode
 #'       the record is holding.
-#' @slot dmgtb a data.table containing all the demographic information of each
+#' @field dmgtb a data.table containing all the demographic information of each
 #'       episode, including site_id, NHS number, PAS number, admission date/time,
 #'       and discharge date/time. Call 
-#' @slot infotb a data.table holding the parsing information of each episode such as the
+#' @field infotb a data.table holding the parsing information of each episode such as the
 #'       parsing time and from which file it parsed from.
+#' @field episdoes a list of ccEpisode objects. 
 #' @exportClass ccRecord
 #' @export ccRecord
 #' @examples
@@ -26,6 +34,12 @@
 #' rec <- rec + ep # adding a new episode to the record
 #' rec <- rec + NULL # adding nothing to the record
 #' rec <- rec + rec # adding a record to a record
+#' # Adding a list of episodes 
+#' rec <- ccRecord()
+#' ep1 <- new.episode()
+#' ep2 <- new.episode()
+#' eps.list <- list(ep1, ep2)
+#' new.rec <- rec + eps.list
 ccRecord <- setClass("ccRecord", 
                       slots=c(nepisodes="integer", dmgtb="data.table", 
                               infotb="data.table", episodes="list"),
@@ -33,7 +47,18 @@ ccRecord <- setClass("ccRecord",
                                           infotb=data.table(), 
                                           dmgtb=data.table()))
 
-# NOTE: put some description here.
+#' The S3 class which holds data of a single episode. 
+#' 
+#' @field site_id character string. Site ID, if presented, otherwise "NA".
+#' @field episode_id character string. Episode ID, if presented, otherwise "NA".
+#' @field nhs_number character string. NHS number, if presented, otherwise "NA".
+#' @field pas_number character string. PAS number, if presented, otherwise "NA".
+#' @field parse_file character string. The source XML file. If the source is not a file then "NA".
+#' @field t_admission POSIXct. Time of Admission to the ICU, if presented, otherwise NA.
+#' @field t_discharge POSIXct. Time of discharge of the ICU, if presented, otherwise NA.
+#' @field parse_time POSIXct. Parse time. 
+#' @field data A list which holds all the data of this episode which is indexed by NIHIC code. 
+#' @exportClass ccEpisode 
 ccEpisode <- setClass("ccEpisode", 
                        slots=c(site_id="character", 
                                episode_id="character",
@@ -58,16 +83,9 @@ ccEpisode <- setClass("ccEpisode",
 
 #' Adding one ccEpisode object to ccRecord object.
 #'
-#' @param rec ccRecord
-#' @param episode ccEpisode object
+#' @param rec ccRecord-class
+#' @param episode ccEpisode-class 
 #' @return ccRecord object
-#' @examples
-#' rec <- ccRecord()
-#' eps <- new.episode()
-#' new.rec <- add.episode.to.record(rec, eps)
-#' # Alternatively
-#' new.rec <- rec + eps
-#' @export 
 add.episode.to.record <- function(rec, episode) {
     rec@episodes[[length(rec@episodes) + 1]] <- episode
     index.record(rec)
@@ -82,15 +100,6 @@ add.episode.to.record <- function(rec, episode) {
 #' @param rec ccRecord
 #' @param lst a list of ccEpisode objects
 #' @return ccRecord
-#' @examples
-#' rec <- ccRecord()
-#' ep1 <- new.episode()
-#' ep2 <- new.episode()
-#' eps.list <- list(ep1, ep2)
-#' new.rec <- add.episode.list.to.record(rec, eps.list)
-#' # Alternatively
-#' new.rec <- rec + eps.list
-#' @export
 add.episode.list.to.record <- function(rec, lst) {
     for(i in seq(length(lst)))
         rec@episodes[[length(rec@episodes) + 1]] <- lst[[i]]
@@ -104,28 +113,42 @@ add.episode.list.to.record <- function(rec, lst) {
 #' @param rec1 ccRecord object
 #' @param rec2 ccRecord object
 #' @return ccRecord object
-#' @examples 
-#' rec1 <- ccRecord()
-#' rec2 <- ccRecord()
-#' rec.new <- rec1 + rec2
-#' @export
 add.record.to.record <- function(rec1, rec2) {
     rec1@episodes <- append(rec1@episodes, rec2@episodes)
     index.record(rec1)
 }
 
+
+#' Adding a list of ccEpisode objects to a ccRecord 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 A list of ccEpisode objects 
+#' @return ccRecord-class 
 setMethod('+', c("ccRecord", "list"), 
           function(e1, e2) {add.episode.list.to.record(e1, e2)}
           )
 
+#' Adding one ccEpisode object to a ccRecord 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 ccEpisode-class
+#' @return ccRecord-class 
 setMethod('+', c("ccRecord", "ccEpisode"), 
           function(e1, e2) {add.episode.to.record(e1, e2)})
 
-
+#' Combine two ccRecord objects 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 ccRecord-class
+#' @return ccRecord-class
 setMethod('+', c("ccRecord", "ccRecord"), 
           function(e1, e2) {add.record.to.record(e1, e2)}
           )
 
+#' Adding nothing to a ccRecord object.
+#' 
+#' @param e1 ccRecord-class 
+#' @param e2 NULL 
 setMethod('+', c("ccRecord", "NULL"), 
           function(e1, e2) return(e1))
 
@@ -203,12 +226,20 @@ new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) {
     eps
 }
 
+#' loop over all episodes of a ccRecord object 
+#' 
+#' @param record ccRecord 
+#' @param fun function 
 #' @export 
 for_each_episode <- function(record, fun) {
     lapply(record@episodes, fun)
 }
 
 
+#' Subseting a ccRecord object and return a list of ccEpisode objects.
+#' 
+#' @param x ccRecord-class
+#' @param i integer vector
 #' @exportMethod [[
 setMethod("[[", "ccRecord",
           function(x, i) {
@@ -220,7 +251,10 @@ setMethod("[[", "ccRecord",
           }
 )
 
-
+#' Create a subset of ccRecord object from the original one via specifying the row number of episodes.
+#'
+#' @param x ccRecord-class
+#' @param i integer vector
 #' @exportMethod [
 setMethod("[", "ccRecord",
           function(x, i){ 
@@ -231,6 +265,11 @@ setMethod("[", "ccRecord",
               ccRecord() + eplst
           })
 
+#' Create a ccRecord subset via selected sites.
+#'
+#' @param x ccRecord-class
+#' @param i character vector which contains site_ids, e.g. c("Q70", "Q70W")
+#' @exportMethod [
 setMethod("[", signature(x="ccRecord", i="character"), 
           definition=function(x, i) {
               ind <- x@infotb[site_id%in%i]$index

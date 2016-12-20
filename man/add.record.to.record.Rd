@@ -17,9 +17,4 @@ ccRecord object
 \description{
 Combine two ccRecord objects and re-calculate the infortb
 }
-\examples{
-rec1 <- ccRecord()
-rec2 <- ccRecord()
-rec.new <- rec1 + rec2
-}
 

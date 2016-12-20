@@ -1,17 +1,11 @@
-#' @import XML
-#' @import data.table
-#' @import yaml
-#' @import Rcpp
-NULL
-
-
 .onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
     path <- find.package("ccdata")
     env <- parent.env(environment())
     
     # Assign ITEM_REF tables
     utils::data("ITEM_REFTABLE", package="ccdata", envir=env)
-    ITEM_REF <- yaml.load_file(paste(path, "data", "ITEM_REF.yaml", sep=.Platform$file.sep))
+
+    ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="ccdata"))
     assign("ITEM_REF", ITEM_REF, envir=env)
    
     # Build up short name / NIHR code / Classification conversion dictionary

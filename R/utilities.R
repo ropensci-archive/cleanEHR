@@ -1,12 +1,11 @@
-#' This is a simplified version of as.data.frame() with better performance. 
-#' @export .simple.data.frame
-.simple.data.frame <- function(x) {
-    nm <- names(x)
-    attr(x, "row.names") <- .set_row_names(length(x[[1]]))
-    attr(x, "col.names") <- nm
-    class(x) <- "data.frame"
-    x
-}
+#' This a reference table of NHIC data items. 
+#'
+#' @name data.checklist
+#' @docType data
+#' @author Sinan Shi \email{s.shi@ucl.ac.uk}
+#' @keywords data
+NULL
+
 
 
 
@@ -30,14 +29,23 @@ extractIndexTable <- function() {
     return(checklist)
 }
 
-#'
-#' @export .which.type
-.which.type <- function(id) {
-    return(ccdata:::checklist[[id]])
+
+# This is a simplified version of as.data.frame() with better performance. 
+.simple.data.frame <- function(x) {
+    nm <- names(x)
+    attr(x, "row.names") <- .set_row_names(length(x[[1]]))
+    attr(x, "col.names") <- nm
+    class(x) <- "data.frame"
+    x
 }
 
-#'
-#' @export .which.datatype
+
+
+.which.type <- function(id) {
+    return(checklist[[id]])
+}
+
+
 .which.datatype <- function(id) {
   # List with the conversion operations to do for each data type
   operations <- list('numeric' = as.numeric,
@@ -49,7 +57,7 @@ extractIndexTable <- function() {
                      'date/time' = as.character, # They are hashed for now
                      'list / logical' = as.character) # what are they?
 
-  datatype = ccdata:::ITEM_REF[[id]]$Datatype
+  datatype = ITEM_REF[[id]]$Datatype
   if (!is.null(datatype)){
     if (exists(datatype, operations)){
       return(operations[[datatype]])
@@ -70,8 +78,6 @@ whichIsCode <- function(nhic) {
 #'         nontime [numeric], MAX_NUM_NHIC
 #' @export extractInfo
 extractInfo <- function() {
-    if(!exists("data.checklist"))
-        data("data.checklist")
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
 
@@ -100,7 +106,8 @@ extractInfo <- function() {
                                  as.numeric(as.number(StdId(time.list$idt))))))
 }
 
-#' retrieve information of the query code/item names from data.checklist
+#' Retrieve information of the query code/item names from data.checklist
+#'
 #' @param item.code it can be either item name or NHIC_code, dt_code, or
 #'        meta_code
 #' @return a vector contains NHIC_code, dt_code, meta_code and row_in_checklist
@@ -138,13 +145,6 @@ getItemInfo <- function(item.code) {
     return(item.info)
 }
 
-#' get information of a group of code of items and return an array.
-getItemsInfo <- function(items.code, var) {
-    info_ <- array(NA, length(items.code))
-    for (i in seq(items.code))
-        info_[i] <- getItemInfo(items.code[i])[var]
-    return(info_)
-}
 
 #' Convert time from xml to POSIX format.
 #'
@@ -168,7 +168,9 @@ xmlTime2POSIX <- function(xml.time, allow=FALSE){
     return(tp)
 }
 
-
+#' Produce a site id reference table.
+#'
+#' @return data.frame 
 #' @export site.info
 site.info <- function(){
     si <- list(

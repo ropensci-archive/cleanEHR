@@ -1,12 +1,16 @@
-#' selectTable
+#' Create wide table from ccRecord
+#' 
 #' @param record ccRecord
+#' @param items_opt character vectors. Items (HIC code) selected in item_opt are optional items, which will be automatically 
+#' filled when item is missing. 
 #' @param items_obg obligatory items that is obligatory; Any episode that doesn't contain
 #' item in this vector will be removed.
-#' @param items_opt optional items
+#' @param freq numeric cadence in hour. 
+#' @param return_list logical if TRUE return as a list.  
 #' @return data.table
 #' @export selectTable
 selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
-                        item.name=NULL, return_list=FALSE) {
+                        return_list=FALSE) {
     all_items <- c(items_opt, items_obg)
     if (is.null(all_items))
         stop('both items_opt and items_obg are NULL')
@@ -47,7 +51,6 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     return(dt)
 }
 
-#' @export itemsToDataFrame
 itemsToDataFrame <- function(ep, items, period_length, freq) {
     listmatrix <- list()
     time <- seq(0, period_length, freq)
