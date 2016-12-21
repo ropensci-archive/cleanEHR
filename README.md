@@ -1,3 +1,4 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/e8f7kur9d21jmsks?svg=true)](https://ci.appveyor.com/project/sinanshi/ccdata)
 [![Build Status](https://travis-ci.com/UCL-HIC/ccdata.svg?token=tpqYy2kGKwjiyqQSznFy&branch=master)](https://travis-ci.com/UCL-HIC/ccdata)
 [![codecov](https://codecov.io/gh/CC-HIC/ccdata/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/ccdata)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
