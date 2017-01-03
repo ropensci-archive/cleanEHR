@@ -2,12 +2,7 @@
 % Please edit documentation in R/data.quality.report.R
 \name{data.quality.report}
 \alias{data.quality.report}
-\title{Create the data quality report 
-Create a detailed data quality report, including file summary, site 
-summary, data completeness, and density plot. The result can be found 
-in {work_dir}/report/data_quality_report.{pdf}/{md}. Using this function, 
-one can also create a site/trust specified report, see the argument "site". 
-You need to make sure that you have the right to write into the {work_dir}.}
+\title{Create the data quality report}
 \usage{
 data.quality.report(ccd, site = NULL, pdf = T)
 }
@@ -20,7 +15,6 @@ data.quality.report(ccd, site = NULL, pdf = T)
 otherwise stay in markdown format}
 }
 \description{
-Create the data quality report 
 Create a detailed data quality report, including file summary, site 
 summary, data completeness, and density plot. The result can be found 
 in {work_dir}/report/data_quality_report.{pdf}/{md}. Using this function, 

@@ -28,7 +28,7 @@ find.new.xml.file <- function(xml.path) {
 #' @param mc.cores number of processors to be applied for parallelisation.
 #' @param quiet logical switch on/off of the progress bar. 
 #' @return ccRecord object
-update.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
+parse.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
     files.to.parse <- find.new.xml.file(xml.path)
 
     db.collection <- mclapply(files.to.parse, 
@@ -72,7 +72,7 @@ update_database <- function(xml.path, restart=FALSE, splitxml=FALSE,
         xml.path2 <- xml.path
 
     alldata.loc <- paste(xml.path, "alldata.RData", paste="/")
-    update.new.xml(xml.path2, mc.cores, quiet)
+    parse.new.xml(xml.path2, mc.cores, quiet)
 
 
     alldata <- ccRecord()
@@ -90,7 +90,31 @@ update_database <- function(xml.path, restart=FALSE, splitxml=FALSE,
     invisible(alldata)
 }
 
+parse.big.xml <- function(xml.path, mc.cores=4, quiet=TRUE, tmpd="/tmp", maxsize=3) {
 
+    fparse<- paste(xml.path, find.new.xml.file(xml.path), sep="/")
+    fbig <- fparse[file.info(fparse)$size/1e9 > maxsize]
+    fbig_nopath <- sapply(strsplit(fbig, "/"), function(x) x[length(x)])
+
+    if (length(fbig > 0)) {
+        cat("Detected big files ... \n")
+
+        tmpd <- paste(tmpd, "ccd_big_files", sep="/")
+
+        if (dir.exists(tmpd)) unlink(tmpd, recursive=T)
+        dir.create(tmpd)
+#        file.copy(fbig, tmpd)
+#        stopifnot(all(fbig_nopath == dir(tmpd)))
+#        update_database(tmpd, mc.cores=mc.cores, quiet=quiet)
+
+        cmd <- system.file("pipeline/break_into.sh", package="ccdata")
+        print(cmd)
+        for (i in fbig) system2(cmd, c(i, 3))
+    
+        for(i in fbig_nopath) cat(" [+] ", i, "\n", sep="")
+    }
+
+}
 break.down.xml <- function(xml.path) {
     unlink(paste(xml.path, ".partxml", sep="/"), recursive=T)
     partxml.dir <- paste(xml.path, ".partxml", sep="/")
