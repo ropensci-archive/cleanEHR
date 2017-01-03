@@ -181,19 +181,22 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     ind <- vals < ref & ref != 0
     cmplt[, 1][ind] <- txt.color(vals[ind], "ccdred")
 
-    
-
-   
-    rownames(cmplt) <- stname2longname(rownames(cmplt))
+    hiccode <- stname2code(rownames(cmplt))
+    lname <- stname2longname(rownames(cmplt))
+    rownames(cmplt) <- lname 
     cmplt$ref <- as.character(ref)
     cmplt$ref[cmplt$ref=="0"] <- ""
     cmplt$reject <- reject
 
-    names(cmplt) <- c("Completeness %", "Accept Completeness %", "Rejected Sites (Site: %)")
+    cmplt <- cbind(cmplt, as.number(StdId(hiccode)))
+
+    names(cmplt) <- c("Completeness %", "Accept Completeness %", 
+                      "Rejected Sites (Site: %)", "NHIC Code (NIHR_HIC_ICU_xxxx)")
+    
     if (return.data)
         return(cmplt)
     pander(cmplt, style="rmarkdown", justify = c('left', 'center', "center",
-                                                 "center"))
+                                                 "center", 'left'))
 }
 
 #' Produce a pander table of sample rate of longitudinal data.
@@ -211,10 +214,13 @@ samplerate2d <- function(cctb) {
         sample.rate.table <- 
             rbind(sample.rate.table, 
                   data.frame("item"=stname2longname(code2stname(i)), 
+                             "hiccode"=as.number(StdId(i)),
                              "sr"=sr))
     }
     rownames(sample.rate.table) <- NULL
-    names(sample.rate.table) <- c("Item", "Sample Period (hour)")
+    
+    names(sample.rate.table) <- c("Item", "NHIC Code (NIHR_HIC_ICU_xxxx)", 
+                                  "Sample Period (hour)")
 
     pander(sample.rate.table, style="rmarkdown")
 }
@@ -251,10 +257,11 @@ table1 <- function(demg, names, return.data=FALSE) {
         cat(paste("\n## Table ONE\n"))
     table1.item <- function(demg, name) {
         ref <- ITEM_REF[[stname2code(name)]]
+        hicnum <- as.number(StdId(stname2code(name)))
         if (is.null(ref))
             stop("The short name cannot be found in ITEM_REF.")
         if (!return.data)
-            cat(paste("\n###", ref$dataItem, "\n"))
+            cat(paste("\n###", ref$dataItem," - ", hicnum, "\n"))
         if (ref$Datatype %in% c("text", "list", "Logical", "list / Logical")) {
             stopifnot(!is.null(ref$category))
             nmref <- sapply(ref$category$levels, function(x) x)
@@ -297,7 +304,8 @@ demg.distribution <- function(demg, names) {
         demg <- sql.demographic.table(demg)
     for (nm in names) {
         ref <- ITEM_REF[[stname2code(nm)]]
-        cat(paste("\n\n###", ref$dataItem, "\n"))
+        hicnum <- as.number(StdId(stname2code(nm)))
+        cat(paste("\n\n###", ref$dataItem, " - ", hicnum, "\n"))
         gg <- ggplot(demg, aes_string(nm)) + geom_density(fill="lightsteelblue3") + 
             facet_wrap(~ICNNO, scales="free")
         print(gg)
@@ -313,7 +321,8 @@ demg.distribution <- function(demg, names) {
 physio.distribution <- function(cctb, names) {
     for (nm in names) {
         ref <- ITEM_REF[[stname2code(nm)]]
-        cat(paste("\n\n###", ref$dataItem, "\n"))
+        hicnum <- as.number(StdId(stname2code(nm)))
+        cat(paste("\n\n###", ref$dataItem, "-", hicnum, "\n"))
         gg <- ggplot(cctb, aes_string(ref$NHICcode)) + geom_density(fill="lightsteelblue3") + 
             facet_wrap(~site)
         print(gg)
