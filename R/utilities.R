@@ -145,6 +145,35 @@ getItemInfo <- function(item.code) {
     return(item.info)
 }
 
+#' Lookup items information by keywords
+#' 
+#' This function tries to match keywords in short names, long names and NHIC code. 
+#' The matched items will be displayed. 
+#' @param keyword character e.g. "h_rate", "heart", "108". 
+#' @return character the short names of the selected items.
+#' @export lookup.items
+lookup.items <- function(keyword) {
+    
+    index1 <- grep(keyword, stname2longname.dict, ignore.case=T)
+    index2 <- grep(keyword, names(stname2longname.dict), ignore.case=T)
+    index3 <- grep(keyword, stname2code(names(stname2longname.dict)), ignore.case=T)
+
+
+    stn <- names(stname2longname.dict[c(index1, index2, index3)])
+    query_item_ref <- function(stn, field)
+        unlist(sapply(ITEM_REF[stname2code(stn)], 
+                      function(x) ifelse(is.null(x[[field]]), "N/A", x[[field]])))
+
+    tb <- data.frame("NHIC Code"=stname2code(stn), 
+               "Short Name"=stn, 
+               "Long Name"=stname2longname(stn), 
+               "Unit"=query_item_ref(stn, "Units"), 
+               "Data type"=query_item_ref(stn, "Datatype")) 
+    rownames(tb) <- NULL
+    pander(tb, style="grid", split.table = Inf)
+    invisible(tb[, 2])
+}
+
 
 #' Convert time from xml to POSIX format.
 #'
