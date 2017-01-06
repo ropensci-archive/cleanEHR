@@ -159,7 +159,7 @@ lookup.items <- function(keyword) {
     index3 <- grep(keyword, stname2code(names(stname2longname.dict)), ignore.case=T)
 
 
-    stn <- names(stname2longname.dict[c(index1, index2, index3)])
+    stn <- unique(names(stname2longname.dict[c(index1, index2, index3)]))
     query_item_ref <- function(stn, field)
         unlist(sapply(ITEM_REF[stname2code(stn)], 
                       function(x) ifelse(is.null(x[[field]]), "N/A", x[[field]])))
