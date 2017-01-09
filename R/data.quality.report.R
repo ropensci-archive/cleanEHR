@@ -219,7 +219,7 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     
     if (return.data)
         return(cmplt)
-    pander(cmplt, style="rmarkdown", justify = c('left', 'center', "center",
+    pander(as.data.frame(cmplt), style="rmarkdown", justify = c('left', 'center', "center",
                                                  "center", 'left'))
 }
 
@@ -246,7 +246,7 @@ samplerate2d <- function(cctb) {
     names(sample.rate.table) <- c("Item", "NHIC Code (NIHR_HIC_ICU_xxxx)", 
                                   "Sample Period (hour)")
 
-    pander(sample.rate.table, style="rmarkdown")
+    pander(as.data.frame(sample.rate.table), style="rmarkdown")
 }
 
 
@@ -305,7 +305,7 @@ table1 <- function(demg, names, return.data=FALSE) {
         if (return.data)
             return(tb)
         else 
-            pander(tb, style="rmarkdown")
+            pander(as.data.frame(tb), style="rmarkdown")
     }
 
     for (i in names)
