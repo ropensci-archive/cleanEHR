@@ -5,7 +5,7 @@
 \title{Update the critical care database (RData)}
 \usage{
 update_database(xml.path, restart = FALSE, splitxml = FALSE, mc.cores = 4,
-  quiet = FALSE)
+  quiet = FALSE, dt = TRUE)
 }
 \arguments{
 \item{xml.path}{character the path of the folder of which contains the XML files.}

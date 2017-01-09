@@ -4,7 +4,8 @@
 \alias{data.quality.report}
 \title{Create the data quality report}
 \usage{
-data.quality.report(ccd, site = NULL, pdf = T)
+data.quality.report(ccd, site = NULL, file = NULL, pdf = T,
+  out = "report")
 }
 \arguments{
 \item{ccd}{ccRecord}

@@ -16,25 +16,26 @@
 #' @import knitr
 #' @import pander
 #' @import ggplot2
-data.quality.report <- function(ccd, site=NULL, pdf=T) {
-    if (is.null(site)) {
-        dbfull <- "YES"
-    }
-    else {
-        dbfull <- "NO"
-        ccd <- ccd[site]
-    }
+data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") {
+    if (is.null(site) & is.null(file))  dbfull <- "YES"
+    else dbfull <- "NO"
+    
+    stopifnot(!(!is.null(site) & !is.null(file)))
+    if (!is.null(site)) ccd <- ccd[site]
+    if (!is.null(file)) ccd <- ccRecord_subset_files(ccd, file)
+    
  
-    if (dir.exists("report")) {
-        unlink("report", recursive=T)
+    if (dir.exists(out)) {
+        unlink(out, recursive=T)
     }
+    dir.create(out)
 
     wd <- getwd()
     rptpath <- paste(path.package('ccdata'), "report", sep="/")
-    file.copy(rptpath, ".", recursive=T)
+    file.copy(dir(rptpath, full.names=T), out, recursive=T)
 
     write.report <- function() {
-        setwd('report')
+        setwd(out)
         dqpath <- "data_quality_report.Rmd"
         headerpath <- "listings-setup.tex"
         tpltpath <- "report.latex"
@@ -60,6 +61,29 @@ data.quality.report <- function(ccd, site=NULL, pdf=T) {
 
     tryCatch(write.report(), finally={setwd(wd)})
 
+}
+
+
+
+#' @export 
+data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
+    if (!is.null(path))
+        dir.create(path)
+
+    if (is.null(brc)) brc <- c("Cambridge", "GSTT", "Imperial", "Oxford", "UCLH")
+    
+    xmlfiles <- unique(ccd@infotb$parse_file)
+
+    data.quality.report(ccd, pdf=pdf, out=paste(path, "report_full_db", sep="/"))
+
+    for (i in brc) {
+        fs <- xmlfiles[grepl(i, xmlfiles)]
+        if (length(fs) > 0)
+            data.quality.report(ccd, file=fs, pdf=pdf, 
+                                out=paste(path, paste0("report_", i), sep="/"))
+        else
+            cat("No XML files from trust ", i, " has been found.", '\n')
+    }
 }
 
 #' Produce a file summary table

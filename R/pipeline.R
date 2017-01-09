@@ -61,7 +61,7 @@ parse.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
 #' @param quiet logical show the progress bar if true
 #' @export update_database 
 update_database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
-                            mc.cores=4, quiet=FALSE) {
+                            mc.cores=4, quiet=FALSE, dt=TRUE) {
     if (restart)
         unlink('.database')
     if (splitxml) {
@@ -85,7 +85,12 @@ update_database <- function(xml.path, restart=FALSE, splitxml=FALSE,
         alldata <- alldata + db
     }
 
-    save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
+    if (dt) {
+        ccdt <- deltaTime(alldata)
+        save(list=c("alldata", "ccdt"), file=paste(xml.path, ".database", "alldata.RData", sep="/"))
+    }
+    else 
+        save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
     
     invisible(alldata)
 }
