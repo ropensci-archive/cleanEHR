@@ -272,6 +272,7 @@ setMethod("[", "ccRecord",
 #' @exportMethod [
 setMethod("[", signature(x="ccRecord", i="character"), 
           definition=function(x, i) {
+              stopifnot(all(i%in%rownames(site.info())))
               ind <- x@infotb[site_id%in%i]$index
               if (length(ind) == 0) {
                   return(ccRecord())
@@ -282,3 +283,22 @@ setMethod("[", signature(x="ccRecord", i="character"),
               }
               ccRecord() + eplst
           })
+
+
+#' Subset episodes from the specified XML files. 
+#' 
+#' @param ccd ccRecord object
+#' @param files character a vector of XML file names - see ccRecord: parse_file 
+#' @return ccRecord object 
+#' @export ccRecord_subset_files
+ccRecord_subset_files <- function(ccd, files) {
+    ind <- ccd@infotb[parse_file%in%files]$index
+    if (length(ind) == 0) {
+        return(ccRecord())
+    }
+    eplst <- list()
+    for (ep in ind) {
+        eplst[[length(eplst) + 1]] <- ccd@episodes[[ep]]
+    }
+    ccRecord() + eplst
+}
