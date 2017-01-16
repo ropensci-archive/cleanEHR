@@ -76,6 +76,6 @@ create2dclean2 <- function(record, config, freq=1, nchunks=1) {
         gc()
     }
     
-    tclean <- rbindlist(tclean)
+    tclean <- rbindlist(tclean, fill=TRUE)
     return(tclean)
 }
