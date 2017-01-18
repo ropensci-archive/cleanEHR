@@ -44,9 +44,20 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     # fill is true because meta data column can be missing. 
     dt <- rbindlist(lt, fill=TRUE) 
 
+   
+    # Adding missing meta columns to keep the 2d wide consistent. 
+    code.has.meta <- names(unlist(sapply(ITEM_REF, function(x) x$NHICmetaCode)))
+    for (i in all_items) {
+        meta.code <- paste(i, "meta", sep=".")
+        if (i %in% code.has.meta & !(meta.code %in% names(dt))) {
+            dt[[meta.code]] <- rep("NA", nrow(dt))
+        }
+    }
+
     # convert data type 
     for (i in all_items)
         dt[[i]] <- suppressWarnings(.which.datatype(i)(as.character(dt[[i]])))
+
 
     return(dt)
 }
