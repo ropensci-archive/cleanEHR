@@ -7,6 +7,13 @@
 
     ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="ccdata"))
     assign("ITEM_REF", ITEM_REF, envir=env)
+
+    icnarc <- read.csv(system.file('conf/icnarc_codes.csv', package="ccdata"))
+    surgical <- paste(icnarc$Condition, "(Surgical)")
+    names(surgical) <- icnarc$Surgical
+    nonsurgical <- paste(icnarc$Condition, "(Nonsurgical)")
+    names(nonsurgical) <- icnarc$Nonsurgical
+    assign("icnarc.dict", c(surgical, nonsurgical), envir=env) 
    
     # Build up short name / NIHR code / Classification conversion dictionary
     reverse.name.value <- function(vec) {

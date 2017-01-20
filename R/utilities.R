@@ -223,3 +223,12 @@ site.info <- function(){
     names(si) <- c("Hospital", "Unit", "Trust", "Comments")
     return(si)
 }
+
+
+#' @export 
+icnarc2diagnosis <- function(icnarc) {
+    # e.g 1.01.1 -> 1.1.1
+    std.icnarc <- sapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
+          function(x) paste(x, collapse=".")) 
+    icnarc.dict[std.icnarc]
+}
