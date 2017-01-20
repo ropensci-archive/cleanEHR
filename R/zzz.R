@@ -14,7 +14,11 @@
     nonsurgical <- paste(icnarc$Condition, "(Nonsurgical)")
     names(nonsurgical) <- icnarc$Nonsurgical
     assign("icnarc.dict", c(surgical, nonsurgical), envir=env) 
-   
+  
+
+    unit.dict <- unlist(sapply(ccdata:::ITEM_REF, function(x) x$Units))
+    assign("unit.dict", unit.dict, envir=env)
+
     # Build up short name / NIHR code / Classification conversion dictionary
     reverse.name.value <- function(vec) {
         new <- names(vec)
