@@ -23,6 +23,7 @@ Imports:
     knitr,
     ggplot2,
     pander
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'

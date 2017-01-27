@@ -6,6 +6,9 @@ all:
 check:
 	R CMD check '.'
 
+doc:
+	Rscript -e "library(devtools); build_vignettes()"
+
 cran:
 	if [ -d cran_ccdata ]; then  rm -r cran_ccdata; fi 
 	mkdir cran_ccdata 
