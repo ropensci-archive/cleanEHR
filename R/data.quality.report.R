@@ -31,7 +31,7 @@ data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") 
     dir.create(out)
 
     wd <- getwd()
-    rptpath <- paste(path.package('ccdata'), "report", sep="/")
+    rptpath <- paste(path.package('cleanEHR'), "report", sep="/")
     file.copy(dir(rptpath, full.names=T), out, recursive=T)
 
     write.report <- function() {
@@ -64,8 +64,22 @@ data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") 
 }
 
 
-
-#' @export 
+#' Create the data quality report
+#'
+#' Create a detailed data quality report, including file summary, site 
+#' summary, data completeness, and density plot. The result can be found 
+#' in {path}/report/data_quality_report.{pdf}/{md}. Using this function, 
+#' one can also create a site/trust specified report, see the argument "site". 
+#' You need to make sure that you have the right to write into the {work_dir}. 
+#' 
+#' @param ccd ccRecord 
+#' @param site a vector of the site ids for the site specified report. 
+#' @param pdf logical create the pdf version of the DQ report, 
+#' otherwise stay in markdown format
+#' @param path report export path 
+#' @examples 
+#' \dontrun{data.quality.report(ccd, c("Q70", "C90"))}
+#' @export data.quality.report.brc 
 data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
     if (!is.null(path))
         dir.create(path)
@@ -175,9 +189,9 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
                   collapse="; "))
     }
 
-    path <- find.package("ccdata")
+    path <- find.package("cleanEHR")
     acpt <- unlist(yaml.load_file(system.file("conf/accept_completeness.yaml", 
-                                              package="ccdata")))
+                                              package="cleanEHR")))
 
  
     demg <- copy(demg)

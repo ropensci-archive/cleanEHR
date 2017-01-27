@@ -1,14 +1,14 @@
-.onLoad <- function(libname = find.package("ccdata"), pkgname = "ccdata") {
-    path <- find.package("ccdata")
+.onLoad <- function(libname = find.package("cleanEHR"), pkgname = "cleanEHR") {
+    path <- find.package("cleanEHR")
     env <- parent.env(environment())
     
     # Assign ITEM_REF tables
-    utils::data("ITEM_REFTABLE", package="ccdata", envir=env)
+    utils::data("ITEM_REFTABLE", package="cleanEHR", envir=env)
 
-    ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="ccdata"))
+    ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="cleanEHR"))
     assign("ITEM_REF", ITEM_REF, envir=env)
 
-    icnarc <- read.csv(system.file('conf/icnarc_codes.csv', package="ccdata"))
+    icnarc <- read.csv(system.file('conf/icnarc_codes.csv', package="cleanEHR"))
     surgical <- paste(icnarc$Condition, "(Surgical)")
     names(surgical) <- icnarc$Surgical
     nonsurgical <- paste(icnarc$Condition, "(Nonsurgical)")
@@ -16,7 +16,7 @@
     assign("icnarc.dict", c(surgical, nonsurgical), envir=env) 
   
 
-    unit.dict <- unlist(sapply(ccdata:::ITEM_REF, function(x) x$Units))
+    unit.dict <- unlist(sapply(cleanEHR:::ITEM_REF, function(x) x$Units))
     assign("unit.dict", unit.dict, envir=env)
 
     # Build up short name / NIHR code / Classification conversion dictionary

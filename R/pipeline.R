@@ -112,7 +112,7 @@ parse.big.xml <- function(xml.path, mc.cores=4, quiet=TRUE, tmpd="/tmp", maxsize
 #        stopifnot(all(fbig_nopath == dir(tmpd)))
 #        update_database(tmpd, mc.cores=mc.cores, quiet=quiet)
 
-        cmd <- system.file("pipeline/break_into.sh", package="ccdata")
+        cmd <- system.file("pipeline/break_into.sh", package="cleanEHR")
         print(cmd)
         for (i in fbig) system2(cmd, c(i, 3))
     
@@ -124,11 +124,11 @@ break.down.xml <- function(xml.path) {
     unlink(paste(xml.path, ".partxml", sep="/"), recursive=T)
     partxml.dir <- paste(xml.path, ".partxml", sep="/")
     dir.create(partxml.dir)
-    cmd <- paste(find.package('ccdata'), "pipeline/break_into.sh", sep="/")
+    cmd <- paste(find.package('cleanEHR'), "pipeline/break_into.sh", sep="/")
     # in the case of using testings, the original package layout is slightly
     # different from the compiled one. 
     if (! file.exists(cmd))         
-        cmd <- paste(find.package('ccdata'), "inst/pipeline/break_into.sh", sep="/")
+        cmd <- paste(find.package('cleanEHR'), "inst/pipeline/break_into.sh", sep="/")
     
     newfile <- find.new.xml.file(xml.path)
     if (length(newfile) > 0)

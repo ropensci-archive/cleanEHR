@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // reallocateTime_
 DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float frequency);
-RcppExport SEXP ccdata_reallocateTime_(SEXP dSEXP, SEXP t_dischargeSEXP, SEXP frequencySEXP) {
+RcppExport SEXP cleanEHR_reallocateTime_(SEXP dSEXP, SEXP t_dischargeSEXP, SEXP frequencySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;

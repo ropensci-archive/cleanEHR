@@ -1,4 +1,4 @@
-Package: ccdata
+Package: cleanEHR
 Type: Package
 Title: The critical care clinical data toolbox
 Version: 0.1

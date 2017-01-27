@@ -1,5 +1,5 @@
 #' @importFrom Rcpp evalCpp
-#' @useDynLib ccdata 
+#' @useDynLib cleanEHR 
 reallocateTime <- function(d, t_discharge, frequency) {
     d_ <- d
     stopifnot(any(names(d) == "time"))
