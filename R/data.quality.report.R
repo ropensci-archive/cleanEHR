@@ -79,7 +79,7 @@ data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
     for (i in brc) {
         fs <- xmlfiles[grepl(i, xmlfiles)]
         if (length(fs) > 0)
-            data.quality.report(ccd, file=fs, pdf=pdf, 
+            data.quality.report(ccd, file=fs, pdf=pdf, file=fs, 
                                 out=paste(path, paste0("report_", i), sep="/"))
         else
             cat("No XML files from trust ", i, " has been found.", '\n')
