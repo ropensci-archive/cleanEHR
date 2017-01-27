@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/CC-HIC/ccdata/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/ccdata)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 
-`ccdata` is an R package for working with the Critical Care Health Informatics
+`cleanEHR` is an R package for working with the Critical Care Health Informatics
 Collaborative's data set. Since 2014 data from the critical care units at
 Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, and University College
 London has been extracted and stored securely in a standardised format. 
