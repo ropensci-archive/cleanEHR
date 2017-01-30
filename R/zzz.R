@@ -4,11 +4,11 @@
     
     # Assign ITEM_REF tables
     utils::data("ITEM_REFTABLE", package="cleanEHR", envir=env)
+    utils::data('icnarc_table', package="cleanEHR")
 
     ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="cleanEHR"))
     assign("ITEM_REF", ITEM_REF, envir=env)
 
-    icnarc <- read.csv(system.file('conf/icnarc_codes.csv', package="cleanEHR"))
     surgical <- paste(icnarc$Condition, "(Surgical)")
     names(surgical) <- icnarc$Surgical
     nonsurgical <- paste(icnarc$Condition, "(Nonsurgical)")
