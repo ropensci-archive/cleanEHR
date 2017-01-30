@@ -16,7 +16,7 @@
     assign("icnarc.dict", c(surgical, nonsurgical), envir=env) 
   
 
-    unit.dict <- unlist(sapply(cleanEHR:::ITEM_REF, function(x) x$Units))
+    unit.dict <- unlist(sapply(ITEM_REF, function(x) x$Units))
     assign("unit.dict", unit.dict, envir=env)
 
     # Build up short name / NIHR code / Classification conversion dictionary

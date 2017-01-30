@@ -25,7 +25,9 @@ Imports:
     methods,
     knitr,
     ggplot2,
-    pander
+    pander, 
+    stats,
+    utils
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 Collate:

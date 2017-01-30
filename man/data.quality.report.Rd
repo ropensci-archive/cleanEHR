@@ -12,8 +12,12 @@ data.quality.report(ccd, site = NULL, file = NULL, pdf = T,
 
 \item{site}{a vector of the site ids for the site specified report.}
 
+\item{file}{charcter a list of XML file origins.}
+
 \item{pdf}{logical create the pdf version of the DQ report, 
 otherwise stay in markdown format}
+
+\item{out}{character output path}
 }
 \description{
 Create a detailed data quality report, including file summary, site 

@@ -227,6 +227,20 @@ site.info <- function(){
 }
 
 
+
+#' ICNARC diagnosis reference table 
+#'
+#' @name icnarc
+#' @references \url{https://www.icnarc.org/Our-Audit/Audits/Cmp/Resources/Icm-Icnarc-Coding-Method}
+#' @docType data
+#' @keywords data
+NULL
+
+
+#' Convert the ICNARC code to human readable diagnosis
+#' 
+#' @param icnarc the ICNARC code, e.g. 1.1.1.1.1
+#' @return character ICNARC diagnosis
 #' @export 
 icnarc2diagnosis <- function(icnarc) {
     # e.g 1.01.1 -> 1.1.1
