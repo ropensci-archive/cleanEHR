@@ -4,10 +4,13 @@
 \alias{lookup.items}
 \title{Lookup items information by keywords}
 \usage{
-lookup.items(keyword)
+lookup.items(keyword, style = "grid")
 }
 \arguments{
 \item{keyword}{character e.g. "h_rate", "heart", "108".}
+
+\item{style}{character, the style of the table output which can be "simple",
+"rmarkdown", and "grid"}
 }
 \value{
 character the short names of the selected items.
