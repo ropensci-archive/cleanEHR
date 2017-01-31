@@ -2,7 +2,7 @@ Package: cleanEHR
 Type: Package
 Title: The Critical Care Clinical Data Processing Tools
 Version: 0.1
-Date: 2016-11-10
+Date: 2017-01-30
 Author: Steve Harris, Sinan Shi, David Perez-Suarez
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
 Description: 

@@ -219,7 +219,7 @@ xml2Data <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
 
 
     if (!quiet)
-        pb <- txtProgressBar(min = min(select.episode)-1, 
+        pb <- utils::txtProgressBar(min = min(select.episode)-1, 
                              max = max(select.episode), style = 3)
     eps <- list()
     if (!quiet)
@@ -235,7 +235,7 @@ xml2Data <- function (file, select.episode=NULL, quiet=TRUE, xml=NULL,
         eps[[episode.id]] <- new.episode(episode_list, file_origin, parse_time)
 
         if (!quiet)
-            setTxtProgressBar(pb, episode.id)
+            utils::setTxtProgressBar(pb, episode.id)
     }
 
     record <- ccRecord() + eps

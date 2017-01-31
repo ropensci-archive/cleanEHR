@@ -9,10 +9,10 @@ check:
 doc:
 	Rscript -e "library(devtools); build_vignettes()"
 
-cran:
+cran: 
 	if [ -d cran_ccdata ]; then  rm -r cran_ccdata; fi 
 	mkdir cran_ccdata 
-	cp -r R man data inst src tests DESCRIPTION NAMESPACE cran_ccdata
+	cp -r R man data inst src tests DESCRIPTION NAMESPACE vignettes cran_ccdata
 	rm cran_ccdata/src/*.o cran_ccdata/src/*.so
 	R CMD build cran_ccdata 
 	R CMD check *.tar.gz --as-cran 

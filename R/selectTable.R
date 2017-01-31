@@ -17,6 +17,8 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
 
     env <- environment()
     lt <- list()
+    stopifnot(is.list(env$lt)) # totally redundent, just to avoid an anonying
+    # note says env is assigned but not used!
     for_each_episode(record,
                      function(ep) {
                          if (all(items_obg %in% names(ep@data))) {

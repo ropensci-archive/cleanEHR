@@ -59,10 +59,9 @@ parse.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
 #' @param restart logical purge the previous database and restart parsing for all the XML files presented. 
 #' @param splitxml logical break down the XML files into chuncks. (Do it when the file is too big)
 #' @param quiet logical show the progress bar if true
-#' @param dt logical extract delta time if it is true. 
 #' @export update_database 
 update_database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
-                            mc.cores=4, quiet=FALSE, dt=TRUE) {
+                            mc.cores=4, quiet=FALSE) {
     if (restart)
         unlink('.database')
     if (splitxml) {
@@ -72,7 +71,6 @@ update_database <- function(xml.path, restart=FALSE, splitxml=FALSE,
     else 
         xml.path2 <- xml.path
 
-    alldata.loc <- paste(xml.path, "alldata.RData", paste="/")
     parse.new.xml(xml.path2, mc.cores, quiet)
 
 
@@ -80,18 +78,15 @@ update_database <- function(xml.path, restart=FALSE, splitxml=FALSE,
     files <- dir(paste(xml.path, ".database", sep="/"), 
                  pattern="[^alldata.RData]", 
                  full.names=TRUE)
+    db <- NULL
     
     for (i in files) {
         load(i)
+        stopifnot(!is.null(db))
         alldata <- alldata + db
     }
 
-    if (dt) {
-        ccdt <- deltaTime(alldata)
-        save(list=c("alldata", "ccdt"), file=paste(xml.path, ".database", "alldata.RData", sep="/"))
-    }
-    else 
-        save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
+    save(alldata, file=paste(xml.path, ".database", "alldata.RData", sep="/"))
     
     invisible(alldata)
 }

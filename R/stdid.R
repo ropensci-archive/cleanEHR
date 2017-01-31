@@ -38,7 +38,6 @@ StdId <- function(text) {
 #' @param obj a StdId object. 
 #' @export as.number
 as.number <- function(obj) {
-    d <- as.character(obj@ids)
     if(!all(grepl("NIHR_HIC_ICU_", obj@ids)))# input is code alredy
         return(obj@ids)
     no.prefix <- 

@@ -59,7 +59,8 @@ episode.graph <- function(ccd, eid=601, items=NULL) {
     tb <- rbindlist(list(physio.tb, drug.tb), fill=T, use.names=T)
 
 
-    ggp <- ggplot(tb, aes(x=time, y=item2d, group=item, colour=catg2)) + geom_line(colour="#1E506C") + 
+    ggp <- ggplot(tb, aes_string(x="time", y="item2d", group="item",
+                                 colour="catg2")) + geom_line(colour="#1E506C") + 
         geom_point(size=1) + 
         facet_grid(catg1 ~., scales="free_y") + 
         geom_vline(xintercept = as.numeric(t_ad), colour="#D1746F") + 
@@ -73,7 +74,7 @@ episode.graph <- function(ccd, eid=601, items=NULL) {
 
 
 
-    plot(ggp)
+    graphics::plot(ggp)
     #"#1E506C""#D1746F"
 
     return(tb)
