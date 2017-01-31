@@ -21,9 +21,4 @@ constructor of StdId class
 \describe{
 \item{\code{ids}}{single or multiple characters}
 }}
-\examples{
-\donttest{
-selected_tags <- StdId(c("NIHR_HIC_ICU_0001", "NIHR_HIC_ICU_0002")
-}
-}
 
