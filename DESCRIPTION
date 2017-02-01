@@ -1,13 +1,16 @@
 Package: cleanEHR
 Type: Package
-Title: The critical care clinical data toolbox
+Title: The Critical Care Clinical Data Processing Tools
 Version: 0.1
 Date: 2016-11-10
 Author: Steve Harris, Sinan Shi, David Perez-Suarez
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
-Description: The package contains essential tools and utility functions to
-    facilitate the data processing pipeline, data cleaning and data analysing of
-    clinical data from Critical Care - Health Informatics Collaborative (CC-HIC).
+Description: 
+    A tool to deal with the Critical Care Health Informatics Collaborative dataset.
+    It is created to address various data reliability and accessibility problems of
+    electronic healthcare record (EHR). It provides a unique platform which enables
+    data manipulation, transformation, reduction, anonymisation, cleaning and
+    validation.
 Depends:
     R (>= 3.1.0)
 License: GPL-3
@@ -22,7 +25,9 @@ Imports:
     methods,
     knitr,
     ggplot2,
-    pander
+    pander, 
+    stats,
+    utils
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
 Collate:

@@ -1,7 +1,13 @@
-
-#' @export
+#' Individual episode graph
+#' 
+#' Create an individual episode graph for its diagnosis, drugs and physiological
+#' variables. Diagnosis and drugs are always included, while the user can
+#' select other longitudinal data. 
+#' @param ccd ccRecord
+#' @param eid character the episode index in the ccRecord 
+#' @param items character NIHC code of longitudinal data. 
+#' @export episode.graph
 episode.graph <- function(ccd, eid=601, items=NULL) {
-    library(gridExtra)
     ep <- ccd[[eid]][[1]]
     t_ad <- ep@t_admission
     t_dc <- ep@t_discharge

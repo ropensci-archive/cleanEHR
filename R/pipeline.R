@@ -59,6 +59,7 @@ parse.new.xml <- function(xml.path, mc.cores=4, quiet=FALSE) {
 #' @param restart logical purge the previous database and restart parsing for all the XML files presented. 
 #' @param splitxml logical break down the XML files into chuncks. (Do it when the file is too big)
 #' @param quiet logical show the progress bar if true
+#' @param dt logical extract delta time if it is true. 
 #' @export update_database 
 update_database <- function(xml.path, restart=FALSE, splitxml=FALSE, 
                             mc.cores=4, quiet=FALSE, dt=TRUE) {

@@ -12,9 +12,10 @@ data.quality.report.brc(ccd, pdf = T, brc = NULL, path = NULL)
 \item{pdf}{logical create the pdf version of the DQ report, 
 otherwise stay in markdown format}
 
-\item{path}{report export path}
+\item{brc}{character BRC names which can be Cambridge, GSTT, Imperial,
+Oxford, and UCLH.}
 
-\item{site}{a vector of the site ids for the site specified report.}
+\item{path}{report export path}
 }
 \description{
 Create a detailed data quality report, including file summary, site 
@@ -22,8 +23,5 @@ summary, data completeness, and density plot. The result can be found
 in {path}/report/data_quality_report.{pdf}/{md}. Using this function, 
 one can also create a site/trust specified report, see the argument "site". 
 You need to make sure that you have the right to write into the {work_dir}.
-}
-\examples{
-\dontrun{data.quality.report(ccd, c("Q70", "C90"))}
 }
 

@@ -10,6 +10,8 @@
 #' @param site a vector of the site ids for the site specified report. 
 #' @param pdf logical create the pdf version of the DQ report, 
 #' otherwise stay in markdown format
+#' @param file charcter a list of XML file origins. 
+#' @param out character output path
 #' @export data.quality.report
 #' @examples 
 #' \dontrun{data.quality.report(ccd, c("Q70", "C90"))}
@@ -73,12 +75,11 @@ data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") 
 #' You need to make sure that you have the right to write into the {work_dir}. 
 #' 
 #' @param ccd ccRecord 
-#' @param site a vector of the site ids for the site specified report. 
 #' @param pdf logical create the pdf version of the DQ report, 
 #' otherwise stay in markdown format
+#' @param brc character BRC names which can be Cambridge, GSTT, Imperial,
+#' Oxford, and UCLH.  
 #' @param path report export path 
-#' @examples 
-#' \dontrun{data.quality.report(ccd, c("Q70", "C90"))}
 #' @export data.quality.report.brc 
 data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
     if (!is.null(path))

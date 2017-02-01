@@ -149,10 +149,12 @@ getItemInfo <- function(item.code) {
 #' 
 #' This function tries to match keywords in short names, long names and NHIC code. 
 #' The matched items will be displayed. 
-#' @param keyword character e.g. "h_rate", "heart", "108". 
+#' @param keyword character e.g. "h_rate", "heart", "108".
+#' @param style character, the style of the table output which can be "simple",
+#' "rmarkdown", and "grid"
 #' @return character the short names of the selected items.
 #' @export lookup.items
-lookup.items <- function(keyword) {
+lookup.items <- function(keyword, style="grid") {
     
     index1 <- grep(keyword, stname2longname.dict, ignore.case=T)
     index2 <- grep(keyword, names(stname2longname.dict), ignore.case=T)
@@ -170,7 +172,7 @@ lookup.items <- function(keyword) {
                "Unit"=query_item_ref(stn, "Units"), 
                "Data type"=query_item_ref(stn, "Datatype")) 
     rownames(tb) <- NULL
-    pander(tb, style="grid", split.table = Inf)
+    pander(tb, style=style, split.table = Inf)
     invisible(tb[, 2])
 }
 
@@ -225,6 +227,20 @@ site.info <- function(){
 }
 
 
+
+#' ICNARC diagnosis reference table 
+#'
+#' @name icnarc
+#' @references \url{https://www.icnarc.org/Our-Audit/Audits/Cmp/Resources/Icm-Icnarc-Coding-Method}
+#' @docType data
+#' @keywords data
+NULL
+
+
+#' Convert the ICNARC code to human readable diagnosis
+#' 
+#' @param icnarc the ICNARC code, e.g. 1.1.1.1.1
+#' @return character ICNARC diagnosis
 #' @export 
 icnarc2diagnosis <- function(icnarc) {
     # e.g 1.01.1 -> 1.1.1
