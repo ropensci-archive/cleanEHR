@@ -228,6 +228,7 @@ site.info <- function(){
 #' @export 
 icnarc2diagnosis <- function(icnarc) {
     # e.g 1.01.1 -> 1.1.1
+    if (is.null(icnarc)) {return("NA")}
     std.icnarc <- sapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
           function(x) paste(x, collapse=".")) 
     icnarc.dict[std.icnarc]
