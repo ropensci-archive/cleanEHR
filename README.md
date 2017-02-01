@@ -38,6 +38,8 @@ tool to make CCHIC _research ready_.
 - an anonymised development data set 
 - a virtual machine for simulating work within the safe haven
 
+You request access to the anonymised toy dataset from
+[here](https://eu.jotform.com/build/70314283566355?iak=556a5d676470a5d7eebd02cec4e45ba3-e0cd40e271afb546). 
 
 ## Required packages
 * R (>= 3.1.0),

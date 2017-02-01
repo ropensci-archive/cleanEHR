@@ -6,11 +6,11 @@ Date: 2017-01-30
 Author: Sinan Shi, David Perez-Suare, Steve Harris
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
 Description: 
-    A toolset to deal with the Critical Care Health Informatics Collaborative dataset.
-    It is created to address various data reliability and accessibility problems of
-    electronic healthcare records (EHR). It provides a unique platform which enables
-    data manipulation, transformation, reduction, anonymisation, cleaning and
-    validation.
+    A toolset to deal with the Critical Care Health Informatics Collaborative
+    dataset. It is created to address various data reliability and accessibility
+    problems of electronic healthcare records (EHR). It provides a unique
+    platform which enables data manipulation, transformation, reduction,
+    anonymisation, cleaning and validation.
 Depends:
     R (>= 3.1.0)
 License: GPL-3
@@ -29,6 +29,7 @@ Imports:
     stats,
     utils
 VignetteBuilder: knitr
+URL: https://github.com/CC-HIC/cleanEHR, http://www.hic.nihr.ac.uk
 RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'
