@@ -242,6 +242,7 @@ NULL
 icnarc2diagnosis <- function(icnarc) {
     if (is.null(icnarc)) return("NA")
     # e.g 1.01.1 -> 1.1.1
+    if (is.null(icnarc)) {return("NA")}
     std.icnarc <- sapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
           function(x) paste(x, collapse=".")) 
     icnarc.dict[std.icnarc]
