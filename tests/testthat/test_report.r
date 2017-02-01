@@ -29,3 +29,13 @@ test_that("calculate total data point", {
 
 test_that("episode graph", {
 })
+
+
+test_that("calculate 2D sample rate", {
+    tb <- create.cctable(ccdt, conf=list(NIHR_HIC_ICU_0108=list()), freq=1)
+    
+    samplerate2d(tb$torigin))
+
+
+
+})

@@ -108,7 +108,7 @@ data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
 #' @export file.summary
 file.summary <- function(ccd) {
     infotb <- ccd@infotb
-    file.summary <- infotb[, list("Number of Episode"=.N, 
+    file.summary <- infotb[, list("Number of Episodes"=.N, 
                                   "Upload time"=max(.SD[["parse_time"]]), 
                                   "Sites"=paste(unique(.SD[["site_id"]]),
                                                 collapse=", ")), by="parse_file"]
@@ -249,7 +249,7 @@ samplerate2d <- function(cctb) {
                             which(names(cctb) %in% 
                                   c("site", "time", "episode_id")))]
     for (i in items) {
-        sr <- nrow(cctb)/length(which(is.na(cctb[[i]])))
+        sr <- nrow(cctb)/length(which(!is.na(cctb[[i]])))
         sample.rate.table <- 
             rbind(sample.rate.table, 
                   data.frame("item"=stname2longname(code2stname(i)), 

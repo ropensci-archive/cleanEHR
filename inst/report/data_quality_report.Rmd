@@ -20,13 +20,13 @@ new.config <- function(items) {
     for (i in items) conf[[stname2code(i)]] <- list()
     conf
 }
-if (!exists("cctb"))
-    cctb <<- create.cctable(ccd, conf=new.config(item2d), freq=1)$torigin
+
+cctb <- create.cctable(ccd, conf=new.config(item2d), freq=1)$torigin
 
 suppressWarnings(library(pander))
 panderOptions("digits", 2) 
 panderOptions("table.split.table", Inf)
-demg <<- sql.demographic.table(ccd)
+demg <- sql.demographic.table(ccd)
 ```
 
 
