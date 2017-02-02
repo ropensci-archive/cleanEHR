@@ -52,6 +52,13 @@ You request access to the anonymised toy dataset from
 
 
 ## How to install the R package
+### From CRAN to get the last stable version
+
+```
+install.packages("cleanEHR")
+```
+
+### From Github to install the latest development version.
 ```
 install.packages("devtools")
 devtools::install_github("UCL-HIC/ccdata.git")
