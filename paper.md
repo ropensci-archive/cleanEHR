@@ -12,17 +12,28 @@ authors:
 - name: Sinan Shi
 	orcid: 0000-0001-6935-0429
 	affiliation: 1
-- name: David Pérez-Suárez  
+- name: David Pérez-Suárez
 	orcid: 0000-0003-0784-6909
 	affiliation: 1
 - name: Steve Harris
 	orcid: 0000-0002-4982-1374
 	affiliation: 2
-
+- name: Niall MacCallum
+    orcid: 0000-0001-6168-1506
+    affiliation: 2 
+- name:David Brealey
+    orcid: 0000-0002-1982-3379
+    affiliation: 2
+- name: Mervyn Singer
+    orcid: 0000-0002-1042-6350
+    affiliation: 2
+-name: James Hetherington
+    orcid: 0000-0001-6993-0319
+    affiliation: 1
 affiliations:
 	- name: Research Software Development Group, Research IT Services, University College London
 		index: 1
-	- name: University College Hospital
+	- name: University College London Hospitals
 		index: 2
 		
 date: 14 February 2016
