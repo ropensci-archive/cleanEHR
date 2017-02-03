@@ -1,10 +1,6 @@
 #' S4 class to hold standard IDs such as "NIHR_HIC_ICU_0001"
 #' @slot ids single or multiple characters
 #' @import methods
-#' @examples
-#' \donttest{
-#' selected_tags <- StdId(c("NIHR_HIC_ICU_0001", "NIHR_HIC_ICU_0002")
-#' }
 StdId <- setClass ("StdId",
                    slots = c(ids="vector"), 
                    validity=function(object)
@@ -38,7 +34,6 @@ StdId <- function(text) {
 #' @param obj a StdId object. 
 #' @export as.number
 as.number <- function(obj) {
-    d <- as.character(obj@ids)
     if(!all(grepl("NIHR_HIC_ICU_", obj@ids)))# input is code alredy
         return(obj@ids)
     no.prefix <- 

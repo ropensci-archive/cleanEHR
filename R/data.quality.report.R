@@ -19,8 +19,8 @@
 #' @import pander
 #' @import ggplot2
 data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") {
-    if (is.null(site) & is.null(file))  dbfull <- "YES"
-    else dbfull <- "NO"
+#    if (is.null(site) & is.null(file))  dbfull <- "YES"
+#    else dbfull <- "NO"
     
     stopifnot(!(!is.null(site) & !is.null(file)))
     if (!is.null(site)) ccd <- ccd[site]
@@ -94,7 +94,7 @@ data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
     for (i in brc) {
         fs <- xmlfiles[grepl(i, xmlfiles)]
         if (length(fs) > 0)
-            data.quality.report(ccd, file=fs, pdf=pdf, file=fs, 
+            data.quality.report(ccd, pdf=pdf, file=fs, 
                                 out=paste(path, paste0("report_", i), sep="/"))
         else
             cat("No XML files from trust ", i, " has been found.", '\n')
@@ -108,11 +108,12 @@ data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
 #' @export file.summary
 file.summary <- function(ccd) {
     infotb <- ccd@infotb
-    file.summary <- infotb[, list("Number of Episode"=.N, 
-                                  "Upload time"=max(parse_time), 
-                                  "Sites"=paste(unique(site_id), collapse=", ")), by=parse_file]
-    file.summary[, "File":=parse_file]
-    file.summary[, parse_file:=NULL]
+    file.summary <- infotb[, list("Number of Episodes"=.N, 
+                                  "Upload time"=max(.SD[["parse_time"]]), 
+                                  "Sites"=paste(unique(.SD[["site_id"]]),
+                                                collapse=", ")), by="parse_file"]
+    file.summary[["File"]] <- file.summary$parse_file
+    file.summary[["parse_file"]] <- NULL
     return(file.summary)
 }
 
@@ -122,16 +123,16 @@ file.summary <- function(ccd) {
 #' @export xml.site.duration.plot
 xml.site.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
-    tb <- tb[, list("minadm"=min(t_admission, na.rm=T), 
-              maxadm=max(t_admission, na.rm=T),
-              mindis=min(t_discharge, na.rm=T),
-              maxdis=max(t_discharge, na.rm=T)), by=site_id]
+    tb <- tb[, list("minadm"=min(.SD[["t_admission"]], na.rm=T), 
+              maxadm=max(.SD[["t_admission"]], na.rm=T),
+              mindis=min(.SD[["t_discharge"]], na.rm=T),
+              maxdis=max(.SD[["t_discharge"]], na.rm=T)), by="site_id"]
     site_name <- apply((site.info()[tb$site_id, ][,1:2]), 1, 
           function(x) paste(x, collapse="-"))
     tb[, site_name:=site_name]
     
     ggplot(tb, aes_string(x="minadm", y="site_name")) +
-        geom_segment(aes(xend=maxdis, yend=site_name), color="gray", size=10) +
+        geom_segment(aes_string(xend="maxdis", yend="site_name"), color="gray", size=10) +
         annotate("text", x=tb$minadm+(tb$maxdis-tb$minadm)/2, 
                  y=tb$site_name, label=tb$site_name, size=7) + 
         scale_x_datetime(date_breaks="3 month")+
@@ -146,12 +147,12 @@ xml.site.duration.plot <- function(ccd) {
 #' @export xml.file.duration.plot
 xml.file.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
-    tb <- tb[, list(minadm=min(t_admission, na.rm=T), 
-              maxadm=max(t_admission, na.rm=T),
-              mindis=min(t_discharge, na.rm=T),
-              maxdis=max(t_discharge, na.rm=T)), by=parse_file]
-    ggplot(tb, aes(x=minadm, y=parse_file)) +
-        geom_segment(aes(xend=maxdis, yend=parse_file), color="gray", size=10) +
+    tb <- tb[, list(minadm=min(.SD[["t_admission"]], na.rm=T), 
+              maxadm=max(.SD[["t_admission"]], na.rm=T),
+              mindis=min(.SD[["t_discharge"]], na.rm=T),
+              maxdis=max(.SD[["t_discharge"]], na.rm=T)), by="parse_file"]
+    ggplot(tb, aes_string(x="minadm", y="parse_file")) +
+        geom_segment(aes_string(xend="maxdis", yend="parse_file"), color="gray", size=10) +
         annotate("text", x=tb$minadm+(tb$maxdis-tb$minadm)/2, 
                  y=tb$parse_file, label=tb$parse_file, size=7) + 
         scale_x_datetime(date_breaks="3 month")+
@@ -190,7 +191,6 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
                   collapse="; "))
     }
 
-    path <- find.package("cleanEHR")
     acpt <- unlist(yaml.load_file(system.file("conf/accept_completeness.yaml", 
                                               package="cleanEHR")))
 
@@ -249,7 +249,7 @@ samplerate2d <- function(cctb) {
                             which(names(cctb) %in% 
                                   c("site", "time", "episode_id")))]
     for (i in items) {
-        sr <- nrow(cctb)/length(which(is.na(cctb[[i]])))
+        sr <- nrow(cctb)/length(which(!is.na(cctb[[i]])))
         sample.rate.table <- 
             rbind(sample.rate.table, 
                   data.frame("item"=stname2longname(code2stname(i)), 
@@ -284,7 +284,7 @@ total.data.point <- function(ccd) {
 
 #' Produce the item specified table one. 
 #'
-#' @param demg ccTable-clas demographic table created by sql.demographic.table()
+#' @param demg demographic table created by sql.demographic.table()
 #' @param names character string. Short names of data items, e.g. h_rate. 
 #' @param return.data logical, FALSE: printing the pander table, TRUE: return the table but not print out the pander table. 
 #' @return if return.data is TRUE, return data.table
@@ -306,8 +306,8 @@ table1 <- function(demg, names, return.data=FALSE) {
             nmref <- sapply(ref$category$levels, function(x) x)
             r <- demg[, .N, by=name]
             level.name <- nmref[r[[name]]]
-            r[, nm:=level.name]
-            r[, percent:=N/nrow(demg)*100]
+            r[, "nm":=level.name]
+            r[, "percent":=.SD[["N"]]/nrow(demg)*100]
 
             tb <- data.table(
                               "Category"=r$nm,

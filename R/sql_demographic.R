@@ -7,6 +7,7 @@
 sql.demographic.table <- function(record, dtype=TRUE) {
     env <- environment()
     demogls <- list()
+    stopifnot(is.list(env$demogls))
     all.demcode <- all.nhic.code("Demographic")
     for_each_episode(record, 
         function(x){
@@ -29,6 +30,6 @@ sql.demographic.table <- function(record, dtype=TRUE) {
                 .which.datatype(stname2code(names(demogt)[i]))(demogt[[i]])
         }
     }
-    demogt[, index:=seq(nrow(demogt))]
+    demogt[, "index":=seq(nrow(demogt))]
     return(demogt)
 }

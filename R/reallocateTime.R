@@ -92,7 +92,7 @@ reallocateTimeRecord <- function(record, delta=0.5) {
         env <- environment()
         # make sure admin and disc time is correct
         period_length <- getEpisodePeriod(e)
-        admttime <- e@t_admission
+        if (period_length < 0)  warning("period length < 0")
         
         # calling reallocateTime for each data item
         new.episode(lapply(e@data, 

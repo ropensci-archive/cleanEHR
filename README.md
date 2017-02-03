@@ -38,6 +38,8 @@ tool to make CCHIC _research ready_.
 - an anonymised development data set 
 - a virtual machine for simulating work within the safe haven
 
+You request access to the anonymised toy dataset from
+[here](https://eu.jotform.com/build/70314283566355?iak=556a5d676470a5d7eebd02cec4e45ba3-e0cd40e271afb546). 
 
 ## Required packages
 * R (>= 3.1.0),
@@ -50,6 +52,13 @@ tool to make CCHIC _research ready_.
 
 
 ## How to install the R package
+### From CRAN to get the last stable version
+
+```
+install.packages("cleanEHR")
+```
+
+### From Github to install the latest development version.
 ```
 install.packages("devtools")
 devtools::install_github("UCL-HIC/ccdata.git")
@@ -61,8 +70,13 @@ introduction to cleanEHR
 
 
 ## How to contribute
-The `cleanEHR` package is constantly in development. We wellcome users using,
-commenting about the code on the master branch. If you have any question, you
-can just raise an isssue on Github or contact the developers via email
-(s.shi@ucl.ac.uk). Please let us know if you also want make contribution to the
-code development. 
+The `cleanEHR` package is currently under development. We wish you will find our
+software tools useful to your research project. If you have any question about
+the code or the data, please just raise an issue ticket on Github or contact 
+us via email (s.shi@ucl.ac.uk). As `cleanEHR` is an open source and community
+project, we also welcome contributions of any kind. We would like to make
+`cleanEHR` the platform of collaboration critical care data analysis. If you
+have any idea or comment, please feel free to raise the issue ticket here. We
+would also encourage everyone to integrate their code into the `cleanEHR`
+repository to benefit the entire community. Please feel free to contact us when
+you wish to contribute your code. 

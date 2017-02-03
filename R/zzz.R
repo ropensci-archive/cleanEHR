@@ -1,5 +1,4 @@
 .onLoad <- function(libname = find.package("cleanEHR"), pkgname = "cleanEHR") {
-    path <- find.package("cleanEHR")
     env <- parent.env(environment())
     
     # Assign ITEM_REF tables

@@ -116,9 +116,6 @@ extractInfo <- function() {
 #' getItemInfo("NIHR_HIC_ICU_0001")
 #' @export getItemInfo
 getItemInfo <- function(item.code) {
-    if (!exists("data.checklist"))
-        data("data.checklist")
-
     if(grepl("NIHR_HIC_ICU_", item.code)){# input is code
         item <- data.checklist$NHICcode == item.code
         dt <- data.checklist$NHICdtCode == item.code
@@ -243,6 +240,7 @@ NULL
 #' @return character ICNARC diagnosis
 #' @export 
 icnarc2diagnosis <- function(icnarc) {
+    if (is.null(icnarc)) return("NA")
     # e.g 1.01.1 -> 1.1.1
     if (is.null(icnarc)) {return("NA")}
     std.icnarc <- sapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 

@@ -18,7 +18,7 @@ unique_spell <- function(rec, duration=2) {
         diffday
     }
     setkey(tb, "pid", "t_admission", "t_discharge")
-    tb[, diffday:=short.time.group(.SD), by="pid"]
+    tb[, "diffday":=short.time.group(.SD), by="pid"]
 
     spell <- Reduce(sum, tb$diffday == 0 | tb$diffday > duration, accumulate=T)
     tb$spell <- spell

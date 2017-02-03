@@ -178,9 +178,9 @@ index.record <- function(rec) {
                                 sep="-")
         id[id=="NA-NA"] <- paste("unknown", seq(length(which(id=="NA-NA"))))
         id <- data.table(id=id)
-        id[, pid:=.GRP, by="id"]
-        rec@infotb[, pid:=id$pid]
-        rec@infotb[, index:=seq(nrow(rec@infotb))]
+        id[, "pid":=.GRP, by="id"]
+        rec@infotb[, "pid":=id$pid]
+        rec@infotb[, "index":=seq(nrow(rec@infotb))]
     }
     rec
 }
@@ -273,7 +273,7 @@ setMethod("[", "ccRecord",
 setMethod("[", signature(x="ccRecord", i="character"), 
           definition=function(x, i) {
               stopifnot(all(i%in%rownames(site.info())))
-              ind <- x@infotb[site_id%in%i]$index
+              ind <- x@infotb[x@infotb$site_id%in%i]$index
               if (length(ind) == 0) {
                   return(ccRecord())
               }
@@ -292,7 +292,7 @@ setMethod("[", signature(x="ccRecord", i="character"),
 #' @return ccRecord object 
 #' @export ccRecord_subset_files
 ccRecord_subset_files <- function(ccd, files) {
-    ind <- ccd@infotb[parse_file%in%files]$index
+    ind <- ccd@infotb[ccd@infotb$parse_file %in% files]$index
     if (length(ind) == 0) {
         return(ccRecord())
     }

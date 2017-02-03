@@ -5,7 +5,7 @@
 \title{Update the critical care database (RData)}
 \usage{
 update_database(xml.path, restart = FALSE, splitxml = FALSE, mc.cores = 4,
-  quiet = FALSE, dt = TRUE)
+  quiet = FALSE)
 }
 \arguments{
 \item{xml.path}{character the path of the folder of which contains the XML files.}
@@ -17,8 +17,6 @@ update_database(xml.path, restart = FALSE, splitxml = FALSE, mc.cores = 4,
 \item{mc.cores}{integer number of processors to be applied for parallelisation.}
 
 \item{quiet}{logical show the progress bar if true}
-
-\item{dt}{logical extract delta time if it is true.}
 }
 \description{
 Parse critical care data from XML files and inject them into the RData
