@@ -10,11 +10,11 @@ doc:
 	Rscript -e "library(devtools); build_vignettes()"
 
 cran: 
-	if [ -d cran_ccdata ]; then  rm -r cran_ccdata; fi 
-	mkdir cran_ccdata 
-	cp -r R man data inst src tests DESCRIPTION NAMESPACE vignettes cran_ccdata
-	rm cran_ccdata/src/*.o cran_ccdata/src/*.so
-	R CMD build cran_ccdata 
+	if [ -d cran_cleanEHR ]; then  rm -r cran_cleanEHR; fi 
+	mkdir cran_cleanEHR 
+	cp -r R man data inst src tests DESCRIPTION NAMESPACE vignettes cran_cleanEHR
+	rm cran_cleanEHR/src/*.o cran_cleanEHR/src/*.so
+	R CMD build cran_cleanEHR 
 	R CMD check *.tar.gz --as-cran 
 
 test:
@@ -33,6 +33,6 @@ rmcran:
 	rm *.tar.gz
 
 idhs:
-	rsync -av . /tmp/ccdata --exclude '.*' --exclude '*.so' --exclude '*.o'
-	zip -r ../ccdata.zip /tmp/ccdata
-	rm -r /tmp/ccdata
+	rsync -av . /tmp/cleanEHR --exclude '.*' --exclude '*.so' --exclude '*.o'
+	zip -r ../cleanEHR.zip /tmp/cleanEHR
+	rm -r /tmp/cleanEHR
