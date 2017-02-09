@@ -63,7 +63,7 @@ install.packages("cleanEHR")
 install.packages("devtools")
 devtools::install_github("UCL-HIC/ccdata.git")
 ```
-## Example of use
+## Vignette
 
 Check out the [tour](https://cc-hic.github.io/cleanEHR/tour.html) for a basic
 introduction to cleanEHR
