@@ -2,6 +2,10 @@
 [![Build Status](https://travis-ci.com/UCL-HIC/ccdata.svg?token=tpqYy2kGKwjiyqQSznFy&branch=master)](https://travis-ci.com/UCL-HIC/ccdata)
 [![codecov](https://codecov.io/gh/CC-HIC/ccdata/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/ccdata)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/cleanEHR)](https://cran.r-project.org/package=cleanEHR)
+[![Downloads](http://cranlogs.r-pkg.org/badges/cleanEHR?color=brightgreen)](http://www.r-pkg.org/pkg/cleanEHR)
+
+
 
 `cleanEHR` is an R package for working with the Critical Care Health Informatics
 Collaborative's data set. Since 2014 data from the critical care units at
