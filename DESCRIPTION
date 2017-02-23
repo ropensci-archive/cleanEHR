@@ -3,13 +3,13 @@ Type: Package
 Title: The Critical Care Clinical Data Processing Tools
 Version: 0.1
 Date: 2017-01-30
-Author: Sinan Shi, David Pérez-Suárez, Steve Harris, Niall MacCallum, David Brealey, Mervyn Singer, James Hetherington
+Author: Sinan Shi, David Pérez-Suárez, Steve Harris, Niall MacCallum, David
+    Brealey, Mervyn Singer, James Hetherington
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
-Description: 
-    A toolset to deal with the Critical Care Health Informatics Collaborative
-    dataset. It is created to address various data reliability and accessibility
-    problems of electronic healthcare records (EHR). It provides a unique
-    platform which enables data manipulation, transformation, reduction,
+Description: A toolset to deal with the Critical Care Health Informatics
+    Collaborative dataset. It is created to address various data reliability and
+    accessibility problems of electronic healthcare records (EHR). It provides a
+    unique platform which enables data manipulation, transformation, reduction,
     anonymisation, cleaning and validation.
 Depends:
     R (>= 3.1.0)
@@ -25,7 +25,7 @@ Imports:
     methods,
     knitr,
     ggplot2,
-    pander, 
+    pander,
     stats,
     utils
 VignetteBuilder: knitr
@@ -38,6 +38,7 @@ Collate:
     'create2dclean.R'
     'data.quality.report.R'
     'deltaTime.R'
+    'demographics.R'
     'filter.categorical.R'
     'filter.missingness.R'
     'filter.range.R'
