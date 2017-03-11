@@ -2,17 +2,21 @@
 % Please edit documentation in R/utilities.R
 \name{icnarc2diagnosis}
 \alias{icnarc2diagnosis}
-\title{Convert the ICNARC code to human readable diagnosis}
+\title{Convert ICNARC codes to diagnosis (text)}
 \usage{
-icnarc2diagnosis(icnarc)
+icnarc2diagnosis(icnarc, surgery = TRUE, levels = NULL)
 }
 \arguments{
 \item{icnarc}{the ICNARC code, e.g. 1.1.1.1.1}
+
+\item{surgery}{T/F with or without surgical information}
+
+\item{levels}{category level, from [1 - 5]. TODO level 4.}
 }
 \value{
 character ICNARC diagnosis
 }
 \description{
-Convert the ICNARC code to human readable diagnosis
+NOTE: There are still ~600 code missing. see issue #133
 }
 
