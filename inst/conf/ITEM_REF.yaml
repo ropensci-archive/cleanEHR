@@ -4443,7 +4443,7 @@ NIHR_HIC_ICU_0447:
   NHICdtCode: NIHR_HIC_ICU_0351
   NHICmetaCode: NIHR_HIC_ICU_0953
 NIHR_HIC_ICU_0434:
-  shortName: ethambutal hcl
+  shortName: ethambutal_hcl
   ItemId: 207
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5257,7 +5257,7 @@ NIHR_HIC_ICU_0460:
   NHICdtCode: NIHR_HIC_ICU_0364
   NHICmetaCode: NIHR_HIC_ICU_0963
 NIHR_HIC_ICU_0429:
-  shortName: demeclocycline hcl
+  shortName: demeclocycline_hcl
   ItemId: 244
   Classification1: Drugs
   Classification2: Anti_microbials
