@@ -46,6 +46,7 @@ Collate:
     'pipeline.R'
     'reallocateTime.R'
     'selectTable.R'
+    'sql.R'
     'sql_demographic.R'
     'stdid.R'
     'summary.R'
