@@ -106,42 +106,6 @@ extractInfo <- function() {
                                  as.numeric(as.number(StdId(time.list$idt))))))
 }
 
-#' Retrieve information of the query code/item names from data.checklist
-#'
-#' @param item.code it can be either item name or NHIC_code, dt_code, or
-#'        meta_code
-#' @return a vector contains NHIC_code, dt_code, meta_code and row_in_checklist
-#' @examples 
-#' getItemInfo("Time of death on your unit")
-#' getItemInfo("NIHR_HIC_ICU_0001")
-#' @export getItemInfo
-getItemInfo <- function(item.code) {
-    if(grepl("NIHR_HIC_ICU_", item.code)){# input is code
-        item <- data.checklist$NHICcode == item.code
-        dt <- data.checklist$NHICdtCode == item.code
-        meta <- data.checklist$NHICmetaCode == item.code
-        row.in.list <- which(item | dt | meta)
-    }
-    else{ # input is item name
-        row.in.list <- which(data.checklist$dataItem==item.code)
-    }
-
-    if (length(row.in.list) != 1){
-        stop("item/NHIC code cannot be found in the list.\n")
-    }
-
-    item.info <- c(as.character(data.checklist$dataitem[row.in.list]),
-                   as.character(data.checklist$nhiccode[row.in.list]),
-                   as.character(data.checklist$nhicdtcode[row.in.list]),
-                   as.character(data.checklist$nhicmetacode[row.in.list]),
-                   as.character(data.checklist$Units[row.in.list]),
-                   as.character(row.in.list))
-
-    names(item.info) <- c("item", "NHIC_code", "dt_code", 
-                          "meta_code", "unit", "row_in_checklist")
-    return(item.info)
-}
-
 #' Lookup items information by keywords
 #' 
 #' This function tries to match keywords in short names, long names and NHIC code. 
