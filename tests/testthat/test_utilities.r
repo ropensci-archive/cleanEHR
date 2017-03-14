@@ -25,4 +25,18 @@ test_that("ICNARC Conversion",{
     expect_true(icnarc2diagnosis("02.01", levels=1) == "Nonsurgical")
 })
 
+test_that("extractIndex table", {
+    expect_true(class(extractIndexTable()) == "list")
+    expect_true(all(unique(unlist(extractIndexTable())) %in% 
+                c("item1d", "time","item2d", "meta")))
+})
+
+
+test_that("index utility functions", {
+    out <- capture.output(all <- lookup.items(''))
+    expect_equal(length(all), length(ITEM_REF))
+    expect_equal(class(site.info()), "data.frame")
+})
+
+
 

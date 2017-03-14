@@ -12,8 +12,10 @@ unique_spell <- function(rec, duration=2) {
             return(zeroday)
         dic <- sd$t_discharge[1:length(sd$t_discharge)-1]
         adm <- sd$t_admission[2:length(sd$t_admission)]
-        
-        diffday <- (c(zeroday, difftime(adm, dic, units="days")))
+      
+        # 0 is a mark of first episode. In order to differentiate, I added 1e-7 to all 
+        # the diff days, which give an error of less than 1 mins. 
+        diffday <- c(zeroday, difftime(adm, dic, units="days") + 1e-7)
         diffday[is.na(diffday)] <- 0
         diffday
     }
