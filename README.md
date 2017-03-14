@@ -1,6 +1,6 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/e8f7kur9d21jmsks?svg=true)](https://ci.appveyor.com/project/sinanshi/ccdata)
-[![Build Status](https://travis-ci.com/UCL-HIC/ccdata.svg?token=tpqYy2kGKwjiyqQSznFy&branch=master)](https://travis-ci.com/UCL-HIC/ccdata)
-[![codecov](https://codecov.io/gh/CC-HIC/ccdata/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/ccdata)
+[![Build status](https://ci.appveyor.com/api/projects/status/e8f7kur9d21jmsks?svg=true)](https://ci.appveyor.com/project/sinanshi/cleanEHR)
+[![Build Status](https://travis-ci.com/UCL-HIC/cleanEHR.svg?token=tpqYy2kGKwjiyqQSznFy&branch=master)](https://travis-ci.com/UCL-HIC/cleanEHR)
+[![codecov](https://codecov.io/gh/CC-HIC/cleanEHR/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/cleanEHR)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/cleanEHR)](https://cran.r-project.org/package=cleanEHR)
 [![Downloads](http://cranlogs.r-pkg.org/badges/cleanEHR?color=brightgreen)](http://www.r-pkg.org/pkg/cleanEHR)
@@ -65,7 +65,7 @@ install.packages("cleanEHR")
 ### From Github to install the latest development version.
 ```
 install.packages("devtools")
-devtools::install_github("UCL-HIC/ccdata.git")
+devtools::install_github("UCL-HIC/cleanEHR.git")
 ```
 ## Vignette
 
