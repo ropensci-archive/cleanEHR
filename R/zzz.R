@@ -8,11 +8,10 @@
     ITEM_REF <- yaml.load_file(system.file("conf/ITEM_REF.yaml", package="cleanEHR"))
     assign("ITEM_REF", ITEM_REF, envir=env)
 
-    surgical <- paste(icnarc$Condition, "(Surgical)")
-    names(surgical) <- icnarc$Surgical
-    nonsurgical <- paste(icnarc$Condition, "(Nonsurgical)")
-    names(nonsurgical) <- icnarc$Nonsurgical
-    assign("icnarc.dict", c(surgical, nonsurgical), envir=env) 
+    icnarc.dict <- as.character(icnarc_table$diagosis)
+    names(icnarc.dict) <- as.character(icnarc_table$code)
+    
+    assign("icnarc.dict", icnarc.dict, envir=env)
   
 
     unit.dict <- unlist(sapply(ITEM_REF, function(x) x$Units))
