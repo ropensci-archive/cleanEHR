@@ -1,6 +1,6 @@
-#' Calculate the lenght of stay in the ICU. 
+#' Calculate the length of stay in the ICU. 
 #'
-#' Calculate the lenght of stay in the ICU and append it to the original demographic
+#' Calculate the length of stay in the ICU and append it to the original demographic
 #' table. 
 #' @param demg data.table the demograhic table which should at least contain
 #' column DAICU and DDICU
