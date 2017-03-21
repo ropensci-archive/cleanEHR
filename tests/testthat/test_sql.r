@@ -8,3 +8,10 @@ test_that("Export SQL variable tables from ccRecord", {
    expect_equal(class(ltb), "list")
    expect_true(all(stname2code(names(ltb)) != "NA"))
 })
+
+
+test_that("Create SQLite database", {
+    create.database(ccd)
+
+
+})

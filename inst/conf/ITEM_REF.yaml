@@ -5015,7 +5015,7 @@ NIHR_HIC_ICU_0417:
   NHICdtCode: NIHR_HIC_ICU_0321
   NHICmetaCode: NIHR_HIC_ICU_0562
 NIHR_HIC_ICU_0426:
-  shortName: co-amoxiclav
+  shortName: co_amoxiclav
   ItemId: 233
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -5213,7 +5213,7 @@ NIHR_HIC_ICU_0446:
   NHICdtCode: NIHR_HIC_ICU_0350
   NHICmetaCode: NIHR_HIC_ICU_0581
 NIHR_HIC_ICU_0428:
-  shortName: co-trimoxazole
+  shortName: co_trimoxazole
   ItemId: 242
   Classification1: Drugs
   Classification2: Anti_microbials

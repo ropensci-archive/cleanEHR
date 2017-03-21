@@ -24,6 +24,7 @@ rec2tb <- function(ccd, varname) {
                       x@data[[varcode]]))
         })
     vartb <- rbindlist(vartb.lst, fill=TRUE)
+    nm <- names(vartb)
 
     # Rename the columns 
     # The sequence of time and item2d column is not certain, that's why we have
@@ -31,8 +32,12 @@ rec2tb <- function(ccd, varname) {
     if (ncol(vartb) == 3) # non-longitudinal variables
         names(vartb) <- c("episoe_id", "site_id", varname)
     if (ncol(vartb) > 3) # longitudinal 
-        names(vartb) <- gsub(x=names(vartb), "item2d", "val")
-
+        names(vartb) <- gsub(x=nm, "item2d", "val")
+    # two val may happen for microb site. 
+    if (any(duplicated(nm))) {
+        nm[duplicated(nm)] <- paste0(nm[duplicated(nm)], 1)
+        names(vartb) <- nm
+    }
     return(vartb)
 }
 
@@ -51,4 +56,21 @@ export.lontb <- function(ccd) {
                   }))
     names(l.stnames) <- l.stnames # the result can be indexed via short names
     return(lapply(l.stnames, function(x) rec2tb(ccd, x)))
+}
+
+#' @import dplyr
+#' @export
+create.database <- function(ccd, path="cchic.sqlite3") {
+    unlink(path)
+    cchic_db <- src_sqlite(path, create = T)
+    ltb <- export.lontb(ccd)
+
+    for (i in seq(ltb)) {
+        data = ltb[[i]] # copy_to does not like [[]] operators for df.
+        name = names(ltb[i])
+        print(name)
+        if (nrow(data) != 0)
+            copy_to(dest=cchic_db, df=data, name=name)
+    }
+    cchic_db
 }
