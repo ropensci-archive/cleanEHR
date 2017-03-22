@@ -22,7 +22,7 @@ extractIndexTable <- function() {
     for(i in seq(info$time$idt))
         checklist[[info$time$idt[i]]] <-"time"
     for(i in seq(info$time$id))
-        checklist[[info$time$id[i]]] <- "item2d"
+        checklist[[info$time$id[i]]] <- "val"
     for(i in seq(info$meta$meta))
         checklist[[info$meta$meta[i]]] <- "meta"
     

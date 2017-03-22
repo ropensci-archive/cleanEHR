@@ -60,7 +60,7 @@ export.lontb <- function(ccd) {
 
 #' @import dplyr
 #' @export
-create.database <- function(ccd, path="cchic.sqlite3") {
+sql.create.database <- function(ccd, path="cchic.sqlite3") {
     unlink(path)
     cchic_db <- src_sqlite(path, create = T)
     ltb <- export.lontb(ccd)
@@ -70,7 +70,28 @@ create.database <- function(ccd, path="cchic.sqlite3") {
         name = names(ltb[i])
         print(name)
         if (nrow(data) != 0)
-            copy_to(dest=cchic_db, df=data, name=name)
+            copy_to(dest=cchic_db, df=data, name=name, temporary = FALSE)
     }
+    tb <- as.data.frame(sql.demographic.table(ccd))
+    copy_to(dest=cchic_db, df=tb, name="episodetb", temporary = FALSE)
+
     cchic_db
+}
+
+
+#' @export
+sql.tbl.vartb <- function(con, stname) {
+    tbl(con, sql(paste("select * from", stname)))
+}
+
+
+#' @export 
+sql.collect.vartb <- function(con, stname) {
+    return(collect(sql.tbl.vartb(con, stname), n = Inf))
+
+}
+
+create.fat.table <- function(db, frequency=1) {
+
+
 }

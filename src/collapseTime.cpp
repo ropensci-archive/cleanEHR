@@ -12,7 +12,7 @@ using namespace Rcpp ;
 DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float frequency){
     // input data
     NumericVector tin = d["time"];
-    CharacterVector valin = d["item2d"];
+    CharacterVector valin = d["val"];
     // vectors for storing output data
     std::vector<float> tnew;
     std::vector<std::string> vnew;
