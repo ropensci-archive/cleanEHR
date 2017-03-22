@@ -11,7 +11,7 @@ test_that("Export SQL variable tables from ccRecord", {
 
 
 test_that("Create SQLite database", {
-    create.database(ccd)
-
+    sql.create.database(ccd)
+    
 
 })

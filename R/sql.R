@@ -68,11 +68,10 @@ sql.create.database <- function(ccd, path="cchic.sqlite3") {
     for (i in seq(ltb)) {
         data = ltb[[i]] # copy_to does not like [[]] operators for df.
         name = names(ltb[i])
-        print(name)
         if (nrow(data) != 0)
             copy_to(dest=cchic_db, df=data, name=name, temporary = FALSE)
     }
-    tb <- as.data.frame(sql.demographic.table(ccd))
+    tb <- suppressWarnings(as.data.frame(sql.demographic.table(ccd)))
     copy_to(dest=cchic_db, df=tb, name="episodetb", temporary = FALSE)
 
     cchic_db
@@ -91,7 +90,37 @@ sql.collect.vartb <- function(con, stname) {
 
 }
 
+
+#' @export 
 create.fat.table <- function(db, frequency=1) {
+    eptb <- data.table(sql.collect.vartb(db, 'episodetb'))
+    eptb <- data.table(lenstay(eptb))
+    nep0 <- nrow(eptb)
+    eptb <- eptb[!is.na(lenstay)]
+    eprm.log(nep0, nrow(eptb), "unable to calculate length of stay.")
+    eptb <- eptb[, c("ICNNO", "ADNO", "lenstay"), with=FALSE]
+    names(eptb) <- c("site_id", "episode_id", "lenstay")
+    
+    h <- data.table(sql.collect.vartb(db, 'h_rate'))
+    h$episode_id <- as.integer(h$episode_id)
+    grptb <- h[, .GRP, by=c("site_id", "episode_id")]
+    grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
+    grpindex <- vector()
+    grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
+    h <- h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")]
 
 
+    return(h)
 }
+
+
+#' @export 
+eprm.log <- function(nep0, nep1, reason) {
+    cat("[-]", 
+        nep0 - nep1, 
+        "episodes have been removed:", 
+        reason, "\n")
+}
+
+
+
