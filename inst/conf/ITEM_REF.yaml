@@ -4729,7 +4729,7 @@ NIHR_HIC_ICU_0422:
   NHICdtCode: NIHR_HIC_ICU_0326
   NHICmetaCode: NIHR_HIC_ICU_0567
 NIHR_HIC_ICU_0436:
-  shortName: fuscidic acid
+  shortName: fuscidic_acid
   ItemId: 220
   Classification1: Drugs
   Classification2: Anti_microbials
@@ -4751,7 +4751,7 @@ NIHR_HIC_ICU_0436:
   NHICdtCode: NIHR_HIC_ICU_0340
   NHICmetaCode: NIHR_HIC_ICU_0579
 NIHR_HIC_ICU_0456:
-  shortName: sodium fusidate
+  shortName: sodium_fusidate
   ItemId: 221
   Classification1: Drugs
   Classification2: Anti_microbials
