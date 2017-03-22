@@ -27,7 +27,8 @@ Imports:
     ggplot2,
     pander,
     stats,
-    utils
+    utils, 
+    dplyr
 VignetteBuilder: knitr
 URL: https://github.com/CC-HIC/cleanEHR, http://www.hic.nihr.ac.uk
 RoxygenNote: 5.0.1
