@@ -100,15 +100,24 @@ create.fat.table <- function(db, frequency=1) {
     eprm.log(nep0, nrow(eptb), "unable to calculate length of stay.")
     eptb <- eptb[, c("ICNNO", "ADNO", "lenstay"), with=FALSE]
     names(eptb) <- c("site_id", "episode_id", "lenstay")
-    
-    h <- data.table(sql.collect.vartb(db, 'h_rate'))
-    h$episode_id <- as.integer(h$episode_id)
-    grptb <- h[, .GRP, by=c("site_id", "episode_id")]
-    grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
-    grpindex <- vector()
-    grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
-    h <- h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")]
 
+    lonvars <- c('h_rate', 'adrenaline', 'advsupt_cardv')
+
+    for (l in lonvars) {
+        print(l)
+        h <- data.table(sql.collect.vartb(db, l))
+        h$episode_id <- as.integer(h$episode_id)
+        grptb <- h[, .GRP, by=c("site_id", "episode_id")]
+
+        grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
+        grpindex <- vector()
+        grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
+        h <- h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")]
+
+
+
+
+    }
 
     return(h)
 }
