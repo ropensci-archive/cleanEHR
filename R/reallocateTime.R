@@ -9,6 +9,14 @@ reallocateTime <- function(d, t_discharge, frequency) {
     return(reallocateTime_(d_, t_discharge, frequency))
 }
 
+#' @importFrom Rcpp evalCpp
+#' @export
+alignTime <- function(d, t_admission, t_discharge, frequency) {
+    stopifnot(any(names(d) == "time"))
+    stopifnot(any(names(d) == "val"))
+    stopifnot(class(d$time) == "numeric")
+    return(reallocateTime__(d, t_admission, t_discharge, frequency))
+}
 
 findMaxTime <- function(episode) {
     get2dTime <- function(episode){

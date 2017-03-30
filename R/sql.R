@@ -93,6 +93,9 @@ sql.collect.vartb <- function(con, stname) {
 
 #' @export 
 create.fat.table <- function(db, frequency=1) {
+    if ("ftable" %in% src_tbls(db))
+        db$con %>% db_drop_table(table="ftable")
+
     eptb <- data.table(sql.collect.vartb(db, 'episodetb'))
     eptb <- data.table(lenstay(eptb))
     nep0 <- nrow(eptb)
@@ -101,25 +104,35 @@ create.fat.table <- function(db, frequency=1) {
     eptb <- eptb[, c("ICNNO", "ADNO", "lenstay"), with=FALSE]
     names(eptb) <- c("site_id", "episode_id", "lenstay")
 
-    lonvars <- c('h_rate', 'adrenaline', 'advsupt_cardv')
+    fatbasetb <- eptb[, seq(0, ceiling(as.numeric(lenstay))), by=c("site_id", "episode_id")]
+    names(fatbasetb) <- c("site_id", "episode_id", "time")
+
+
+    eptb <<- eptb
+    print(eptb)
+    
+
+    lonvars <- c('adrenaline', 'advsupt_cardv')
+    lst <- list()
 
     for (l in lonvars) {
-        print(l)
-        h <- data.table(sql.collect.vartb(db, l))
-        h$episode_id <- as.integer(h$episode_id)
-        grptb <- h[, .GRP, by=c("site_id", "episode_id")]
+#        var <- data.table(sql.collect.vartb(db, l))
+#        var <- var[, alignTime(.SD, min(time), max(time), 1), by=c("site_id", "episode_id")]
+#        copy_to(db, var, 'tmp', temporary=FALSE)
 
-        grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
-        grpindex <- vector()
-        grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
-        h <- h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")]
-
-
-
-
+        
+#        print(l)
+#
+#        h$episode_id <- as.integer(h$episode_id) # episode id need to be integer, should convert the datatype in create.database. 
+#        grptb <- h[, .GRP, by=c("site_id", "episode_id")]
+#
+#        grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
+#        grpindex <- vector()
+#        grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
+#        lst[[l]] <- copy(h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")])
     }
 
-    return(h)
+    return(lst)
 }
 
 
