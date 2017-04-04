@@ -49,16 +49,13 @@ rec2tb <- function(ccd, varname) {
 #' @param ccd ccRecord object
 #' @export
 export.lontb <- function(ccd) {
-    l.stnames <- unlist(lapply(cleanEHR:::ITEM_REF, 
-                  function(x) {
-                      if(!is.null(x$NHICdtCode))
-                          return(x$shortName)
-                  }))
+    l.stnames <- code2stname(names(ITEM_REF)[is.longitudinal(names(ITEM_REF))])
     names(l.stnames) <- l.stnames # the result can be indexed via short names
     return(lapply(l.stnames, function(x) rec2tb(ccd, x)))
 }
 
 #' @import dplyr
+#' @import RSQLite
 #' @export
 sql.create.database <- function(ccd, path="cchic.sqlite3") {
     unlink(path)
@@ -68,8 +65,11 @@ sql.create.database <- function(ccd, path="cchic.sqlite3") {
     for (i in seq(ltb)) {
         data = ltb[[i]] # copy_to does not like [[]] operators for df.
         name = names(ltb[i])
-        if (nrow(data) != 0)
+        if (nrow(data) != 0) {
             copy_to(dest=cchic_db, df=data, name=name, temporary = FALSE)
+        }
+        else 
+            warning("cannot find any data of ", name, "in ccd.")
     }
     tb <- suppressWarnings(as.data.frame(sql.demographic.table(ccd)))
     copy_to(dest=cchic_db, df=tb, name="episodetb", temporary = FALSE)
@@ -90,11 +90,21 @@ sql.collect.vartb <- function(con, stname) {
 
 }
 
+#' Fat table 
+#' 
+#' We should be able to give the users choices of how to align the data, whether by 
+#' using ICU admission time as the baseline, or hospital admission, or even with the earliest 
+#' and the latest data point. I have updated reallocateTime__ which allows such 
+#' operations. 
 
 #' @export 
 create.fat.table <- function(db, frequency=1) {
-    if ("ftable" %in% src_tbls(db))
-        db$con %>% db_drop_table(table="ftable")
+    tbindb <- src_tbls(db)
+    # clean up fat table and tmp table in the database  
+    for (i in c("ftable", "tmp")) {
+        if (i %in% tbindb)
+            db$con %>% db_drop_table(table=i)
+    }
 
     eptb <- data.table(sql.collect.vartb(db, 'episodetb'))
     eptb <- data.table(lenstay(eptb))
@@ -106,22 +116,46 @@ create.fat.table <- function(db, frequency=1) {
 
     fatbasetb <- eptb[, seq(0, ceiling(as.numeric(lenstay))), by=c("site_id", "episode_id")]
     names(fatbasetb) <- c("site_id", "episode_id", "time")
+    copy_to(db, fatbasetb, 'ftable', temporary=FALSE)
 
-
-    eptb <<- eptb
-    print(eptb)
+#    lonvars <- c('adrenaline', 'advsupt_cardv', "h_rate")
+    lonvars <- names(ITEM_REF)[is.longitudinal(names(ITEM_REF))]
+    lonvars <- code2stname(lonvars)
     
-
-    lonvars <- c('adrenaline', 'advsupt_cardv')
+    if (any(!(lonvars %in% tbindb)))
+        warning(paste(lonvars[!(lonvars %in% tbindb)], collapse=", "),
+                      ", cannot be found in the database.")
+    lonvars <- lonvars[lonvars %in% tbindb]
+    
     lst <- list()
 
     for (l in lonvars) {
-#        var <- data.table(sql.collect.vartb(db, l))
-#        var <- var[, alignTime(.SD, min(time), max(time), 1), by=c("site_id", "episode_id")]
-#        copy_to(db, var, 'tmp', temporary=FALSE)
+        print("===================================================")
+        print(l)
+        var <- data.table(sql.collect.vartb(db, l))
+        print(var)
+        var <- var[, alignTime(.SD, 0, max(time), 1), by=c("site_id", "episode_id")]
+
+        # name val -> stname, meta -> stname.meta
+        nm <- names(var)
+        nm[nm == "val"] <- l
+        nm[nm == "meta"] <- paste0(l, ".meta")
+        names(var) <- nm
+
+
+
+        copy_to(db, var, 'tmp', temporary=FALSE)
 
         
-#        print(l)
+        
+        #select * from tmp left outer join tmp2 on tmp.x = tmp2.x and tmp.y = tmp2.y;
+
+        
+        
+        
+
+        db$con %>% db_drop_table(table="tmp")
+        print(var)
 #
 #        h$episode_id <- as.integer(h$episode_id) # episode id need to be integer, should convert the datatype in create.database. 
 #        grptb <- h[, .GRP, by=c("site_id", "episode_id")]
@@ -129,10 +163,10 @@ create.fat.table <- function(db, frequency=1) {
 #        grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
 #        grpindex <- vector()
 #        grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
-#        lst[[l]] <- copy(h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")])
+#        hf <- h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")]
     }
 
-    return(lst)
+
 }
 
 

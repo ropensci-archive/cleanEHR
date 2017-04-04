@@ -129,7 +129,9 @@ DataFrame reallocateTime__(DataFrame d, const float t_admission,
 
     tnew.pop_back();
     if (HAS_META)
-        return DataFrame::create(_["time"]=tnew, _["val"]=vnew, _["meta"]=mnew);
+        return DataFrame::create(_["time"]=tnew, _["val"]=vnew, _["meta"]=mnew, 
+                _["stringsAsFactors"] = false);
 
-    return DataFrame::create(_["time"]=tnew, _["val"]=vnew);
+    return DataFrame::create(_["time"]=tnew, _["val"]=vnew, 
+            _["stringsAsFactors"] = false);
 }

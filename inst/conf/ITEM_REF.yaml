@@ -3591,7 +3591,7 @@ NIHR_HIC_ICU_0153:
   NHICdtCode: NIHR_HIC_ICU_0290
   NHICmetaCode: ~
 NIHR_HIC_ICU_0154:
-  shortName: cycle_volumn
+  shortName: cycle_volume
   ItemId: 160
   Classification1: Physiology
   Classification2: Respiratory
