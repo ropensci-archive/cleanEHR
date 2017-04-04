@@ -54,7 +54,8 @@ export.lontb <- function(ccd) {
     return(lapply(l.stnames, function(x) rec2tb(ccd, x)))
 }
 
-#' @import dplyr
+
+#' @importFrom dplyr src_sqlite copy_to
 #' @import RSQLite
 #' @export
 sql.create.database <- function(ccd, path="cchic.sqlite3") {
@@ -146,6 +147,7 @@ create.fat.table <- function(db, frequency=1) {
 
         copy_to(db, var, 'tmp', temporary=FALSE)
 
+    
         
         
         #select * from tmp left outer join tmp2 on tmp.x = tmp2.x and tmp.y = tmp2.y;
@@ -169,6 +171,16 @@ create.fat.table <- function(db, frequency=1) {
 
 }
 
+
+
+left.join.var.table <- function(dbname, base, newvar) {
+    con <- dbConnect(drv = SQLite(), dbname=dbname)
+    dbSendQuery(conn = con,
+                "CREATE TABLE School (x integer);")
+
+    dbClearResult(dbListResults(con)[[1]])
+    dbDisconnect(con)
+}
 
 #' @export 
 eprm.log <- function(nep0, nep1, reason) {

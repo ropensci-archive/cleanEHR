@@ -15,3 +15,14 @@ test_that("Create SQLite database", {
     
 
 })
+
+
+test_that("", {
+    dbname <- "Test.sqlite"
+    if (file.exists(dbname))
+        file.remove(dbname)
+
+    left.join.var.table(dbname, "x", "y")
+    
+    file.remove(dbname)
+})
