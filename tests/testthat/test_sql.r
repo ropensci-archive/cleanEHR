@@ -22,7 +22,24 @@ test_that("", {
     if (file.exists(dbname))
         file.remove(dbname)
 
-    left.join.var.table(dbname, "x", "y")
-    
+    db <- src_sqlite(dbname, create=TRUE)
+#    dbSendQuery(conn = con, "CREATE TABLE temp1 (x integer);")
+    fattb <- data.frame(site_id = c(rep("s1", 5), rep("s2", 5)), 
+                        episode_id = c(rep(1, 5), rep(1, 5)), 
+                        time = c(seq(5), seq(5)))
+
+    vartb <- cbind(fattb, h_rate=seq(1, 10))
+    copy_to(db, fattb, 'fattb', temporary=FALSE)
+    copy_to(db, vartb, 'vartb', temporary=FALSE)
+
+    print(sql.collect.vartb(db, 'vartb'))
+    left.join.var.table(db$path)
+    print(sql.collect.vartb(db, 'fattb'))
+
+    vartb <- cbind(fattb, blood_pres=seq(1, 10))
+    copy_to(db, vartb, 'vartb', temporary=FALSE)
+    left.join.var.table(db$path)
+    print(data.frame(sql.collect.vartb(db, 'fattb')))
+
     file.remove(dbname)
 })

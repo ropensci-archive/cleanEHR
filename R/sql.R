@@ -78,17 +78,17 @@ sql.create.database <- function(ccd, path="cchic.sqlite3") {
     cchic_db
 }
 
-
+#' @importFrom dplyr sql
 #' @export
 sql.tbl.vartb <- function(con, stname) {
     tbl(con, sql(paste("select * from", stname)))
 }
 
 
+#' @importFrom dplyr collect tbl
 #' @export 
 sql.collect.vartb <- function(con, stname) {
     return(collect(sql.tbl.vartb(con, stname), n = Inf))
-
 }
 
 #' Fat table 
@@ -117,7 +117,7 @@ create.fat.table <- function(db, frequency=1) {
 
     fatbasetb <- eptb[, seq(0, ceiling(as.numeric(lenstay))), by=c("site_id", "episode_id")]
     names(fatbasetb) <- c("site_id", "episode_id", "time")
-    copy_to(db, fatbasetb, 'ftable', temporary=FALSE)
+    copy_to(db, fatbasetb, 'fattb', temporary=FALSE)
 
 #    lonvars <- c('adrenaline', 'advsupt_cardv', "h_rate")
     lonvars <- names(ITEM_REF)[is.longitudinal(names(ITEM_REF))]
@@ -143,18 +143,10 @@ create.fat.table <- function(db, frequency=1) {
         nm[nm == "meta"] <- paste0(l, ".meta")
         names(var) <- nm
 
+        copy_to(db, var, 'vartb', temporary=FALSE)
+        print(names(db))
+        left.join.var.table(db$con)
 
-
-        copy_to(db, var, 'tmp', temporary=FALSE)
-
-    
-        
-        
-        #select * from tmp left outer join tmp2 on tmp.x = tmp2.x and tmp.y = tmp2.y;
-
-        
-        
-        
 
         db$con %>% db_drop_table(table="tmp")
         print(var)
@@ -172,11 +164,29 @@ create.fat.table <- function(db, frequency=1) {
 }
 
 
-
-left.join.var.table <- function(dbname, base, newvar) {
+#' Join the existing vartb and fattb and create update the new fattb
+#' 
+#' Update the fattb and the vartb will be removed here.
+#' @param dbname character database address
+left.join.var.table <- function(dbname) {
     con <- dbConnect(drv = SQLite(), dbname=dbname)
-    dbSendQuery(conn = con,
-                "CREATE TABLE School (x integer);")
+    # Get the exact column names to avoid duplications in join, such as site_id.1
+    basecolname <- names(dbGetQuery(con, "select * from fattb limit 1;"))
+    varcolname <- names(dbGetQuery(con, "select * from vartb limit 1;"))
+    varcolname <- varcolname[-which(varcolname %in% c('site_id', 'episode_id', 'time'))]
+    newcolname <- c(paste0("fattb.", basecolname), varcolname)
+
+    q.jointable  <- 
+        paste0("CREATE TABLE tmp as SELECT ", paste(newcolname, collapse=", "), 
+               " FROM fattb LEFT OUTER JOIN vartb ON 
+               fattb.site_id = vartb.site_id and 
+               fattb.episode_id = vartb.episode_id and 
+               fattb.time = vartb.time;")
+
+    dbSendQuery(con, q.jointable)
+    dbSendQuery(con, "DROP TABLE fattb;")
+    dbSendQuery(con, "ALTER TABLE tmp RENAME TO fattb;")
+    dbSendQuery(con, "DROP TABLE vartb;")
 
     dbClearResult(dbListResults(con)[[1]])
     dbDisconnect(con)
