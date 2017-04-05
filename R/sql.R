@@ -102,7 +102,7 @@ sql.collect.vartb <- function(con, stname) {
 create.fat.table <- function(db, frequency=1) {
     tbindb <- src_tbls(db)
     # clean up fat table and tmp table in the database  
-    for (i in c("ftable", "tmp")) {
+    for (i in c("fattb", "tmp", "vartb")) {
         if (i %in% tbindb)
             db$con %>% db_drop_table(table=i)
     }
@@ -118,6 +118,7 @@ create.fat.table <- function(db, frequency=1) {
     fatbasetb <- eptb[, seq(0, ceiling(as.numeric(lenstay))), by=c("site_id", "episode_id")]
     names(fatbasetb) <- c("site_id", "episode_id", "time")
     copy_to(db, fatbasetb, 'fattb', temporary=FALSE)
+
 
 #    lonvars <- c('adrenaline', 'advsupt_cardv', "h_rate")
     lonvars <- names(ITEM_REF)[is.longitudinal(names(ITEM_REF))]
@@ -137,30 +138,20 @@ create.fat.table <- function(db, frequency=1) {
         print(var)
         var <- var[, alignTime(.SD, 0, max(time), 1), by=c("site_id", "episode_id")]
 
-        # name val -> stname, meta -> stname.meta
-        nm <- names(var)
-        nm[nm == "val"] <- l
-        nm[nm == "meta"] <- paste0(l, ".meta")
-        names(var) <- nm
-
         copy_to(db, var, 'vartb', temporary=FALSE)
-        print(names(db))
-        left.join.var.table(db$con)
-
-
-        db$con %>% db_drop_table(table="tmp")
-        print(var)
-#
-#        h$episode_id <- as.integer(h$episode_id) # episode id need to be integer, should convert the datatype in create.database. 
-#        grptb <- h[, .GRP, by=c("site_id", "episode_id")]
-#
-#        grptb <- merge(grptb, eptb, all.x=TRUE, by=c("site_id", "episode_id"))
-#        grpindex <- vector()
-#        grpindex[grptb$GRP] <- as.numeric(grptb$lenstay)
-#        hf <- h[, reallocateTime(.SD, grpindex[.GRP], 1), by=c("site_id", "episode_id")]
+        
+        print("copied to the database")
     }
+}
 
+create.index <- function(dbname, tbname) {
+    con <- dbConnect(drv = SQLite(), dbname=dbname)
+    dbSendQuery(con, 
+                paste0("create index ind on ", 
+                       tbname, " (site_id, episode_id, time);"))
 
+    dbClearResult(dbListResults(con)[[1]])
+    dbDisconnect(con)
 }
 
 

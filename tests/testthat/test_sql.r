@@ -23,7 +23,6 @@ test_that("", {
         file.remove(dbname)
 
     db <- src_sqlite(dbname, create=TRUE)
-#    dbSendQuery(conn = con, "CREATE TABLE temp1 (x integer);")
     fattb <- data.frame(site_id = c(rep("s1", 5), rep("s2", 5)), 
                         episode_id = c(rep(1, 5), rep(1, 5)), 
                         time = c(seq(5), seq(5)))
