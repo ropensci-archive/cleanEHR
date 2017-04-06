@@ -91,13 +91,15 @@ sql.collect.vartb <- function(con, stname) {
     return(collect(sql.tbl.vartb(con, stname), n = Inf))
 }
 
+
 #' Fat table 
 #' 
 #' We should be able to give the users choices of how to align the data, whether by 
 #' using ICU admission time as the baseline, or hospital admission, or even with the earliest 
 #' and the latest data point. I have updated reallocateTime__ which allows such 
 #' operations. 
-
+#'
+#' @importFrom dplyr src_tbls
 #' @export 
 create.fat.table <- function(db, frequency=1) {
     tbindb <- src_tbls(db)
@@ -106,6 +108,10 @@ create.fat.table <- function(db, frequency=1) {
         if (i %in% tbindb)
             db$con %>% db_drop_table(table=i)
     }
+    ltbname <- tbindb[sapply(src_tbls(con), function(x) grep(x=x, pattern="^l_")) == 1]
+    ltbname <- ltbname[!is.na(ltbname)]
+
+    for (i in ltbname) db$con %>% db_drop_table(i)
 
     eptb <- data.table(sql.collect.vartb(db, 'episodetb'))
     eptb <- data.table(lenstay(eptb))
@@ -129,7 +135,6 @@ create.fat.table <- function(db, frequency=1) {
                       ", cannot be found in the database.")
     lonvars <- lonvars[lonvars %in% tbindb]
     
-    lst <- list()
 
     for (l in lonvars) {
         print("===================================================")
@@ -137,10 +142,8 @@ create.fat.table <- function(db, frequency=1) {
         var <- data.table(sql.collect.vartb(db, l))
         print(var)
         var <- var[, alignTime(.SD, 0, max(time), 1), by=c("site_id", "episode_id")]
-
-        copy_to(db, var, 'vartb', temporary=FALSE)
-        
-        print("copied to the database")
+        var <- merge(fatbasetb, var, all.x=TRUE)
+        copy_to(db, var, paste0('l_', l), temporary=FALSE)
     }
 }
 
@@ -192,4 +195,7 @@ eprm.log <- function(nep0, nep1, reason) {
 }
 
 
-
+#' @export 
+get.lvar <- function(con, var) {
+    as.data.frame(tbl(con, sql(paste("select val from", paste0("l_", var)))))
+}

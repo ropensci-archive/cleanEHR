@@ -1,5 +1,9 @@
 context("Testing SQL functionalities")
 
+
+
+
+
 test_that("Export SQL variable tables from ccRecord", {
    expect_error(rec2tb('nonsense'))
    expect_true("data.frame" %in% class(rec2tb(ccd, "h_rate")))
@@ -11,9 +15,8 @@ test_that("Export SQL variable tables from ccRecord", {
 
 
 test_that("Create SQLite database", {
-    suppressWarnings(sql.create.database(ccd))
-    
-
+    suppressWarnings(sql.create.database(ccd, "test_db"))
+    file.remove('test_db')
 })
 
 
@@ -41,4 +44,26 @@ test_that("", {
     print(data.frame(sql.collect.vartb(db, 'fattb')))
 
     file.remove(dbname)
+})
+
+test_that("create fat table", {
+
+    dbname <- "Test.sqlite"
+    suppressWarnings(sql.create.database(ccd, dbname))
+
+    if (file.exists(dbname))
+        file.remove(dbname)
+
+    db <- src_sqlite(dbname, create=TRUE)
+
+    
+    h_rate <- data.frame(site_id = c(rep("s1", 5), rep("s2", 5)), 
+                        episode_id = c(rep(1, 5), rep(1, 5)), 
+                        time = c(seq(5), seq(5)))
+
+
+#    create.fat.table(db, 1)
+    file.remove(dbname)
+
+
 })
