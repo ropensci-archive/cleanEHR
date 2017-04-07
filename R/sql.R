@@ -123,6 +123,7 @@ create.fat.table <- function(db, frequency=1) {
 
     fatbasetb <- eptb[, seq(0, ceiling(as.numeric(lenstay))), by=c("site_id", "episode_id")]
     names(fatbasetb) <- c("site_id", "episode_id", "time")
+    fatbasetb$episode_id <- as.character(fatbasetb$episode_id) # this is a patch, should keep the consistency of the data type everywehre. 
     copy_to(db, fatbasetb, 'fattb', temporary=FALSE)
 
 
@@ -137,12 +138,11 @@ create.fat.table <- function(db, frequency=1) {
     
 
     for (l in lonvars) {
-        print("===================================================")
         print(l)
         var <- data.table(sql.collect.vartb(db, l))
-        print(var)
         var <- var[, alignTime(.SD, 0, max(time), 1), by=c("site_id", "episode_id")]
-        var <- merge(fatbasetb, var, all.x=TRUE)
+        var <- merge(fatbasetb, var, by=c("site_id", "episode_id", "time"), all.x=TRUE)
+        print(var)
         copy_to(db, var, paste0('l_', l), temporary=FALSE)
     }
 }
