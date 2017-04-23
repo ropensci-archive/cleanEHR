@@ -2,8 +2,7 @@ Package: cleanEHR
 Type: Package
 Title: The Critical Care Clinical Data Processing Tools
 Version: 0.1
-Date: 2017-01-30
-Author: Sinan Shi, David Pérez-Suárez, Steve Harris, Niall MacCallum, David
+Author: Sinan Shi, David Perez-Suarez, Steve Harris, Niall MacCallum, David
     Brealey, Mervyn Singer, James Hetherington
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
 Description: A toolset to deal with the Critical Care Health Informatics
@@ -13,6 +12,7 @@ Description: A toolset to deal with the Critical Care Health Informatics
     anonymisation, cleaning and validation.
 Depends:
     R (>= 3.1.0)
+BugReports: http://github.com/cleanEHR/issues
 License: GPL-3
 LinkingTo: Rcpp
 Suggests:
