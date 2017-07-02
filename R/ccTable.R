@@ -199,7 +199,7 @@ ccTable$methods(
 ccTable$methods(
     reload.conf = function(file) {
         "reload yaml configuration."
-        .self$conf=yaml.load_file(file)
+        .self$conf <- yaml.load_file(file)
 })
 
 

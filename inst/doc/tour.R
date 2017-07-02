@@ -41,7 +41,7 @@ NIHR_HIC_ICU_0108:
   shortName: hrate
 NIHR_HIC_ICU_0112:
   shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+  dataItem: Systolic Arterial blood pressure 
 NIHR_HIC_ICU_0093:
    shortName: sex
 "
@@ -58,7 +58,6 @@ print(tb$tclean)
 ## ------------------------------------------------------------------------
 tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=T), by=c("site", "episode_id")]
 
-## ---- fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE----
 conf <-"
 NIHR_HIC_ICU_0108:
   shortName: hrate
@@ -70,7 +69,8 @@ NIHR_HIC_ICU_0108:
       red: (0, 300)
       amber: (11, 150)
     apply: drop_entry
-  missingness: # remove episode if missingness is higher than 70% in any 24 hours interval 
+  missingness: # remove episode if missingness is 
+               # higher than 70% in any 24 hours interval
     labels:
       yellow: 24
     accept_2d:

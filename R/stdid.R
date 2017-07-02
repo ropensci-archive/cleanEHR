@@ -10,7 +10,7 @@ StdId <- setClass ("StdId",
                        if (length(object@ids) != length(ids)) 
                            return("initialisation failure, as the standard ID pattern cannot be found.")
                        else
-                           object@ids = ids
+                           object@ids <- ids
                        return(TRUE)
                    })
 

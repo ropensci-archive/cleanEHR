@@ -202,7 +202,9 @@ index.record <- function(rec) {
 #' new.episode(eps)
 #' 
 #' @export 
-new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) { 
+new.episode <- function(lt=list(), 
+                        parse_file="NA", 
+                        parse_time=as.POSIXct(NA)) { 
     eps <- ccEpisode()
     eps@data <- lt
     

@@ -4,7 +4,9 @@ csv <- csv[2:3]
 
 for (i in seq(nrow(csv))) {
     code <-
-        as.character(data.checklist$NHICcode[data.checklist$dataItem==as.character(csv[i,2])])
+        as.character(
+        data.checklist$NHICcode[
+            data.checklist$dataItem==as.character(csv[i,2])])
     ym[[code]]$shortName <- as.character(csv[i, 1])
 }
 
