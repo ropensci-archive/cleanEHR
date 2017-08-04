@@ -5,10 +5,10 @@
 NULL
 
 
-#' The S3 class which holds all the CCHIC patient record - served as a database.
+#' The S4 class which holds all the CCHIC patient record - served as a database.
 #'
-#' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or
-#' CSV files.
+#' @description  ccRecord is a class to hold the raw episode data parsed directly 
+#' from XML or CSV files.
 #' @field nepisodes is an integer number indicates the total number of episode
 #'       the record is holding.
 #' @field dmgtb a data.table containing all the demographic information of each

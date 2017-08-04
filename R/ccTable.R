@@ -35,35 +35,21 @@ ccTable <- setRefClass("ccTable",
                                      items="character"))
 ccTable$methods(
 show = function() {
-#    panderOptions("table.split.table", 150)
-    
     cat("$tclean", "\n")
     print(.self$tclean)
     cat("Data entry (origin) = ", nrow(.self$torigin), "\n")
     uniepisode <- .self$torigin[,1,by=c("episode_id", "site")]
     cat("Episode number (origin) = ", nrow(uniepisode), "\n")
-
-
-#    if (!is.null(.self$tclean) & nrow(.self$tclean) != 0) {
-#        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
-#        cat("Data entry (clean) = ", nrow(.self$tclean), "\n")
-#        uniepisode <- .self$tclean[,1,by=c("episode_id", "site")]
-#        cat("Episode number (clean) = ", nrow(uniepisode), "\n")
-#        .self$dfilter[['#missingness']].show()
-#    }
-#    else 
-#        cat("no cleaning# data can be found.\n")
-
-
 })
 
-#' construct function of ccTable object
+#' Create the ccTable object from ccRecord
+#'
 #' @param rec ccRecord
 #' @param conf either the path of YAML configuration file or the configuration
 #'        structure in list.
 #' @param freq the data cadence in hour.
 #' @return ccTable object
-#' @export create.cctable
+#' @export
 create.cctable <- function(rec, freq, conf=NULL) {
     if (is.null(conf)) 
         conf <- ITEM_REF
@@ -77,7 +63,8 @@ create.cctable <- function(rec, freq, conf=NULL) {
     return(cct)
 }
 
-#' get the dfilter
+#' Get the dfilter
+#'
 #' @param dq can be either dqaulity table or torigin
 #' @param criterion should be a function to give T/F values of each entry.
 #' @export getfilter

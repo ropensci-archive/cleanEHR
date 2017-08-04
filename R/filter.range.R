@@ -1,4 +1,5 @@
 #' Check if the values of a vector v is in the given ranges.
+#'
 #' @param v vector numeric
 #' @param range A string contains the numeric ranges in a form such as (low,
 #' up) for open range and [low, up] for close range. Multiple
