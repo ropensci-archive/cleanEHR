@@ -16,16 +16,16 @@ BugReports: http://github.com/cleanEHR/issues
 License: GPL-3
 LinkingTo: Rcpp
 Suggests:
-    testthat
+    testthat,
+    ggplot2,
+    knitr,
+    pander
 Imports:
     data.table,
     XML,
     yaml,
     Rcpp,
     methods,
-    knitr,
-    ggplot2,
-    pander,
     stats,
     utils
 VignetteBuilder: knitr
