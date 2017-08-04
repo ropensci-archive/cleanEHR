@@ -1,7 +1,9 @@
 #' @include ccTable.R
 
 item.criterion <- function(conf, criterion) {
-    names(conf)[sapply(conf, function(x) criterion %in% names(x))]
+    names(conf)[vapply(conf, 
+                       function(x) criterion %in% names(x), 
+                       logical(1))]
 }
 
 ccTable$methods(

@@ -24,7 +24,7 @@ test_that("demographic data completeness", {
 
 
 test_that("calculate total data point", {
-    expect_equal(total.data.point(ccd), 16)
+    expect_equal(total.data.point(ccd), 25)
 })
 
 test_that("episode graph", {

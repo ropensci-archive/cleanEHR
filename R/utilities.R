@@ -212,8 +212,8 @@ icnarc2diagnosis <- function(icnarc, surgery=TRUE, levels=NULL) {
     if(!is.null(levels))
         icnarc <- icnarc.breakdown(icnarc, digits=levels)
     else 
-        icnarc <- sapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
-          function(x) paste(x, collapse="."))
+        icnarc <- vapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
+          function(x) paste(x, collapse="."), character(1))
 
     diag <- as.character(icnarc.dict[icnarc])
     if (!surgery)

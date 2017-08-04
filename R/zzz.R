@@ -24,23 +24,23 @@
         return(new)
     }
 
-    stname <- sapply(ITEM_REF, function(x) x$shortName)
+    stname <- vapply(ITEM_REF, function(x) x$shortName, "")
     meta <- paste0(stname, ".meta")
     names(meta) <- paste0(names(stname), ".meta")
     code2stname.dict <- c(stname, meta)
     stname2code.dict <- reverse.name.value(code2stname.dict)
 
 
-    longnames <- sapply(ITEM_REF, function(x) x$dataItem)
+    longnames <- vapply(ITEM_REF, function(x) x$dataItem, "")
     stname2longname.dict <- longnames
     names(stname2longname.dict) <- stname
 
-    #' classification dictionary: demographic, nurse, physiology, laboratory, drugs
-    class.dict_code <-  sapply(ITEM_REF, function(x) x$Classification1)
+    # classification dictionary: demographic, nurse, physiology, laboratory, drugs
+    class.dict_code <-  vapply(ITEM_REF, function(x) x$Classification1, "")
     class.dict_stname <- class.dict_code
     names(class.dict_stname) <- as.character(code2stname.dict[class.dict_stname])
 
-    #' Time variable dictionary
+    # Time variable dictionary
     tval.dict_code <- data.checklist$NHICdtCode != "NULL" 
     tval.dict_stname <- tval.dict_code
     names(tval.dict_stname) <- as.character(data.checklist$NHICcode)

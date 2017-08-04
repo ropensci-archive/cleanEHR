@@ -10,7 +10,7 @@ find.new.xml.file <- function(xml.path) {
     if (! all(grepl("(.xml|.XML|.partxml)$", xml.file.name))) 
         stop("file names in xml.path ", xml.path, " must end with suffix .xml or .partxml. ") 
 
-    parsed.pattern <- unique(sapply(strsplit(dir(rdata.path), ".xml"), function(x) x[1]))
+    parsed.pattern <- unique(vapply(strsplit(dir(rdata.path), ".xml"), function(x) x[1], character(1)))
     if (length(parsed.pattern) == 0) {
         return(xml.file.name)
     } else {
@@ -95,7 +95,7 @@ parse.big.xml <- function(xml.path, mc.cores=4, quiet=TRUE, tmpd="/tmp", maxsize
 
     fparse<- paste(xml.path, find.new.xml.file(xml.path), sep="/")
     fbig <- fparse[file.info(fparse)$size/1e9 > maxsize]
-    fbig_nopath <- sapply(strsplit(fbig, "/"), function(x) x[length(x)])
+    fbig_nopath <- vapply(strsplit(fbig, "/"), function(x) x[length(x)], character(1))
 
     if (length(fbig > 0)) {
         cat("Detected big files ... \n")
