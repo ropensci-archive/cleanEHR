@@ -271,15 +271,17 @@ samplerate2d <- function(cctb) {
 #' @param ccd ccRecord-class
 #' @export total.data.point
 total.data.point <- function(ccd) {
-    dp.physio <- 
-        sum(unlist(for_each_episode(ccd, 
-                                    function(x) 
-                                        Reduce(sum, sapply(x@data, nrow)))))
-    dp.demg <-
-        sum(unlist(for_each_episode(ccd, 
-                                    function(x) 
-                                        Reduce(sum, sapply(x@data, nrow)))))
-    return(sum(dp.physio, dp.demg))
+    get.rows <- function(x) {
+        n <- nrow(x)
+        if (is.null(n))
+            n <- 1
+        return(n)
+    }
+
+    sum(unlist(for_each_episode(ccd, 
+        function(x){
+            sum(vapply(x@data, get.rows, 1))
+        })))
 }
 
 #' Produce the item specified table one. 
