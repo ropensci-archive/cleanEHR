@@ -7,7 +7,7 @@ item.criterion <- function(conf, criterion) {
 }
 
 ccTable$methods(
-    get.categories = function() {
+    inspect_categories = function() {
         citems <- item.criterion(conf, "category")
         lapply(.self$conf[citems], function(x) names(x$category$levels))
     })
@@ -20,19 +20,20 @@ ccTable$methods(
 )
 
 ccTable$methods(
-    filter.category = function() {
+    filter_categories = function() {
         "Check individual entries if they are the in the categories specified
         in conf."
         data <- .self$get.data.column("category")
-        categories <- get.categories()
+        categories <- inspect_categories()
         in.category <- function(x, name) 
             x %in% c(categories[[name]], "NA", NA)
-        .self$dfilter$category <- getfilter(data, in.category)
+        .self$dfilter_categories <- getfilter(data, in.category)
     })
 
 
 ccTable$methods(
-    filter.nodata = function() {
+    filter_nodata = function() {
+        "Exclude episodes when no data is presented in certain fields"
         data <- .self$get.data.column("nodata")
         nodata <- function(x, ...) {
             !all(x %in% c("NA", NA))

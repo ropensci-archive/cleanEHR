@@ -43,7 +43,7 @@ frequency (in hour)}
 
 \item{\code{export.csv(file = NULL)}}{Export the cleaned table to a CSV file.}
 
-\item{\code{filter.category()}}{Check individual entries if they are the in the categories specified
+\item{\code{filter_categories()}}{Check individual entries if they are the in the categories specified
 in conf.}
 
 \item{\code{filter.missingness(recount = FALSE)}}{filter out the where missingness is too low.}

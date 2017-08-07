@@ -178,8 +178,8 @@ test_that("test imputation",
 #test_that("test apply filter", 
 #{
 #    tb <- env$tb
-#    tb$filter.ranges()
-#    tb$filter.category()
+#    tb$filter_range()
+#    tb$filter_categories()
 #    tb$filter.missingness()
 #    tb$filter.nodata()
 #    tb$apply.filters()

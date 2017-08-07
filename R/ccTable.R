@@ -189,8 +189,8 @@ ccTable$methods(
 ccTable$methods(
                 clean = function() {
                     if (nrow(.self$torigin) != 0 ) {
-                        .self$filter.ranges()
-                        .self$filter.category()
+                        .self$filter_range()
+                        .self$filter_categories()
                         .self$filter.missingess()
                         .self$filter.nodata()
                         .self$apply.filters()
@@ -307,8 +307,8 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
 create2dclean <- function(record, config, freq=1, nchunks=1) {
     .create2dclean <- function(record, config, freq) {
         dt.sofa <- create.cctable(rec=record, conf=config, freq=freq)
-        dt.sofa$filter.ranges()
-        dt.sofa$filter.category()
+        dt.sofa$filter_range()
+        dt.sofa$filter_categories()
         dt.sofa$filter.missingness()
         dt.sofa$filter.nodata()
         dt.sofa$apply.filters()
