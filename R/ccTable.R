@@ -21,27 +21,27 @@
 #' #table <- cctable$tclean 
 #' @exportClass ccTable
 ccTable <- setRefClass("ccTable", 
-                            fields=c(
-                                     record="ccRecord", 
-                                     conf="list",
-                                     torigin="data.table", 
-                                     tclean="data.table",
-                                     dfilter="list",
-                                     dquality="list",
-                                     summary="list",
-                                     base_cadence="numeric",
-                                     .rindex="data.table", 
-                                     .epindex="data.table",
-                                     items="character"))
+                       fields=c(
+                                record="ccRecord", 
+                                conf="list",
+                                torigin="data.table", 
+                                tclean="data.table",
+                                dfilter="list",
+                                dquality="list",
+                                summary="list",
+                                base_cadence="numeric",
+                                .rindex="data.table", 
+                                .epindex="data.table",
+                                items="character"))
 ccTable$methods(
-show = function() {
-    cat("$tclean", "\n")
-    #print(.self$tclean)
-    cat("Data entry (origin) = ", nrow(.self$torigin), "\n")
-    uniepisode <- .self$torigin[,1,by=c("episode_id", "site")]
-    cat("Episode number (origin) = ", nrow(uniepisode), "\n")
-    cat("The base cadence is ", .self$base_cadence, " hour.\n")
-})
+                show = function() {
+                    cat("$tclean", "\n")
+                    #print(.self$tclean)
+                    cat("Data entry (origin) = ", nrow(.self$torigin), "\n")
+                    uniepisode <- .self$torigin[,1,by=c("episode_id", "site")]
+                    cat("Episode number (origin) = ", nrow(uniepisode), "\n")
+                    cat("The base cadence is ", .self$base_cadence, " hour.\n")
+                })
 
 #' Create the ccTable object from ccRecord
 #'
@@ -95,132 +95,155 @@ getfilter <- function(dq, criterion) {
 #' @return numeric
 NULL 
 ccTable$methods(
-    create.table = function(freq){
-        "Create a table contains the selected items in the conf with a given
-        frequency (in hour)"
-        .self$items <- names(.self$conf)
-        .self$torigin <- selectTable(record=record, items_opt=items, freq=freq)
-        if (nrow(.self$torigin) != 0) {
-            setkey(.self$torigin, "site", "episode_id")
-            .self$tclean <- .self$torigin
-            setkey(.self$torigin, "site", "episode_id")
-            .self$base_cadence <- freq
+                create.table = function(freq){
+                    "Create a table contains the selected items in the conf with a given
+                    frequency (in hour)"
+                    .self$items <- names(.self$conf)
+                    .self$torigin <- selectTable(record=record, items_opt=items, freq=freq)
+                    if (nrow(.self$torigin) != 0) {
+                        setkey(.self$torigin, "site", "episode_id")
+                        .self$tclean <- .self$torigin
+                        setkey(.self$torigin, "site", "episode_id")
+                        .self$base_cadence <- freq
 
-            .self$.rindex <- .self$torigin
-            for(i in .self$items) .self$.rindex[[i]] <- TRUE
+                        .self$.rindex <- .self$torigin
+                        for(i in .self$items) .self$.rindex[[i]] <- TRUE
 
-            .self$.epindex <- .self$torigin[, TRUE, by=c("site", "episode_id")]
-            setnames(.self$.epindex, c("site", "episode_id", "index"))
-        } else 
-            .self$torigin <- data.table(site=character(), 
-                                        episode_id=character(),
-                                        time=integer())
-})
-
-
-ccTable$methods(
-    update.entry = function(){
-        for (i in .self$items) 
-            .self$tclean[[i]][!.self$.rindex[[i]]] <- NA
-    })
+                        .self$.epindex <- .self$torigin[, TRUE, by=c("site", "episode_id")]
+                        setnames(.self$.epindex, c("site", "episode_id", "index"))
+                    } else 
+                        .self$torigin <- data.table(site=character(), 
+                                                    episode_id=character(),
+                                                    time=integer())
+                })
 
 
 ccTable$methods(
-    update.episode = function(){
-        sep <- .self$.epindex[index==TRUE]
-        .self$tclean <- merge(.self$tclean, sep, by=c("site", "episode_id"))
-        .self$tclean[["index"]] <- NULL
-    })
+                update.entry = function(){
+                    for (i in .self$items) 
+                        .self$tclean[[i]][!.self$.rindex[[i]]] <- NA
+                })
+
 
 ccTable$methods(
-    apply.filters = function(warnings=T) {
-        "Apply all filters specified in the configuration to update the clean
-        table (tclean)"
-       ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
-        for (i in ops) {
-            item <- i[1]
-            filter <- i[2]
-             tryCatch(.self$spec2function(item, filter)(item,
-                                                        .self$dfilter[[filter]]), 
-                      error = function(e) {
-                          if (is.null(.self$dfilter[[filter]])) {
-                              if (warnings)
-                                  warning(paste(item, "filter", filter, 
-                                    "has been specified in the configuration but has not been ran."))
-                          }
-                          else {
-                              cat(paste(item, filter, "\n"))
-                              stop(e)
-                          }
-                      }
-            )
+                update.episode = function(){
+                    sep <- .self$.epindex[index==TRUE]
+                    .self$tclean <- merge(.self$tclean, sep, by=c("site", "episode_id"))
+                    .self$tclean[["index"]] <- NULL
+                })
+
+ccTable$methods(
+                apply.filters = function(warnings=T) {
+                    "Apply all filters specified in the configuration to update the clean
+                    table (tclean)"
+                    ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
+                    for (i in ops) {
+                        item <- i[1]
+                        filter <- i[2]
+                        tryCatch(.self$spec2function(item, filter)(item,
+                                                                   .self$dfilter[[filter]]), 
+                                 error = function(e) {
+                                     if (is.null(.self$dfilter[[filter]])) {
+                                         if (warnings)
+                                             warning(paste(item, "filter", filter, 
+                                                           "has been specified in the configuration but has not been ran."))
+                                     }
+                                     else {
+                                         cat(paste(item, filter, "\n"))
+                                         stop(e)
+                                     }
+                                 }
+                                 )
+                    }
+                    .self$update.entry()
+                    .self$update.episode()
+                })
+
+ccTable$methods(
+                drop_entry = function(nmitem, dq){
+                    .self$.rindex[[nmitem]] <- 
+                        .self$.rindex[[nmitem]] & dq$entry[[nmitem]]
+                })
+
+ccTable$methods(
+                drop_episode = function(nmitem, dq){
+                    .self$.epindex[["index"]] <- 
+                        .self$.epindex[["index"]] & dq$episode[["select_index"]]
+                })
+
+ccTable$methods(
+                spec2function = function(item.name, filter.name) {
+                    spec <- .self$conf[[item.name]][[filter.name]]$apply
+                    spec <- as.character(as.vector(spec))
+                    switch(spec, 
+                           "drop_entry"=.self$drop_entry,
+                           "drop_episode"=.self$drop_episode,
+                           "NA"=function(nmitem, dq){}, 
+                           "NULL"=function(nmitem, dq){},
+                           stop("functions for applying filters can only be 'drop_entry' or 'drop_episode'. "))
+                })
+
+
+ccTable$methods(
+                filter.null = function(items=c("episode_id", "site")) {
+                    "remove the entire episode when any of the selected items is NULL"
+                    for (i in items)
+                        .self$tclean <- .self.tclean[i != "NULL"]
+                })
+
+ccTable$methods(
+                reload.conf = function(file) {
+                    "reload yaml configuration."
+                    .self$conf <- yaml.load_file(file)
+                })
+
+
+ccTable$methods(
+                export.csv = function(file=NULL) {
+                    "Export the cleaned table to a CSV file."
+                    if (is.null(file))
+                        return(.self$tclean)
+
+                    write.csv(.self$tclean, file=file)
+                })
+
+
+ccTable$methods(
+                clean = function() {
+                    if (nrow(.self$torigin) != 0 ) {
+                        .self$filter.ranges()
+                        .self$filter.category()
+                        .self$filter.missingess()
+                        .self$filter.nodata()
+                        .self$apply.filters()
+                    }
+                    else 
+                        warning("The original table is NULL, hence no cleaning process has been performed.")
+                })
+
+itemsToDataFrame <- function(ep, items, period_length, freq) {
+    listmatrix <- list()
+    time <- seq(0, period_length, freq)
+
+    listmatrix[["time"]] <- time
+
+    for (i in items) {
+        if (length(ep@data[[i]]) == 1) {
+            listmatrix[[i]] <- rep(ep@data[[i]], length(time))
         }
-        .self$update.entry()
-        .self$update.episode()
-    })
-
-ccTable$methods(
-    drop_entry = function(nmitem, dq){
-        .self$.rindex[[nmitem]] <- 
-            .self$.rindex[[nmitem]] & dq$entry[[nmitem]]
-    })
-
-ccTable$methods(
-    drop_episode = function(nmitem, dq){
-        .self$.epindex[["index"]] <- 
-            .self$.epindex[["index"]] & dq$episode[["select_index"]]
-    })
-
-ccTable$methods(
-    spec2function = function(item.name, filter.name) {
-        spec <- .self$conf[[item.name]][[filter.name]]$apply
-        spec <- as.character(as.vector(spec))
-        switch(spec, 
-               "drop_entry"=.self$drop_entry,
-               "drop_episode"=.self$drop_episode,
-               "NA"=function(nmitem, dq){}, 
-               "NULL"=function(nmitem, dq){},
-               stop("functions for applying filters can only be 'drop_entry' or 'drop_episode'. "))
-})
-
-
-ccTable$methods(
-    filter.null = function(items=c("episode_id", "site")) {
-        "remove the entire episode when any of the selected items is NULL"
-        for (i in items)
-            .self$tclean <- .self.tclean[i != "NULL"]
-})
-
-ccTable$methods(
-    reload.conf = function(file) {
-        "reload yaml configuration."
-        .self$conf <- yaml.load_file(file)
-})
-
-
-ccTable$methods(
-    export.csv = function(file=NULL) {
-        "Export the cleaned table to a CSV file."
-        if (is.null(file))
-            return(.self$tclean)
-
-        write.csv(.self$tclean, file=file)
-})
-
-
-ccTable$methods(
-    clean = function() {
-        if (nrow(.self$torigin) != 0 ) {
-            .self$filter.ranges()
-            .self$filter.category()
-            .self$filter.missingess()
-            .self$filter.nodata()
-            .self$apply.filters()
+        else {
+            if ("time" %in% names(ep@data[[i]])) {
+                new <- reallocateTime(ep@data[[i]], period_length, freq)
+                listmatrix[[i]] <- new$val
+                if ("meta" %in% names(ep@data[[i]]))
+                    listmatrix[[paste(i, "meta", sep=".")]] <- new$meta
+            }
+            else
+                listmatrix[[i]] <- rep("NA", length(time))
         }
-        else 
-            warning("The original table is NULL, hence no cleaning process has been performed.")
-    })
-
+    }
+    return(listmatrix)
+}
 
 #' Create wide table from ccRecord
 #' 
@@ -235,6 +258,7 @@ ccTable$methods(
 #' @export selectTable
 selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
                         return_list=FALSE) {
+
     all_items <- c(items_opt, items_obg)
     if (is.null(all_items))
         stop('both items_opt and items_obg are NULL')
@@ -270,7 +294,7 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     # fill is true because meta data column can be missing. 
     dt <- rbindlist(lt, fill=TRUE) 
 
-   
+
     # Adding missing meta columns to keep the 2d wide consistent. 
     code.has.meta <- names(unlist(sapply(ITEM_REF, function(x) x$NHICmetaCode)))
     for (i in all_items) {
@@ -288,29 +312,54 @@ selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
     return(dt)
 }
 
-itemsToDataFrame <- function(ep, items, period_length, freq) {
-    listmatrix <- list()
-    time <- seq(0, period_length, freq)
-
-    listmatrix[["time"]] <- time
-
-    for (i in items) {
-        if (length(ep@data[[i]]) == 1) {
-            listmatrix[[i]] <- rep(ep@data[[i]], length(time))
-        }
-        else {
-            if ("time" %in% names(ep@data[[i]])) {
-                new <- reallocateTime(ep@data[[i]], period_length, freq)
-                listmatrix[[i]] <- new$val
-                if ("meta" %in% names(ep@data[[i]]))
-                    listmatrix[[paste(i, "meta", sep=".")]] <- new$meta
-            }
-            else
-                listmatrix[[i]] <- rep("NA", length(time))
-        }
+#' Create a 2D wide clean table - low memory
+#' 
+#' The cleaning process is specified by the YAML configuration. All the filters
+#' presented in the configuration will be applied. It returns only the cleaned
+#' data. However all the data quality information will be lost. This function
+#' is useful when the memory is not sufficiently enough to hold all the
+#' information. 
+#' @param record ccRecord
+#' @param config the full path of the YAML configuration file
+#' @param freq table cadence
+#' @param nchunks integer number. The larger the nchunks the less memory
+#' requirement. 
+#' @return A cleaned 2d wide table
+#' @export create2dclean
+create2dclean <- function(record, config, freq=1, nchunks=1) {
+    .create2dclean <- function(record, config, freq) {
+        dt.sofa <- create.cctable(rec=record, conf=config, freq=freq)
+        dt.sofa$filter.ranges()
+        dt.sofa$filter.category()
+        dt.sofa$filter.missingness()
+        dt.sofa$filter.nodata()
+        dt.sofa$apply.filters()
+        return(dt.sofa)
     }
-    return(listmatrix)
+
+
+    if (is.character(config))
+        config <- yaml.load_file(config)
+
+    stopifnot(nchunks > 0 & nchunks < record@nepisodes)
+
+    if (nchunks == 1)
+        return(.create2dclean(record, config, freq)$tclean)
+
+    op.seq <- round(seq(1, record@nepisodes + 1, length.out=nchunks + 1))
+
+    tclean <- list()
+
+    for (i in seq(length(op.seq) - 1)) {
+        rc <- record[seq(op.seq[i], op.seq[i+1] - 1)]
+        tclean[[i]] <- .create2dclean(rc, config, freq)$tclean
+        gc()
+    }
+
+    tclean <- rbindlist(tclean, fill=TRUE)
+    return(tclean)
 }
+
 
 
 #' @importFrom Rcpp evalCpp
@@ -359,11 +408,11 @@ getEpisodePeriod <- function (e, unit="hours") {
         return(e@t_discharge)
 
     if (class(e@t_admission)[1] != "POSIXct")
-        tadm <- xmlTime2POSIX(as.character(e@t_admission), allow=T)
+        tadm <- xmlTime2POSIX(as.character(e@t_admission), allow=TRUE)
     else 
         tadm <- e@t_admission
     if (class(e@t_discharge)[1] != "POSIXct")
-        tdisc <- xmlTime2POSIX(as.character(e@t_discharge), allow=T)
+        tdisc <- xmlTime2POSIX(as.character(e@t_discharge), allow=TRUE)
     else 
         tdisc <- e@t_discharge
 
@@ -408,15 +457,15 @@ reallocateTimeRecord <- function(record, delta=0.5) {
         # make sure admin and disc time is correct
         period_length <- getEpisodePeriod(e)
         if (period_length < 0)  warning("period length < 0")
-        
+
         # calling reallocateTime for each data item
         new.episode(lapply(e@data, 
-               function(d) {
-                   if (length(d) > 1) {
-                       return(reallocateTime(d, env$period_length, delta))
-                   } else 
-                       return(d)
-               }))
+                           function(d) {
+                               if (length(d) > 1) {
+                                   return(reallocateTime(d, env$period_length, delta))
+                               } else 
+                                   return(d)
+                           }))
     }
     newdata <- for_each_episode(record, reallocate.episode)
     return(ccRecord() + newdata)

@@ -35,7 +35,6 @@ Collate:
     'RcppExports.R'
     'ccRecord.R'
     'ccTable.R'
-    'create2dclean.R'
     'data.quality.report.R'
     'deltaTime.R'
     'demographics.R'
