@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccTable.R
 \name{create.cctable}
 \alias{create.cctable}
-\title{construct function of ccTable object}
+\title{Create the ccTable object from ccRecord}
 \usage{
 create.cctable(rec, freq, conf = NULL)
 }
@@ -18,6 +18,6 @@ structure in list.}
 ccTable object
 }
 \description{
-construct function of ccTable object
+Create the ccTable object from ccRecord
 }
 

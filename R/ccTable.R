@@ -36,10 +36,11 @@ ccTable <- setRefClass("ccTable",
 ccTable$methods(
 show = function() {
     cat("$tclean", "\n")
-    print(.self$tclean)
+    #print(.self$tclean)
     cat("Data entry (origin) = ", nrow(.self$torigin), "\n")
     uniepisode <- .self$torigin[,1,by=c("episode_id", "site")]
     cat("Episode number (origin) = ", nrow(uniepisode), "\n")
+    cat("The base cadence is ", .self$base_cadence, " hour.\n")
 })
 
 #' Create the ccTable object from ccRecord
@@ -86,6 +87,13 @@ getfilter <- function(dq, criterion) {
 }
 
 
+
+#' Create the ccTable object
+#'
+#' @name ccTable_create_cctable
+#' @param freq numeric blah blah blah
+#' @return numeric
+NULL 
 ccTable$methods(
     create.table = function(freq){
         "Create a table contains the selected items in the conf with a given

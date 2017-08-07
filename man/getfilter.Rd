@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccTable.R
 \name{getfilter}
 \alias{getfilter}
-\title{get the dfilter}
+\title{Get the dfilter}
 \usage{
 getfilter(dq, criterion)
 }
@@ -12,6 +12,6 @@ getfilter(dq, criterion)
 \item{criterion}{should be a function to give T/F values of each entry.}
 }
 \description{
-get the dfilter
+Get the dfilter
 }
 
