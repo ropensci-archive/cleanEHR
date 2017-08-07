@@ -39,7 +39,7 @@ ccTable$methods(
     get.ranges = function() {
         # Initialise with temp column to make sure that dquality has the same
         # number of rows than torigin 
-        .self$dquality$range <- .self$torigin[,c('site', 'episode_id'), with=F]
+        .self$dquality$range <- .self$torigin[,c('site', 'episode_id'), with=FALSE]
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         for(item_name in names(.self$conf)) {
             item <- .self$conf[[item_name]]

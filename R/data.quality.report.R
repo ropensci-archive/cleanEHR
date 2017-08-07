@@ -18,7 +18,7 @@
 #' @import knitr
 #' @import pander
 #' @import ggplot2
-data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") {
+data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=TRUE, out="report") {
 #    if (is.null(site) & is.null(file))  dbfull <- "YES"
 #    else dbfull <- "NO"
     
@@ -28,13 +28,13 @@ data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") 
     
  
     if (dir.exists(out)) {
-        unlink(out, recursive=T)
+        unlink(out, recursive=TRUE)
     }
     dir.create(out)
 
     wd <- getwd()
     rptpath <- paste(path.package('cleanEHR'), "report", sep="/")
-    file.copy(dir(rptpath, full.names=T), out, recursive=T)
+    file.copy(dir(rptpath, full.names=TRUE), out, recursive=TRUE)
 
     write.report <- function() {
         setwd(out)
@@ -81,7 +81,7 @@ data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=T, out="report") 
 #' Oxford, and UCLH.  
 #' @param path report export path 
 #' @export data.quality.report.brc 
-data.quality.report.brc <- function(ccd, pdf=T, brc=NULL, path=NULL) {
+data.quality.report.brc <- function(ccd, pdf=TRUE, brc=NULL, path=NULL) {
     if (!is.null(path))
         dir.create(path)
 
@@ -123,10 +123,10 @@ file.summary <- function(ccd) {
 #' @export xml.site.duration.plot
 xml.site.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
-    tb <- tb[, list("minadm"=min(.SD[["t_admission"]], na.rm=T), 
-              maxadm=max(.SD[["t_admission"]], na.rm=T),
-              mindis=min(.SD[["t_discharge"]], na.rm=T),
-              maxdis=max(.SD[["t_discharge"]], na.rm=T)), by="site_id"]
+    tb <- tb[, list("minadm"=min(.SD[["t_admission"]], na.rm=TRUE), 
+              maxadm=max(.SD[["t_admission"]], na.rm=TRUE),
+              mindis=min(.SD[["t_discharge"]], na.rm=TRUE),
+              maxdis=max(.SD[["t_discharge"]], na.rm=TRUE)), by="site_id"]
     site_name <- apply((site.info()[tb$site_id, ][,1:2]), 1, 
           function(x) paste(x, collapse="-"))
     tb[, site_name:=site_name]
@@ -147,10 +147,10 @@ xml.site.duration.plot <- function(ccd) {
 #' @export xml.file.duration.plot
 xml.file.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
-    tb <- tb[, list(minadm=min(.SD[["t_admission"]], na.rm=T), 
-              maxadm=max(.SD[["t_admission"]], na.rm=T),
-              mindis=min(.SD[["t_discharge"]], na.rm=T),
-              maxdis=max(.SD[["t_discharge"]], na.rm=T)), by="parse_file"]
+    tb <- tb[, list(minadm=min(.SD[["t_admission"]], na.rm=TRUE), 
+              maxadm=max(.SD[["t_admission"]], na.rm=TRUE),
+              mindis=min(.SD[["t_discharge"]], na.rm=TRUE),
+              maxdis=max(.SD[["t_discharge"]], na.rm=TRUE)), by="parse_file"]
     ggplot(tb, aes_string(x="minadm", y="parse_file")) +
         geom_segment(aes_string(xend="maxdis", yend="parse_file"), color="gray", size=10) +
         annotate("text", x=tb$minadm+(tb$maxdis-tb$minadm)/2, 
@@ -243,7 +243,7 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
 #' @param cctb ccTable-class, see create.cctable().  
 #' @export samplerate2d
 samplerate2d <- function(cctb) {
-    sample.rate.table <- data.frame(fix.empty.names=T)
+    sample.rate.table <- data.frame(fix.empty.names=TRUE)
     # items are the columns before site.  
     items <- names(cctb)[-c(grep("meta", names(cctb)), 
                             which(names(cctb) %in% 

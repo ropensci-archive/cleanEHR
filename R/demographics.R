@@ -21,7 +21,7 @@ demographic.table <- function(record, dtype=TRUE) {
             }
             env$demogls[[length(env$demogls) + 1]] <- .simple.data.frame(demog.data)
         })
-    demogt <- rbindlist(demogls, fill=T)
+    demogt <- rbindlist(demogls, fill=TRUE)
     setnames(demogt, code2stname(names(demogt)))
 
     if (dtype) {
@@ -46,8 +46,8 @@ demographic.table <- function(record, dtype=TRUE) {
 #' difftime) appended. 
 #' @export lenstay
 lenstay <- function(demg, units="hours") {
-    len <- difftime(xmlTime2POSIX(demg$DDICU, allow=T), 
-             xmlTime2POSIX(demg$DAICU, allow=T),
+    len <- difftime(xmlTime2POSIX(demg$DDICU, allow=TRUE), 
+             xmlTime2POSIX(demg$DAICU, allow=TRUE),
              units=units)
     return(cbind(demg, lenstay = len))
 }
@@ -76,7 +76,7 @@ unique_spell <- function(rec, duration=2) {
     setkey(tb, "pid", "t_admission", "t_discharge")
     tb[, "diffday":=short.time.group(.SD), by="pid"]
 
-    spell <- Reduce(sum, tb$diffday == 0 | tb$diffday > duration, accumulate=T)
+    spell <- Reduce(sum, tb$diffday == 0 | tb$diffday > duration, accumulate=TRUE)
     tb$spell <- spell
     return(tb)
 }

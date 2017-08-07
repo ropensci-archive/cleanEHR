@@ -117,9 +117,9 @@ extractInfo <- function() {
 #' @export lookup.items
 lookup.items <- function(keyword, style="grid") {
     
-    index1 <- grep(keyword, stname2longname.dict, ignore.case=T)
-    index2 <- grep(keyword, names(stname2longname.dict), ignore.case=T)
-    index3 <- grep(keyword, stname2code(names(stname2longname.dict)), ignore.case=T)
+    index1 <- grep(keyword, stname2longname.dict, ignore.case=TRUE)
+    index2 <- grep(keyword, names(stname2longname.dict), ignore.case=TRUE)
+    index3 <- grep(keyword, stname2code(names(stname2longname.dict)), ignore.case=TRUE)
 
 
     stn <- unique(names(stname2longname.dict[c(index1, index2, index3)]))
@@ -182,7 +182,7 @@ site.info <- function(){
                "R42"=c("Unknown", "Unknown", "Unknown", "Unknown"),
                "X90"=c("Addenbrooke's Hospital", "General/Liver/Transplant",  "Cambridge", "John Farnham")
                )
-    si <- data.frame(t(.simple.data.frame(si)), stringsAsFactors=F)
+    si <- data.frame(t(.simple.data.frame(si)), stringsAsFactors=FALSE)
     names(si) <- c("Hospital", "Unit", "Trust", "Comments")
     return(si)
 }

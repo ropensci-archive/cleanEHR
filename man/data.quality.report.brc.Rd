@@ -4,7 +4,7 @@
 \alias{data.quality.report.brc}
 \title{Create the data quality report}
 \usage{
-data.quality.report.brc(ccd, pdf = T, brc = NULL, path = NULL)
+data.quality.report.brc(ccd, pdf = TRUE, brc = NULL, path = NULL)
 }
 \arguments{
 \item{ccd}{ccRecord}

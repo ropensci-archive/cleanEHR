@@ -2,7 +2,7 @@ context("Testing demographic table")
 
 test_that("create demographic table from ccdata and expect the equivalent
           results with or without data type awareness.", {
-    demg <- demographic.table(ccd, dtype=F)
+    demg <- demographic.table(ccd, dtype=FALSE)
     expect_equal(nrow(demg), ccd@nepisodes)
     expect_match(class(demg)[1], "data.table")
 

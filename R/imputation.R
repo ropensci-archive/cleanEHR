@@ -28,7 +28,7 @@ ccTable$methods(
                     fun <- imwin[['fun']]
                     lead <- imwin[['lead']]
                     lag <- imwin[['lag']]
-                    sd[[i]] <- interpolateVec(v=sd[[i]], lead=lead, lag=lag, FUN=fun, na.rm=T)
+                    sd[[i]] <- interpolateVec(v=sd[[i]], lead=lead, lag=lag, FUN=fun, na.rm=TRUE)
                 }
             }
             return(sd)

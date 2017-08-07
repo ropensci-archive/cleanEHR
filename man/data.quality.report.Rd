@@ -4,7 +4,7 @@
 \alias{data.quality.report}
 \title{Create the data quality report}
 \usage{
-data.quality.report(ccd, site = NULL, file = NULL, pdf = T,
+data.quality.report(ccd, site = NULL, file = NULL, pdf = TRUE,
   out = "report")
 }
 \arguments{

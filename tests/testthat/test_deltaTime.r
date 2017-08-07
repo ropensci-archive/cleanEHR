@@ -42,7 +42,7 @@ test_that("with pseudotime flag, derive the admission time from 2d data", {
     e1 <- list()
     e1[["heart_rate"]] <- data.frame(time="2014-02-01T17:00:00", item2d="80")
     rc <- ccRecord() + new.episode(e1)
-    rcd <- deltaTime(rc, pseudotime=T)
+    rcd <- deltaTime(rc, pseudotime=TRUE)
     expect_equal(rcd@nepisodes, 1)
     expect_equal(rcd@episodes[[1]]@data[["heart_rate"]]$time, 0)
 })
@@ -51,6 +51,6 @@ test_that("episode has no time data", {
     e1 <- list()
     e1[["item_id"]] <- "xxxx"
     rc <- ccRecord() + new.episode(e1)
-    expect_warning(rcd <- deltaTime(rc, pseudotime=T))
+    expect_warning(rcd <- deltaTime(rc, pseudotime=TRUE))
     expect_equal(rcd@nepisodes, 0)
 })

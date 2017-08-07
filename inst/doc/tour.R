@@ -25,7 +25,7 @@ tb1 <- tb1[DIS=="D"]
 
 # subset variables we want (ARSD = Advanced respiratory support days,
 # apache_prob = APACHE II probability)
-tb <- tb1[, c("SEX", "ARSD", "apache_prob"), with=F]
+tb <- tb1[, c("SEX", "ARSD", "apache_prob"), with=FALSE]
 tb <- tb[!is.na(apache_prob)]
 
 # plot
@@ -56,7 +56,7 @@ tb <- create.cctable(ccd, list(NIHR_HIC_ICU_0108=list(),
 print(tb$tclean)
 
 ## ------------------------------------------------------------------------
-tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=T), by=c("site", "episode_id")]
+tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=TRUE), by=c("site", "episode_id")]
 
 conf <-"
 NIHR_HIC_ICU_0108:
