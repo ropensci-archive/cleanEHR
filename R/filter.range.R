@@ -4,7 +4,7 @@
 #' @param range A string contains the numeric ranges in a form such as (low,
 #' up) for open range and [low, up] for close range. Multiple
 #' ranges should be separated by semi-columns which is equivalent to logical
-#' OR. e.g. (low1, up1); (low2, up2)
+#' OR e.g. (low1, up1); (low2, up2)
 inrange <- function(v, range) {
     funtxt <- function(r) {
         spr <- unlist(strsplit(r, ";"))
@@ -62,6 +62,25 @@ ccTable$methods(
 ccTable$methods(
     filter.ranges = function(select='red') {
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
+        # dq can be either dqaulity table or torigin
+        # criterion should be a function to give T/F values of each entry.
+        getfilter <- function(dq, criterion) {
+            if (ncol(dq) > 2) {
+                keys <- dq[, c("site", "episode_id"), with=FALSE]
+                dq[, c("site", "episode_id"):=NULL]
+                # updating range entry with true/false values
+                dq <- dq[, Map(criterion, .SD, names(.SD))]
+                # adding site and episode_id columns.
+                entry <- data.table(keys, dq)
+                episode <- entry[, 
+                                 all(unlist(.SD), na.rm=TRUE), 
+                                 by=c("site", "episode_id")]
+                setnames(episode, c("site", "episode_id", "select_index"))
+                return(list(entry=entry, episode=episode))
+            }
+            else return(NULL)
+        }
+
         inselectrange <- function(x, ...) {
             x >= rgnum[[select]]
         }

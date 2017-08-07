@@ -1,16 +1,17 @@
-#' Rearrange and clean the critical care record into a 2D table.
+#' Process the EHR data in table format
 #'
-#' Data rearranging and major data cleaning processes will be performed under
-#' the ccTable structre.  It holds the original record (ccRecord), the dirty table
-#' (torigin) clean table (tclean) and various data quality information (dquality).
-#' Various data filters can also be found within the ccTable class. 
-#'
+#' ccRecord data are re-arranged into tables where the columns stands for 
+#' data fields (e.g. heart rate, blood pressure) and the rows stands for 
+#' each data record within a unique cadence. See ccTable_create_cctable.
+#' ccTable is the data processing platform. It stores both original data 
+#' and processed data alongside with the process details. It also contains 
+#' various commonly used data filters. 
 #' @field record ccRecord.
 #' @field conf the YAML style configuration.
-#' @field torigin the original wide data table.
-#' @field tclean the wide data table after cleaning processes. 
+#' @field torigin the original data table.
+#' @field tclean the data table after cleaning processes. 
 #' @field dfilter list contains data filtering information.
-#' @field dquality list contains data quality. 
+#' @field dquality list contains data quality.
 #' @field summary list
 #' @field base_cadence the base cadence is specified in hours
 #' @include ccRecord.R
@@ -43,15 +44,21 @@ ccTable$methods(
                     cat("The base cadence is ", .self$base_cadence, " hour.\n")
                 })
 
-#' Create the ccTable object from ccRecord
+#' Convert the ccRecord object which is pre-loaded into a table format. 
 #'
+#' Re-arrange the ccRecord object to table format where each column stands 
+#' for a variable and each row a record data point. The number of rows will 
+#' depend on the sampling frequency set in this function. If the original data
+#' has a higher recording frequency than the set frequency (freq), the closest 
+#' data point will be taken. It is suggested the `freq` should not be set 
+#' lower than the maximum recording frequency in the original dataset. 
 #' @param rec ccRecord
 #' @param conf either the path of YAML configuration file or the configuration
-#'        structure in list.
-#' @param freq the data cadence in hour.
-#' @return ccTable object
+#' @param freq a unique sampling frequency (in hours) for all variables. e.g. if freq is set to 
+#' 1, each row in ccTable will represent a record of one hour. 
+#' @return ccTable
 #' @export
-create.cctable <- function(rec, freq, conf=NULL) {
+create_cctable <- function(rec, freq, conf=NULL) {
     if (is.null(conf)) 
         conf <- ITEM_REF
     else { 
@@ -60,42 +67,13 @@ create.cctable <- function(rec, freq, conf=NULL) {
     }
 
     cct <- ccTable(record=rec, conf=conf)
-    cct$create.table(freq)
+    cct$create_table(freq)
     return(cct)
 }
 
-#' Get the dfilter
-#'
-#' @param dq can be either dqaulity table or torigin
-#' @param criterion should be a function to give T/F values of each entry.
-#' @export getfilter
-getfilter <- function(dq, criterion) {
-    if (ncol(dq) > 2) {
-        keys <- dq[, c("site", "episode_id"), with=FALSE]
-        dq[, c("site", "episode_id"):=NULL]
-        # updating range entry with true/false values
-        dq <- dq[, Map(criterion, .SD, names(.SD))]
-        # adding site and episode_id columns.
-        entry <- data.table(keys, dq)
-        episode <- entry[, 
-                         all(unlist(.SD), na.rm=TRUE), 
-                         by=c("site", "episode_id")]
-        setnames(episode, c("site", "episode_id", "select_index"))
-        return(list(entry=entry, episode=episode))
-    }
-    else return(NULL)
-}
 
-
-
-#' Create the ccTable object
-#'
-#' @name ccTable_create_cctable
-#' @param freq numeric blah blah blah
-#' @return numeric
-NULL 
 ccTable$methods(
-                create.table = function(freq){
+                create_table = function(freq){
                     "Create a table contains the selected items in the conf with a given
                     frequency (in hour)"
                     .self$items <- names(.self$conf)

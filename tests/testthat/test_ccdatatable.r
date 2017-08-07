@@ -21,7 +21,7 @@ test_that("test create table",{
     conf <- yaml.load_file('../data/test_2yml.yml')
 
     tb <- ccTable(record=ccd_delta, conf=conf)
-    tb$create.table(freq=1)
+    tb$create_table(freq=1)
     # assign table to both origin and clean table
     expect_true(!is.null(tb$torigin))
     expect_equivalent(tb$torigin, tb$tclean)
@@ -32,7 +32,7 @@ test_that("test get.missingness", {
         ccRecord()+new.episode(list(NIHR_HIC_ICU_0108=data.frame(time=as.numeric(seq(100)),
                                                        item2d=as.character(rep(10,100)))))
     tb <- ccTable(record=cr, conf=yaml.load_file('../data/test_2yml.yml'))
-    tb$create.table(freq=1)
+    tb$create_table(freq=1)
     tb$conf[[1]][['missingness']][['labels']][['yellow']] <- 1
     tb$get.missingness()
     expect_equal(tb$dquality$missingness$NIHR_HIC_ICU_0108.yellow, 100/101*100)
@@ -75,7 +75,7 @@ test_that("test filter missingness",
     missingness_run <- function(v, item="NIHR_HIC_ICU_0108") {
         cr <- test.record(v, item)
         tb <- ccTable(record=cr, conf=conf)
-        tb$create.table(freq=1)
+        tb$create_table(freq=1)
         tb$filter.missingness()
         tb$apply.filters()
         expect_true(any(class(tb$tclean) == "data.table"))
@@ -121,7 +121,7 @@ test_that("test imputation",
     imputation_run <- function(v, item="NIHR_HIC_ICU_0108") {
         cr <- test.record(v, item)
         tb <- ccTable(record=cr, conf=conf)
-        tb$create.table(freq=1)
+        tb$create_table(freq=1)
         tb$imputation()
         return(tb)
     }
