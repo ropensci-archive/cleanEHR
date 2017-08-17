@@ -34,6 +34,7 @@
     longnames <- sapply(ITEM_REF, function(x) x$dataItem)
     stname2longname.dict <- longnames
     names(stname2longname.dict) <- stname
+    long2stname.dict <- reverse.name.value(stname2longname.dict)
 
     #' classification dictionary: demographic, nurse, physiology, laboratory, drugs
     class.dict_code <-  sapply(ITEM_REF, function(x) x$Classification1)
@@ -50,6 +51,7 @@
     assign("code2stname.dict" , code2stname.dict , envir=env) 
     assign("stname2code.dict" , stname2code.dict , envir=env) 
     assign("stname2longname.dict" , stname2longname.dict , envir=env) 
+    assign("long2stname.dict" , long2stname.dict , envir=env) 
     assign("class.dict_code"  , class.dict_code  , envir=env)
     assign("class.dict_stname", class.dict_stname, envir=env) 
     assign("tval.dict_code"   , tval.dict_code   , envir=env) 

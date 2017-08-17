@@ -86,6 +86,18 @@ stname2longname <- function(stname) {
     return(code)
 }
 
+#' Convert short names to long names. 
+#' 
+#' @param stname character short names of data item h_rate 
+#' @return longname character such as "heart rate"
+#' @export 
+long2stname <- function(l) {
+    l <- as.character(l)
+    s <- long2stname.dict[l]
+    s[is.na(s)] <- l[is.na(s)]
+    return(s)
+}
+
 
 #' Identify the classification - classification1 
 #' 
