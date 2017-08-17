@@ -86,10 +86,10 @@ stname2longname <- function(stname) {
     return(code)
 }
 
-#' Convert short names to long names. 
+#' Convert long names to short names. 
 #' 
-#' @param stname character short names of data item h_rate 
-#' @return longname character such as "heart rate"
+#' @param stname character long name such as "heart rate" 
+#' @return short name character such as "h_rate"
 #' @export 
 long2stname <- function(l) {
     l <- as.character(l)
