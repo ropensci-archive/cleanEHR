@@ -111,7 +111,7 @@ ccTable$methods(
                 })
 
 ccTable$methods(
-                apply.filters = function(warnings=T) {
+                apply_filters = function(warnings=T) {
                     "Apply all filters specified in the configuration to update the clean
                     table (tclean)"
                     ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
@@ -193,7 +193,7 @@ ccTable$methods(
                         .self$filter_categories()
                         .self$filter.missingess()
                         .self$filter.nodata()
-                        .self$apply.filters()
+                        .self$apply_filters()
                     }
                     else 
                         warning("The original table is NULL, hence no cleaning process has been performed.")
@@ -311,7 +311,7 @@ create2dclean <- function(record, config, freq=1, nchunks=1) {
         dt.sofa$filter_categories()
         dt.sofa$filter.missingness()
         dt.sofa$filter.nodata()
-        dt.sofa$apply.filters()
+        dt.sofa$apply_filters()
         return(dt.sofa)
     }
 

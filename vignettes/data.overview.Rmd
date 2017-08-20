@@ -1,0 +1,118 @@
+---
+title: "Data cleaning with CCHIC data"
+author: David Perez Suarez & Sinan Shi
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Tour}
+  \usepackage[utf8]{inputenc}
+---
+
+
+cleanEHR is developed based on the CCHIC data case, therefore it has a huge 
+influence by the CCHIC data. 
+
+
+
+The general trend of EHR analysis is marching torwards bigger and more detailed record 
+of human signals thanks to the mordern mornitoring equipment and pushed by the ever growing 
+needs of data by artificial intellegence. 
+
+CCHIC database contains vast number of CCHIC has a huge leap forward comparing
+to its predecessors, in terms of the hetrogenioty of the recorded fields,
+number of episodes, and the resolution of data fields. recording with mind
+bogling 40 billion data points in the last 4 years. 
+In the CCHIC database, 213 data fields has been 
+
+
+
+
+# The demographic data
+
+
+# Diagnosis data
+
+# Longitudinal data
+
+# Drug data
+
+![All Logitudianl fields allocated in 4 categories](graphs/item_ref.png)
+
+
+What will be counted as an episode? 
+
+
+
+
+So it needs to be allocated
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Load data 
+Usually a RData file which stores all the dataset will be given. A sample RData
+can be found in `/doc/sample_ccd.RData`.
+```{r}
+library(cleanEHR)
+data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
+load(data.path)
+```
+### Data overview
+You can have a quick overview of the data by checking `infotb`. In the sample
+dataset, sensitive variables such as NHS number and admission time have been
+removed or twisted. 
+```{r}
+print(head(ccd@infotb))
+```
+The basic entry of the data is episode which indicates an admission of a site.
+Using `episode_id` and `site_id` can locate a unique admission entry.  `pid` is
+a unique patient identifier. 
+
+```{r}
+# quickly check how many episodes are there in the dataset.
+ccd@nepisodes
+```
+
+There are 263 fields which covers patient demographics, physiology, laboratory,
+and medication information. Each field has 2 labels, NHIC code and short name.
+`lookup.items()` function provides fields information. It is case insensitive
+and allows fuzzy search. 
+```
+# searching for heart rate
+lookup.items('heart') # fuzzy search
+
++-------------------+--------------+--------------+--------+-------------+
+|     NHIC.Code     |  Short.Name  |  Long.Name   |  Unit  |  Data.type  |
++===================+==============+==============+========+=============+
+| NIHR_HIC_ICU_0108 |    h_rate    |  Heart rate  |  bpm   |   numeric   |
++-------------------+--------------+--------------+--------+-------------+
+| NIHR_HIC_ICU_0109 |   h_rhythm   | Heart rhythm |  N/A   |    list     |
++-------------------+--------------+--------------+--------+-------------+
+
+# lookup.items("*") # to obtain the full list.
+```

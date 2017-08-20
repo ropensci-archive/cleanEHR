@@ -52,6 +52,80 @@ lookup.items('heart') # fuzzy search
 
 ```
 
+
+
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+|     NHIC.Code     |       Short.Name        |           Long.Name            |      Unit      |   Data.type    |
++===================+=========================+================================+================+================+
+| NIHR_HIC_ICU_0002 |          ICNNO          | Site code (ICNARC CMP number)  |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0006 |          bed02          |    CCU bed configuration 02    |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0395 |          bed03          |    CCU bed configuration 03    |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0396 |          bed05          |    CCU bed configuration 05    |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0397 |          bed50          |    CCU bed configuration 90    |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0073 |          NHSNO          |           NHS number           |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0001 |          pasno          |           PAS number           |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0005 |          ADNO           | Critical care local identifier |      N/A       |    numeric     |
+|                   |                         |   / ICNARC admission number    |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0033 |           DOB           |         Date of birth          |      N/A       |      date      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0076 |          PCODE          |            Postcode            |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0003 |         GPCODE          |           Code of GP           |      N/A       |      text      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0058 |         ETHNIC          |           Ethnicity            |      N/A       |      list      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0093 |           SEX           |              Sex               |      N/A       |      list      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0017 |           HCM           |             Height             |       cm       |    numeric     |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0018 |         HCMEST          |        Height (Source)         |      N/A       |      list      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0019 |           WKG           |             Weight             |       kg       |    numeric     |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0020 |         WKGEST          |        Weight (Source)         |      N/A       |      list      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0032 |           DAH           |   Date of admission to your    |      N/A       |      date      |
+|                   |                         |            hospital            |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0411 |          DAICU          |  Date & Time of admission to   |      N/A       |   date/time    |
+|                   |                         |           your unit            |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0050 |          DWFRD          | Date fully ready for discharge |      N/A       |      date      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0051 |          TWFRD          | Time fully ready for discharge |      N/A       |      time      |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0412 |          DDICU          | Date & Time of discharge from  |      N/A       |   date/time    |
+|                   |                         |           your unit            |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0037 |         DUDICU          |   Date of ultimate discharge   |      N/A       |      date      |
+|                   |                         |          from ICU/HDU          |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0406 |           DDH           |  Date of discharge from your   |      N/A       |      date      |
+|                   |                         |            hospital            |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0408 |          DUDH           |   Date of ultimate discharge   |      N/A       |      date      |
+|                   |                         |       from your hospital       |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0930 |          UDIS           |  Status at ultimate discharge  |      N/A       |      text      |
+|                   |                         |          from ICUHDU           |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+| NIHR_HIC_ICU_0085 |          RESA           |  Residence prior to admission  |      N/A       |      list      |
+|                   |                         |       to acute hospital        |                |                |
++-------------------+-------------------------+--------------------------------+----------------+----------------+
+
+
+
+
+
+
 ### Inspect individual episode 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
 # check the heart rate, bilirubin, fluid balance, and drugs of episode_id = 7. 
@@ -61,12 +135,12 @@ episode.graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
 ```
 
 ## Non-longitudinal Data 
-`sql.demographic.table()` can generate a `data.table` that contains all the
+`demographic.table()` can generate a `data.table` that contains all the
 non-longitudinal variables. A demonstration of how to do some work on a subset
 of data.  
 ```{r, fig.width=10, fig.height=6, out.width='700px', results='hide', message=FALSE, warning=FALSE}
 # contains all the 1D fields i.e. non-longitudinal
-tb1 <- sql.demographic.table(ccd)
+tb1 <- demographic.table(ccd)
 
 # filter out all dead patient. (All patients are dead in the dataset.)
 tb1 <- tb1[DIS=="D"]
@@ -100,10 +174,10 @@ NIHR_HIC_ICU_0093:
    shortName: sex
 "
 library(yaml)
-tb <- create.cctable(ccd, yaml.load(conf), freq=1)
+tb <- create_cctable(ccd, yaml.load(conf), freq=1)
 
 # a lazy way to do that. 
-tb <- create.cctable(ccd, list(NIHR_HIC_ICU_0108=list(), 
+tb <- create_cctable(ccd, list(NIHR_HIC_ICU_0108=list(), 
                          NIHR_HIC_ICU_0112=list(), 
                          NIHR_HIC_ICU_0093=list()), 
                      freq=1)
@@ -141,10 +215,10 @@ NIHR_HIC_ICU_0108:
     apply: drop_episode
 "
 
-ctb <- create.cctable(ccd, yaml.load(conf), freq=1)
-ctb$filter.ranges("amber") # apply range filters
-ctb$filter.missingness()
-ctb$apply.filters()
+ctb <- create_cctable(ccd, yaml.load(conf), freq=1)
+ctb$filter_range("amber") # apply range filters
+ctb$filter_missingness()
+ctb$apply_filters()
 
 cptb <- rbind(cbind(ctb$torigin, data="origin"), 
               cbind(ctb$tclean, data="clean"))

@@ -1,6 +1,6 @@
 #' @include ccTable.R
 ccTable$methods(
-    get.missingness = function() {
+    get_missingness = function() {
         miss_count <- function(tb_) { 
             cmplt <- function(vec) {
                 length(which(vec!="NA"))/length(vec) * 100 
@@ -33,11 +33,11 @@ ccTable$methods(
 })
 
 ccTable$methods(
-    filter.missingness = function(recount=FALSE){
+    filter_missingness = function(recount=FALSE){
         "filter out the where missingness is too low."
         if (recount || is.null(.self$dquality[['missingness']]) ||
             nrow(.self$dquality[['missingness']]) == 0)
-            .self$get.missingness()
+            .self$get_missingness()
 
         if (is.null(.self$tclean) || nrow(.self$tclean) == 0)
             .self$tclean <- .self$torigin
