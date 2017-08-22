@@ -1,5 +1,5 @@
 ---
-title: "Data cleaning with CCHIC data"
+title: "Introduction to CCHIC critical care data"
 author: David Perez Suarez & Sinan Shi
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,38 +9,27 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+CCHIC data strongly impacts the design of cleanEHR. Complex, heterogeneous, and
+high resolution longitudinal data is a trend of EHR analysis, which takes
+advantage of the ever more sophisticated statistical techniques and growing
+computation capability. CCHIC is a representative example database of such
+kind. It records 263 fields including 154 time-varying fields of patients
+during their stay in intensive care units across five NHS trusts in England.
+The recorded variables include patient demographics, time of admission and
+discharge, survival status, diagnosis, physiology, laboratory, nursing and
+drug. The latest database contains 22,628 admissions from 2014 to 2016, with
+about 119 million data points (~6k per patient).
 
-cleanEHR is developed based on the CCHIC data case, therefore it has a huge 
-influence by the CCHIC data. 
-
-
-
-The general trend of EHR analysis is marching torwards bigger and more detailed record 
-of human signals thanks to the mordern mornitoring equipment and pushed by the ever growing 
-needs of data by artificial intellegence. 
-
-CCHIC database contains vast number of CCHIC has a huge leap forward comparing
-to its predecessors, in terms of the hetrogenioty of the recorded fields,
-number of episodes, and the resolution of data fields. recording with mind
-bogling 40 billion data points in the last 4 years. 
-In the CCHIC database, 213 data fields has been 
-
-
-
-### Demographic data
-Every patient in England has a unique NHS number and PAS (Patient Admission
-System) number. These can be used to identify a unique patient. Other
-demograhic information can also be found in the CCHIC dataset such as age, sex,
-GP code, postcode and so on. Most of the demographic data will be removed,
-pseudonimised, or modified in the anonymised dataset to protect the patient
-privacy. 
+The anonymised data subset can be obtained [here](https://form.jotformeu.com/drstevok/cchic-end-user-license---cleanEHR). 
+The selected number of researchers can get the access to the identifiable data 
+[UCL IDHS](http://www.ucl.ac.uk/isd/itforslms/services/handling-sens-data/tech-soln).
 
 ### Episode and ICU stay timeline
 We introduced the concept of 'episode' as the fundamental entity of EHRs, which
 comprises all the data being recorded during the ICU stay. Each episode also
 contains the demographic information of the patient, ward transferring origin
-and destination within a hospital and disgnosis information. It allows us to 
-link episode data from a single paitient across the entire multi-centre database. 
+and destination within a hospital and diagnosis information. It allows us to 
+link episode data from a single patient across the entire multi-centre database. 
 The key dates and times are recorded as follow. 
 <img src=graphs/cchic_timeline.png width=480 height=360 />
 ```{r, message=FALSE, warning=FALSE}
@@ -50,13 +39,31 @@ load(data.path)
 
 # Extract all non-longitudinal data (demographic, time, survival status, diagnosis)
 dt <- demographic.table(ccd, dtype=TRUE)
-head(dt)
-# unique patient id is derived using NHS number or PAS number
-dt$pid
-
-# AGE is derived from date of birth comparing against date of admission
-dt$AGE
 ```
+`demographic.table` function returns a table of all non-time-varying fields alongside with 
+several derived fields -- the fields that are not directly recorded in the original data. 
+Each row of the table is a unique admission, and every column is a non-time-varying data field. 
+
+* `pid`: unique patient ID derived from NHS number or PAS number.
+* `AGE`: date of birth - unit admission time
+* `spell`: see *Spell*
+
+```{r}
+print(dt[1:3, ])
+```
+
+Data missing are caused by many reasons. We have to understand that in such a large database, 
+the data quality varies. In the anonymised dataset, data can be missing due to security reason. 
+Missing data are either NULL or "NA" depending on the field data type. 
+
+### Demographic data
+Every patient in England has a unique NHS number and PAS (Patient Admission
+System) number. These can be used to identify a unique patient. Other
+demographic information can also be found in the CCHIC dataset such as age, sex,
+GP code, postcode and so on. Most of the demographic data will be removed,
+pseudonimised, or modified in the anonymised dataset to protect the patient
+privacy. 
+
 
 ### Spell
 Ward transferring within or beyond ICUs are counted as different episodes respectively. 
@@ -81,13 +88,10 @@ icnarc2diagnosis("1.1.4.27.1")
 ```
 
 ### Longitudinal data
+CCHIC measures 154 longitudinal data. The full list of longitudinal data are shown below. 
 <img src=graphs/item_ref.png width=480 height=360 />
 
-
-
+We can also easily plot the data from a single selected admission. 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-# check the heart rate, bilirubin, fluid balance, and drugs of episode_id = 7. 
-# NOTE: due to anonymisation reason, some episodes data cannot be displayed
-# properly. 
 episode.graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
 ```
