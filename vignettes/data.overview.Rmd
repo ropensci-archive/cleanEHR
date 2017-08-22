@@ -27,92 +27,67 @@ In the CCHIC database, 213 data fields has been
 
 
 
+### Demographic data
+Every patient in England has a unique NHS number and PAS (Patient Admission
+System) number. These can be used to identify a unique patient. Other
+demograhic information can also be found in the CCHIC dataset such as age, sex,
+GP code, postcode and so on. Most of the demographic data will be removed,
+pseudonimised, or modified in the anonymised dataset to protect the patient
+privacy. 
 
-# The demographic data
-
-
-# Diagnosis data
-
-# Longitudinal data
-
-# Drug data
-
-![All Logitudianl fields allocated in 4 categories](graphs/item_ref.png)
-
-
-What will be counted as an episode? 
-
-
-
-
-So it needs to be allocated
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Load data 
-Usually a RData file which stores all the dataset will be given. A sample RData
-can be found in `/doc/sample_ccd.RData`.
-```{r}
+### Episode and ICU stay timeline
+We introduced the concept of 'episode' as the fundamental entity of EHRs, which
+comprises all the data being recorded during the ICU stay. Each episode also
+contains the demographic information of the patient, ward transferring origin
+and destination within a hospital and disgnosis information. It allows us to 
+link episode data from a single paitient across the entire multi-centre database. 
+The key dates and times are recorded as follow. 
+<img src=graphs/cchic_timeline.png width=480 height=360 />
+```{r, message=FALSE, warning=FALSE}
 library(cleanEHR)
 data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
 load(data.path)
+
+# Extract all non-longitudinal data (demographic, time, survival status, diagnosis)
+dt <- demographic.table(ccd, dtype=TRUE)
+head(dt)
+# unique patient id is derived using NHS number or PAS number
+dt$pid
+
+# AGE is derived from date of birth comparing against date of admission
+dt$AGE
 ```
-### Data overview
-You can have a quick overview of the data by checking `infotb`. In the sample
-dataset, sensitive variables such as NHS number and admission time have been
-removed or twisted. 
+
+### Spell
+Ward transferring within or beyond ICUs are counted as different episodes respectively. 
+In some research, one may be interested in looking at the sickness development and the treatment 
+history beyond each ICU stays. A spell includes number of episodes from a
+unique patient which occured in a user defined period One can link episodes by
+spell ID. 
 ```{r}
-print(head(ccd@infotb))
+head(unique_spell(ccd, duration=1)[, c("episode_id", "spell")])
 ```
-The basic entry of the data is episode which indicates an admission of a site.
-Using `episode_id` and `site_id` can locate a unique admission entry.  `pid` is
-a unique patient identifier. 
 
+### Diagnosis data
+Instead of using free text, we adopted [ICNARC diagnosis](https://www.icnarc.org/Our-Audit/Audits/Cmp/Resources/Icm-Icnarc-Coding-Method) 
+code system to record the diagnosis. The full ICNARC code is a five digit number separated 
+with dots. From left to right each digit represents a higher category of diagnosis. Due 
+to the privacy concerns, in the anonysmised dataset, last two digits will be removed. 
+One may use the function `icnarc2diagnosis` to look up the diagnosis code.
 ```{r}
-# quickly check how many episodes are there in the dataset.
-ccd@nepisodes
+icnarc2diagnosis("1.1")
+icnarc2diagnosis("1.1.4")
+icnarc2diagnosis("1.1.4.27.1")
 ```
 
-There are 263 fields which covers patient demographics, physiology, laboratory,
-and medication information. Each field has 2 labels, NHIC code and short name.
-`lookup.items()` function provides fields information. It is case insensitive
-and allows fuzzy search. 
-```
-# searching for heart rate
-lookup.items('heart') # fuzzy search
+### Longitudinal data
+<img src=graphs/item_ref.png width=480 height=360 />
 
-+-------------------+--------------+--------------+--------+-------------+
-|     NHIC.Code     |  Short.Name  |  Long.Name   |  Unit  |  Data.type  |
-+===================+==============+==============+========+=============+
-| NIHR_HIC_ICU_0108 |    h_rate    |  Heart rate  |  bpm   |   numeric   |
-+-------------------+--------------+--------------+--------+-------------+
-| NIHR_HIC_ICU_0109 |   h_rhythm   | Heart rhythm |  N/A   |    list     |
-+-------------------+--------------+--------------+--------+-------------+
 
-# lookup.items("*") # to obtain the full list.
+
+```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+# check the heart rate, bilirubin, fluid balance, and drugs of episode_id = 7. 
+# NOTE: due to anonymisation reason, some episodes data cannot be displayed
+# properly. 
+episode.graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
 ```
