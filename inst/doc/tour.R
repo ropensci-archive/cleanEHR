@@ -80,8 +80,8 @@ NIHR_HIC_ICU_0108:
 
 ctb <- create.cctable(ccd, yaml.load(conf), freq=1)
 ctb$filter_range("amber") # apply range filters
-ctb$filter.missingness()
-ctb$apply.filters()
+ctb$filter_missingness()
+ctb$apply_filters()
 
 cptb <- rbind(cbind(ctb$torigin, data="origin"), 
               cbind(ctb$tclean, data="clean"))

@@ -72,7 +72,7 @@ history beyond each ICU stays. A spell includes number of episodes from a
 unique patient which occured in a user defined period One can link episodes by
 spell ID. 
 ```{r}
-head(unique_spell(ccd, duration=1)[, c("episode_id", "spell")])
+head(ccd_unique_spell(ccd, duration=1)[, c("episode_id", "spell")])
 ```
 
 ### Diagnosis data
@@ -93,5 +93,5 @@ CCHIC measures 154 longitudinal data. The full list of longitudinal data are sho
 
 We can also easily plot the data from a single selected admission. 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-episode.graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
+ccd_episode_graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
 ```

@@ -27,18 +27,18 @@ test_that("test create table",{
     expect_equivalent(tb$torigin, tb$tclean)
 })
 
-test_that("test get.missingness", {
+test_that("test get_missingness", {
     cr <-
         ccRecord()+new.episode(list(NIHR_HIC_ICU_0108=data.frame(time=as.numeric(seq(100)),
                                                        item2d=as.character(rep(10,100)))))
     tb <- ccTable(record=cr, conf=yaml.load_file('../data/test_2yml.yml'))
     tb$create_table(freq=1)
     tb$conf[[1]][['missingness']][['labels']][['yellow']] <- 1
-    tb$get.missingness()
+    tb$get_missingness()
     expect_equal(tb$dquality$missingness$NIHR_HIC_ICU_0108.yellow, 100/101*100)
 
     tb$conf[[1]][['missingness']][['labels']][['yellow']] <- 0.1
-    tb$get.missingness()
+    tb$get_missingness()
     expect_equal(tb$dquality$missingness$NIHR_HIC_ICU_0108.yellow, 100/1001*100)
 
 
@@ -46,7 +46,7 @@ test_that("test get.missingness", {
     # check the case when there is no missingness table
     tb$dquality$missingness <- data.table(NULL)
     tb$tclean <- data.table(NULL)
-    tb$filter.missingness()
+    tb$filter_missingness()
     expect_true(any(class(tb$tclean)=="data.table"))
     expect_equivalent(tclean, tb$tclean)
 })
@@ -76,8 +76,8 @@ test_that("test filter missingness",
         cr <- test.record(v, item)
         tb <- ccTable(record=cr, conf=conf)
         tb$create_table(freq=1)
-        tb$filter.missingness()
-        tb$apply.filters()
+        tb$filter_missingness()
+        tb$apply_filters()
         expect_true(any(class(tb$tclean) == "data.table"))
         return(tb)
     }
@@ -180,9 +180,9 @@ test_that("test imputation",
 #    tb <- env$tb
 #    tb$filter_range()
 #    tb$filter_categories()
-#    tb$filter.missingness()
+#    tb$filter_missingness()
 #    tb$filter.nodata()
-#    tb$apply.filters()
+#    tb$apply_filters()
 #    tt <<- tb
 #})
 #

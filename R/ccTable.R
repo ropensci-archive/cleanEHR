@@ -309,7 +309,7 @@ create2dclean <- function(record, config, freq=1, nchunks=1) {
         dt.sofa <- create.cctable(rec=record, conf=config, freq=freq)
         dt.sofa$filter_range()
         dt.sofa$filter_categories()
-        dt.sofa$filter.missingness()
+        dt.sofa$filter_missingness()
         dt.sofa$filter.nodata()
         dt.sofa$apply_filters()
         return(dt.sofa)

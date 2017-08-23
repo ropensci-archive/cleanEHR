@@ -43,7 +43,7 @@ lookup.items('heart') # fuzzy search
 # check the heart rate, bilirubin, and drugs of episode_id = 7. 
 # NOTE: due to anonymisation reason, some episodes data cannot be displayed
 # properly. 
-episode.graph(ccd, 7, c("h_rate",  "bilirubin"))
+ccd_episode_graph(ccd, 7, c("h_rate",  "bilirubin"))
 ```
 
 # Non-longitudinal Data 
