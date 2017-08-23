@@ -43,7 +43,7 @@ test_that("testing unique spell", {
                                   NIHR_HIC_ICU_0411="2000-01-03", 
                                   NIHR_HIC_ICU_0412="2000-01-30"))
     
-    expect_equivalent(unique_spell(ccd)$spell, c(1, 1))
+    expect_equivalent(ccd_unique_spell(ccd)$spell, c(1, 1))
     
     ccd <- ccRecord() + new.episode(list(NIHR_HIC_ICU_0073="NHS1",
                                          NIHR_HIC_ICU_0411="2000-01-01", 
@@ -52,7 +52,7 @@ test_that("testing unique spell", {
                                   NIHR_HIC_ICU_0411="2000-01-04", 
                                   NIHR_HIC_ICU_0412="2000-01-30"))
    
-    expect_equivalent(unique_spell(ccd)$spell, c(1, 1))
+    expect_equivalent(ccd_unique_spell(ccd)$spell, c(1, 1))
 
 
     # The second admission time earlier than the discharge time by mistake. 
@@ -63,6 +63,6 @@ test_that("testing unique spell", {
                                   NIHR_HIC_ICU_0411="2000-01-01", 
                                   NIHR_HIC_ICU_0412="2000-01-30"))
 
-    expect_equivalent(unique_spell(ccd)$spell, c(1, 1))
+    expect_equivalent(ccd_unique_spell(ccd)$spell, c(1, 1))
 
 })

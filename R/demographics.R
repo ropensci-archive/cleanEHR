@@ -57,8 +57,8 @@ lenstay <- function(demg, units="hours") {
 #' @param rec  ccRecord-class
 #' @param duration integer hours 
 #' @return data.table contains spell id.
-#' @export unique_spell
-unique_spell <- function(rec, duration=2) {
+#' @export ccd_unique_spell
+ccd_unique_spell <- function(rec, duration=2) {
     tb <- rec@infotb
     short.time.group <- function(sd) {
         zeroday <- 0
@@ -90,7 +90,7 @@ unique_spell <- function(rec, duration=2) {
 #' @export demographic.patient.spell
 demographic.patient.spell <- function(rec, duration=2) {
     dmg <- sql.demographic.table(rec)
-    us <- unique_spell(rec, duration)
+    us <- ccd_unique_spell(rec, duration)
     us <- data.table(index=us$index, pid=us$pid, spell=us$spell)
     dmg <- merge(dmg, us, by=c("index"))
     return(dmg)
