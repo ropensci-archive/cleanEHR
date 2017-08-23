@@ -4,15 +4,15 @@
 \alias{create_cctable}
 \title{Convert the ccRecord object which is pre-loaded into a table format.}
 \usage{
-create_cctable(rec, freq, conf = NULL)
+create_cctable(rec, conf = NULL, freq = 1)
 }
 \arguments{
 \item{rec}{ccRecord}
 
+\item{conf}{either the path of YAML configuration file or the configuration}
+
 \item{freq}{a unique sampling frequency (in hours) for all variables. e.g. if freq is set to 
 1, each row in ccTable will represent a record of one hour.}
-
-\item{conf}{either the path of YAML configuration file or the configuration}
 }
 \value{
 ccTable

@@ -1,5 +1,5 @@
 ---
-title: "A brief tour of cleanEHR"
+title: "Data cleaning and wrangling with cleanEHR"
 author: David Perez Suarez & Sinan Shi
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -10,6 +10,7 @@ vignette: >
 ---
 
 
+# Preparation
 ### Load data 
 Usually a RData file which stores all the dataset will be given. A sample RData
 can be found in `/doc/sample_ccd.RData`.
@@ -18,22 +19,9 @@ library(cleanEHR)
 data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
 load(data.path)
 ```
-### Data overview
-You can have a quick overview of the data by checking `infotb`. In the sample
-dataset, sensitive variables such as NHS number and admission time have been
-removed or twisted. 
-```{r}
-print(head(ccd@infotb))
-```
-The basic entry of the data is episode which indicates an admission of a site.
-Using `episode_id` and `site_id` can locate a unique admission entry.  `pid` is
-a unique patient identifier. 
 
-```{r}
-# quickly check how many episodes are there in the dataset.
-ccd@nepisodes
-```
 
+### Inspect individual episode 
 There are 263 fields which covers patient demographics, physiology, laboratory,
 and medication information. Each field has 2 labels, NHIC code and short name.
 There is a function `lookup.items()` to look up the fields you need.
@@ -51,94 +39,18 @@ lookup.items('heart') # fuzzy search
 +-------------------+--------------+--------------+--------+-------------+
 
 ```
-
-
-
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-|     NHIC.Code     |       Short.Name        |           Long.Name            |      Unit      |   Data.type    |
-+===================+=========================+================================+================+================+
-| NIHR_HIC_ICU_0002 |          ICNNO          | Site code (ICNARC CMP number)  |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0006 |          bed02          |    CCU bed configuration 02    |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0395 |          bed03          |    CCU bed configuration 03    |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0396 |          bed05          |    CCU bed configuration 05    |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0397 |          bed50          |    CCU bed configuration 90    |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0073 |          NHSNO          |           NHS number           |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0001 |          pasno          |           PAS number           |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0005 |          ADNO           | Critical care local identifier |      N/A       |    numeric     |
-|                   |                         |   / ICNARC admission number    |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0033 |           DOB           |         Date of birth          |      N/A       |      date      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0076 |          PCODE          |            Postcode            |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0003 |         GPCODE          |           Code of GP           |      N/A       |      text      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0058 |         ETHNIC          |           Ethnicity            |      N/A       |      list      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0093 |           SEX           |              Sex               |      N/A       |      list      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0017 |           HCM           |             Height             |       cm       |    numeric     |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0018 |         HCMEST          |        Height (Source)         |      N/A       |      list      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0019 |           WKG           |             Weight             |       kg       |    numeric     |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0020 |         WKGEST          |        Weight (Source)         |      N/A       |      list      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0032 |           DAH           |   Date of admission to your    |      N/A       |      date      |
-|                   |                         |            hospital            |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0411 |          DAICU          |  Date & Time of admission to   |      N/A       |   date/time    |
-|                   |                         |           your unit            |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0050 |          DWFRD          | Date fully ready for discharge |      N/A       |      date      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0051 |          TWFRD          | Time fully ready for discharge |      N/A       |      time      |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0412 |          DDICU          | Date & Time of discharge from  |      N/A       |   date/time    |
-|                   |                         |           your unit            |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0037 |         DUDICU          |   Date of ultimate discharge   |      N/A       |      date      |
-|                   |                         |          from ICU/HDU          |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0406 |           DDH           |  Date of discharge from your   |      N/A       |      date      |
-|                   |                         |            hospital            |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0408 |          DUDH           |   Date of ultimate discharge   |      N/A       |      date      |
-|                   |                         |       from your hospital       |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0930 |          UDIS           |  Status at ultimate discharge  |      N/A       |      text      |
-|                   |                         |          from ICUHDU           |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-| NIHR_HIC_ICU_0085 |          RESA           |  Residence prior to admission  |      N/A       |      list      |
-|                   |                         |       to acute hospital        |                |                |
-+-------------------+-------------------------+--------------------------------+----------------+----------------+
-
-
-
-
-
-
-### Inspect individual episode 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-# check the heart rate, bilirubin, fluid balance, and drugs of episode_id = 7. 
+# check the heart rate, bilirubin, and drugs of episode_id = 7. 
 # NOTE: due to anonymisation reason, some episodes data cannot be displayed
 # properly. 
-episode.graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
+episode.graph(ccd, 7, c("h_rate",  "bilirubin"))
 ```
 
-## Non-longitudinal Data 
+# Non-longitudinal Data 
 `demographic.table()` can generate a `data.table` that contains all the
 non-longitudinal variables. A demonstration of how to do some work on a subset
 of data.  
-```{r, fig.width=10, fig.height=6, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+```{r, fig.width=10, fig.height=6, out.width='600px', results='hide', message=FALSE, warning=FALSE}
 # contains all the 1D fields i.e. non-longitudinal
 tb1 <- demographic.table(ccd)
 
@@ -156,7 +68,11 @@ ggplot(tb, aes(x=apache_prob, y=ARSD, color=SEX)) + geom_point()
 
 ```
 
-## Longitudinal data 
+# Longitudinal data 
+## Longitudinal structure: `ccTable`
+* 
+
+
 To deal with longitudinal data, we need to first to transform it into a long
 table format. 
 
@@ -185,11 +101,12 @@ print(tb$tclean)
 ```
 
 ### Manipulate on `cctable`
-* Get the mean heart rate of each patient. 
+#### Get the mean heart rate of each patient. 
 ```{r}
 tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=TRUE), by=c("site", "episode_id")]
 ```
 
+#### model 
 
 ### Data cleaning
 To clean the data, one needs to write the specification in the YAML
@@ -228,3 +145,9 @@ ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) +
   geom_point(size=1.5) + facet_wrap(~episode_id, scales="free_x")
 
 ```
+
+
+* change configuration 
+* imputation 
+* 
+

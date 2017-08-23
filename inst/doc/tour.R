@@ -14,7 +14,7 @@ ccd@nepisodes
 # check the heart rate, bilirubin, fluid balance, and drugs of episode_id = 7. 
 # NOTE: due to anonymisation reason, some episodes data cannot be displayed
 # properly. 
-episode.graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
+ccd_episode_graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
 
 ## ---- fig.width=10, fig.height=6, out.width='700px', results='hide', message=FALSE, warning=FALSE----
 # contains all the 1D fields i.e. non-longitudinal

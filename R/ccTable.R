@@ -58,7 +58,7 @@ ccTable$methods(
 #' 1, each row in ccTable will represent a record of one hour. 
 #' @return ccTable
 #' @export
-create_cctable <- function(rec, freq, conf=NULL) {
+create_cctable <- function(rec, conf=NULL, freq=1) {
     if (is.null(conf)) 
         conf <- ITEM_REF
     else { 

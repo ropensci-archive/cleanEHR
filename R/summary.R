@@ -6,8 +6,8 @@
 #' @param ccd ccRecord
 #' @param eid character the episode index in the ccRecord 
 #' @param items character NIHC code of longitudinal data. 
-#' @export episode.graph
-episode.graph <- function(ccd, eid=601, items=NULL) {
+#' @export 
+ccd_episode_graph <- function(ccd, eid=601, items=NULL) {
     ep <- ccd[[eid]][[1]]
     t_ad <- ep@t_admission
     t_dc <- ep@t_discharge

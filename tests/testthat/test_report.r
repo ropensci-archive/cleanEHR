@@ -27,7 +27,7 @@ test_that("calculate total data point", {
     expect_equal(total.data.point(ccd), 25)
 })
 
-test_that("episode graph", {
+test_that("ccd_episode_graph", {
 })
 
 
