@@ -47,7 +47,7 @@ ccRecord <- setClass("ccRecord",
                                           infotb=data.table(), 
                                           dmgtb=data.table()))
 
-#' The S3 class which holds data of a single episode. 
+#' The S4 class which holds data of a single episode. 
 #' 
 #' @field site_id character string. Site ID, if presented, otherwise "NA".
 #' @field episode_id character string. Episode ID, if presented, otherwise "NA".

@@ -4,9 +4,9 @@
 \name{ccEpisode-class}
 \alias{ccEpisode}
 \alias{ccEpisode-class}
-\title{The S3 class which holds data of a single episode.}
+\title{The S4 class which holds data of a single episode.}
 \description{
-The S3 class which holds data of a single episode.
+The S4 class which holds data of a single episode.
 }
 \section{Fields}{
 
