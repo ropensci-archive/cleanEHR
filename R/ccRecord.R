@@ -1,7 +1,7 @@
 #' @import XML
 #' @import data.table
 #' @import yaml
-#' @import Rcpp
+#' @importFrom Rcpp evalCpp
 NULL
 
 

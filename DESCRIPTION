@@ -17,9 +17,6 @@ License: GPL-3
 LinkingTo: Rcpp
 Suggests:
     testthat,
-    ggplot2,
-    knitr,
-    pander
 Imports:
     data.table,
     XML,
@@ -27,7 +24,8 @@ Imports:
     Rcpp,
     methods,
     stats,
-    utils
+    utils, 
+    pander
 VignetteBuilder: knitr
 URL: https://github.com/CC-HIC/cleanEHR, http://www.hic.nihr.ac.uk
 RoxygenNote: 5.0.1
