@@ -287,20 +287,132 @@ setMethod("[", signature(x="ccRecord", i="character"),
           })
 
 
+setGeneric("subset", function(r, f) {
+    standardGeneric("subset")
+})
+
+
 #' Subset episodes from the specified XML files. 
 #' 
 #' @param ccd ccRecord object
 #' @param files character a vector of XML file names - see ccRecord: parse_file 
 #' @return ccRecord object 
-#' @export ccRecord_subset_files
-ccRecord_subset_files <- function(ccd, files) {
-    ind <- ccd@infotb[ccd@infotb$parse_file %in% files]$index
+#' @exportMethod subset
+setMethod("subset", signature(r="ccRecord", f="character"), 
+function(r, f) {
+    ind <- r@infotb[r@infotb$parse_file %in% f]$index
     if (length(ind) == 0) {
         return(ccRecord())
     }
     eplst <- list()
     for (ep in ind) {
-        eplst[[length(eplst) + 1]] <- ccd@episodes[[ep]]
+        eplst[[length(eplst) + 1]] <- r@episodes[[ep]]
     }
     ccRecord() + eplst
+})
+
+
+
+
+episode_graph <- function(ep, items=NULL) {
+    t_ad <- ep@t_admission
+    t_dc <- ep@t_discharge
+
+
+    if (is.null(items))
+        items <- c("h_rate", "spo2", "bilirubin", "platelets", "pao2_fio2", "gcs_total")
+
+    all.drugs <- names(which(class.dict_code[names(ITEM_REF)] == "Drugs"))
+    used.drugs <- code2stname(all.drugs[all.drugs %in% names(ep@data)])
+
+    classification.dictionary <- sapply(ITEM_REF, function(x) x$Classification1)
+
+
+    create.long.table <- function(ep, items) {
+        items <- data.table(items=items, 
+                            code=stname2code(items),
+                            longname=stname2longname(items),
+                            class=classification.dictionary[stname2code(items)])
+        units <- unit.dict[items$code]
+        units[is.na(units)] <- ""
+        items$longname <- paste0(items$longname, "\n", units)
+
+        ltb <- list()
+        for (i in seq(nrow(items))) {
+            if (is.null(ep@data[[items[i]$code]]))
+                ltb[[i]] <- data.frame()
+            else
+                ltb[[i]] <- data.frame(ep@data[[items[i]$code]], 
+                                       item=items[i]$longname)
+        }
+        ltb <- rbindlist(ltb, use.names=TRUE, fill=TRUE)
+        if (is.numeric(ltb$time))
+            ltb$time <- t_ad + ltb$time * 60 * 60
+        ltb$item2d <- as.numeric(ltb$item2d)
+        return(ltb)
+    }
+
+    physio.tb <- create.long.table(ep, items)
+    physio.tb <- data.frame(physio.tb, 
+                            catg1=physio.tb$item, 
+                            catg2="Physiology Data")
+    drug.tb <- create.long.table(ep, used.drugs)
+
+    drug.tb <- data.frame(drug.tb, catg1="Drugs", 
+                          catg2=drug.tb$item)
+
+
+    tb <- rbindlist(list(physio.tb, drug.tb), fill=TRUE, use.names=TRUE)
+
+
+    ggp <- ggplot(tb, aes_string(x="time", y="item2d", group="item",
+                                 colour="catg2")) + geom_line(colour="#1E506C") + 
+        geom_point(size=1) + 
+        facet_grid(catg1 ~., scales="free_y") + 
+        geom_vline(xintercept = as.numeric(t_ad), colour="#D1746F") + 
+        geom_vline(xintercept = as.numeric(t_dc), colour="#D1746F") + 
+        scale_colour_manual(values=c("#1E506C", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#FFFFFF"), 
+                            name=paste0(ep@episode_id, "_", ep@site_id, "\n", 
+                                       icnarc2diagnosis(ep@data[[stname2code('RAICU1')]]), "\n\n")) +  
+        theme(legend.title = element_text(size=8), 
+              legend.text  = element_text(size=8)) +
+                            labs(x="", y="")
+
+
+
+    graphics::plot(ggp)
+    #"#1E506C""#D1746F"
+    invisible(tb)
 }
+
+
+
+#' Individual episode chart
+#' 
+#' Create an individual episode chart for its diagnosis, drugs and physiological
+#' variables. Diagnosis and drugs are always included, while the user can
+#' select other longitudinal data. 
+#' @param r ccRecord
+#' @param v short name of longitudinal data. While v is not given, the chart 
+#' will only display h_rate, spo2, bilirubin, platelets, pao2_fio2, gcs_total. 
+#' @return a table of selected vars of an episode
+#' @exportMethod plot
+#' @example
+#' \dontrun{
+#' plot(ccd@episodes[[1]]) # plot first episode with default variables. 
+#' plot(ccd@episodes[[1]]) # plot first episode
+setGeneric("plot", function(r, v) {
+    standardGeneric("plot")
+})
+
+
+setMethod("plot", signature(r="ccEpisode", v="character"), 
+function(r, v){
+    episode_graph(r, v)
+})
+
+
+setMethod("plot", signature(r="ccEpisode", v="missing"), 
+function(r) {
+    episode_graph(r)
+})
