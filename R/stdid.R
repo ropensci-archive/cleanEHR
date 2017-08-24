@@ -88,9 +88,9 @@ stname2longname <- function(stname) {
 
 #' Convert long names to short names. 
 #' 
-#' @param stname character long name such as "heart rate" 
+#' @param l long name such as "heart rate" 
 #' @return short name character such as "h_rate"
-#' @export 
+#' @export
 long2stname <- function(l) {
     l <- as.character(l)
     s <- long2stname.dict[l]
