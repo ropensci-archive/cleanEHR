@@ -2,7 +2,7 @@ context("Testing demographic table")
 
 test_that("create demographic table from ccdata and expect the equivalent
           results with or without data type awareness.", {
-    demg <- demographic.table(ccd, dtype=FALSE)
+    demg <- ccd_demographic_table(ccd, dtype=FALSE)
     expect_equal(nrow(demg), ccd@nepisodes)
     expect_match(class(demg)[1], "data.table")
 
@@ -13,7 +13,7 @@ test_that("create demographic table from ccdata and expect the equivalent
         v
     }
 
-    demg_t <- suppressWarnings(demographic.table(ccd))
+    demg_t <- suppressWarnings(ccd_demographic_table(ccd))
     for (i in seq(ncol(demg) - 1))
         expect_equivalent(demg[[i]], convert.back.to.char(demg_t[[i]]))
 }) 

@@ -170,7 +170,7 @@ txt.color <- function(x, color) {
 
 #' Create a demographic completeness table (in pander table)
 #' 
-#' @param demg data.table the demographic data table created by sql.demographic.table()
+#' @param demg data.table the demographic data table created by ccd_demographic_table()
 #' @param names short name of selected items
 #' @param return.data logical return the table if TRUE
 #' @export demographic.data.completeness
@@ -286,7 +286,7 @@ total.data.point <- function(ccd) {
 
 #' Produce the item specified table one. 
 #'
-#' @param demg demographic table created by sql.demographic.table()
+#' @param demg demographic table created by ccd_demographic_table()
 #' @param names character string. Short names of data items, e.g. h_rate. 
 #' @param return.data logical, FALSE: printing the pander table, TRUE: return the table but not print out the pander table. 
 #' @return if return.data is TRUE, return data.table
@@ -335,14 +335,14 @@ table1 <- function(demg, names, return.data=FALSE) {
 #' demg.distribution
 #' Create a plot of the distribution of numerical demographic data.
 #' 
-#' @param demg ccRecord or demographic table created by sql.demographic.table()
+#' @param demg ccRecord or demographic table created by ccd_demographic_table()
 #' @param names character vector of short names of numerical demographic data. 
 #' @examples
 #' \dontrun{tdemg.distribution(ccd, "HCM")}
 #' @export demg.distribution
 demg.distribution <- function(demg, names) {
     if (class(demg) == "ccRecord")
-        demg <- sql.demographic.table(demg)
+        demg <- ccd_demographic_table(demg)
     for (nm in names) {
         ref <- ITEM_REF[[stname2code(nm)]]
         hicnum <- as.number(StdId(stname2code(nm)))

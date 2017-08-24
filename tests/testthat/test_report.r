@@ -7,7 +7,7 @@ test_that("file level summary",{
 
 
 test_that("table1", {
-    demg <- suppressWarnings(demographic.table(ccd))
+    demg <- suppressWarnings(ccd_demographic_table(ccd))
     table1(demg, "SEX", return.data=TRUE)
     expect_error(table1(demg, "non_nhic", return.data=TRUE))
     expect_error(table1(demg, "h_rate", return.data=TRUE)) # need to be categorical data
@@ -15,7 +15,7 @@ test_that("table1", {
 
 
 test_that("demographic data completeness", {
-    demg <- suppressWarnings(demographic.table(ccd))
+    demg <- suppressWarnings(ccd_demographic_table(ccd))
     tb <- demographic.data.completeness(demg, return.data=TRUE)
     ndemg <- length(which(sapply(cleanEHR:::ITEM_REF, function(x) 
                                  x$Classification1=="Demographic")))
