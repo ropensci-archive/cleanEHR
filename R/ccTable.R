@@ -179,20 +179,42 @@ ccTable$methods(
                         .self$.epindex[["index"]] & dq$episode[["select_index"]]
                 })
 
-ccTable$methods(
-                filter_null = function(items=c("episode_id", "site")) {
-                    "remove the entire episode when any of the selected items is NULL"
-                    for (i in items)
-                        .self$tclean <- .self.tclean[i != "NULL"]
-                })
-
+#' Reload the YAML configuration file
+#'
+#' Note, this function will also reset all the operations and 
+#' remove the tclean. 
+#' @name ccTable_reload_conf
+#' @examples 
+#' \dontrun{
+#' tb$reload_conf()
+#' }
+NULL
 ccTable$methods(
                 reload_conf = function(file) {
                     "reload yaml configuration."
                     .self$conf <- yaml.load_file(file)
+                    .self$reset()
                 })
 
+#' Reset the ccTable
+#' 
+#' Restore the object to its initial status. All the filters, quality and the 
+#' cleaned table will be removed.
+#' @name ccTable_reset
+NULL
+ccTable$methods(
+                reset = function() {
+                    .self$dfilter <- list()
+                    .self$dquality <- list()
+                    .self$tclean <- NULL
+                })
 
+#' Export the clean table as a CSV file
+#' 
+#' Export tclean as a CSV file.
+#' @name ccTable_export_csv
+#' @param file the full path of the output CSV file. 
+NULL
 ccTable$methods(
                 export_csv = function(file=NULL) {
                     "Export the cleaned table to a CSV file."
@@ -219,7 +241,7 @@ ccTable$methods(
                     if (nrow(.self$torigin) != 0 ) {
                         .self$filter_range()
                         .self$filter_categories()
-                        .self$filter_missingess()
+                        .self$filter_missingness()
                         .self$filter_nodata()
                         .self$apply_filters()
                     }
@@ -261,7 +283,6 @@ itemsToDataFrame <- function(ep, items, period_length, freq) {
 #' @param freq numeric cadence in hour. 
 #' @param return_list logical if TRUE return as a list.  
 #' @return data.table
-#' @export ccd_select_table
 ccd_select_table <- function(record, items_opt=NULL, items_obg=NULL, freq,
                         return_list=FALSE) {
 
@@ -452,11 +473,11 @@ getEpisodePeriod <- function (e, unit="hours") {
 }
 
 #' Propagate a numerical delta time interval record.
+#'
 #' @param record ccRecord
 #' @param delta time frequency in hours
 #' @details when discharge time and admission time are missing, the latest  and
 #' the earliest data time stamp will be used instead.
-#' @export reallocateTimeRecord
 reallocateTimeRecord <- function(record, delta=0.5) {
     reallocate.episode <- function(e) {
         env <- environment()

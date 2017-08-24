@@ -58,3 +58,13 @@ ccTable$methods(
 })
 
 
+ccTable$methods(
+    filter_nodata = function() {
+        "Exclude episodes when no data is presented in certain fields"
+        data <- .self$get.data.column("nodata")
+        nodata <- function(x, ...) {
+            !all(x %in% c("NA", NA))
+        }
+        .self$dfilter$nodata <- getfilter(data, nodata)
+    }
+)

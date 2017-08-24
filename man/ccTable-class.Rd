@@ -35,7 +35,7 @@ various commonly used data filters.
 \section{Methods}{
 
 \describe{
-\item{\code{apply_filters(warnings = T)}}{Apply all filters specified in the configuration to update the clean
+\item{\code{apply_filters(warnings = TRUE)}}{Apply all filters specified in the configuration to update the clean
 table (tclean)}
 
 \item{\code{create_table(freq)}}{Create a table contains the selected items in the conf with a given
@@ -49,8 +49,6 @@ in conf.}
 \item{\code{filter_missingness(recount = FALSE)}}{filter out the where missingness is too low.}
 
 \item{\code{filter_nodata()}}{Exclude episodes when no data is presented in certain fields}
-
-\item{\code{filter_null(items = c("episode_id", "site"))}}{remove the entire episode when any of the selected items is NULL}
 
 \item{\code{imputation()}}{Filling missing data to a time series data by performing a given imputation
 method on a selected window period nearby the missing data.}

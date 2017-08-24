@@ -34,6 +34,27 @@ inrange <- function(v, range) {
     return(cmpfunc(v))
 }
 
+
+getfilter <- function(dq, criterion) {
+            kn <- c("site", "episode_id")
+            if (all(kn %in% names(dq)) & length(names(dq)) > 2) {
+                keys <- dq[, kn, with=FALSE]
+                k_ind <- !(names(dq) %in% kn)
+                dq <- dq[, names(dq)[k_ind], with=FALSE]
+                # updating range entry with true/false values
+                dq <- dq[, Map(criterion, .SD, names(.SD))]
+                # adding site and episode_id columns.
+                entry <- data.table(keys, dq)
+                episode <- entry[, 
+                                 all(unlist(.SD), na.rm=TRUE), 
+                                 by=c("site", "episode_id")]
+                setnames(episode, c("site", "episode_id", "select_index"))
+                return(list(entry=entry, episode=episode))
+            }
+            else return(NULL)
+        }
+
+
 #' @include ccTable.R
 ccTable$methods(
     inspect_range = function() {
@@ -64,23 +85,7 @@ ccTable$methods(
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)
         # dq can be either dqaulity table or torigin
         # criterion should be a function to give T/F values of each entry.
-        getfilter <- function(dq, criterion) {
-            if (ncol(dq) > 2) {
-                keys <- dq[, c("site", "episode_id"), with=FALSE]
-                dq[, c("site", "episode_id"):=NULL]
-                # updating range entry with true/false values
-                dq <- dq[, Map(criterion, .SD, names(.SD))]
-                # adding site and episode_id columns.
-                entry <- data.table(keys, dq)
-                episode <- entry[, 
-                                 all(unlist(.SD), na.rm=TRUE), 
-                                 by=c("site", "episode_id")]
-                setnames(episode, c("site", "episode_id", "select_index"))
-                return(list(entry=entry, episode=episode))
-            }
-            else return(NULL)
-        }
-
+        
         inselectrange <- function(x, ...) {
             x >= rgnum[[select]]
         }
@@ -89,6 +94,7 @@ ccTable$methods(
            nrow(.self$dquality$range) != nrow(.self$tclean))
             .self$inspect_range()
 
-        .self$dfilter$range <- getfilter(.self$dquality$range, inselectrange)
+        .self$dfilter$range <- getfilter(.self$dquality$range, 
+                                         inselectrange)
     }
 )

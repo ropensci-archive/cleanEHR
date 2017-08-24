@@ -27,17 +27,5 @@ ccTable$methods(
         categories <- inspect_categories()
         in.category <- function(x, name) 
             x %in% c(categories[[name]], "NA", NA)
-        .self$dfilter_categories <- getfilter(data, in.category)
+        .self$dfilter$category <- getfilter(data, in.category)
     })
-
-
-ccTable$methods(
-    filter_nodata = function() {
-        "Exclude episodes when no data is presented in certain fields"
-        data <- .self$get.data.column("nodata")
-        nodata <- function(x, ...) {
-            !all(x %in% c("NA", NA))
-        }
-        .self$dfilter$nodata <- getfilter(data, nodata)
-    }
-)

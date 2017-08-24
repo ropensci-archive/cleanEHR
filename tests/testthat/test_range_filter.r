@@ -14,3 +14,15 @@ test_that("from string expression to range functions",
     expect_error(inrange(1, "(10, 1)"))
 
 })
+
+
+test_that("range filters", 
+{
+    tb$filter_range()
+    tb$filter_range()
+})
+
+
+test_that("all filters", {
+    tb$clean()
+})
