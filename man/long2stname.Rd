@@ -7,7 +7,7 @@
 long2stname(l)
 }
 \arguments{
-\item{stname}{character long name such as "heart rate"}
+\item{l}{long name such as "heart rate"}
 }
 \value{
 short name character such as "h_rate"
