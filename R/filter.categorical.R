@@ -19,6 +19,33 @@ ccTable$methods(
     }
 )
 
+#' Categorical data filter
+#'
+#' Categorical variables only allow a set of values to appear in the variable
+#' . Due to various reasons, a categorical variable may contain values that are not 
+#' standard. The allowed values can be set in the YAML configuration while initilising 
+#' the ccTable (see ccTable-class, create_cctable).  
+#' In the following example, we can see how to set up the categorical filter 
+#' for the variable dead_icu (NIHR_HIC_ICU_0097) which only allows its value to 
+#' be A, D, E.
+#' 
+#' @name ccTable_filter_categories
+#' @examples
+#' \dontrun{
+#' # Example for categorical filter setup in the YAML configuration
+#' NIHR_HIC_ICU_0097:
+#'  category:
+#'    levels:
+#'      A: Alive
+#'      D: Dead
+#'      E: Alive - not discharged
+#'    apply: drop_entry
+#' 
+#' # Run the filter on ccTable ct
+#' ct$filter_categories() # run the filter
+#' ct$apply_filters()     # apply the filter and create the clean table
+#' }
+NULL
 ccTable$methods(
     filter_categories = function() {
         "Check individual entries if they are the in the categories specified

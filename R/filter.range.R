@@ -80,6 +80,38 @@ ccTable$methods(
     }
 )
 
+
+#' Numerical range filter
+#' 
+#' Range filter can only be applied on numerical fields. 
+#' For those fields which requires a range filter to be applied, 
+#' one needs to set a series ranges from the broadest to the narrowest in
+#' the YAML configuration. We can set three levels (labels) of ranges, red, amber, and
+#' green.  It is also OK to set only one range instead of three. 
+#' The range filter will first assign a label to every data entry. 
+#' 
+#' The range in the YAML configuration file can be (l, h), [l, h], (l, h], [h, l) 
+#' standing for close, open and half open intervals. 
+#' @param select the range label - "red", "amber", "green"
+#' If I give "yellow to select, it means I only want the values which is
+#' labeled as "yellow" to be in the clean table.
+#' @name ccTable_filter_range
+#' @examples 
+#' \dontrun{
+#' # YAML example
+#' NIHR_HIC_ICU_0108:
+#'    shortName: h_rate
+#'    dataItem: Heart rate
+#'    range:
+#'     labels:
+#'      red: (0, 300)     # broader
+#'      amber: (11, 170) 
+#'      green: (60, 100)  # narrower
+#'     apply: drop_entry
+#' # apply range filter on ccTable ct
+#' ct$filter_range("yellow")
+#' ct$apply_filters
+#'}
 ccTable$methods(
     filter_range = function(select='red') {
         rgnum <- list('red'=1, 'amber'=2, 'green'=3)

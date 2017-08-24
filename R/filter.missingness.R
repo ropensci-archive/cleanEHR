@@ -32,6 +32,17 @@ ccTable$methods(
         }    
 })
 
+
+#' Data missing filter
+#'
+#' Deal with data when insufficient data points are supported. There are 
+#' two key items to be set in the YAML configuration file. 
+#' 1) labels -- time interval. 2) accept_2d -- the accept present ratio. 
+#' So if we set the labels is 24, and accept_2d is 70. It means we accept 
+#' all the missing rate that is lower than 30% every 24 data points.
+#' @name ccTable_filter_missingness
+#' @param recount logical value. Recount the missingness if TRUE. 
+NULL
 ccTable$methods(
     filter_missingness = function(recount=FALSE){
         "filter out the where missingness is too low."
@@ -57,7 +68,12 @@ ccTable$methods(
                        with=FALSE], select_index)
 })
 
-
+#' No data filter
+#' 
+#' Remove the episode when a particular field is not presented.
+#' It need to be set up in the YAML configuration file. 
+#' @name ccTable_filter_nodata
+NULL
 ccTable$methods(
     filter_nodata = function() {
         "Exclude episodes when no data is presented in certain fields"
