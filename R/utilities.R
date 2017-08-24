@@ -1,18 +1,7 @@
-#' This a reference table of NHIC data items. 
-#'
-#' @name data.checklist
-#' @docType data
-#' @author Sinan Shi \email{s.shi@ucl.ac.uk}
-#' @keywords data
-NULL
-
-
-
-
-#' get indexing tables for time label, time-wise value, meta data label, and
-#' meta data.  
-#' @return list of vectors contains time.index, datat.index, meta.index,
-#'          datam.index
+# get indexing tables for time label, time-wise value, 
+# meta data label, and meta data.  Return a list of vectors 
+# contains time.index, datat.index, meta.index,
+# datam.index
 extractIndexTable <- function() {
     info <- extractInfo()
 
@@ -73,10 +62,11 @@ whichIsCode <- function(nhic) {
     return(grepl(nhic, pattern="[0-9][0-9][0-9][0-9]"))
 }
 
-#' extract information from data.checklist
+#' Extract information from data.checklist
+#' 
 #' @return list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)], 
 #'         nontime [numeric], MAX_NUM_NHIC
-#' @export extractInfo
+#' @export 
 extractInfo <- function() {
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
@@ -186,17 +176,6 @@ site.info <- function(){
     names(si) <- c("Hospital", "Unit", "Trust", "Comments")
     return(si)
 }
-
-
-
-#' ICNARC diagnosis reference table 
-#'
-#' @name icnarc
-#' @references \url{https://www.icnarc.org/Our-Audit/Audits/Cmp/Resources/Icm-Icnarc-Coding-Method}
-#' @docType data
-#' @keywords data
-NULL
-
 
 #' Convert ICNARC codes to diagnosis (text)
 #' 

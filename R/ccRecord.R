@@ -80,79 +80,6 @@ ccEpisode <- setClass("ccEpisode",
                                            parse_time=as.POSIXct(NA),
                                            data=list()))
 
-
-#' Adding one ccEpisode object to ccRecord object.
-#'
-#' @param rec ccRecord-class
-#' @param episode ccEpisode-class 
-#' @return ccRecord object
-add.episode.to.record <- function(rec, episode) {
-    rec@episodes[[length(rec@episodes) + 1]] <- episode
-    index.record(rec)
-}
-
-#' Adding a list of ccEpisode to ccRecord
-#' 
-#' @description Adding a list of one or multiple ccEpisode objects to a
-#' ccRecord object, the information table (infotb) will be updated automatically.
-#' It is the more efficient way to add multiple ccEpisode objects. See
-#' add.episode.to.record() for just adding one ccEpisode. 
-#' @param rec ccRecord
-#' @param lst a list of ccEpisode objects
-#' @return ccRecord
-add.episode.list.to.record <- function(rec, lst) {
-    for(i in seq(length(lst)))
-        rec@episodes[[length(rec@episodes) + 1]] <- lst[[i]]
-    index.record(rec)
-}
-
-#' Combine two ccRecord objects
-#'
-#' Combine two ccRecord objects and re-calculate the infortb
-#' 
-#' @param rec1 ccRecord object
-#' @param rec2 ccRecord object
-#' @return ccRecord object
-add.record.to.record <- function(rec1, rec2) {
-    rec1@episodes <- append(rec1@episodes, rec2@episodes)
-    index.record(rec1)
-}
-
-
-#' Adding a list of ccEpisode objects to a ccRecord 
-#' 
-#' @param e1 ccRecord-class
-#' @param e2 A list of ccEpisode objects 
-#' @return ccRecord-class 
-setMethod('+', c("ccRecord", "list"), 
-          function(e1, e2) {add.episode.list.to.record(e1, e2)}
-          )
-
-#' Adding one ccEpisode object to a ccRecord 
-#' 
-#' @param e1 ccRecord-class
-#' @param e2 ccEpisode-class
-#' @return ccRecord-class 
-setMethod('+', c("ccRecord", "ccEpisode"), 
-          function(e1, e2) {add.episode.to.record(e1, e2)})
-
-#' Combine two ccRecord objects 
-#' 
-#' @param e1 ccRecord-class
-#' @param e2 ccRecord-class
-#' @return ccRecord-class
-setMethod('+', c("ccRecord", "ccRecord"), 
-          function(e1, e2) {add.record.to.record(e1, e2)}
-          )
-
-#' Adding nothing to a ccRecord object.
-#' 
-#' @param e1 ccRecord-class 
-#' @param e2 NULL 
-setMethod('+', c("ccRecord", "NULL"), 
-          function(e1, e2) return(e1))
-
-
 index.record <- function(rec) {
     retrieve_all <- function(x) {
         .simple.data.frame(list(site_id    = x@site_id, 
@@ -184,6 +111,53 @@ index.record <- function(rec) {
     }
     rec
 }
+
+#' Adding a list of ccEpisode to ccRecord
+#' 
+#' @description Adding a list of one or multiple ccEpisode objects to a
+#' ccRecord object, the information table (infotb) will be updated automatically.
+#' It is the more efficient way to add multiple ccEpisode objects.
+#' @param rec ccRecord
+#' @param lst a list of ccEpisode objects
+#' @return ccRecord
+#' @exportMethod +
+setMethod('+', c("ccRecord", "list"), 
+          function(e1, e2) {
+              for(i in seq(length(e2)))
+                  e1@episodes[[length(e1@episodes) + 1]] <- e2[[i]]
+              index.record(e1)
+         
+          
+          })
+
+#' Adding one ccEpisode object to a ccRecord 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 ccEpisode-class
+#' @return ccRecord-class 
+setMethod('+', c("ccRecord", "ccEpisode"), 
+          function(e1, e2) {
+              e1@episodes[[length(e1@episodes) + 1]] <- e2
+              index.record(e1)
+          })
+
+#' Combine two ccRecord objects 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 ccRecord-class
+#' @return ccRecord-class
+setMethod('+', c("ccRecord", "ccRecord"), 
+          function(e1, e2) {
+              e1@episodes <- append(e1@episodes, e2@episodes)
+              index.record(e1)
+          })
+
+#' Adding nothing to a ccRecord object and return the original ccRecord
+#' 
+#' @param e1 ccRecord-class 
+#' @param e2 NULL 
+setMethod('+', c("ccRecord", "NULL"), 
+          function(e1, e2) return(e1))
 
 
 #' Create a new episode
@@ -286,18 +260,17 @@ setMethod("[", signature(x="ccRecord", i="character"),
               ccRecord() + eplst
           })
 
-
-setGeneric("subset", function(r, f) {
-    standardGeneric("subset")
-})
-
-
 #' Subset episodes from the specified XML files. 
 #' 
 #' @param ccd ccRecord object
 #' @param files character a vector of XML file names - see ccRecord: parse_file 
 #' @return ccRecord object 
 #' @exportMethod subset
+setGeneric("subset", function(r, f) {
+    standardGeneric("subset")
+})
+
+
 setMethod("subset", signature(r="ccRecord", f="character"), 
 function(r, f) {
     ind <- r@infotb[r@infotb$parse_file %in% f]$index
@@ -310,9 +283,6 @@ function(r, f) {
     }
     ccRecord() + eplst
 })
-
-
-
 
 episode_graph <- function(ep, items=NULL) {
     t_ad <- ep@t_admission
@@ -384,8 +354,6 @@ episode_graph <- function(ep, items=NULL) {
     #"#1E506C""#D1746F"
     invisible(tb)
 }
-
-
 
 #' Individual episode chart
 #' 

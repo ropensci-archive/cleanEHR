@@ -2,7 +2,7 @@
 % Please edit documentation in R/utilities.R
 \name{extractInfo}
 \alias{extractInfo}
-\title{extract information from data.checklist}
+\title{Extract information from data.checklist}
 \usage{
 extractInfo()
 }
@@ -11,6 +11,6 @@ list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)],
         nontime [numeric], MAX_NUM_NHIC
 }
 \description{
-extract information from data.checklist
+Extract information from data.checklist
 }
 

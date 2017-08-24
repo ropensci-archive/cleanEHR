@@ -3,19 +3,21 @@
 \docType{methods}
 \name{+,ccRecord,list-method}
 \alias{+,ccRecord,list-method}
-\title{Adding a list of ccEpisode objects to a ccRecord}
+\title{Adding a list of ccEpisode to ccRecord}
 \usage{
 \S4method{+}{ccRecord,list}(e1, e2)
 }
 \arguments{
-\item{e1}{ccRecord-class}
+\item{rec}{ccRecord}
 
-\item{e2}{A list of ccEpisode objects}
+\item{lst}{a list of ccEpisode objects}
 }
 \value{
-ccRecord-class
+ccRecord
 }
 \description{
-Adding a list of ccEpisode objects to a ccRecord
+Adding a list of one or multiple ccEpisode objects to a
+ccRecord object, the information table (infotb) will be updated automatically.
+It is the more efficient way to add multiple ccEpisode objects.
 }
 

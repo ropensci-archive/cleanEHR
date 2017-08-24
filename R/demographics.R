@@ -1,10 +1,12 @@
-#' Create the demographic tables. The data type of each column is in its
-#' corresponding data type.
+#' Create the demographic tables, which includes all non-time-varying variables. 
+#'
+#' @description The data type of each column is in its corresponding data 
+#' type.
 #'
 #' @param record ccRecord-class
 #' @param dtype logical column will be type aware, else all in character. 
-#' @export demographic.table
-demographic.table <- function(record, dtype=TRUE) {
+#' @export 
+ccd_demographic_table <- function(record, dtype=TRUE) {
     env <- environment()
     demogls <- list()
     stopifnot(is.list(env$demogls))
@@ -81,15 +83,17 @@ ccd_unique_spell <- function(rec, duration=2) {
     return(tb)
 }
 
-#' Assign unique spell ID to the demographic table 
+#' Create demographic table with spell IDs
 #'
+#' @description same output like ccd_demographic_table but in 
+#' addition with a spell ID. 
 #' @param rec ccRecord
 #' @param duration the maximum hours of transition period
 #' @return data.table demographic table with spell ID in column spell
 #' 
-#' @export demographic.patient.spell
-demographic.patient.spell <- function(rec, duration=2) {
-    dmg <- sql.demographic.table(rec)
+#' @export 
+ccd_demographic_spell <- function(rec, duration=2) {
+    dmg <- ccd_demographic_table(rec)
     us <- ccd_unique_spell(rec, duration)
     us <- data.table(index=us$index, pid=us$pid, spell=us$spell)
     dmg <- merge(dmg, us, by=c("index"))
