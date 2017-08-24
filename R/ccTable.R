@@ -44,7 +44,7 @@ ccTable$methods(
                     cat("The base cadence is ", .self$base_cadence, " hour.\n")
                 })
 
-#' Convert the ccRecord object which is pre-loaded into a table format. 
+#' Create a ccTable object
 #'
 #' Re-arrange the ccRecord object to table format where each column stands 
 #' for a variable and each row a record data point. The number of rows will 
@@ -71,13 +71,18 @@ create_cctable <- function(rec, conf=NULL, freq=1) {
     return(cct)
 }
 
-
+#' Create a ccTable object
+#'
+#' This is a member function of ccTable-class. Using create_cctable is a safer and 
+#' easier way to create the ccTable. See create_cctable. 
+#' @name ccTable_create_cctable
+NULL
 ccTable$methods(
                 create_table = function(freq){
                     "Create a table contains the selected items in the conf with a given
                     frequency (in hour)"
                     .self$items <- names(.self$conf)
-                    .self$torigin <- selectTable(record=record, items_opt=items, freq=freq)
+                    .self$torigin <- ccd_select_table(record=record, items_opt=items, freq=freq)
                     if (nrow(.self$torigin) != 0) {
                         setkey(.self$torigin, "site", "episode_id")
                         .self$tclean <- .self$torigin
@@ -95,13 +100,11 @@ ccTable$methods(
                                                     time=integer())
                 })
 
-
 ccTable$methods(
                 update.entry = function(){
                     for (i in .self$items) 
                         .self$tclean[[i]][!.self$.rindex[[i]]] <- NA
                 })
-
 
 ccTable$methods(
                 update.episode = function(){
@@ -110,15 +113,43 @@ ccTable$methods(
                     .self$tclean[["index"]] <- NULL
                 })
 
+#' Apply all the setup filters. 
+#'
+#' Once filters are applied, the processed data will be stored in tclean. Note, 
+#' running filtering function before apply_filters is necessary. This function 
+#' will have no effect on tclean if no filter is ran prior.
+#' Filters will decide to preserve or remove particular entries or episodes. 
+#' @param warnings logical value to indicate more or less messages with an 
+#' default value TRUE. 
+#' @name ccTable_apply_filters
+#' @examples
+#' \dontrun{
+#' tb <- create_cctable(ccd, conf, 1)
+#' tb$range_filter() 
+#' tb$apply_filter() # apply only the range filter ragardless of the conf. 
+#' }
+NULL
 ccTable$methods(
-                apply_filters = function(warnings=T) {
+                apply_filters = function(warnings=TRUE) {
                     "Apply all filters specified in the configuration to update the clean
                     table (tclean)"
+
+                    spec2function <- function(item.name, filter.name) {
+                        spec <- .self$conf[[item.name]][[filter.name]]$apply
+                        spec <- as.character(as.vector(spec))
+                        switch(spec, 
+                               "drop_entry"=.self$drop_entry,
+                               "drop_episode"=.self$drop_episode,
+                               "NA"=function(nmitem, dq){}, 
+                               "NULL"=function(nmitem, dq){},
+                               stop("functions for applying filters can only be 'drop_entry' or 'drop_episode'. "))
+                    }
+
                     ops <- strsplit(grep('apply', names(unlist(.self$conf)), value=TRUE), "[.]") 
                     for (i in ops) {
                         item <- i[1]
                         filter <- i[2]
-                        tryCatch(.self$spec2function(item, filter)(item,
+                        tryCatch(spec2function(item, filter)(item,
                                                                    .self$dfilter[[filter]]), 
                                  error = function(e) {
                                      if (is.null(.self$dfilter[[filter]])) {
@@ -130,8 +161,7 @@ ccTable$methods(
                                          cat(paste(item, filter, "\n"))
                                          stop(e)
                                      }
-                                 }
-                                 )
+                                 })
                     }
                     .self$update.entry()
                     .self$update.episode()
@@ -150,34 +180,21 @@ ccTable$methods(
                 })
 
 ccTable$methods(
-                spec2function = function(item.name, filter.name) {
-                    spec <- .self$conf[[item.name]][[filter.name]]$apply
-                    spec <- as.character(as.vector(spec))
-                    switch(spec, 
-                           "drop_entry"=.self$drop_entry,
-                           "drop_episode"=.self$drop_episode,
-                           "NA"=function(nmitem, dq){}, 
-                           "NULL"=function(nmitem, dq){},
-                           stop("functions for applying filters can only be 'drop_entry' or 'drop_episode'. "))
-                })
-
-
-ccTable$methods(
-                filter.null = function(items=c("episode_id", "site")) {
+                filter_null = function(items=c("episode_id", "site")) {
                     "remove the entire episode when any of the selected items is NULL"
                     for (i in items)
                         .self$tclean <- .self.tclean[i != "NULL"]
                 })
 
 ccTable$methods(
-                reload.conf = function(file) {
+                reload_conf = function(file) {
                     "reload yaml configuration."
                     .self$conf <- yaml.load_file(file)
                 })
 
 
 ccTable$methods(
-                export.csv = function(file=NULL) {
+                export_csv = function(file=NULL) {
                     "Export the cleaned table to a CSV file."
                     if (is.null(file))
                         return(.self$tclean)
@@ -185,14 +202,25 @@ ccTable$methods(
                     write.csv(.self$tclean, file=file)
                 })
 
-
+#' Apply all the filters
+#'
+#' All the filters in configuration will be applied to create the 
+#' clean dataset. The filters include range, categories, missingness, 
+#' no_data. 
+#' @name ccTable_clean
+#' @examples 
+#' \dontrun{
+#' tb <- create_cctable(ccd, conf, 1)
+#' tb$clean()
+#' }
+NULL
 ccTable$methods(
                 clean = function() {
                     if (nrow(.self$torigin) != 0 ) {
                         .self$filter_range()
                         .self$filter_categories()
-                        .self$filter.missingess()
-                        .self$filter.nodata()
+                        .self$filter_missingess()
+                        .self$filter_nodata()
                         .self$apply_filters()
                     }
                     else 
@@ -233,8 +261,8 @@ itemsToDataFrame <- function(ep, items, period_length, freq) {
 #' @param freq numeric cadence in hour. 
 #' @param return_list logical if TRUE return as a list.  
 #' @return data.table
-#' @export selectTable
-selectTable <- function(record, items_opt=NULL, items_obg=NULL, freq,
+#' @export ccd_select_table
+ccd_select_table <- function(record, items_opt=NULL, items_obg=NULL, freq,
                         return_list=FALSE) {
 
     all_items <- c(items_opt, items_obg)

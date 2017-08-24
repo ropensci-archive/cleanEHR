@@ -21,7 +21,7 @@ ccTable$methods(
                 for (c in seq(missconf)) {
                     col_name <- names(missconf[c])
                     colr <- missconf[[c]]
-                    tbq <- selectTable(.self$record, items_opt=i, freq=colr)
+                    tbq <- ccd_select_table(.self$record, items_opt=i, freq=colr)
                     setkey(tbq, episode_id, site)
                     oldnm <- names(.self$dquality[['missingness']])
                     .self$dquality[['missingness']] <- 

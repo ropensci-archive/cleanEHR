@@ -41,7 +41,7 @@ table (tclean)}
 \item{\code{create_table(freq)}}{Create a table contains the selected items in the conf with a given
 frequency (in hour)}
 
-\item{\code{export.csv(file = NULL)}}{Export the cleaned table to a CSV file.}
+\item{\code{export_csv(file = NULL)}}{Export the cleaned table to a CSV file.}
 
 \item{\code{filter_categories()}}{Check individual entries if they are the in the categories specified
 in conf.}
@@ -50,12 +50,12 @@ in conf.}
 
 \item{\code{filter_nodata()}}{Exclude episodes when no data is presented in certain fields}
 
-\item{\code{filter.null(items = c("episode_id", "site"))}}{remove the entire episode when any of the selected items is NULL}
+\item{\code{filter_null(items = c("episode_id", "site"))}}{remove the entire episode when any of the selected items is NULL}
 
 \item{\code{imputation()}}{Filling missing data to a time series data by performing a given imputation
 method on a selected window period nearby the missing data.}
 
-\item{\code{reload.conf(file)}}{reload yaml configuration.}
+\item{\code{reload_conf(file)}}{reload yaml configuration.}
 }}
 \examples{
 rec <- ccRecord()

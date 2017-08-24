@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccTable.R
 \name{create_cctable}
 \alias{create_cctable}
-\title{Convert the ccRecord object which is pre-loaded into a table format.}
+\title{Create a ccTable object}
 \usage{
 create_cctable(rec, conf = NULL, freq = 1)
 }

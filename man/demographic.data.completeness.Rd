@@ -7,7 +7,7 @@
 demographic.data.completeness(demg, names = NULL, return.data = FALSE)
 }
 \arguments{
-\item{demg}{data.table the demographic data table created by sql.demographic.table()}
+\item{demg}{data.table the demographic data table created by ccd_demographic_table()}
 
 \item{names}{short name of selected items}
 

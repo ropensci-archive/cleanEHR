@@ -365,10 +365,11 @@ episode_graph <- function(ep, items=NULL) {
 #' will only display h_rate, spo2, bilirubin, platelets, pao2_fio2, gcs_total. 
 #' @return a table of selected vars of an episode
 #' @exportMethod plot
-#' @example
+#' @examples
 #' \dontrun{
 #' plot(ccd@episodes[[1]]) # plot first episode with default variables. 
 #' plot(ccd@episodes[[1]]) # plot first episode
+#' }
 setGeneric("plot", function(r, v) {
     standardGeneric("plot")
 })

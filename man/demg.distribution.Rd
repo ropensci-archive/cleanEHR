@@ -8,7 +8,7 @@ Create a plot of the distribution of numerical demographic data.}
 demg.distribution(demg, names)
 }
 \arguments{
-\item{demg}{ccRecord or demographic table created by sql.demographic.table()}
+\item{demg}{ccRecord or demographic table created by ccd_demographic_table()}
 
 \item{names}{character vector of short names of numerical demographic data.}
 }

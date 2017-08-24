@@ -20,4 +20,10 @@ Create an individual episode chart for its diagnosis, drugs and physiological
 variables. Diagnosis and drugs are always included, while the user can
 select other longitudinal data.
 }
+\examples{
+\dontrun{
+plot(ccd@episodes[[1]]) # plot first episode with default variables. 
+plot(ccd@episodes[[1]]) # plot first episode
+}
+}
 

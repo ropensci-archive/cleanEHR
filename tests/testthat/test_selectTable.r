@@ -27,7 +27,7 @@ test_that("",{
 
 
 test_that("",{
-    selectTable(ccdt, items_opt="NIHR_HIC_ICU_0108", freq=1)
+    ccd_select_table(ccdt, items_opt="NIHR_HIC_ICU_0108", freq=1)
 })
 
 
@@ -35,7 +35,7 @@ test_that("test if drugs meta data can be re-generated when the drug itself
           is not presented.", {
     # using meropenem 0441 as an example. 
     cr <- pseudoepisode(1, with.meta=FALSE)
-    tb <- selectTable(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
+    tb <- ccd_select_table(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
     expect_true("NIHR_HIC_ICU_0441" %in% names(tb))
     expect_true("NIHR_HIC_ICU_0441.meta" %in% names(tb))
     expect_equivalent(tb$NIHR_HIC_ICU_0441, rep(as.numeric(NA), 20))
@@ -46,7 +46,7 @@ test_that("test if drugs meta data can be re-generated when the drug itself
 test_that("when drug data is presented, to see whether it can be correctly
            loaded", {
     cr <- pseudoepisode(1, with.meta=TRUE)
-    tb <- selectTable(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
+    tb <- ccd_select_table(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
     expect_true("NIHR_HIC_ICU_0441" %in% names(tb))
     expect_true("NIHR_HIC_ICU_0441.meta" %in% names(tb))
     expect_equivalent(tb$NIHR_HIC_ICU_0441, c(seq(10), rep(NA, 10)))
