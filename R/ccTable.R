@@ -206,7 +206,7 @@ ccTable$methods(
                 reset = function() {
                     .self$dfilter <- list()
                     .self$dquality <- list()
-                    .self$tclean <- NULL
+                    .self$tclean <- .self$torigin
                 })
 
 #' Export the clean table as a CSV file
