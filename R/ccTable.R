@@ -184,15 +184,21 @@ ccTable$methods(
 #' Note, this function will also reset all the operations and 
 #' remove the tclean. 
 #' @name ccTable_reload_conf
+#' @param conf full path of the YAML configuration file or the parsed config list. 
 #' @examples 
 #' \dontrun{
-#' tb$reload_conf()
+#' tb$reload_conf("REF.yaml")
 #' }
 NULL
 ccTable$methods(
-                reload_conf = function(file) {
+                reload_conf = function(conf) {
                     "reload yaml configuration."
-                    .self$conf <- yaml.load_file(file)
+                    if (is.character(conf))
+                        .self$conf <- yaml.load_file(conf)
+                    if (!is.list(conf))
+                        stop("conf must be a list or the full path to a YAML file.")
+                    else 
+                        .self$conf <- conf
                     .self$reset()
                 })
 

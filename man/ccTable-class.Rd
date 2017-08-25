@@ -53,7 +53,7 @@ in conf.}
 \item{\code{imputation()}}{Filling missing data to a time series data by performing a given imputation
 method on a selected window period nearby the missing data.}
 
-\item{\code{reload_conf(file)}}{reload yaml configuration.}
+\item{\code{reload_conf(conf)}}{reload yaml configuration.}
 }}
 \examples{
 rec <- ccRecord()

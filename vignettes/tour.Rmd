@@ -2,20 +2,25 @@
 title: "Data cleaning and wrangling with cleanEHR"
 author: David Perez Suarez & Sinan Shi
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Tour}
+  %\VignetteIndexEntry{data cleaning and wrangling with cleanEHR}
   \usepackage[utf8]{inputenc}
+
 ---
 
 
 # Preparation
 ### Load data 
-A sample RData can be found in `doc/sample_ccd.RData`.
+A sample RData can be found in `/doc/sample_ccd.RData`.
 ```{r}
 library(cleanEHR)
 data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
+print(data.path)
 load(data.path)
 ```
 
@@ -38,6 +43,7 @@ lookup.items('heart') # fuzzy search
 +-------------------+--------------+--------------+--------+-------------+
 
 ```
+
 
 # Non-longitudinal Data 
 `ccd_demographic_table()` can generate a `data.table` that contains all the
@@ -62,19 +68,6 @@ ggplot(tb, aes(x=apache_prob, y=ARSD, color=SEX)) + geom_point()
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Longitudinal data 
 ## Longitudinal table structure: `ccTable`
 
@@ -94,7 +87,7 @@ long name (dataItem) to avoid confusion, though the both names will not be
 taken into account in the process. We selected three items, heart rate
 (longitudinal), Systolic arterial blood pressure (longitudinal), and sex
 (non-longitudinal). 
-```{yaml}
+```
 NIHR_HIC_ICU_0108:
   shortName: hrate
 NIHR_HIC_ICU_0112:
@@ -103,6 +96,7 @@ NIHR_HIC_ICU_0112:
 NIHR_HIC_ICU_0093:
    shortName: sex
 ```
+
 ```{r, echo=FALSE}
 # To prepare a YAML configuration file like this. You write the following text
 # in a YAML file. 
@@ -118,6 +112,7 @@ NIHR_HIC_ICU_0093:
 library(yaml)
 conf <- yaml.load(conf)
 ```
+
 ```{r}
 # conf is the full path of the YAML configuration.
 tb <- create_cctable(ccd, conf, freq=1)
@@ -139,7 +134,7 @@ tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=TRUE), by=c("site", "episode_id")]
 ## Data cleaning with `ccTable`
 ### Numerical range filter
 The numerical range filter can only be applied on variables. 
-We envisaged three different cases for the numerical ranges - values that are impossible, e.g. 
+We envisaged three different cases for the numerical ranges -- values that are impossible, e.g. 
 negative heart rate; possible but unlikely, e.g. heart rate of 200; within a normal range. The 
 filter will label all these scenarios using "red", "amber", "green" respectively. The definition 
 of these ranges can be configured by users based on their judgement and the purpose of research. 
@@ -147,7 +142,7 @@ Note, from "red" to "green", the next range must be a subset of the previous ran
 
 In the following section, we would like to apply a range filter to heart rate by modifying the previous 
 YAML configuration file. 
-```{yaml}
+```yaml
 NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -179,6 +174,11 @@ NIHR_HIC_ICU_0112:
   dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
 NIHR_HIC_ICU_0093:
    shortName: sex
+   category:
+      M: male
+      F: female
+      m: male
+      f: female
 "
 conf <- yaml.load(conf)
 ```
@@ -214,46 +214,217 @@ ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) +
 
 
 ### Categorical data filter
-### Missingness filter 
-### Nodata filter
-
-
-
-
-
-To clean the data, one needs to write the specification in the YAML
-configuration file. 
-
-```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-conf <-"
+The purpose of categorical data filter is to remove the unexpected categorical data. 
+We can extend the previous configuration file as such,  
+```
 NIHR_HIC_ICU_0108:
-  shortName: hrate
+  shortName: h_rate
   dataItem: Heart rate
-  distribution: normal
-  decimal_places: 0
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+   category:
+    levels:
+      M: male
+      F: female
+      m: male
+      f: female
+    apply: drop_entry
+```
+```{r, echo=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+   category:
+    levels:
+      M: male
+      F: female
+      m: male
+      f: female
+    apply: drop_entry
+"
+conf <- yaml.load(conf)
+
+# Try to modify the original data
+tb$torigin$NIHR_HIC_ICU_0093[1] <- "ERROR"
+```
+
+```{r}
+tb$reload_conf(conf)  # change configuration file
+tb$filter_categories() 
+tb$apply_filters() 
+```
+There is one error gender introduced in the sex field. After the filtering 
+process, the error entry is substitute by NA. 
+```{r}
+unique(tb$torigin$NIHR_HIC_ICU_0093)
+unique(tb$tclean$NIHR_HIC_ICU_0093)
+```
+
+
+### Missingness filter
+In some cases, we wish to exclude episodes where the data is too scarce. There are 
+three components in the missingness filter. In the following example, we arbitrarily
+name the filter "daily". We gave 24 hours interval and 70% accepting rate. It is to say
+in any 24 hours interval, if the heart rate missing rate is higher than 30%, we will 
+exclude the entire episode. Note, the unit `labels: daily: 24` number of rows instead of 
+hours. It represents 24 hours because the cadence of the `ccTable` is 1 hour.
+
+```
+NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  missingness:
+    labels:
+      daily: 24
+    accept_2d:
+      daily: 70
+    apply: drop_episode
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+```
+
+```{r, echo=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  missingness:
+    labels:
+      daily: 24
+    accept_2d:
+      daily: 70
+    apply: drop_episode
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+"
+conf <- yaml.load(conf)
+```
+
+```{r}
+tb$reload_conf(conf)  # change configuration file
+tb$filter_missingness() 
+tb$apply_filters()
+```
+
+```{r}
+# episodes in the original data table 
+unique(paste(tb$torigin$site, tb$torigin$episode_id))
+# episodes in the cleaned data table
+unique(paste(tb$tclean$site, tb$tclean$episode_id))
+```
+
+### Nodata filter
+Similarly, we can setup the no data filter as following. Here it means, 
+drop the entire episode if no hear rate data is found. 
+
+```
+NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  no_data:
+    apply: drop_episode
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+```
+
+### Run all filters together
+To wrap up, we can put all the above stated filter configurations together in the 
+YAML file and run the filter together. 
+```
+NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
   range:
     labels:
       red: (0, 300)
-      amber: (11, 150)
+      amber: (11, 150]
+      green: (50, 100]
     apply: drop_entry
-  missingness: # remove episode if missingness is higher than 70% in any 24 hours interval 
+  missingness:
     labels:
-      yellow: 24
+      daily: 24
     accept_2d:
-      yellow: 70 
+      daily: 70
     apply: drop_episode
-"
-
-ctb <- create_cctable(ccd, yaml.load(conf), freq=1)
-ctb$filter_range("amber") # apply range filters
-ctb$filter_missingness()
-ctb$apply_filters()
-
-cptb <- rbind(cbind(ctb$torigin, data="origin"), 
-              cbind(ctb$tclean, data="clean"))
-
-
-ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) + 
-  geom_point(size=1.5) + facet_wrap(~episode_id, scales="free_x")
-
+  nodata:
+    apply: drop_episode
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+   category:
+    levels:
+      M: male
+      F: female
+      m: male
+      f: female
+    apply: drop_entry
 ```
+
+```{r, echo=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  range:
+    labels:
+      red: (0, 300)
+      amber: (11, 150]
+      green: (50, 100]
+    apply: drop_entry
+  missingness:
+    labels:
+      daily: 24
+    accept_2d:
+      daily: 70
+    apply: drop_episode
+  nodata:
+    apply: drop_episode
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+   category:
+    levels:
+      M: male
+      F: female
+      m: male
+      f: female
+    apply: drop_entry
+"
+conf <- yaml.load(conf)
+```
+
+
+```{r}
+# Method 1
+tb <- create_cctable(ccd, conf, freq=1)
+tb$filter_range("amber")
+tb$filter_missingness()
+tb$filter_nodata()
+tb$filter_categories()
+tb$apply_filters() 
+
+tb$reset() # reset
+
+# Method 2
+#tb$clean()
+```
+

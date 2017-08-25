@@ -3,13 +3,16 @@
 \name{ccTable_reload_conf}
 \alias{ccTable_reload_conf}
 \title{Reload the YAML configuration file}
+\arguments{
+\item{conf}{full path of the YAML configuration file or the parsed config list.}
+}
 \description{
 Note, this function will also reset all the operations and 
 remove the tclean.
 }
 \examples{
 \dontrun{
-tb$reload_conf()
+tb$reload_conf("REF.yaml")
 }
 }
 
