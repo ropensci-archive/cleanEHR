@@ -69,8 +69,8 @@ devtools::install_github("UCL-HIC/cleanEHR.git")
 ```
 ## Vignette
 
-Check out the [tour](https://cc-hic.github.io/cleanEHR/tour.html) for a basic
-introduction to cleanEHR
+* Introduction to CCHIC critical care data [here](https://cc-hic.github.io/cleanEHR/cchic_overview.html)
+* Data cleaning and wrangling with cleanEHR [here](https://cc-hic.github.io/cleanEHR/data_clean.html)
 
 
 ## How to contribute
