@@ -12,8 +12,7 @@ vignette: >
 
 # Preparation
 ### Load data 
-Usually a RData file which stores all the dataset will be given. A sample RData
-can be found in `/doc/sample_ccd.RData`.
+A sample RData can be found in `doc/sample_ccd.RData`.
 ```{r}
 library(cleanEHR)
 data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
@@ -39,20 +38,14 @@ lookup.items('heart') # fuzzy search
 +-------------------+--------------+--------------+--------+-------------+
 
 ```
-```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-# check the heart rate, bilirubin, and drugs of episode_id = 7. 
-# NOTE: due to anonymisation reason, some episodes data cannot be displayed
-# properly. 
-ccd_episode_graph(ccd, 7, c("h_rate",  "bilirubin"))
-```
 
 # Non-longitudinal Data 
-`demographic.table()` can generate a `data.table` that contains all the
+`ccd_demographic_table()` can generate a `data.table` that contains all the
 non-longitudinal variables. A demonstration of how to do some work on a subset
 of data.  
 ```{r, fig.width=10, fig.height=6, out.width='600px', results='hide', message=FALSE, warning=FALSE}
 # contains all the 1D fields i.e. non-longitudinal
-tb1 <- demographic.table(ccd)
+tb1 <- ccd_demographic_table(ccd)
 
 # filter out all dead patient. (All patients are dead in the dataset.)
 tb1 <- tb1[DIS=="D"]
@@ -68,16 +61,49 @@ ggplot(tb, aes(x=apache_prob, y=ARSD, color=SEX)) + geom_point()
 
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Longitudinal data 
-## Longitudinal structure: `ccTable`
-* 
+## Longitudinal table structure: `ccTable`
 
+To deal with longitudinal data, we need to first to transform it into a table format. 
+cleanEHR provides a refclass `ccTable`. There are several key components in the `ccTable`
+structure. 
 
-To deal with longitudinal data, we need to first to transform it into a long
-table format. 
+* `torigin`: the `ccRecord` dataset will be converted into a table format, where each row is a data point and each column is a field and pivoted by `time`, `site`, and `eipisode_id`. 
+* `tclean`: Same structure like the `torigin` but the values are modified with the cleaning process. 
+* filters: `filter_range`, `filter_categories`, `filter_nodata`, `filter_missingness`.
+* imputation: filling missing data. 
 
 ### Create a `cctable`
-```{r}
+First we need to prepare a simple configuration file. The first level item is
+CCHIC code, see `lookup.items()`.  We suggest users to write the short name and
+long name (dataItem) to avoid confusion, though the both names will not be
+taken into account in the process. We selected three items, heart rate
+(longitudinal), Systolic arterial blood pressure (longitudinal), and sex
+(non-longitudinal). 
+```{yaml}
+NIHR_HIC_ICU_0108:
+  shortName: hrate
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+```
+```{r, echo=FALSE}
 # To prepare a YAML configuration file like this. You write the following text
 # in a YAML file. 
 conf <- "
@@ -90,25 +116,111 @@ NIHR_HIC_ICU_0093:
    shortName: sex
 "
 library(yaml)
-tb <- create_cctable(ccd, yaml.load(conf), freq=1)
-
-# a lazy way to do that. 
-tb <- create_cctable(ccd, list(NIHR_HIC_ICU_0108=list(), 
-                         NIHR_HIC_ICU_0112=list(), 
-                         NIHR_HIC_ICU_0093=list()), 
-                     freq=1)
-print(tb$tclean)
+conf <- yaml.load(conf)
 ```
+```{r}
+# conf is the full path of the YAML configuration.
+tb <- create_cctable(ccd, conf, freq=1)
+print(tb$torigin) # the table
+```
+In this table we can find the following columns, 
 
-### Manipulate on `cctable`
-#### Get the mean heart rate of each patient. 
+* time: number of hours from the unit admission. Since we set the `freq`=1, the cadence between rows is always 1 hour. 
+* site, episode_id: combine these two columns will give you a unique admission.
+* fields: three selected fields. 
+* extra fields: depending on the variable we choose, some extra information are given. 
+
+
+### Get the mean heart rate of each patient. 
 ```{r}
 tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=TRUE), by=c("site", "episode_id")]
 ```
 
-#### model 
+## Data cleaning with `ccTable`
+### Numerical range filter
+The numerical range filter can only be applied on variables. 
+We envisaged three different cases for the numerical ranges - values that are impossible, e.g. 
+negative heart rate; possible but unlikely, e.g. heart rate of 200; within a normal range. The 
+filter will label all these scenarios using "red", "amber", "green" respectively. The definition 
+of these ranges can be configured by users based on their judgement and the purpose of research. 
+Note, from "red" to "green", the next range must be a subset of the previous range.
 
-### Data cleaning
+In the following section, we would like to apply a range filter to heart rate by modifying the previous 
+YAML configuration file. 
+```{yaml}
+NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  range:
+    labels:
+      red: (0, 300) # The following ranges are for demonstration purpose only. 
+      amber: (11, 150] # open/close interval
+      green: (50, 100] 
+    apply: drop_entry
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+```
+
+```{r, echo=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  range:
+    labels:
+      red: (0, 300)
+      amber: (11, 150]
+      green: (50, 100]
+    apply: drop_entry
+NIHR_HIC_ICU_0112:
+  shortName: bp_sys_a
+  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
+NIHR_HIC_ICU_0093:
+   shortName: sex
+"
+conf <- yaml.load(conf)
+```
+
+```{r}
+tb <- create_cctable(ccd, conf, freq=1)
+tb$filter_range("amber") # chose only the entry with amber
+tb$apply_filters() # apply the filter to the clean table
+```
+Now let's see the effect on the cleaned data `tclean`
+
+```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+cptb <- rbind(cbind(tb$torigin, data="origin"), 
+              cbind(tb$tclean, data="clean"))
+
+ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) + 
+  geom_point(size=1.5) + facet_wrap(~episode_id, scales="free_x")
+```
+
+In the case of changing the filter range from amber to green, 
+```{r}
+#tb$reset() # reset the all the filters first.
+tb$filter_range("green")
+tb$apply_filters()
+```
+```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+cptb <- rbind(cbind(tb$torigin, data="origin"), 
+              cbind(tb$tclean, data="clean"))
+
+ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) + 
+  geom_point(size=1.5) + facet_wrap(~episode_id, scales="free_x")
+```
+
+
+### Categorical data filter
+### Missingness filter 
+### Nodata filter
+
+
+
+
+
 To clean the data, one needs to write the specification in the YAML
 configuration file. 
 
@@ -145,9 +257,3 @@ ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) +
   geom_point(size=1.5) + facet_wrap(~episode_id, scales="free_x")
 
 ```
-
-
-* change configuration 
-* imputation 
-* 
-

@@ -38,9 +38,9 @@ data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
 load(data.path)
 
 # Extract all non-longitudinal data (demographic, time, survival status, diagnosis)
-dt <- demographic.table(ccd, dtype=TRUE)
+dt <- ccd_demographic_table(ccd, dtype=TRUE)
 ```
-`demographic.table` function returns a table of all non-time-varying fields alongside with 
+`ccd_demographic_table` function returns a table of all non-time-varying fields alongside with 
 several derived fields -- the fields that are not directly recorded in the original data. 
 Each row of the table is a unique admission, and every column is a non-time-varying data field. 
 
@@ -93,5 +93,5 @@ CCHIC measures 154 longitudinal data. The full list of longitudinal data are sho
 
 We can also easily plot the data from a single selected admission. 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-ccd_episode_graph(ccd, 7, c("h_rate",  "bilirubin", "fluid_balance_d"))
+plot(ccd@episodes[[7]], c("h_rate",  "bilirubin", "fluid_balance_d"))
 ```
