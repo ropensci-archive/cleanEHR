@@ -2,8 +2,8 @@
 # meta data label, and meta data.  Return a list of vectors 
 # contains time.index, datat.index, meta.index,
 # datam.index
-extractIndexTable <- function() {
-    info <- extractInfo()
+extract_index_table <- function() {
+    info <- extract_info()
 
     checklist <- list()
     for(i in seq(info$nontime))
@@ -67,7 +67,7 @@ whichIsCode <- function(nhic) {
 #' @return list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)], 
 #'         nontime [numeric], MAX_NUM_NHIC
 #' @export 
-extractInfo <- function() {
+extract_info <- function() {
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
 

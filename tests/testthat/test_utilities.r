@@ -26,8 +26,8 @@ test_that("ICNARC Conversion",{
 })
 
 test_that("extractIndex table", {
-    expect_true(class(extractIndexTable()) == "list")
-    expect_true(all(unique(unlist(extractIndexTable())) %in% 
+    expect_true(class(extract_index_table()) == "list")
+    expect_true(all(unique(unlist(extract_index_table())) %in% 
                 c("item1d", "time","item2d", "meta")))
 })
 

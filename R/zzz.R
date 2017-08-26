@@ -55,5 +55,5 @@
     assign("tval.dict_code"   , tval.dict_code   , envir=env) 
     assign("tval.dict_stname" , tval.dict_stname , envir=env) 
 
-    assign('checklist', extractIndexTable(), envir=env)
+    assign('checklist', extract_index_table(), envir=env)
 }
