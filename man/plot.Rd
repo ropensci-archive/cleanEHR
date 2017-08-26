@@ -7,7 +7,7 @@
 plot(r, v)
 }
 \arguments{
-\item{r}{ccRecord}
+\item{r}{ccEpisode-class}
 
 \item{v}{short name of longitudinal data. While v is not given, the chart 
 will only display h_rate, spo2, bilirubin, platelets, pao2_fio2, gcs_total.}
@@ -23,7 +23,7 @@ select other longitudinal data.
 \examples{
 \dontrun{
 plot(ccd@episodes[[1]]) # plot first episode with default variables. 
-plot(ccd@episodes[[1]]) # plot first episode
+plot(ccd@episodes[[1]], "h_rate") # plot first episode heart rate
 }
 }
 

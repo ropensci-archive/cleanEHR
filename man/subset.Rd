@@ -2,19 +2,19 @@
 % Please edit documentation in R/ccRecord.R
 \name{subset}
 \alias{subset}
-\title{Subset episodes from the specified XML files.}
+\title{Get a subset of episodes from ccRecord.}
 \usage{
 subset(r, f)
 }
 \arguments{
-\item{ccd}{ccRecord object}
+\item{r}{ccRecord-class}
 
-\item{files}{character a vector of XML file names - see ccRecord: parse_file}
+\item{f}{character a vector of XML file names - see ccRecord: parse_file}
 }
 \value{
-ccRecord object
+ccRecord-class
 }
 \description{
-Subset episodes from the specified XML files.
+Get a subset of episodes from ccRecord.
 }
 

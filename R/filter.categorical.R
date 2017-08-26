@@ -23,7 +23,7 @@ ccTable$methods(
 #'
 #' Categorical variables only allow a set of values to appear in the variable
 #' . Due to various reasons, a categorical variable may contain values that are not 
-#' standard. The allowed values can be set in the YAML configuration while initilising 
+#' standard. The allowed values can be set in the YAML configuration while initialising 
 #' the ccTable (see ccTable-class, create_cctable).  
 #' In the following example, we can see how to set up the categorical filter 
 #' for the variable dead_icu (NIHR_HIC_ICU_0097) which only allows its value to 

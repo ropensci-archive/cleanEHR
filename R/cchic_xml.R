@@ -20,7 +20,7 @@ xmlEpisodeToList <- function(episode_node) {
             return()
         }
 
-        num.children = xmlSize(node)  
+        num.children <- xmlSize(node)  
         if(num.children == 0 ) {
             label <- xmlName(xmlParent(node))
             if (is.null(.which.type(label))) {

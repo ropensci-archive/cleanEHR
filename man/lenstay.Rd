@@ -7,7 +7,7 @@
 lenstay(demg, units = "hours")
 }
 \arguments{
-\item{demg}{data.table the demograhic table which should at least contain
+\item{demg}{data.table the demographic table which should at least contain
 column DAICU and DDICU}
 
 \item{units}{character The unit of lenstay column, by default the output will be in hours}

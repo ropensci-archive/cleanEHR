@@ -10,21 +10,20 @@
 #' @param site a vector of the site ids for the site specified report. 
 #' @param pdf logical create the pdf version of the DQ report, 
 #' otherwise stay in markdown format
-#' @param file charcter a list of XML file origins. 
+#' @param file character a list of XML file origins. 
 #' @param out character output path
 #' @export data.quality.report
+#' @importFrom pander pander panderOptions
+#' @importFrom knitr knit
 #' @examples 
 #' \dontrun{data.quality.report(ccd, c("Q70", "C90"))}
-#' @import knitr
-#' @import pander
-#' @import ggplot2
 data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=TRUE, out="report") {
 #    if (is.null(site) & is.null(file))  dbfull <- "YES"
 #    else dbfull <- "NO"
     
     stopifnot(!(!is.null(site) & !is.null(file)))
     if (!is.null(site)) ccd <- ccd[site]
-    if (!is.null(file)) ccd <- ccRecord_subset_files(ccd, file)
+    if (!is.null(file)) ccd <- subset(ccd, file)
     
  
     if (dir.exists(out)) {
@@ -37,6 +36,7 @@ data.quality.report <- function(ccd, site=NULL, file=NULL, pdf=TRUE, out="report
     file.copy(dir(rptpath, full.names=TRUE), out, recursive=TRUE)
 
     write.report <- function() {
+        on.exit(setwd(wd))
         setwd(out)
         dqpath <- "data_quality_report.Rmd"
         headerpath <- "listings-setup.tex"
@@ -120,6 +120,8 @@ file.summary <- function(ccd) {
 #' Plot the XML duration in terms of sites. 
 #'
 #' @param ccd ccRecord-class
+#' @importFrom ggplot2 ggplot aes_string geom_segment annotate scale_x_datetime theme ggtitle xlab ylab geom_line geom_point facet_wrap facet_grid geom_vline scale_colour_manual element_text labs 
+#' @importFrom ggplot2 geom_density element_blank
 #' @export xml.site.duration.plot
 xml.site.duration.plot <- function(ccd) {
     tb <- copy(ccd@infotb)
@@ -198,7 +200,7 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     demg <- copy(demg)
     demg[, "index":=NULL]
     if (!is.null(names))
-        demg <- demg[, names, with=F]
+        demg <- demg[, names, with=FALSE]
 
     cmplt <- apply(demg, 2, function(x) length(which(!(x=="NULL" | is.na(x)))))
     cmplt <- data.frame(cmplt)
@@ -234,7 +236,7 @@ demographic.data.completeness <- function(demg, names=NULL, return.data=FALSE) {
     
     if (return.data)
         return(cmplt)
-    pander(as.data.frame(cmplt), style="rmarkdown", justify = c('left', 'center', "center",
+    pander::pander(as.data.frame(cmplt), style="rmarkdown", justify = c('left', 'center', "center",
                                                  "center", 'left'))
 }
 
@@ -261,7 +263,7 @@ samplerate2d <- function(cctb) {
     names(sample.rate.table) <- c("Item", "NHIC Code (NIHR_HIC_ICU_xxxx)", 
                                   "Sample Period (hour)")
 
-    pander(as.data.frame(sample.rate.table), style="rmarkdown")
+    pander::pander(as.data.frame(sample.rate.table), style="rmarkdown")
 }
 
 
@@ -292,7 +294,7 @@ total.data.point <- function(ccd) {
 #' @return if return.data is TRUE, return data.table
 #' @export table1
 table1 <- function(demg, names, return.data=FALSE) {
-    panderOptions('knitr.auto.asis', FALSE)
+    pander::panderOptions('knitr.auto.asis', FALSE)
 
     if (!return.data)
         cat(paste("\n## Table ONE\n"))
@@ -322,13 +324,13 @@ table1 <- function(demg, names, return.data=FALSE) {
         if (return.data)
             return(tb)
         else 
-            pander(as.data.frame(tb), style="rmarkdown")
+            pander::pander(as.data.frame(tb), style="rmarkdown")
     }
 
     for (i in names)
         table1.item(demg, i)
 
-    panderOptions('knitr.auto.asis', TRUE)
+    pander::panderOptions('knitr.auto.asis', TRUE)
 }
 
 

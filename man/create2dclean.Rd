@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccTable.R
 \name{create2dclean}
 \alias{create2dclean}
-\title{Create a 2D wide clean table - low memory}
+\title{Clean table - low memory}
 \usage{
 create2dclean(record, config, freq = 1, nchunks = 1)
 }

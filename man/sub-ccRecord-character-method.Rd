@@ -3,7 +3,7 @@
 \docType{methods}
 \name{[,ccRecord,character-method}
 \alias{[,ccRecord,character-method}
-\title{Create a ccRecord subset via selected sites.}
+\title{Create a ccRecord subsetting via selected sites.}
 \usage{
 \S4method{[}{ccRecord,character}(x, i)
 }
@@ -13,6 +13,6 @@
 \item{i}{character vector which contains site_ids, e.g. c("Q70", "Q70W")}
 }
 \description{
-Create a ccRecord subset via selected sites.
+Create a ccRecord subsetting via selected sites.
 }
 

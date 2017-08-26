@@ -8,9 +8,9 @@
 \S4method{+}{ccRecord,list}(e1, e2)
 }
 \arguments{
-\item{rec}{ccRecord}
+\item{e1}{ccRecord}
 
-\item{lst}{a list of ccEpisode objects}
+\item{e2}{a list of ccEpisode objects}
 }
 \value{
 ccRecord

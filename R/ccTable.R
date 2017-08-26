@@ -17,7 +17,7 @@
 #' @include ccRecord.R
 #' @examples
 #' rec <- ccRecord()
-#' cctable <- create.cctable(rec, freq=1)
+#' cctable <- create_cctable(rec, freq=1)
 #' cctable <- cctable$clean()
 #' #table <- cctable$tclean 
 #' @exportClass ccTable
@@ -279,12 +279,12 @@ itemsToDataFrame <- function(ep, items, period_length, freq) {
     return(listmatrix)
 }
 
-#' Create wide table from ccRecord
+#' Create the table for ccTable from ccRecord
 #' 
 #' @param record ccRecord
 #' @param items_opt character vectors. Items (HIC code) selected in item_opt are optional items, which will be automatically 
 #' filled when item is missing. 
-#' @param items_obg obligatory items that is obligatory; Any episode that doesn't contain
+#' @param items_obg obligatory items that is obligatory; Any episode that does not contain
 #' item in this vector will be removed.
 #' @param freq numeric cadence in hour. 
 #' @param return_list logical if TRUE return as a list.  
@@ -345,7 +345,7 @@ ccd_select_table <- function(record, items_opt=NULL, items_obg=NULL, freq,
     return(dt)
 }
 
-#' Create a 2D wide clean table - low memory
+#' Clean table - low memory
 #' 
 #' The cleaning process is specified by the YAML configuration. All the filters
 #' presented in the configuration will be applied. It returns only the cleaned
@@ -361,7 +361,7 @@ ccd_select_table <- function(record, items_opt=NULL, items_obg=NULL, freq,
 #' @export create2dclean
 create2dclean <- function(record, config, freq=1, nchunks=1) {
     .create2dclean <- function(record, config, freq) {
-        dt.sofa <- create.cctable(rec=record, conf=config, freq=freq)
+        dt.sofa <- create_cctable(rec=record, conf=config, freq=freq)
         dt.sofa$filter_range()
         dt.sofa$filter_categories()
         dt.sofa$filter_missingness()

@@ -8,8 +8,16 @@ NULL
 
 #' ICNARC diagnosis reference table 
 #'
-#' @name icnarc
+#' @name icnarc_table
 #' @references \url{https://www.icnarc.org/Our-Audit/Audits/Cmp/Resources/Icm-Icnarc-Coding-Method}
+#' @docType data
+#' @keywords data
+NULL
+
+
+#' Field reference table
+#' 
+#' @name ITEM_REF
 #' @docType data
 #' @keywords data
 NULL

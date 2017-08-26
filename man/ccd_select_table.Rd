@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccTable.R
 \name{ccd_select_table}
 \alias{ccd_select_table}
-\title{Create wide table from ccRecord}
+\title{Create the table for ccTable from ccRecord}
 \usage{
 ccd_select_table(record, items_opt = NULL, items_obg = NULL, freq,
   return_list = FALSE)
@@ -13,7 +13,7 @@ ccd_select_table(record, items_opt = NULL, items_obg = NULL, freq,
 \item{items_opt}{character vectors. Items (HIC code) selected in item_opt are optional items, which will be automatically 
 filled when item is missing.}
 
-\item{items_obg}{obligatory items that is obligatory; Any episode that doesn't contain
+\item{items_obg}{obligatory items that is obligatory; Any episode that does not contain
 item in this vector will be removed.}
 
 \item{freq}{numeric cadence in hour.}
@@ -24,6 +24,6 @@ item in this vector will be removed.}
 data.table
 }
 \description{
-Create wide table from ccRecord
+Create the table for ccTable from ccRecord
 }
 

@@ -5,7 +5,7 @@
     #ccd_ <<- ccRecord()
     #ccd_ <<- ccd_ + ccd[2, 1] + ccd[3, 1]
 
-    load("../../inst/doc/sample_ccd.RData")
+    load("../data/sample_ccd.RData")
     tb <<- create_cctable(ccd, "../data/ANALYSIS_REF.yaml", 1)
     rm("ccd")
     ccd <<- xml2Data("../data/test_data_anonym.xml")

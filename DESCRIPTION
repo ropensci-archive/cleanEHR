@@ -1,31 +1,31 @@
 Package: cleanEHR
 Type: Package
 Title: The Critical Care Clinical Data Processing Tools
-Version: 0.1
+Version: 0.2
 Author: Sinan Shi, David Perez-Suarez, Steve Harris, Niall MacCallum, David
     Brealey, Mervyn Singer, James Hetherington
 Maintainer: Sinan Shi <s.shi@ucl.ac.uk>
-Description: A toolset to deal with the Critical Care Health Informatics
+Description: A tool set to deal with the Critical Care Health Informatics
     Collaborative dataset. It is created to address various data reliability and
-    accessibility problems of electronic healthcare records (EHR). It provides a
+    accessibility problems of electronic health care records (EHR). It provides a
     unique platform which enables data manipulation, transformation, reduction,
     anonymisation, cleaning and validation.
 Depends:
-    R (>= 3.1.0)
-BugReports: http://github.com/cleanEHR/issues
+    R (>= 3.1.0) 
+BugReports: https://github.com/CC-HIC/cleanEHR/issues
 License: GPL-3
 LinkingTo: Rcpp
 Suggests:
-    testthat,
+    testthat
 Imports:
     data.table,
     XML,
     yaml,
     Rcpp,
-    methods,
-    stats,
-    utils,
-    pander
+    ggplot2, 
+    methods, 
+    pander,
+    knitr
 VignetteBuilder: knitr
 URL: https://github.com/CC-HIC/cleanEHR, http://www.hic.nihr.ac.uk
 RoxygenNote: 5.0.1

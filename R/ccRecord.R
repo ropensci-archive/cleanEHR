@@ -117,8 +117,8 @@ index.record <- function(rec) {
 #' @description Adding a list of one or multiple ccEpisode objects to a
 #' ccRecord object, the information table (infotb) will be updated automatically.
 #' It is the more efficient way to add multiple ccEpisode objects.
-#' @param rec ccRecord
-#' @param lst a list of ccEpisode objects
+#' @param e1 ccRecord
+#' @param e2 a list of ccEpisode objects
 #' @return ccRecord
 #' @exportMethod +
 setMethod('+', c("ccRecord", "list"), 
@@ -195,7 +195,7 @@ new.episode <- function(lt=list(),
     slot.name <- c("t_admission", "t_discharge")
     for (i in seq(slot.name)) 
         slot(eps, slot.name[i]) <-
-            as.POSIXct(xmlTime2POSIX(lt[[stname2code(short.name[i])]], allow=T))
+            as.POSIXct(xmlTime2POSIX(lt[[stname2code(short.name[i])]], allow=TRUE))
 
     eps@parse_file <- parse_file
     eps@parse_time <- parse_time 
@@ -212,7 +212,7 @@ for_each_episode <- function(record, fun) {
 }
 
 
-#' Subseting a ccRecord object and return a list of ccEpisode objects.
+#' Subsetting a ccRecord object and return a list of ccEpisode objects.
 #' 
 #' @param x ccRecord-class
 #' @param i integer vector
@@ -241,7 +241,7 @@ setMethod("[", "ccRecord",
               ccRecord() + eplst
           })
 
-#' Create a ccRecord subset via selected sites.
+#' Create a ccRecord subsetting via selected sites.
 #'
 #' @param x ccRecord-class
 #' @param i character vector which contains site_ids, e.g. c("Q70", "Q70W")
@@ -260,17 +260,22 @@ setMethod("[", signature(x="ccRecord", i="character"),
               ccRecord() + eplst
           })
 
-#' Subset episodes from the specified XML files. 
+#' Get a subset of episodes from ccRecord. 
 #' 
-#' @param ccd ccRecord object
-#' @param files character a vector of XML file names - see ccRecord: parse_file 
-#' @return ccRecord object 
+#' @param r ccRecord-class 
+#' @param f character a vector of XML file names - see ccRecord: parse_file 
+#' @return ccRecord-class
 #' @exportMethod subset
 setGeneric("subset", function(r, f) {
     standardGeneric("subset")
 })
 
 
+#' Get a subset of episodes that have the same from ccRecord . 
+#' 
+#' @param r ccRecord-class
+#' @param f character a vector of XML file names - see ccRecord: parse_file 
+#' @return ccRecord object 
 setMethod("subset", signature(r="ccRecord", f="character"), 
 function(r, f) {
     ind <- r@infotb[r@infotb$parse_file %in% f]$index
@@ -360,7 +365,7 @@ episode_graph <- function(ep, items=NULL) {
 #' Create an individual episode chart for its diagnosis, drugs and physiological
 #' variables. Diagnosis and drugs are always included, while the user can
 #' select other longitudinal data. 
-#' @param r ccRecord
+#' @param r ccEpisode-class
 #' @param v short name of longitudinal data. While v is not given, the chart 
 #' will only display h_rate, spo2, bilirubin, platelets, pao2_fio2, gcs_total. 
 #' @return a table of selected vars of an episode
@@ -368,19 +373,25 @@ episode_graph <- function(ep, items=NULL) {
 #' @examples
 #' \dontrun{
 #' plot(ccd@episodes[[1]]) # plot first episode with default variables. 
-#' plot(ccd@episodes[[1]]) # plot first episode
+#' plot(ccd@episodes[[1]], "h_rate") # plot first episode heart rate
 #' }
 setGeneric("plot", function(r, v) {
     standardGeneric("plot")
 })
 
-
+#' Episode chart
+#' 
+#' @param r ccEpisode-class
+#' @param v character 
 setMethod("plot", signature(r="ccEpisode", v="character"), 
 function(r, v){
     episode_graph(r, v)
 })
 
 
+#' Episode chart default fields
+#' 
+#' @param r ccEpisode-class
 setMethod("plot", signature(r="ccEpisode", v="missing"), 
 function(r) {
     episode_graph(r)

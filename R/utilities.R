@@ -9,7 +9,7 @@ extractIndexTable <- function() {
     for(i in seq(info$nontime))
         checklist[[info$nontime[i]]] <- "item1d"
     for(i in seq(info$time$idt))
-        checklist[[info$time$idt[i]]] <-"time"
+        checklist[[info$time$idt[i]]] <- "time"
     for(i in seq(info$time$id))
         checklist[[info$time$id[i]]] <- "item2d"
     for(i in seq(info$meta$meta))
@@ -46,7 +46,7 @@ extractIndexTable <- function() {
                      'date/time' = as.character, # They are hashed for now
                      'list / logical' = as.character) # what are they?
 
-  datatype = ITEM_REF[[id]]$Datatype
+  datatype <- ITEM_REF[[id]]$Datatype
   if (!is.null(datatype)){
     if (exists(datatype, operations)){
       return(operations[[datatype]])

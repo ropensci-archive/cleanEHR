@@ -41,7 +41,7 @@ ccd_demographic_table <- function(record, dtype=TRUE) {
 #'
 #' Calculate the length of stay in the ICU and append it to the original demographic
 #' table. 
-#' @param demg data.table the demograhic table which should at least contain
+#' @param demg data.table the demographic table which should at least contain
 #' column DAICU and DDICU
 #' @param units character The unit of lenstay column, by default the output will be in hours 
 #' @return data.table It is the original data.table with lenstay column (in 
@@ -66,7 +66,7 @@ ccd_unique_spell <- function(rec, duration=2) {
         zeroday <- 0
         if (length(sd[[1]]) == 1)
             return(zeroday)
-        dic <- sd$t_discharge[1:length(sd$t_discharge)-1]
+        dic <- sd$t_discharge[seq(length(sd$t_discharge)-1)]
         adm <- sd$t_admission[2:length(sd$t_admission)]
       
         # 0 is a mark of first episode. In order to differentiate, I added 1e-7 to all 
