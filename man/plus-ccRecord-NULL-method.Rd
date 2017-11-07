@@ -3,7 +3,7 @@
 \docType{methods}
 \name{+,ccRecord,NULL-method}
 \alias{+,ccRecord,NULL-method}
-\title{Adding nothing to a ccRecord object.}
+\title{Adding nothing to a ccRecord object and return the original ccRecord}
 \usage{
 \S4method{+}{ccRecord,`NULL`}(e1, e2)
 }
@@ -13,6 +13,6 @@
 \item{e2}{NULL}
 }
 \description{
-Adding nothing to a ccRecord object.
+Adding nothing to a ccRecord object and return the original ccRecord
 }
 

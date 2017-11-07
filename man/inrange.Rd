@@ -12,7 +12,7 @@ inrange(v, range)
 \item{range}{A string contains the numeric ranges in a form such as (low,
 up) for open range and [low, up] for close range. Multiple
 ranges should be separated by semi-columns which is equivalent to logical
-OR. e.g. (low1, up1); (low2, up2)}
+OR e.g. (low1, up1); (low2, up2)}
 }
 \description{
 Check if the values of a vector v is in the given ranges.

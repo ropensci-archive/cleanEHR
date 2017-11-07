@@ -33,15 +33,12 @@ NIHR_HIC_ICU_0073:
   shortName: nhs_id
   dataItem: NHS number
 # - [ ] NOTE(2016-07-17): these are automatically imported and will cause duplicate problems if re-imported
-# NIHR_HIC_ICU_0002:
-#   shortName: site_id
-#   dataItem: ICNARC CMP number
-#   distribution: nominal
-#   nodata:
-#    apply: drop_episode
-# NIHR_HIC_ICU_0005:
-#   shortName: episode_id
-#   dataItem: Critical care local identifier / ICNARC admission number
+NIHR_HIC_ICU_0002:
+   shortName: site_id
+   dataItem: ICNARC CMP number
+   distribution: nominal
+   nodata:
+     apply: drop_episode
 NIHR_HIC_ICU_0108:
   shortName: hrate
   dataItem: Heart rate

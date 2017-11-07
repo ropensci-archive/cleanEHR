@@ -1,14 +1,14 @@
 #' @import XML
 #' @import data.table
 #' @import yaml
-#' @import Rcpp
+#' @importFrom Rcpp evalCpp
 NULL
 
 
-#' The S3 class which holds all the CCHIC patient record - served as a database.
+#' The S4 class which holds all the CCHIC patient record - served as a database.
 #'
-#' @description  ccRecord is a class to hold the raw episode data parsed directly from XML or
-#' CSV files.
+#' @description  ccRecord is a class to hold the raw episode data parsed directly 
+#' from XML or CSV files.
 #' @field nepisodes is an integer number indicates the total number of episode
 #'       the record is holding.
 #' @field dmgtb a data.table containing all the demographic information of each
@@ -47,7 +47,7 @@ ccRecord <- setClass("ccRecord",
                                           infotb=data.table(), 
                                           dmgtb=data.table()))
 
-#' The S3 class which holds data of a single episode. 
+#' The S4 class which holds data of a single episode. 
 #' 
 #' @field site_id character string. Site ID, if presented, otherwise "NA".
 #' @field episode_id character string. Episode ID, if presented, otherwise "NA".
@@ -79,79 +79,6 @@ ccEpisode <- setClass("ccEpisode",
                                            parse_file="NA",
                                            parse_time=as.POSIXct(NA),
                                            data=list()))
-
-
-#' Adding one ccEpisode object to ccRecord object.
-#'
-#' @param rec ccRecord-class
-#' @param episode ccEpisode-class 
-#' @return ccRecord object
-add.episode.to.record <- function(rec, episode) {
-    rec@episodes[[length(rec@episodes) + 1]] <- episode
-    index.record(rec)
-}
-
-#' Adding a list of ccEpisode to ccRecord
-#' 
-#' @description Adding a list of one or multiple ccEpisode objects to a
-#' ccRecord object, the information table (infotb) will be updated automatically.
-#' It is the more efficient way to add multiple ccEpisode objects. See
-#' add.episode.to.record() for just adding one ccEpisode. 
-#' @param rec ccRecord
-#' @param lst a list of ccEpisode objects
-#' @return ccRecord
-add.episode.list.to.record <- function(rec, lst) {
-    for(i in seq(length(lst)))
-        rec@episodes[[length(rec@episodes) + 1]] <- lst[[i]]
-    index.record(rec)
-}
-
-#' Combine two ccRecord objects
-#'
-#' Combine two ccRecord objects and re-calculate the infortb
-#' 
-#' @param rec1 ccRecord object
-#' @param rec2 ccRecord object
-#' @return ccRecord object
-add.record.to.record <- function(rec1, rec2) {
-    rec1@episodes <- append(rec1@episodes, rec2@episodes)
-    index.record(rec1)
-}
-
-
-#' Adding a list of ccEpisode objects to a ccRecord 
-#' 
-#' @param e1 ccRecord-class
-#' @param e2 A list of ccEpisode objects 
-#' @return ccRecord-class 
-setMethod('+', c("ccRecord", "list"), 
-          function(e1, e2) {add.episode.list.to.record(e1, e2)}
-          )
-
-#' Adding one ccEpisode object to a ccRecord 
-#' 
-#' @param e1 ccRecord-class
-#' @param e2 ccEpisode-class
-#' @return ccRecord-class 
-setMethod('+', c("ccRecord", "ccEpisode"), 
-          function(e1, e2) {add.episode.to.record(e1, e2)})
-
-#' Combine two ccRecord objects 
-#' 
-#' @param e1 ccRecord-class
-#' @param e2 ccRecord-class
-#' @return ccRecord-class
-setMethod('+', c("ccRecord", "ccRecord"), 
-          function(e1, e2) {add.record.to.record(e1, e2)}
-          )
-
-#' Adding nothing to a ccRecord object.
-#' 
-#' @param e1 ccRecord-class 
-#' @param e2 NULL 
-setMethod('+', c("ccRecord", "NULL"), 
-          function(e1, e2) return(e1))
-
 
 index.record <- function(rec) {
     retrieve_all <- function(x) {
@@ -185,6 +112,53 @@ index.record <- function(rec) {
     rec
 }
 
+#' Adding a list of ccEpisode to ccRecord
+#' 
+#' @description Adding a list of one or multiple ccEpisode objects to a
+#' ccRecord object, the information table (infotb) will be updated automatically.
+#' It is the more efficient way to add multiple ccEpisode objects.
+#' @param e1 ccRecord
+#' @param e2 a list of ccEpisode objects
+#' @return ccRecord
+#' @exportMethod +
+setMethod('+', c("ccRecord", "list"), 
+          function(e1, e2) {
+              for(i in seq(length(e2)))
+                  e1@episodes[[length(e1@episodes) + 1]] <- e2[[i]]
+              index.record(e1)
+         
+          
+          })
+
+#' Adding one ccEpisode object to a ccRecord 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 ccEpisode-class
+#' @return ccRecord-class 
+setMethod('+', c("ccRecord", "ccEpisode"), 
+          function(e1, e2) {
+              e1@episodes[[length(e1@episodes) + 1]] <- e2
+              index.record(e1)
+          })
+
+#' Combine two ccRecord objects 
+#' 
+#' @param e1 ccRecord-class
+#' @param e2 ccRecord-class
+#' @return ccRecord-class
+setMethod('+', c("ccRecord", "ccRecord"), 
+          function(e1, e2) {
+              e1@episodes <- append(e1@episodes, e2@episodes)
+              index.record(e1)
+          })
+
+#' Adding nothing to a ccRecord object and return the original ccRecord
+#' 
+#' @param e1 ccRecord-class 
+#' @param e2 NULL 
+setMethod('+', c("ccRecord", "NULL"), 
+          function(e1, e2) return(e1))
+
 
 #' Create a new episode
 #' 
@@ -202,7 +176,9 @@ index.record <- function(rec) {
 #' new.episode(eps)
 #' 
 #' @export 
-new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) { 
+new.episode <- function(lt=list(), 
+                        parse_file="NA", 
+                        parse_time=as.POSIXct(NA)) { 
     eps <- ccEpisode()
     eps@data <- lt
     
@@ -219,7 +195,7 @@ new.episode <- function(lt=list(), parse_file="NA", parse_time=as.POSIXct(NA)) {
     slot.name <- c("t_admission", "t_discharge")
     for (i in seq(slot.name)) 
         slot(eps, slot.name[i]) <-
-            as.POSIXct(xmlTime2POSIX(lt[[stname2code(short.name[i])]], allow=T))
+            as.POSIXct(xmlTime2POSIX(lt[[stname2code(short.name[i])]], allow=TRUE))
 
     eps@parse_file <- parse_file
     eps@parse_time <- parse_time 
@@ -236,7 +212,7 @@ for_each_episode <- function(record, fun) {
 }
 
 
-#' Subseting a ccRecord object and return a list of ccEpisode objects.
+#' Subsetting a ccRecord object and return a list of ccEpisode objects.
 #' 
 #' @param x ccRecord-class
 #' @param i integer vector
@@ -265,7 +241,7 @@ setMethod("[", "ccRecord",
               ccRecord() + eplst
           })
 
-#' Create a ccRecord subset via selected sites.
+#' Create a ccRecord subsetting via selected sites.
 #'
 #' @param x ccRecord-class
 #' @param i character vector which contains site_ids, e.g. c("Q70", "Q70W")
@@ -284,21 +260,139 @@ setMethod("[", signature(x="ccRecord", i="character"),
               ccRecord() + eplst
           })
 
-
-#' Subset episodes from the specified XML files. 
+#' Get a subset of episodes from ccRecord. 
 #' 
-#' @param ccd ccRecord object
-#' @param files character a vector of XML file names - see ccRecord: parse_file 
+#' @param r ccRecord-class 
+#' @param f character a vector of XML file names - see ccRecord: parse_file 
+#' @return ccRecord-class
+#' @exportMethod subset
+setGeneric("subset", function(r, f) {
+    standardGeneric("subset")
+})
+
+
+#' Get a subset of episodes that have the same from ccRecord . 
+#' 
+#' @param r ccRecord-class
+#' @param f character a vector of XML file names - see ccRecord: parse_file 
 #' @return ccRecord object 
-#' @export ccRecord_subset_files
-ccRecord_subset_files <- function(ccd, files) {
-    ind <- ccd@infotb[ccd@infotb$parse_file %in% files]$index
+setMethod("subset", signature(r="ccRecord", f="character"), 
+function(r, f) {
+    ind <- r@infotb[r@infotb$parse_file %in% f]$index
     if (length(ind) == 0) {
         return(ccRecord())
     }
     eplst <- list()
     for (ep in ind) {
-        eplst[[length(eplst) + 1]] <- ccd@episodes[[ep]]
+        eplst[[length(eplst) + 1]] <- r@episodes[[ep]]
     }
     ccRecord() + eplst
+})
+
+episode_graph <- function(ep, items=NULL) {
+    t_ad <- ep@t_admission
+    t_dc <- ep@t_discharge
+
+
+    if (is.null(items))
+        items <- c("h_rate", "spo2", "bilirubin", "platelets", "pao2_fio2", "gcs_total")
+
+    all.drugs <- names(which(class.dict_code[names(ITEM_REF)] == "Drugs"))
+    used.drugs <- code2stname(all.drugs[all.drugs %in% names(ep@data)])
+
+    classification.dictionary <- sapply(ITEM_REF, function(x) x$Classification1)
+
+
+    create.long.table <- function(ep, items) {
+        items <- data.table(items=items, 
+                            code=stname2code(items),
+                            longname=stname2longname(items),
+                            class=classification.dictionary[stname2code(items)])
+        units <- unit.dict[items$code]
+        units[is.na(units)] <- ""
+        items$longname <- paste0(items$longname, "\n", units)
+
+        ltb <- list()
+        for (i in seq(nrow(items))) {
+            if (is.null(ep@data[[items[i]$code]]))
+                ltb[[i]] <- data.frame()
+            else
+                ltb[[i]] <- data.frame(ep@data[[items[i]$code]], 
+                                       item=items[i]$longname)
+        }
+        ltb <- rbindlist(ltb, use.names=TRUE, fill=TRUE)
+        if (is.numeric(ltb$time))
+            ltb$time <- t_ad + ltb$time * 60 * 60
+        ltb$item2d <- as.numeric(ltb$item2d)
+        return(ltb)
+    }
+
+    physio.tb <- create.long.table(ep, items)
+    physio.tb <- data.frame(physio.tb, 
+                            catg1=physio.tb$item, 
+                            catg2="Physiology Data")
+    drug.tb <- create.long.table(ep, used.drugs)
+
+    drug.tb <- data.frame(drug.tb, catg1="Drugs", 
+                          catg2=drug.tb$item)
+
+
+    tb <- rbindlist(list(physio.tb, drug.tb), fill=TRUE, use.names=TRUE)
+
+
+    ggp <- ggplot(tb, aes_string(x="time", y="item2d", group="item",
+                                 colour="catg2")) + geom_line(colour="#1E506C") + 
+        geom_point(size=1) + 
+        facet_grid(catg1 ~., scales="free_y") + 
+        geom_vline(xintercept = as.numeric(t_ad), colour="#D1746F") + 
+        geom_vline(xintercept = as.numeric(t_dc), colour="#D1746F") + 
+        scale_colour_manual(values=c("#1E506C", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#FFFFFF"), 
+                            name=paste0(ep@episode_id, "_", ep@site_id, "\n", 
+                                       icnarc2diagnosis(ep@data[[stname2code('RAICU1')]]), "\n\n")) +  
+        theme(legend.title = element_text(size=8), 
+              legend.text  = element_text(size=8)) +
+                            labs(x="", y="")
+
+
+
+    graphics::plot(ggp)
+    #"#1E506C""#D1746F"
+    invisible(tb)
 }
+
+#' Individual episode chart
+#' 
+#' Create an individual episode chart for its diagnosis, drugs and physiological
+#' variables. Diagnosis and drugs are always included, while the user can
+#' select other longitudinal data. 
+#' @param r ccEpisode-class
+#' @param v short name of longitudinal data. While v is not given, the chart 
+#' will only display h_rate, spo2, bilirubin, platelets, pao2_fio2, gcs_total. 
+#' @return a table of selected vars of an episode
+#' @exportMethod plot
+#' @examples
+#' \dontrun{
+#' plot(ccd@episodes[[1]]) # plot first episode with default variables. 
+#' plot(ccd@episodes[[1]], "h_rate") # plot first episode heart rate
+#' }
+setGeneric("plot", function(r, v) {
+    standardGeneric("plot")
+})
+
+#' Episode chart
+#' 
+#' @param r ccEpisode-class
+#' @param v character 
+setMethod("plot", signature(r="ccEpisode", v="character"), 
+function(r, v){
+    episode_graph(r, v)
+})
+
+
+#' Episode chart default fields
+#' 
+#' @param r ccEpisode-class
+setMethod("plot", signature(r="ccEpisode", v="missing"), 
+function(r) {
+    episode_graph(r)
+})

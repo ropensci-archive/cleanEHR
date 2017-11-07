@@ -1,26 +1,15 @@
-#' This a reference table of NHIC data items. 
-#'
-#' @name data.checklist
-#' @docType data
-#' @author Sinan Shi \email{s.shi@ucl.ac.uk}
-#' @keywords data
-NULL
-
-
-
-
-#' get indexing tables for time label, time-wise value, meta data label, and
-#' meta data.  
-#' @return list of vectors contains time.index, datat.index, meta.index,
-#'          datam.index
-extractIndexTable <- function() {
-    info <- extractInfo()
+# get indexing tables for time label, time-wise value, 
+# meta data label, and meta data.  Return a list of vectors 
+# contains time.index, datat.index, meta.index,
+# datam.index
+extract_index_table <- function() {
+    info <- extract_info()
 
     checklist <- list()
     for(i in seq(info$nontime))
         checklist[[info$nontime[i]]] <- "item1d"
     for(i in seq(info$time$idt))
-        checklist[[info$time$idt[i]]] <-"time"
+        checklist[[info$time$idt[i]]] <- "time"
     for(i in seq(info$time$id))
         checklist[[info$time$id[i]]] <- "item2d"
     for(i in seq(info$meta$meta))
@@ -57,7 +46,7 @@ extractIndexTable <- function() {
                      'date/time' = as.character, # They are hashed for now
                      'list / logical' = as.character) # what are they?
 
-  datatype = ITEM_REF[[id]]$Datatype
+  datatype <- ITEM_REF[[id]]$Datatype
   if (!is.null(datatype)){
     if (exists(datatype, operations)){
       return(operations[[datatype]])
@@ -73,11 +62,12 @@ whichIsCode <- function(nhic) {
     return(grepl(nhic, pattern="[0-9][0-9][0-9][0-9]"))
 }
 
-#' extract information from data.checklist
+#' Extract information from data.checklist
+#' 
 #' @return list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)], 
 #'         nontime [numeric], MAX_NUM_NHIC
-#' @export extractInfo
-extractInfo <- function() {
+#' @export 
+extract_info <- function() {
     index.time <- whichIsCode(data.checklist$NHICdtCode) 
     index.meta <- whichIsCode(data.checklist$NHICmetaCode)
 
@@ -117,9 +107,9 @@ extractInfo <- function() {
 #' @export lookup.items
 lookup.items <- function(keyword, style="grid") {
     
-    index1 <- grep(keyword, stname2longname.dict, ignore.case=T)
-    index2 <- grep(keyword, names(stname2longname.dict), ignore.case=T)
-    index3 <- grep(keyword, stname2code(names(stname2longname.dict)), ignore.case=T)
+    index1 <- grep(keyword, stname2longname.dict, ignore.case=TRUE)
+    index2 <- grep(keyword, names(stname2longname.dict), ignore.case=TRUE)
+    index3 <- grep(keyword, stname2code(names(stname2longname.dict)), ignore.case=TRUE)
 
 
     stn <- unique(names(stname2longname.dict[c(index1, index2, index3)]))
@@ -182,21 +172,10 @@ site.info <- function(){
                "R42"=c("Unknown", "Unknown", "Unknown", "Unknown"),
                "X90"=c("Addenbrooke's Hospital", "General/Liver/Transplant",  "Cambridge", "John Farnham")
                )
-    si <- data.frame(t(.simple.data.frame(si)), stringsAsFactors=F)
+    si <- data.frame(t(.simple.data.frame(si)), stringsAsFactors=FALSE)
     names(si) <- c("Hospital", "Unit", "Trust", "Comments")
     return(si)
 }
-
-
-
-#' ICNARC diagnosis reference table 
-#'
-#' @name icnarc
-#' @references \url{https://www.icnarc.org/Our-Audit/Audits/Cmp/Resources/Icm-Icnarc-Coding-Method}
-#' @docType data
-#' @keywords data
-NULL
-
 
 #' Convert ICNARC codes to diagnosis (text)
 #' 
@@ -212,8 +191,8 @@ icnarc2diagnosis <- function(icnarc, surgery=TRUE, levels=NULL) {
     if(!is.null(levels))
         icnarc <- icnarc.breakdown(icnarc, digits=levels)
     else 
-        icnarc <- sapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
-          function(x) paste(x, collapse="."))
+        icnarc <- vapply(lapply(strsplit(icnarc, split='[.]'), as.numeric), 
+          function(x) paste(x, collapse="."), character(1))
 
     diag <- as.character(icnarc.dict[icnarc])
     if (!surgery)

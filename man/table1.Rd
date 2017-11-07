@@ -7,7 +7,7 @@
 table1(demg, names, return.data = FALSE)
 }
 \arguments{
-\item{demg}{demographic table created by sql.demographic.table()}
+\item{demg}{demographic table created by ccd_demographic_table()}
 
 \item{names}{character string. Short names of data items, e.g. h_rate.}
 

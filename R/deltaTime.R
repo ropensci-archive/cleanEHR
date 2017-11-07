@@ -23,8 +23,9 @@ find.episode.time <- function(episode) {
 
 
 
-#' convert calendar time data in a record to delta time comparing to the ICU
+#' Convert calendar date-time to the time difference comparing to the ICU
 #' admission time.
+#'
 #' @param record ccRecord
 #' @param pseudotime logical If pseudotime is set to be TRUE, then the
 #' admission and discharge time will be set as the earliest and latest data stamp

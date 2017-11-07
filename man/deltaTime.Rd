@@ -2,7 +2,7 @@
 % Please edit documentation in R/deltaTime.R
 \name{deltaTime}
 \alias{deltaTime}
-\title{convert calendar time data in a record to delta time comparing to the ICU
+\title{Convert calendar date-time to the time difference comparing to the ICU
 admission time.}
 \usage{
 deltaTime(record, pseudotime = FALSE, units = "hours", tdiff = FALSE)
@@ -19,7 +19,7 @@ in the record.}
 \item{tdiff}{if false the delta time will be written in numeric format.}
 }
 \description{
-convert calendar time data in a record to delta time comparing to the ICU
+Convert calendar date-time to the time difference comparing to the ICU
 admission time.
 }
 

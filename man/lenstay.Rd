@@ -2,12 +2,12 @@
 % Please edit documentation in R/demographics.R
 \name{lenstay}
 \alias{lenstay}
-\title{Calculate the lenght of stay in the ICU.}
+\title{Calculate the length of stay in the ICU.}
 \usage{
 lenstay(demg, units = "hours")
 }
 \arguments{
-\item{demg}{data.table the demograhic table which should at least contain
+\item{demg}{data.table the demographic table which should at least contain
 column DAICU and DDICU}
 
 \item{units}{character The unit of lenstay column, by default the output will be in hours}
@@ -17,7 +17,7 @@ data.table It is the original data.table with lenstay column (in
 difftime) appended.
 }
 \description{
-Calculate the lenght of stay in the ICU and append it to the original demographic
+Calculate the length of stay in the ICU and append it to the original demographic
 table.
 }
 

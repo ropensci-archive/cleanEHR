@@ -7,14 +7,16 @@
 
 
 
-`cleanEHR` is an R package for working with the Critical Care Health Informatics
-Collaborative's data set. Since 2014 data from the critical care units at
-Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, and University College
-London has been extracted and stored securely in a standardised format. 
+`cleanEHR` is an electronic health care record (EHR) data cleaning and
+processing platform, which works with the Critical Care Health Informatics
+Collaborative's data set. The purpose of the project is to enable researchers
+to answer clinical questions that are important to patients, but which are
+normally too difficult because data is unstandardised, siloed, and
+inaccessible. 
 
-The purpose of the project is to enable researchers to answer clinical
-questions that are important to patients, but which are normally too difficult
-because data is unstandardised, siloed, and inaccessible. 
+Since 2014 data from the critical care units at Cambridge, Guys/Kings/St
+Thomas', Imperial, Oxford, and University College London has been extracted and
+stored securely in a standardised format. 
 
 These data are crucially needed by healthcare professionals for the delivery
 and continuity of care; by administrators for audit, planning and service
@@ -69,8 +71,8 @@ devtools::install_github("UCL-HIC/cleanEHR.git")
 ```
 ## Vignette
 
-Check out the [tour](https://cc-hic.github.io/cleanEHR/tour.html) for a basic
-introduction to cleanEHR
+* Introduction to CCHIC critical care data [here](https://cc-hic.github.io/cleanEHR/cchic_overview.html)
+* Data cleaning and wrangling with cleanEHR [here](https://cc-hic.github.io/cleanEHR/data_clean.html)
 
 
 ## How to contribute
