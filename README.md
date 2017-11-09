@@ -67,7 +67,7 @@ install.packages("cleanEHR")
 ### From Github to install the latest development version.
 ```
 install.packages("devtools")
-devtools::install_github("UCL-HIC/cleanEHR.git")
+devtools::install_github("CC-HIC/cleanEHR")
 ```
 ## Vignette
 
