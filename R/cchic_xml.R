@@ -158,30 +158,30 @@ xmlEpisodeToList <- function(episode_node) {
 }
 
 
-#' load xml clinical data
-#'
-#' @param file character string. The path of the XML file.
-#' @return the root of the xml data. 
+# load xml clinical data
+#
+# @param file character string. The path of the XML file.
+# @return the root of the xml data. 
 xmlLoad <- function(file) {
     file.parse <- xmlParse(file)
     xml.root <- xmlRoot(file.parse)
     return(xml.root)
 }
 
-#' get the episode data from xml 
-#'
-#' @param xml.root root of xml data returned by xmlLoad()
-#' @param id integer
+# get the episode data from xml 
+#
+# @param xml.root root of xml data returned by xmlLoad()
+# @param id integer
 getXmlepisode <- function(xml.root, id) {
     xml.root[[1]][[2]][[id]]
 }
 
-#' Extract the original file name from a path and file removing
-#' all the suffixes.
-#'
-#' @param pathfile a particular file name which may have a suffix
-#' @param removestr last bit from the original filename
-#' @return string
+# Extract the original file name from a path and file removing
+# all the suffixes.
+#
+# @param pathfile a particular file name which may have a suffix
+# @param removestr last bit from the original filename
+# @return string
 extract_file_origin <- function(pathfile, removestr='.xml'){
   split_path <- unlist(strsplit(pathfile, "/"))
   filename <- split_path[length(split_path)]
