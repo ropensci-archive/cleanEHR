@@ -4,10 +4,10 @@
 \name{ccRecord-class}
 \alias{ccRecord}
 \alias{ccRecord-class}
-\title{The S3 class which holds all the CCHIC patient record - served as a database.}
+\title{The S4 class which holds all the CCHIC patient record - served as a database.}
 \description{
-ccRecord is a class to hold the raw episode data parsed directly from XML or
-CSV files.
+ccRecord is a class to hold the raw episode data parsed directly 
+from XML or CSV files.
 }
 \section{Fields}{
 

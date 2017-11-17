@@ -10,7 +10,7 @@ StdId <- setClass ("StdId",
                        if (length(object@ids) != length(ids)) 
                            return("initialisation failure, as the standard ID pattern cannot be found.")
                        else
-                           object@ids = ids
+                           object@ids <- ids
                        return(TRUE)
                    })
 
@@ -84,6 +84,18 @@ stname2longname <- function(stname) {
     code <- stname2longname.dict[stname]
     code[is.na(code)] <- stname[is.na(code)]
     return(code)
+}
+
+#' Convert long names to short names. 
+#' 
+#' @param l long name such as "heart rate" 
+#' @return short name character such as "h_rate"
+#' @export
+long2stname <- function(l) {
+    l <- as.character(l)
+    s <- long2stname.dict[l]
+    s[is.na(s)] <- l[is.na(s)]
+    return(s)
 }
 
 

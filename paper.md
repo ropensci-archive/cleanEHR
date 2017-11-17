@@ -41,10 +41,10 @@ bibliography: paper.bib
 ---
 
 # Summary
-cleanEHR works with the Critical Care Health Informatics Collaborative database,
-which collects and gathers high resolution longitudinal patient record from 
-critical care units at Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, UCL
-Hospitals. 
+cleanEHR is a data cleaning and wrangling platform which works with the
+Critical Care Health Informatics Collaborative database. It collects and
+gathers high resolution longitudinal patient record from critical care units at
+Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, UCL Hospitals. 
 
 The purpose of cleanEHR is to enable researchers to answer clinical questions
 that are important to patients. cleanEHR is created to address various data

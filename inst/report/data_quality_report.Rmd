@@ -1,10 +1,10 @@
 ---
 title: Data Quality Report
 nep: `r ccd@nepisodes`
-np: `r max(ccd@infotb$pid, na.rm=T)`
+np: `r max(ccd@infotb$pid, na.rm=TRUE)`
 site: `r s <- unique(ccd@infotb$site_id); s[s!="NA"]`
-admt: `r min(ccd@infotb$t_admission, na.rm=T)`
-disct: `r max(ccd@infotb$t_discharge, na.rm=T)`
+admt: `r min(ccd@infotb$t_admission, na.rm=TRUE)`
+disct: `r max(ccd@infotb$t_discharge, na.rm=TRUE)`
 dbupdate: `r max(ccd@infotb$parse_time)`
 fulldb: `r dbfull`
 
@@ -34,14 +34,14 @@ demg <- sql.demographic.table(ccd)
 # Data Summary
 ```{r, echo=FALSE}
 dp <- total.data.point(ccd)
-np <- max(ccd@infotb$pid, na.rm=T)
+np <- max(ccd@infotb$pid, na.rm=TRUE)
 ```
 
 This database contains **`r ccd@nepisodes`** episode data from 
 **`r length(s[s!="NA"])`** sites. Based on the NHS numbers and
 PAS numbers, we can identify **`r np`** unique patients, among which the earliest
-admission is `r min(ccd@infotb$t_admission, na.rm=T)` and the latest discharge time is
-`r max(ccd@infotb$t_discharge, na.rm=T)`. There are `r dp `
+admission is `r min(ccd@infotb$t_admission, na.rm=TRUE)` and the latest discharge time is
+`r max(ccd@infotb$t_discharge, na.rm=TRUE)`. There are `r dp `
 total data points found in the current database, which makes in average
 `r round(dp/np)` per unique patient. 
 
@@ -54,7 +54,7 @@ pander(as.data.frame(site.info()[, 1:3], style="rmarkdown"))
 ## The original XML files and parse information
 ```{r, echo=FALSE, results="asis"}
 fs <- file.summary(ccd)
-pander(as.data.frame(fs[, c("File", "Number of Episode", "Sites"), with=F]))
+pander(as.data.frame(fs[, c("File", "Number of Episode", "Sites"), with=FALSE]))
 ```
 
 ```{r fig.width=15, fig.height=10, echo=FALSE}

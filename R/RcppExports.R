@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 reallocateTime_ <- function(d, t_discharge, frequency) {
-    .Call('cleanEHR_reallocateTime_', PACKAGE = 'cleanEHR', d, t_discharge, frequency)
+    .Call('_cleanEHR_reallocateTime_', PACKAGE = 'cleanEHR', d, t_discharge, frequency)
 }
 

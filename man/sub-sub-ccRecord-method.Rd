@@ -3,7 +3,7 @@
 \docType{methods}
 \name{[[,ccRecord-method}
 \alias{[[,ccRecord-method}
-\title{Subseting a ccRecord object and return a list of ccEpisode objects.}
+\title{Subsetting a ccRecord object and return a list of ccEpisode objects.}
 \usage{
 \S4method{[[}{ccRecord}(x, i)
 }
@@ -13,6 +13,6 @@
 \item{i}{integer vector}
 }
 \description{
-Subseting a ccRecord object and return a list of ccEpisode objects.
+Subsetting a ccRecord object and return a list of ccEpisode objects.
 }
 

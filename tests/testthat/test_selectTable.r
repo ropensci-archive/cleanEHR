@@ -1,6 +1,6 @@
 context("Testing table selection")
 
-pseudoepisode <- function(n, with.meta=F) {
+pseudoepisode <- function(n, with.meta=FALSE) {
     ep <- list(NIHR_HIC_ICU_0108=data.frame(time=as.numeric(seq(0, 19)), 
                                       item2d=rep(80, 20)), 
          NIHR_HIC_ICU_0002="site_i", 
@@ -10,7 +10,7 @@ pseudoepisode <- function(n, with.meta=F) {
         ep[["NIHR_HIC_ICU_0441"]] <- data.frame(time=as.numeric(seq(0, 9)), 
                                                 item2d=seq(10), 
                                                 meta=rep("I", 10), 
-                                                stringsAsFactors=F)
+                                                stringsAsFactors=FALSE)
     cr <- ccRecord()
     for (i in seq(n)) 
         cr <- cr + new.episode(ep)
@@ -27,15 +27,15 @@ test_that("",{
 
 
 test_that("",{
-    selectTable(ccdt, items_opt="NIHR_HIC_ICU_0108", freq=1)
+    ccd_select_table(ccdt, items_opt="NIHR_HIC_ICU_0108", freq=1)
 })
 
 
 test_that("test if drugs meta data can be re-generated when the drug itself 
           is not presented.", {
     # using meropenem 0441 as an example. 
-    cr <- pseudoepisode(1, with.meta=F)
-    tb <- selectTable(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
+    cr <- pseudoepisode(1, with.meta=FALSE)
+    tb <- ccd_select_table(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
     expect_true("NIHR_HIC_ICU_0441" %in% names(tb))
     expect_true("NIHR_HIC_ICU_0441.meta" %in% names(tb))
     expect_equivalent(tb$NIHR_HIC_ICU_0441, rep(as.numeric(NA), 20))
@@ -45,8 +45,8 @@ test_that("test if drugs meta data can be re-generated when the drug itself
     
 test_that("when drug data is presented, to see whether it can be correctly
            loaded", {
-    cr <- pseudoepisode(1, with.meta=T)
-    tb <- selectTable(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
+    cr <- pseudoepisode(1, with.meta=TRUE)
+    tb <- ccd_select_table(cr, items_opt="NIHR_HIC_ICU_0441", freq=1)
     expect_true("NIHR_HIC_ICU_0441" %in% names(tb))
     expect_true("NIHR_HIC_ICU_0441.meta" %in% names(tb))
     expect_equivalent(tb$NIHR_HIC_ICU_0441, c(seq(10), rep(NA, 10)))
