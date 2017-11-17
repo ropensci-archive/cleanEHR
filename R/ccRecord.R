@@ -13,7 +13,7 @@ NULL
 #'       the record is holding.
 #' @field dmgtb a data.table containing all the demographic information of each
 #'       episode, including site_id, NHS number, PAS number, admission date/time,
-#'       and discharge date/time. Call 
+#'       and discharge date/time. This field is usually left empty.
 #' @field infotb a data.table holding the parsing information of each episode such as the
 #'       parsing time and from which file it parsed from.
 #' @field episdoes a list of ccEpisode objects. 
