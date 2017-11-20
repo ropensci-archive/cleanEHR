@@ -2,11 +2,15 @@
 % Please edit documentation in R/dbConnection.R
 \name{table.to.ccdata}
 \alias{table.to.ccdata}
-\title{Turn a table in a ccdata object}
+\title{Turn a table in a ccdata object. You do that basically using the follwing steps:
+con <- connect(...)
+ccd <- table.to.ccdata(exportData(con) %>% collect, metadata(connection = con))}
 \usage{
 table.to.ccdata(table, mdata)
 }
 \description{
-Turn a table in a ccdata object
+Turn a table in a ccdata object. You do that basically using the follwing steps:
+con <- connect(...)
+ccd <- table.to.ccdata(exportData(con) %>% collect, metadata(connection = con))
 }
 

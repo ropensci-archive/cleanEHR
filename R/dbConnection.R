@@ -60,104 +60,9 @@ exportData <- function(connection){
     return(events)
 }
 
-#' Lookup codes based by keywords
-#' 
-#' This function tries to match keywords.
-#' The matched items will be displayed. 
-#' @param metadata The metadata table. This must be the actual object (collect()ed, not a db connection)
-#' @param keyword character e.g. "heart", "108". 
-#'          If you provide multiple keywords it will try match all of them.
-#' @return A subset of the metadatatable which contains only rows which have the given keyword.
-#' @examples
-#' lookup.items('heart')
-#' lookup.items(c('admission', 'unit'))
-#' @export 
-lookup.items <- function(metadata, keywords) {
-    # Just search based on regex for now.
-    Reduce(function(table, k) filter_all(table,any_vars(grepl(k,., ignore.case=TRUE))),
-           keywords, metadata)
-}
-
-
-#' Get a list of columns that count as demographics
-#'
-#' @export
-demographic.codes <- function(){
-    data_columns <- metadata %>%
-        select(-code_name,-long_name,-primary_column) %>%
-        colnames
-    table = metadata %>%
-        dplyr::collect
-    table %>% 
-        mutate (nas = table %>% 
-            select(data_columns) %>% 
-            as.data.table %>%
-            apply(1, function(x) sum(!is.na(x)))) %>% 
-        filter(nas == 1) %>% 
-        select(code_name)
-}
-#' This gets you the demographics as a table out of your current data.
-#'
-#' @export
-demographics.table <- function(table) {
-    table %>% 
-        inner_join(demographic.codes(), by="code_name")
-}
-
-
-range.to.function <- function(range){
-    # A regex for a number. This is less permissive than R's numbers.
-    # This is intentional to avoid numbers which may be easy to misread.
-    # I.e. .8 (must be 0.8), and 5. (must be 5) which would be accepted by R
-    # Matches:
-    #  * initial optional +/- 
-    #  * mandatory digit (must have leading 0 on decimals)
-    #  * optional decimal point with following numbers
-    #  * optional exponent with optional sign, and mandatory digits
-    number_regex = "([+-]?\\d+(.\\d+)?(e[+-]?\\d+)?)"
-    open_range_regex = "([[(])"
-    close_range_regex = "(\\)|])"
-    sep_range_regex = ","
-    space = "\\s*"
-    range_regex = paste0('^',open_range_regex,space,number_regex, space, sep_range_regex, space, number_regex, space, close_range_regex)
-
-    if(!grepl(range_regex, range)){
-        stop('Range is not a valid range pattern')
-    }
-    start = regexpr(open_range_regex, range) %>% regmatches(range, .)
-    close = regexpr(close_range_regex, range) %>% regmatches(range, .)
-    halves = range %>% strsplit(",") %>% unlist
-    numbers = regexpr(number_regex, halves) %>% regmatches(halves, .)
-
-    lhs = as.numeric(numbers[1])
-    rhs = as.numeric(numbers[2])
-    
-    func = paste0('compare',start,close)
-    
-    f <- get(func)
-
-    partial(f, lower=lhs, upper=rhs) 
-}
-
-#--- Private functions for range.to.function
-
-`compare()` <- function(lower, upper, test) {
-    return(lower < test & test < upper)
-}
-
-`compare[)` <- function(lower, upper, test) {
-    return(lower <= test & test < upper)
-}
-
-`compare(]` <- function(lower, upper, test) {
-    return(lower < test & test <= upper)
-}
-
-`compare[]` <- function(lower, upper, test) {
-    return(lower <= test & test <= upper)
-}
-
-#' Turn a table in a ccdata object
+#' Turn a table in a ccdata object. You do that basically using the follwing steps:
+#' con <- connect(...)
+#' ccd <- table.to.ccdata(exportData(con) %>% collect, metadata(connection = con))
 #'
 #' @export
 table.to.ccdata <- function(table, mdata) {
@@ -196,8 +101,4 @@ table.to.ccdata <- function(table, mdata) {
         new.episode
     }) %>% (function(eps) { ccRecord() + eps} )
 }
-
-#con <- connect(username="roma", database= "roma")
-#e <- exportData(con)
-#table.to.ccdata(e %>% collect, metadata(connection = con))
 
