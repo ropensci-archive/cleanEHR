@@ -175,6 +175,9 @@ table.to.ccdata <- function(table, mdata) {
             names
           
           if(length(types) == 1) {
+              if(cname == 'NIHR_HIC_ICU_0005'){
+                  return(as.character(record.type[[types]]))
+              }
             return(record.type[[types]])
           }
           
@@ -191,7 +194,7 @@ table.to.ccdata <- function(table, mdata) {
           setNames(data, types)
         }) %>%
         new.episode
-    }) 
+    }) %>% (function(eps) { ccRecord() + eps} )
 }
 
 #con <- connect(username="roma", database= "roma")
