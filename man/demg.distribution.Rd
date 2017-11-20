@@ -19,3 +19,4 @@ Create a plot of the distribution of numerical demographic data.
 \examples{
 \dontrun{tdemg.distribution(ccd, "HCM")}
 }
+

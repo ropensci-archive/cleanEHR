@@ -15,3 +15,4 @@
 \description{
 Create a subset of ccRecord object from the original one via specifying the row number of episodes.
 }
+

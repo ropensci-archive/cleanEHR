@@ -2,7 +2,6 @@
 % Please edit documentation in R/dbConnection.R, R/utilities.R
 \name{lookup.items}
 \alias{lookup.items}
-\alias{lookup.items}
 \title{Lookup codes based by keywords}
 \usage{
 lookup.items(keyword, style = "grid")
@@ -36,3 +35,4 @@ The matched items will be displayed.
 lookup.items('heart')
 lookup.items(c('admission', 'unit'))
 }
+

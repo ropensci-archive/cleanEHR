@@ -17,3 +17,4 @@ not presented correctly.}
 \description{
 Convert the XML time The XML time format to POSIXct.
 }
+

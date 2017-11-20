@@ -15,3 +15,4 @@ This is a connection to a database / query,
 not a real value. If you want to use it you will
 need to run collect() on it.
 }
+

@@ -13,3 +13,4 @@ list of time [data.frame(id, idt)], meta [data.frame(id, idmeta)],
 \description{
 Extract information from data.checklist
 }
+

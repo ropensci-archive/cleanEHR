@@ -29,3 +29,4 @@ You need to make sure that you have the right to write into the {work_dir}.
 \examples{
 \dontrun{data.quality.report(ccd, c("Q70", "C90"))}
 }
+

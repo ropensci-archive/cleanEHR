@@ -10,3 +10,4 @@ connect(host = "localhost", username = NULL, password = NULL,
 \description{
 Make a connection to the Database that can be used for queries
 }
+

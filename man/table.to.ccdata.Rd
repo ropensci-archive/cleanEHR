@@ -9,3 +9,4 @@ table.to.ccdata(table, mdata)
 \description{
 Turn a table in a ccdata object
 }
+

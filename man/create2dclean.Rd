@@ -26,3 +26,4 @@ data. However all the data quality information will be lost. This function
 is useful when the memory is not sufficiently enough to hold all the
 information.
 }
+

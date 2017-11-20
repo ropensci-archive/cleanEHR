@@ -12,3 +12,4 @@ total.data.point(ccd)
 \description{
 Return total data point of the ccRecord object.
 }
+

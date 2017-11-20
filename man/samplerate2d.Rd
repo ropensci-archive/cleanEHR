@@ -12,3 +12,4 @@ samplerate2d(cctb)
 \description{
 Produce a pander table of sample rate of longitudinal data.
 }
+

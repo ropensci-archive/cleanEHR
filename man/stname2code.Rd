@@ -15,3 +15,4 @@ NIHC code character such as NIHR_HIC_ICU_0108
 \description{
 Convert short names to NHIC codes
 }
+

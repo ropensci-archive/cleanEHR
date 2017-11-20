@@ -2,7 +2,6 @@
 % Please edit documentation in R/stdid.R
 \name{StdId}
 \alias{StdId}
-\alias{StdId}
 \title{S4 class to hold standard IDs such as "NIHR_HIC_ICU_0001"}
 \usage{
 StdId(text)

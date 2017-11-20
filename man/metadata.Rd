@@ -12,3 +12,4 @@ metadata(connection)
 This functions returns a loaded into memory R table,
 **not** a connection to database table.
 }
+

@@ -24,3 +24,4 @@ in {path}/report/data_quality_report.{pdf}/{md}. Using this function,
 one can also create a site/trust specified report, see the argument "site". 
 You need to make sure that you have the right to write into the {work_dir}.
 }
+

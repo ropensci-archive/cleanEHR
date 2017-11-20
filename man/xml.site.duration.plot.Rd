@@ -12,3 +12,4 @@ xml.site.duration.plot(ccd)
 \description{
 Plot the XML duration in terms of sites.
 }
+

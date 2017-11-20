@@ -15,3 +15,4 @@ data.table
 \description{
 Produce a file summary table
 }
+

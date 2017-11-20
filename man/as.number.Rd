@@ -12,3 +12,4 @@ as.number(obj)
 \description{
 Convert standard IDs to numbers (character) which can be used for indexing.
 }
+

@@ -17,3 +17,4 @@ length of stay
 \description{
 Get the length of stay based on the first and the last data point.
 }
+

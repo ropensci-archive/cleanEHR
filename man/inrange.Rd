@@ -17,3 +17,4 @@ OR e.g. (low1, up1); (low2, up2)}
 \description{
 Check if the values of a vector v is in the given ranges.
 }
+

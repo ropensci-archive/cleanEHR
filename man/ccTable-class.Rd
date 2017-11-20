@@ -2,13 +2,9 @@
 % Please edit documentation in R/ccTable.R
 \docType{class}
 \name{ccTable-class}
-\alias{ccTable-class}
-<<<<<<< HEAD
-\title{Process the EHR data in table format}
-=======
 \alias{ccTable}
-\title{Rearrange and clean the critical care record into a 2D table.}
->>>>>>> Added some code to try connect ccdata with database
+\alias{ccTable-class}
+\title{Process the EHR data in table format}
 \description{
 ccRecord data are re-arranged into tables where the columns stands for 
 data fields (e.g. heart rate, blood pressure) and the rows stands for 
@@ -36,7 +32,6 @@ various commonly used data filters.
 
 \item{\code{base_cadence}}{the base cadence is specified in hours}
 }}
-
 \section{Methods}{
 
 \describe{
@@ -60,10 +55,10 @@ method on a selected window period nearby the missing data.}
 
 \item{\code{reload_conf(conf)}}{reload yaml configuration.}
 }}
-
 \examples{
 rec <- ccRecord()
 cctable <- create_cctable(rec, freq=1)
 cctable <- cctable$clean()
 #table <- cctable$tclean 
 }
+

@@ -17,3 +17,4 @@ data.table contains spell id.
 \description{
 find the unique spell ID.
 }
+

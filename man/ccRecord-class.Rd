@@ -2,13 +2,9 @@
 % Please edit documentation in R/ccRecord.R
 \docType{class}
 \name{ccRecord-class}
-\alias{ccRecord-class}
-<<<<<<< HEAD
-\title{The S4 class which holds all the CCHIC patient record - served as a database.}
-=======
 \alias{ccRecord}
-\title{The S3 class which holds all the CCHIC patient record - served as a database.}
->>>>>>> Added some code to try connect ccdata with database
+\alias{ccRecord-class}
+\title{The S4 class which holds all the CCHIC patient record - served as a database.}
 \description{
 ccRecord is a class to hold the raw episode data parsed directly 
 from XML or CSV files.
@@ -28,7 +24,6 @@ parsing time and from which file it parsed from.}
 
 \item{\code{episdoes}}{a list of ccEpisode objects.}
 }}
-
 \examples{
 heart_rate <- data.frame(seq(10), rep(70, 10)) # NIHR_HIC_ICU_0108
 site_id <- "Q70" #  NIHR_HIC_ICU_0002
@@ -51,3 +46,4 @@ ep2 <- new.episode()
 eps.list <- list(ep1, ep2)
 new.rec <- rec + eps.list
 }
+

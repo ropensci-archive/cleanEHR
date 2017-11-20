@@ -9,3 +9,4 @@ demographics.table(table)
 \description{
 This gets you the demographics as a table out of your current data.
 }
+
