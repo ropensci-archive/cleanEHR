@@ -12,4 +12,3 @@ data.frame
 \description{
 Produce a site id reference table.
 }
-

@@ -16,4 +16,3 @@ demographic.data.completeness(demg, names = NULL, return.data = FALSE)
 \description{
 Create a demographic completeness table (in pander table)
 }
-

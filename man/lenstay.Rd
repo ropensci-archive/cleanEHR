@@ -20,4 +20,3 @@ difftime) appended.
 Calculate the length of stay in the ICU and append it to the original demographic
 table.
 }
-

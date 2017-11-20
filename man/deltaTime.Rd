@@ -22,4 +22,3 @@ in the record.}
 Convert calendar date-time to the time difference comparing to the ICU
 admission time.
 }
-

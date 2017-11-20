@@ -15,4 +15,3 @@
 \description{
 Subsetting a ccRecord object and return a list of ccEpisode objects.
 }
-

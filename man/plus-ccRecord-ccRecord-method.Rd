@@ -18,4 +18,3 @@ ccRecord-class
 \description{
 Combine two ccRecord objects
 }
-

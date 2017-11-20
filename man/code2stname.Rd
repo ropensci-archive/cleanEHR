@@ -15,4 +15,3 @@ shortname character e.g. h_rate
 \description{
 Convert NHIC codes to the short names
 }
-

@@ -20,4 +20,3 @@ Adding a list of one or multiple ccEpisode objects to a
 ccRecord object, the information table (infotb) will be updated automatically.
 It is the more efficient way to add multiple ccEpisode objects.
 }
-

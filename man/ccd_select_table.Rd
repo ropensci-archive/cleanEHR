@@ -26,4 +26,3 @@ data.table
 \description{
 Create the table for ccTable from ccRecord
 }
-

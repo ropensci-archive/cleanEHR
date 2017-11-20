@@ -15,4 +15,3 @@ the root of the xml data.
 \description{
 load xml clinical data
 }
-

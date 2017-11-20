@@ -19,4 +19,3 @@ string
 Extract the original file name from a path and file removing
 all the suffixes.
 }
-

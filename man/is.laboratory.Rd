@@ -17,4 +17,3 @@ logical
 Check if the item NHIC code or short name belongs to the Laboratory 
 category.
 }
-

@@ -12,4 +12,3 @@ whichIsCode(nhic)
 \description{
 give id number from NHIC code like "NIHR_HIC_ICU_xxxx"
 }
-

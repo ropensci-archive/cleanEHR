@@ -14,4 +14,3 @@ getXmlepisode(xml.root, id)
 \description{
 get the episode data from xml
 }
-

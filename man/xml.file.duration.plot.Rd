@@ -12,4 +12,3 @@ xml.file.duration.plot(ccd)
 \description{
 plot the duration of XML files.
 }
-

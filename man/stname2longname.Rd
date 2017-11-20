@@ -15,4 +15,3 @@ longname character such as "heart rate"
 \description{
 Convert short names to long names.
 }
-

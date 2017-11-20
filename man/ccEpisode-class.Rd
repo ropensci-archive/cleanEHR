@@ -2,9 +2,13 @@
 % Please edit documentation in R/ccRecord.R
 \docType{class}
 \name{ccEpisode-class}
-\alias{ccEpisode}
 \alias{ccEpisode-class}
+<<<<<<< HEAD
 \title{The S4 class which holds data of a single episode.}
+=======
+\alias{ccEpisode}
+\title{The S3 class which holds data of a single episode.}
+>>>>>>> Added some code to try connect ccdata with database
 \description{
 The S4 class which holds data of a single episode.
 }

@@ -28,4 +28,3 @@ ccRecord-class
 \description{
 Convert the XML file to ccRecord. For more details, see ccRecord-class.
 }
-

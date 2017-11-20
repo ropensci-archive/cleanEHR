@@ -19,23 +19,27 @@ Suggests:
     testthat
 Imports:
     data.table,
+    dplyr,
     XML,
     yaml,
     Rcpp,
+    magrittr,
+    purrr,
     ggplot2,
     methods, 
     pander,
     knitr
 VignetteBuilder: knitr
 URL: https://github.com/CC-HIC/cleanEHR, http://www.hic.nihr.ac.uk
-RoxygenNote: 5.0.1
-Collate:
+RoxygenNote: 6.0.1
+Collate: 
     'RcppExports.R'
     'ccRecord.R'
     'ccTable.R'
     'cchic_xml.R'
     'data.R'
     'data.quality.report.R'
+    'dbConnection.R'
     'deltaTime.R'
     'demographics.R'
     'filter.categorical.R'

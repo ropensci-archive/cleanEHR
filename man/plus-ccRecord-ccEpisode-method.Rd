@@ -18,4 +18,3 @@ ccRecord-class
 \description{
 Adding one ccEpisode object to a ccRecord
 }
-
