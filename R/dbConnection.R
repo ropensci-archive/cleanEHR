@@ -95,8 +95,15 @@ table.to.ccdata <- function(table, mdata) {
           types[types == 'datetime'] = 'time'
           types[types == primary_column] = 'item2d'
           types[types != 'time' & types != 'item2d'] = 'meta'
-  
-          setNames(data, types)
+
+          data = setNames(data, types)
+
+          if('time' %in% types){
+              data %<>% 
+                mutate(time = as.numeric(time))
+          }
+
+          data
         }) %>%
         new.episode
     }) %>% (function(eps) { ccRecord() + eps} )

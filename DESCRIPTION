@@ -24,7 +24,6 @@ Imports:
     yaml,
     Rcpp,
     magrittr,
-    purrr,
     ggplot2,
     methods,
     pander,
