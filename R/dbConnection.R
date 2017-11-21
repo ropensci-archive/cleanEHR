@@ -12,8 +12,22 @@ connect <- function(host='localhost', username=NULL, password=NULL, database=NUL
 #' The metadata table. This is all of the different 
 #' codes that are available with their meanings, and
 #' what the different columns mean for them. 
+#' 
+#' The metadata table explains the meanings of data in
+#' the events table, which is retrieved through the
+#' exportData() function. It has three fields to describe
+#' what the general shape of the data is, while the other
+#' fields describe what data is stored in the field with that 
+#' name in the events table.
 #'
-#' This functions returns a loaded into memory R table,
+#' * Code_name is the XML code of this type of data
+#' * long_name is an english description of what it is
+#' * primary_column is what columns of the events table 
+#'      stores the observation value for this data type
+#' * All others: a plain english description of what is stored 
+#'      in that column in the events table. NA if nothing.
+#'
+#' This function returns a loaded into memory R table,
 #' **not** a connection to database table.
 #'
 #' @export
@@ -81,6 +95,8 @@ table.to.ccdata <- function(table, mdata) {
           
           if(length(types) == 1) {
               if(cname == 'NIHR_HIC_ICU_0005'){
+                  # for ccdata this must be a string, 
+                  # but it is stored as an int in the xml & database
                   return(as.character(record.type[[types]]))
               }
             return(record.type[[types]])
