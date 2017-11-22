@@ -22,7 +22,7 @@ connect <- function(host='localhost', username=NULL, password=NULL, database=NUL
 #'
 #' * code_name is the XML code of this type of data
 #' * long_name is an english description of what it is
-#' * primary_column is what columns of the events table 
+#' * primary_column is what column of the events table 
 #'      stores the observation value for this data type
 #' * All others: a plain english description of what is stored 
 #'      in that column in the events table. NA if nothing.
