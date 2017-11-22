@@ -20,7 +20,7 @@ connect <- function(host='localhost', username=NULL, password=NULL, database=NUL
 #' fields describe what data is stored in the field with that 
 #' name in the events table.
 #'
-#' * Code_name is the XML code of this type of data
+#' * code_name is the XML code of this type of data
 #' * long_name is an english description of what it is
 #' * primary_column is what columns of the events table 
 #'      stores the observation value for this data type
