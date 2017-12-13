@@ -260,34 +260,6 @@ setMethod("[", signature(x="ccRecord", i="character"),
               ccRecord() + eplst
           })
 
-#' Get a subset of episodes from ccRecord. 
-#' 
-#' @param r ccRecord-class 
-#' @param f character a vector of XML file names - see ccRecord: parse_file 
-#' @return ccRecord-class
-#' @exportMethod subset
-setGeneric("subset", function(r, f) {
-    standardGeneric("subset")
-})
-
-
-#' Get a subset of episodes that have the same from ccRecord . 
-#' 
-#' @param r ccRecord-class
-#' @param f character a vector of XML file names - see ccRecord: parse_file 
-#' @return ccRecord object 
-setMethod("subset", signature(r="ccRecord", f="character"), 
-function(r, f) {
-    ind <- r@infotb[r@infotb$parse_file %in% f]$index
-    if (length(ind) == 0) {
-        return(ccRecord())
-    }
-    eplst <- list()
-    for (ep in ind) {
-        eplst[[length(eplst) + 1]] <- r@episodes[[ep]]
-    }
-    ccRecord() + eplst
-})
 
 episode_graph <- function(ep, items=NULL) {
     t_ad <- ep@t_admission
@@ -369,21 +341,21 @@ episode_graph <- function(ep, items=NULL) {
 #' @param v short name of longitudinal data. While v is not given, the chart 
 #' will only display h_rate, spo2, bilirubin, platelets, pao2_fio2, gcs_total. 
 #' @return a table of selected vars of an episode
-#' @exportMethod plot
+#' @exportMethod plot_episode
 #' @examples
 #' \dontrun{
-#' plot(ccd@episodes[[1]]) # plot first episode with default variables. 
-#' plot(ccd@episodes[[1]], "h_rate") # plot first episode heart rate
+#' plot_episode(ccd@episodes[[1]]) # plot first episode with default variables. 
+#' plot_episode(ccd@episodes[[1]], "h_rate") # plot first episode heart rate
 #' }
-setGeneric("plot", function(r, v) {
-    standardGeneric("plot")
+setGeneric("plot_episode", function(r, v) {
+    standardGeneric("plot_episode")
 })
 
 #' Episode chart
 #' 
 #' @param r ccEpisode-class
 #' @param v character 
-setMethod("plot", signature(r="ccEpisode", v="character"), 
+setMethod("plot_episode", signature(r="ccEpisode", v="character"), 
 function(r, v){
     episode_graph(r, v)
 })
@@ -392,7 +364,7 @@ function(r, v){
 #' Episode chart default fields
 #' 
 #' @param r ccEpisode-class
-setMethod("plot", signature(r="ccEpisode", v="missing"), 
+setMethod("plot_episode", signature(r="ccEpisode", v="missing"), 
 function(r) {
     episode_graph(r)
 })
