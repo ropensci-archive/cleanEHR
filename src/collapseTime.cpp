@@ -21,7 +21,6 @@ DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float freq
     std::vector<std::string> mnew;
     std::unordered_map<float, std::string> df_meta;
 
-
     int HAS_META = 0;
     // initialise meta data column
     if (d.containsElementNamed("meta")) {
@@ -33,9 +32,9 @@ DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float freq
 
     //create a map with tin and tvalin acting as a table.
     std::unordered_map<float, std::string> df_in;
-    for (int i = 0; i < tin.size(); ++i) 
-        df_in.insert(std::pair<float, std::string>(tin[i], as<std::string>(valin[i])));
-
+    for (int i = 0; i < tin.size(); ++i) {
+            df_in.insert(std::pair<float, std::string>(tin[i], as<std::string>(valin[i])));
+    }
     float tt = 0;
     while(tt <= t_discharge) {
         vnew.push_back("NA");
@@ -53,13 +52,16 @@ DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float freq
     for ( auto t = tin.begin(); t != tin.end(); ++t ) {  
         while ( tnew_iter != tnew.end() ) {
             ind = tnew_iter - tnew.begin();
-            if ( *t >= tnew[ind] && *t < tnew[ind + 1] ) {
-                vnew[ind] = df_in[*t];
-                if (HAS_META) mnew[ind] = df_meta[*t];
-                break;
+            if (*t >= 0){
+                if ( *t >= tnew[ind] && *t < tnew[ind + 1] ) {
+                    vnew[ind] = df_in[*t];
+                    if (HAS_META) mnew[ind] = df_meta[*t];
+                    break;
+                }
+                else 
+                    tnew_iter++;
             }
-            else 
-                tnew_iter++;
+            else break; 
         }
     }
 
