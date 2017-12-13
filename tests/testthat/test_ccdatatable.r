@@ -62,7 +62,7 @@ test_that("test filter missingness",
           yellow: 1
       accept_2d:
           yellow: 70 
-      impute_2d:
+      impute:
           lead: 3
           lag: 3
           fun: median
@@ -110,7 +110,7 @@ test_that("test imputation",
           yellow: 1
       accept_2d:
           yellow: 70 
-      impute_2d:
+      impute:
           lead: 1
           lag: 1
           fun: median
@@ -144,7 +144,7 @@ test_that("test imputation",
   shortName: test_val
   dataItem: Heart rate
   missingness:
-      impute_2d:
+      impute:
           lead: 1
           lag: 1
           fun: sum"

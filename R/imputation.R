@@ -23,7 +23,7 @@ ccTable$methods(
     method on a selected window period nearby the missing data."
         imputation_columns <- function(sd) {
             for (i in names(.self$conf)) {
-                imwin <- .self$conf[[i]][['missingness']][['imputation']]
+                imwin <- .self$conf[[i]][['missingness']][['impute']]
                 if (!is.null(imwin)) {
                     fun <- imwin[['fun']]
                     lead <- imwin[['lead']]
