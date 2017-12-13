@@ -22,4 +22,11 @@ NULL
 #' @keywords data
 NULL
 
-
+#' Synthetic example dataset
+#'
+#' This dataset has the same data strucutre that of the CCHIC data, though
+#' the data are synthetic. 
+#' @name sample_ccd
+#' @docType data
+#' @keywords data
+NULL

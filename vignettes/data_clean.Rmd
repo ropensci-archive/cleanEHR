@@ -15,13 +15,13 @@ vignette: >
 
 
 # Preparation
-### Load data 
-A sample RData can be found in `/doc/sample_ccd.RData`.
+[data.table](https://cran.r-project.org/web/packages/data.table/) package is the backbone of cleanEHR package. 
+You can find in the above link some useful information and tutorial, if you are not familiar with
+`data.table`.
+### Load data
 ```{r}
 library(cleanEHR)
-data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
-print(data.path)
-load(data.path)
+data("sample_ccd")
 ```
 
 
@@ -81,12 +81,16 @@ structure.
 * imputation: filling missing data. 
 
 ### Create a `cctable`
-First we need to prepare a simple configuration file. The first level item is
+First we need to prepare a simple YAML configuration file. YAML is a human freindly 
+data serialization standard, see [YAML](http://yaml.org/). 
+The first level item is
 CCHIC code, see `lookup.items()`.  We suggest users to write the short name and
 long name (dataItem) to avoid confusion, though the both names will not be
 taken into account in the process. We selected three items, heart rate
 (longitudinal), Systolic arterial blood pressure (longitudinal), and sex
-(non-longitudinal). 
+(non-longitudinal).
+
+
 ```
 NIHR_HIC_ICU_0108:
   shortName: hrate
@@ -216,7 +220,7 @@ ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) +
 ### Categorical data filter
 The purpose of categorical data filter is to remove the unexpected categorical data. 
 We can extend the previous configuration file as such,  
-```
+```yaml
 NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -277,7 +281,7 @@ in any 24 hours interval, if the heart rate missing rate is higher than 30%, we 
 exclude the entire episode. Note, the unit `labels: daily: 24` number of rows instead of 
 hours. It represents 24 hours because the cadence of the `ccTable` is 1 hour.
 
-```
+```yaml
 NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -330,7 +334,7 @@ unique(paste(tb$tclean$site, tb$tclean$episode_id))
 Similarly, we can setup the no data filter as following. Here it means, 
 drop the entire episode if no hear rate data is found. 
 
-```
+```yaml
 NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -346,37 +350,6 @@ NIHR_HIC_ICU_0093:
 ### Run all filters together
 To wrap up, we can put all the above stated filter configurations together in the 
 YAML file and run the filter together. 
-```
-NIHR_HIC_ICU_0108:
-  shortName: h_rate
-  dataItem: Heart rate
-  range:
-    labels:
-      red: (0, 300)
-      amber: (11, 150]
-      green: (50, 100]
-    apply: drop_entry
-  missingness:
-    labels:
-      daily: 24
-    accept_2d:
-      daily: 70
-    apply: drop_episode
-  nodata:
-    apply: drop_episode
-NIHR_HIC_ICU_0112:
-  shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
-NIHR_HIC_ICU_0093:
-   shortName: sex
-   category:
-    levels:
-      M: male
-      F: female
-      m: male
-      f: female
-    apply: drop_entry
-```
 
 ```{r, echo=FALSE}
 conf <- "NIHR_HIC_ICU_0108:
@@ -427,4 +400,24 @@ tb$reset() # reset
 # Method 2
 #tb$clean()
 ```
+
+
+### Imputation
+```{r}
+tb <- create_cctable(ccd, conf, freq=1)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
 
