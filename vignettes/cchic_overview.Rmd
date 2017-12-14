@@ -34,8 +34,7 @@ The key dates and times are recorded as follow.
 <img src=graphs/cchic_timeline.png width=480 height=360 />
 ```{r, message=FALSE, warning=FALSE}
 library(cleanEHR)
-data.path <- paste0(find.package("cleanEHR"), "/doc/sample_ccd.RData")
-load(data.path)
+data("sample_ccd")
 
 # Extract all non-longitudinal data (demographic, time, survival status, diagnosis)
 dt <- ccd_demographic_table(ccd, dtype=TRUE)
@@ -93,5 +92,5 @@ CCHIC measures 154 longitudinal data. The full list of longitudinal data are sho
 
 We can also easily plot the data from a single selected admission. 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}
-plot(ccd@episodes[[7]], c("h_rate",  "bilirubin", "fluid_balance_d"))
+plot_episode(ccd@episodes[[7]], c("h_rate",  "bilirubin", "fluid_balance_d"))
 ```
