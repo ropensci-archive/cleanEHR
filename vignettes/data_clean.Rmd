@@ -403,21 +403,141 @@ tb$reset() # reset
 
 
 ### Imputation
+
+We provide the `impute()` to interpolate the missing data. For each missing value, 
+the interpolation will be only based on the nearby values which are specified by 
+`lead` and `lag` arguments. `lead` suggests the number of previous values and `lag` suggests 
+the number of later values. The corresponding time will be related to the 
+`freq` you set for the `ccTable`, e.g. `lead: 2` means previous 4 hours when `freq=0.5`.
+One can also set the `fun` to determine the interpolation function.
+The imputation step usually should be carried out after filtering, otherwise
+imputation will take values that are out of range its into account.
+
+One needs to be always careful when impute the data to make the best 
+trade-off between usefulness and correctness. The interpolation methods should 
+be carried out wisely based on the characteristics of the variable. 
+If you are not sure about the characteristics of the variable, we would 
+suggest you to keep the window size small and use `median` as the interpolation 
+function. 
+
+
 ```{r}
-tb <- create_cctable(ccd, conf, freq=1)
+# Initialise the simulated ccRecord
+hr <- c(rep(80, 10), rep(NA, 10), rep(90, 10), NA, NA, rep(90, 10), rep(NA, 10), 180, NA, NA, 
+        rep(90, 10), 180, NA, 0, NA, NA, rep(60, 10))
+# hr <- hr + runif(length(hr)) * 15 # adding noise if needed. 
+data <- data.frame(time=as.numeric(seq(hr)), item2d=hr)
+rec <- ccRecord()+new.episode(list(NIHR_HIC_ICU_0108=data))
+
+# Prepare the plotting function
+library(data.table)
+plot_imputation <- function() {
+cptb <- data.table(episode_id=as.integer(tb$torigin$episode_id), 
+                   time=tb$torigin$time, origin=tb$torigin$NIHR_HIC_ICU_0108, 
+                   clean=tb$tclean$NIHR_HIC_ICU_0108)
+
+ggplot(cptb, aes(x=time)) + 
+  geom_point(size=5, shape=16, aes(y=origin), colour="red") + 
+  geom_point(size=2, aes(y=clean)) + 
+  geom_line(aes(y=clean)) + 
+  scale_x_continuous(minor_breaks = seq(length(hr)))+ 
+  theme(panel.grid.minor = element_line(colour="grey", size=0.5), 
+        panel.grid.major = element_line(colour="grey", size=0.5))
+}
 
 
 
 ```
+**Example 1**: median interpolation with a window [-2, 2]
+```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+# mock the configuration YAML
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  missingness:
+    impute:
+      lead: 2 # 2 previous values 
+      lag: 2  # 2 later values
+      fun: median # missing value filled by the median of 2 previous and 2 later values. 
+  nodata:
+    apply: drop_episode
+"
+
+conf <- yaml.load(conf)
+tb <- create_cctable(rec, conf, freq=1)
+tb$imputation()
+plot_imputation()
+```
+
+**Example 2**: increase the window size to [-10, 10]
+We can increase the window size to fill more data, 
+```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  missingness:
+    impute:
+      lead: 10
+      lag: 10
+      fun: median
+  nodata:
+    apply: drop_episode
+"
+
+rec <- ccRecord()+new.episode(list(NIHR_HIC_ICU_0108=data))
+
+conf <- yaml.load(conf)
+tb <- create_cctable(rec, conf, freq=1)
+tb$imputation()
+plot_imputation()
+```
+
+**Example 3**: use `mean` as the interpolation function. 
+```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  missingness:
+    impute:
+      lead: 10
+      lag: 10
+      fun: mean
+  nodata:
+    apply: drop_episode
+"
+
+rec <- ccRecord()+new.episode(list(NIHR_HIC_ICU_0108=data))
+
+conf <- yaml.load(conf)
+tb <- create_cctable(rec, conf, freq=1)
+tb$imputation()
+plot_imputation()
+
+```
+
+**Advanced Example**: Use a self-defined function. 
+```{r, fig.width=12, fig.height=12, out.width='700px', results='hide', message=FALSE, warning=FALSE}
+conf <- "NIHR_HIC_ICU_0108:
+  shortName: h_rate
+  dataItem: Heart rate
+  missingness:
+    impute:
+      lead: 40
+      lag: 40
+      fun: myfun
+  nodata:
+    apply: drop_episode
+"
+# Define my own interpolation function. 
+# We use piecewise polynomial interpolation spline here for 
+# the demonstration purpose. 
+myfun <- function(x) {
+    return(splinefun(x)(ceiling(length(x)/2)))
+}
 
 
-
-
-
-
-
-
-
-
-
-
+conf <- yaml.load(conf)
+tb <- create_cctable(rec, conf, freq=1)
+tb$imputation()
+plot_imputation()
+```

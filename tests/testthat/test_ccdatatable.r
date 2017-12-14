@@ -154,7 +154,6 @@ test_that("test imputation",
     tb <- imputation_run(list(c(1, 10, NA, 100)))
     expect_equivalent(tb$tclean$NIHR_HIC_ICU_0108,
                       c(1, 1, 10, sum(c(10, 100)), 100))
-
 })
 #
 #

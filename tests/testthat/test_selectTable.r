@@ -41,8 +41,8 @@ test_that("test if drugs meta data can be re-generated when the drug itself
     expect_equivalent(tb$NIHR_HIC_ICU_0441, rep(as.numeric(NA), 20))
     expect_equivalent(tb$NIHR_HIC_ICU_0441.meta, rep("NA", 20))
 })
-    
-    
+
+
 test_that("when drug data is presented, to see whether it can be correctly
            loaded", {
     cr <- pseudoepisode(1, with.meta=TRUE)
