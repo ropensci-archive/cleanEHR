@@ -18,6 +18,7 @@ vignette: >
 [data.table](https://cran.r-project.org/web/packages/data.table/) package is the backbone of cleanEHR package. 
 You can find in the above link some useful information and tutorial, if you are not familiar with
 `data.table`.
+
 ### Load data
 ```{r}
 library(cleanEHR)
@@ -90,18 +91,7 @@ taken into account in the process. We selected three items, heart rate
 (longitudinal), Systolic arterial blood pressure (longitudinal), and sex
 (non-longitudinal).
 
-
-```
-NIHR_HIC_ICU_0108:
-  shortName: hrate
-NIHR_HIC_ICU_0112:
-  shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
-NIHR_HIC_ICU_0093:
-   shortName: sex
-```
-
-```{r, echo=FALSE}
+```{r}
 # To prepare a YAML configuration file like this. You write the following text
 # in a YAML file. 
 conf <- "
@@ -135,8 +125,8 @@ In this table we can find the following columns,
 tb$tclean[, mean(NIHR_HIC_ICU_0108, na.rm=TRUE), by=c("site", "episode_id")]
 ```
 
-## Data cleaning with `ccTable`
-### Numerical range filter
+# Data cleaning with `ccTable`
+## Numerical range filter
 The numerical range filter can only be applied on variables. 
 We envisaged three different cases for the numerical ranges -- values that are impossible, e.g. 
 negative heart rate; possible but unlikely, e.g. heart rate of 200; within a normal range. The 
@@ -146,24 +136,8 @@ Note, from "red" to "green", the next range must be a subset of the previous ran
 
 In the following section, we would like to apply a range filter to heart rate by modifying the previous 
 YAML configuration file. 
-```yaml
-NIHR_HIC_ICU_0108:
-  shortName: h_rate
-  dataItem: Heart rate
-  range:
-    labels:
-      red: (0, 300) # The following ranges are for demonstration purpose only. 
-      amber: (11, 150] # open/close interval
-      green: (50, 100] 
-    apply: drop_entry
-NIHR_HIC_ICU_0112:
-  shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
-NIHR_HIC_ICU_0093:
-   shortName: sex
-```
 
-```{r, echo=FALSE}
+```{r}
 conf <- "NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -217,27 +191,10 @@ ggplot(cptb, aes(x=time, y=NIHR_HIC_ICU_0108, color=data)) +
 ```
 
 
-### Categorical data filter
+## Categorical data filter
 The purpose of categorical data filter is to remove the unexpected categorical data. 
 We can extend the previous configuration file as such,  
-```yaml
-NIHR_HIC_ICU_0108:
-  shortName: h_rate
-  dataItem: Heart rate
-NIHR_HIC_ICU_0112:
-  shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
-NIHR_HIC_ICU_0093:
-   shortName: sex
-   category:
-    levels:
-      M: male
-      F: female
-      m: male
-      f: female
-    apply: drop_entry
-```
-```{r, echo=FALSE}
+```{r}
 conf <- "NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -258,9 +215,7 @@ conf <- yaml.load(conf)
 
 # Try to modify the original data
 tb$torigin$NIHR_HIC_ICU_0093[1] <- "ERROR"
-```
 
-```{r}
 tb$reload_conf(conf)  # change configuration file
 tb$filter_categories() 
 tb$apply_filters() 
@@ -273,7 +228,7 @@ unique(tb$tclean$NIHR_HIC_ICU_0093)
 ```
 
 
-### Missingness filter
+## Missingness filter
 In some cases, we wish to exclude episodes where the data is too scarce. There are 
 three components in the missingness filter. In the following example, we arbitrarily
 name the filter "daily". We gave 24 hours interval and 70% accepting rate. It is to say
@@ -281,24 +236,7 @@ in any 24 hours interval, if the heart rate missing rate is higher than 30%, we 
 exclude the entire episode. Note, the unit `labels: daily: 24` number of rows instead of 
 hours. It represents 24 hours because the cadence of the `ccTable` is 1 hour.
 
-```yaml
-NIHR_HIC_ICU_0108:
-  shortName: h_rate
-  dataItem: Heart rate
-  missingness:
-    labels:
-      daily: 24
-    accept_2d:
-      daily: 70
-    apply: drop_episode
-NIHR_HIC_ICU_0112:
-  shortName: bp_sys_a
-  dataItem: Systolic Arterial blood pressure - Art BPSystolic Arterial blood pressure
-NIHR_HIC_ICU_0093:
-   shortName: sex
-```
-
-```{r, echo=FALSE}
+```{r}
 conf <- "NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -315,22 +253,18 @@ NIHR_HIC_ICU_0093:
    shortName: sex
 "
 conf <- yaml.load(conf)
-```
 
-```{r}
 tb$reload_conf(conf)  # change configuration file
 tb$filter_missingness() 
 tb$apply_filters()
-```
 
-```{r}
 # episodes in the original data table 
 unique(paste(tb$torigin$site, tb$torigin$episode_id))
 # episodes in the cleaned data table
 unique(paste(tb$tclean$site, tb$tclean$episode_id))
 ```
 
-### Nodata filter
+## Nodata filter
 Similarly, we can setup the no data filter as following. Here it means, 
 drop the entire episode if no hear rate data is found. 
 
@@ -347,11 +281,11 @@ NIHR_HIC_ICU_0093:
    shortName: sex
 ```
 
-### Run all filters together
+## Run all filters together
 To wrap up, we can put all the above stated filter configurations together in the 
 YAML file and run the filter together. 
 
-```{r, echo=FALSE}
+```{r}
 conf <- "NIHR_HIC_ICU_0108:
   shortName: h_rate
   dataItem: Heart rate
@@ -383,10 +317,7 @@ NIHR_HIC_ICU_0093:
     apply: drop_entry
 "
 conf <- yaml.load(conf)
-```
 
-
-```{r}
 # Method 1
 tb <- create_cctable(ccd, conf, freq=1)
 tb$filter_range("amber")
@@ -402,7 +333,7 @@ tb$reset() # reset
 ```
 
 
-### Imputation
+## Imputation
 
 We provide the `impute()` to interpolate the missing data. For each missing value, 
 the interpolation will be only based on the nearby values which are specified by 
@@ -415,7 +346,9 @@ imputation will take values that are out of range its into account.
 
 One needs to be always careful when impute the data to make the best 
 trade-off between usefulness and correctness. The interpolation methods should 
-be carried out wisely based on the characteristics of the variable. 
+be carried out wisely based on the characteristics of the variable. A good 
+overview of how to deal with the missing data can be found 
+[(Salagodo et al. 2016)](https://link.springer.com/content/pdf/10.1007%2F978-3-319-43742-2_13.pdf)
 If you are not sure about the characteristics of the variable, we would 
 suggest you to keep the window size small and use `median` as the interpolation 
 function. 
