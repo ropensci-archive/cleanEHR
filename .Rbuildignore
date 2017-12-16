@@ -1,0 +1,5 @@
+LICENSE
+Makefile
+.travis.yml
+appveyor.yml
+paper.md
