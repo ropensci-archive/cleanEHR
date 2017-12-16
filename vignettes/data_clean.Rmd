@@ -8,7 +8,7 @@ output:
     toc_depth: 3
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{data cleaning and wrangling with cleanEHR}
+  %\VignetteIndexEntry{Data cleaning and wrangling with cleanEHR}
   \usepackage[utf8]{inputenc}
 
 ---
