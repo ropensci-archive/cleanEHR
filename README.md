@@ -1,10 +1,13 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/e8f7kur9d21jmsks?svg=true)](https://ci.appveyor.com/project/sinanshi/cleanEHR)
 [![Build Status](https://travis-ci.org/CC-HIC/cleanEHR.svg?branch=master)](https://travis-ci.org/CC-HIC/cleanEHR)
-[![codecov](https://codecov.io/gh/CC-HIC/cleanEHR/branch/master/graph/badge.svg)](https://codecov.io/gh/CC-HIC/cleanEHR)
+
+
+[![codecov](https://codecov.io/gh/ropensci/cleanEHR/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/cleanEHR)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/cleanEHR)](https://cran.r-project.org/package=cleanEHR)
 [![Downloads](http://cranlogs.r-pkg.org/badges/cleanEHR?color=brightgreen)](http://www.r-pkg.org/pkg/cleanEHR)
-
+[![DOI](https://zenodo.org/badge/50511003.svg)](https://zenodo.org/badge/latestdoi/50511003)
+[![](https://badges.ropensci.org/145_status.svg)](https://github.com/ropensci/onboarding/issues/102)
 
 
 `cleanEHR` is an electronic health care record (EHR) data cleaning and
@@ -85,4 +88,7 @@ project, we also welcome contributions of any kind. We would like to make
 have any idea or comment, please feel free to raise the issue ticket here. We
 would also encourage everyone to integrate their code into the `cleanEHR`
 repository to benefit the entire community. Please feel free to contact us when
-you wish to contribute your code. 
+you wish to contribute your code.
+
+
+[![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
