@@ -43,7 +43,7 @@ DataFrame reallocateTime_(DataFrame d, const float t_discharge, const float freq
         tt += frequency;
     }
 
-    tnew.push_back(1e127);
+    tnew.push_back(1e37);
     std::sort(tin.begin(), tin.end());
 
     auto tnew_iter = tnew.begin();
