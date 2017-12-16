@@ -1,7 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/e8f7kur9d21jmsks?svg=true)](https://ci.appveyor.com/project/sinanshi/cleanEHR)
-[![Build Status](https://travis-ci.org/CC-HIC/cleanEHR.svg?branch=master)](https://travis-ci.org/CC-HIC/cleanEHR)
-
-
+[![Build Status](https://travis-ci.org/ropensci/cleanEHR.svg?branch=master)](https://travis-ci.org/ropensci/cleanEHR)
 [![codecov](https://codecov.io/gh/ropensci/cleanEHR/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/cleanEHR)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/cleanEHR)](https://cran.r-project.org/package=cleanEHR)
