@@ -7,7 +7,7 @@
 [![](https://badges.ropensci.org/145_status.svg)](https://github.com/ropensci/onboarding/issues/102)
 
 
-`cleanEHR` is an electronic health care record (EHR) data cleaning and
+cleanEHR is an electronic health care record (EHR) data cleaning and
 processing platform, which works with the Critical Care Health Informatics
 Collaborative's data set. The purpose of the project is to enable researchers
 to answer clinical questions that are important to patients, but which are
@@ -71,21 +71,21 @@ devtools::install_github("CC-HIC/cleanEHR")
 ```
 ## Vignette
 
-* Introduction to CCHIC critical care data [here](https://cc-hic.github.io/cleanEHR/cchic_overview.html)
-* Data cleaning and wrangling with cleanEHR [here](https://cc-hic.github.io/cleanEHR/data_clean.html)
+* Introduction to CCHIC critical care data [here](https://ropensci.github.io/cleanEHR/cchic_overview.html)
+* Data cleaning and wrangling with cleanEHR [here](https://ropensci.github.io/cleanEHR/data_clean.html)
 
 
 ## How to contribute
-The `cleanEHR` package is currently under development. We wish you will find our
+The cleanEHR package is currently under development. We wish you will find our
 software tools useful to your research project. If you have any question about
-the code or the data, please just raise an issue ticket on Github or contact 
-us via email (s.shi@ucl.ac.uk). As `cleanEHR` is an open source and community
+the code or the data, please just raise an issue ticket on Github or contact us
+via email (s.shi@ucl.ac.uk). As cleanEHR is an open source and community
 project, we also welcome contributions of any kind. We would like to make
-`cleanEHR` the platform of collaboration critical care data analysis. If you
-have any idea or comment, please feel free to raise the issue ticket here. We
-would also encourage everyone to integrate their code into the `cleanEHR`
-repository to benefit the entire community. Please feel free to contact us when
-you wish to contribute your code.
+cleanEHR the platform of collaboration critical care data analysis. If you have
+any idea or comment, please feel free to raise the issue ticket here. We would
+also encourage everyone to integrate their code into the cleanEHR repository to
+benefit the entire community. Please feel free to contact us when you wish to
+contribute your code.
 
 
 [![ropensci_footer](https://ropensci.org/public_images/ropensci_footer.png)](https://ropensci.org)
