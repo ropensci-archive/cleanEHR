@@ -15,7 +15,7 @@ vignette: >
 
 
 # Preparation
-[data.table](https://cran.r-project.org/web/packages/data.table/) package is the backbone of cleanEHR package. 
+[data.table](https://CRAN.R-project.org/package=data.table) package is the backbone of cleanEHR package. 
 You can find in the above link some useful information and tutorial, if you are not familiar with
 `data.table`.
 
