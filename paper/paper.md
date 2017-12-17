@@ -36,19 +36,22 @@ affiliations:
 	- name: University College London Hospitals
 		index: 2
 		
-date: 14 February 2016
+date: 16 December 2017
 bibliography: paper.bib
 ---
 
 # Summary
-cleanEHR is a data cleaning and wrangling platform which works with the
-Critical Care Health Informatics Collaborative database. It collects and
+cleanEHR [@cleanEHR] is a data cleaning and wrangling platform which works with
+the Critical Care Health Informatics Collaborative database. It collects and
 gathers high resolution longitudinal patient record from critical care units at
 Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, UCL Hospitals. 
 
 The purpose of cleanEHR is to enable researchers to answer clinical questions
 that are important to patients. cleanEHR is created to address various data
-reliability and accessibility problems. It provides a platform that enables data
-manipulation, transformation, reduction, anonymisation, cleaning and validation
-with a friendly user interface which empowers non-programmers to conduct
-basic data analysis by simply writing a human-readable configuration file.
+reliability and accessibility problems. It provides a platform that enables
+data manipulation, transformation, reduction, anonymisation, cleaning and
+validation with a friendly user interface which empowers non-programmers to
+conduct basic data analysis by simply writing a human-readable configuration
+file.
+
+# Reference
