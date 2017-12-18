@@ -39,10 +39,12 @@ bibliography: paper.bib
 ---
 
 # Summary
+
 cleanEHR [@cleanEHR] is a data cleaning and wrangling platform which works with
-the Critical Care Health Informatics Collaborative database. It collects and
-gathers high resolution longitudinal patient record from critical care units at
-Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, UCL Hospitals.
+the Critical Care Health Informatics Collaborative (CCHIC) database.  CCHIC
+collects and gathers high resolution longitudinal patient record from critical
+care units at Cambridge, Guys/Kings/St Thomas', Imperial, Oxford, UCL
+Hospitals. 
 
 The purpose of cleanEHR is to enable researchers to answer clinical questions
 that are important to patients. cleanEHR is created to address various data
@@ -50,6 +52,38 @@ reliability and accessibility problems. It provides a platform that enables
 data manipulation, transformation, reduction, anonymisation, cleaning and
 validation with a friendly user interface which empowers non-programmers to
 conduct basic data analysis by simply writing a human-readable configuration
-file.
+file.  The increased adoption of high resolution EHRs has created novel
+opportunities for researchers, clinicians and data scientists to access large,
+enriched patient databases [@icnarc] [@mimic].
+
+
+# High resolution longitudinal EHR: CCHIC
+
+CCHIC database has in total collected 22,628 admissions (18,074 unique
+patients) from 2014 to 2017. It contains 119 million data points (mean 6626
+data points per patient). The recruited patients have an age range from 18 to
+116 years old. Physiological, laboratory, drugs and nursing information are
+recorded during the stay of ICU in different record frequency.  The full list
+of longitudinal data collected by CCHIC is listed below.
+
+![List of CCHIC longitudinal data fields](graph/item_ref_time.png)
+![Selected data fields of an admission](graph/episode_graph.pdf)
+
+# Data cleaning and wrangling
+
+Data of this kind, though provides a vast amount of information, often faces two
+main issues, a) low data quality, b) low accessibility due to the complexity. 
+We proposed a workflow working with data as such, which is incorporated in
+the cleanEHR package. The main part of this workflow includes the following, 
+
+* A table structure (ccTable) for data manipulation.
+* Configuration file for researchers without technical knowledge to select and clean 
+the data. The data cleaning includes various filters and data interpolation (impute)
+function.
+
+For detail description of the functions, please see the manual and the vignettes of 
+cleanEHR [@cleanEHR]
+
+![Example: filtering abnormal heart rate values by range](graph/range_filter.png)
 
 # Reference
