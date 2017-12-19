@@ -66,6 +66,7 @@ longitudinal data recorded during a patient's stay of the ICU.  The full list
 of longitudinal data collected by CCHIC is listed below.
 
 ![List of CCHIC longitudinal data fields](graph/item_ref_time.png)
+
 ![Selected data fields of an admission](graph/episode_graph.pdf)
 
 # Data cleaning and wrangling
