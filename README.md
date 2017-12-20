@@ -82,7 +82,7 @@ the code or the data, please just raise an issue ticket on Github or contact us
 via email (s.shi@ucl.ac.uk). As cleanEHR is an open source and community
 project, we also welcome contributions of any kind. We would like to make
 cleanEHR the platform of collaboration critical care data analysis. If you have
-any idea or comment, please feel free to raise the issue ticket here. We would
+any idea or comment, please feel free to raise the issue ticket [here](https://github.com/ropensci/cleanEHR/issues). We would
 also encourage everyone to integrate their code into the cleanEHR repository to
 benefit the entire community. Please feel free to contact us when you wish to
 contribute your code.
