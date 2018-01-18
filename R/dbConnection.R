@@ -70,7 +70,7 @@ exportData <- function(connection){
         stop("A connection must be provided")
     }
     # Create connections to the events table
-    events     <- dplyr::tbl(con, "events")
+    events     <- dplyr::tbl(connection, "events")
     return(events)
 }
 
