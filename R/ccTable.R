@@ -453,11 +453,15 @@ getEpisodePeriod <- function (e, unit="hours") {
     # anonymised or has a missing or incorrect value of discharge or admission
     # time. 
     if (is.na(tdisc)) {
+      if (is.null(findMaxTime(e))) {
+        period_length <- 0
+      } else {
         period_length <- ceiling(
           as.numeric(
             difftime(
               as.POSIXct.numeric(findMaxTime(e), origin = "1970-01-01 00:00:00"), tadm, units = unit)
           ))
+      }
     } else {
         if (any(is.null(tdisc), is.null(tadm)))
             period_length <- NULL
