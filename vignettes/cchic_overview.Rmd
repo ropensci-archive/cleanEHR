@@ -31,7 +31,7 @@ contains the demographic information of the patient, ward transferring origin
 and destination within a hospital and diagnosis information. It allows us to 
 link episode data from a single patient across the entire multi-centre database. 
 The key dates and times are recorded as follow. 
-<img src=graphs/cchic_timeline.png width=480 height=360 />
+<img src="cchic_timeline.png" width=480 height=360 />
 ```{r, message=FALSE, warning=FALSE}
 library(cleanEHR)
 data("sample_ccd")
@@ -88,7 +88,7 @@ icnarc2diagnosis("1.1.4.27.1")
 
 ### Longitudinal data
 CCHIC measures 154 longitudinal data. The full list of longitudinal data are shown below. 
-<img src=graphs/item_ref.png width=480 height=360 />
+<img src="item_ref.png" width=480 height=360 />
 
 We can also easily plot the data from a single selected admission. 
 ```{r, fig.width=10, fig.height=11, out.width='700px', results='hide', message=FALSE, warning=FALSE}

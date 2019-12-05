@@ -71,8 +71,8 @@ devtools::install_github("CC-HIC/cleanEHR")
 ```
 ## Vignette
 
-* Introduction to CCHIC critical care data [here](https://ropensci.github.io/cleanEHR/cchic_overview.html)
-* Data cleaning and wrangling with cleanEHR [here](https://ropensci.github.io/cleanEHR/data_clean.html)
+* Introduction to CCHIC critical care data [here](https://docs.ropensci.org/cleanEHR/articles/cchic_overview.html)
+* Data cleaning and wrangling with cleanEHR [here](https://docs.ropensci.org/cleanEHR/articles/data_clean.html)
 
 
 ## How to contribute
