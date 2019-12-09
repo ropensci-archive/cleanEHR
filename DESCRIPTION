@@ -27,7 +27,7 @@ Imports:
     pander,
     knitr
 VignetteBuilder: knitr
-URL: https://github.com/ropensci/cleanEHR, http://www.hic.nihr.ac.uk
+URL: https://docs.ropensci.org/cleanEHR, https://github.com/ropensci/cleanEHR, http://www.hic.nihr.ac.uk
 RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'
